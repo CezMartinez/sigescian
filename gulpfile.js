@@ -11,9 +11,22 @@ require('laravel-elixir-vue');
  | for your Laravel application. By default, we are compiling the Sass
  | file for our application, as well as publishing vendor resources.
  |
+ <!--scrolling js-->
+ <script src="js/jquery.nicescroll.js"></script>
+ <script src="js/scripts.js"></script>
+ <!--//scrolling js-->
+ <script src="js/bootstrap.js"> </script>
+ <!-- mother grid end here-->
  */
 
-elixir(mix => {
+elixir(function(mix) {
     mix.sass('app.scss')
-       .webpack('app.js');
+        .styles(['bootstrap.css','demo-page.css','examples.css',
+            'font-awesome.css','hover.css',
+            'magnific-popup.css','style.css'])
+        .scripts(['jquery-2.1.1.min.js','jquery.nicescroll.js','bars.js','jquery.magnific-popup.js',
+            'modernizr.min.js','nivo-lightbox.min.js', 'skycons.js',
+            'scripts.js','bootstrap.js','app.js',]);
 });
+
+
