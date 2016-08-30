@@ -13,40 +13,37 @@
 <body>
 <div class="page-container">
     <div class="left-content">
-        <div class="mother-grid-inner">
-          @include('global.header')
-            <script>
-                  $(document).ready(function() {
-                      var navoffeset=$(".header-main").offset().top;
-                      $(window).scroll(function(){
-                          var scrollpos=$(window).scrollTop();
-                          if(scrollpos >=navoffeset){
-                              $(".header-main").addClass("fixed");
-                          }else{
-                              $(".header-main").removeClass("fixed");
-                          }
-                      });
+        @include('global.header')
+        <script>
+            $(document).ready(function() {
+                var navoffeset=$(".header-main").offset().top;
+                $(window).scroll(function(){
+                    var scrollpos=$(window).scrollTop();
+                    if(scrollpos >=navoffeset){
+                        $(".header-main").addClass("fixed");
+                    }else{
+                        $(".header-main").removeClass("fixed");
+                    }
+                });
 
-                  });
-              </script>
-            <div class="inner-block">
-                <!-- Aqui ira la maquetacion-->
-                @yield('content')
-
-
-            </div>
-            <div class="copyrights">
-                <p>© 2016 SIGESCIAN. Todos los derechos reseervados. </p>
-            </div>
+            });
+        </script>
+        <div class="inner-block">
+            <!-- Aqui ira la maquetacion-->
+            @yield('content')
         </div>
+        @include('global.footer')
     </div>
     <!-- Menu lateral-->
-  @include('global.nav')
+    @include('global.nav')
 </div>
 
+
+
+
 <!--scrolling js-->
-<script src="/public/js/all.js"></script>
-<script src="/public/js/app.js"></script>
+<script src="/js/all.js"></script>
+<script src="/js/app.js"></script>
 
 </body>
 </html>
