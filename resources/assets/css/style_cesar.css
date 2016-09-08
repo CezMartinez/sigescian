@@ -1,0 +1,8 @@
+.acciones{
+    display: inline-flex;
+}
+
+#accion_eliminar{
+    margin-left: 1em;
+}
+

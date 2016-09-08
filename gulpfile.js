@@ -23,10 +23,18 @@ elixir(function(mix) {
     mix.sass('app.scss')
         .styles(['bootstrap.css','demo-page.css','examples.css',
             'font-awesome.css','hover.css',
-            'magnific-popup.css','style.css'])
-        .scripts(['jquery-2.1.1.min.js','jquery.nicescroll.js','bars.js','jquery.magnific-popup.js',
-            'modernizr.min.js','nivo-lightbox.min.js', 'skycons.js',
-            'scripts.js','bootstrap.js','app.js',]);
+            'magnific-popup.css','style.css','style_cesar.css'])
+        .scripts([
+            'template/jquery-2.1.1.js',
+            'template/jquery.nicescroll.js',
+            'template/bars.js',
+            'template/jquery.magnific-popup.js',
+            'template/modernizr.min.js',
+            'template/nivo-lightbox.min.js',
+            'template/skycons.js',
+            'template/scripts.js',
+            'template/bootstrap.js'],'./public/js/template.js')
+        .webpack('app.js');
 });
 
 

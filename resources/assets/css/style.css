@@ -123,6 +123,13 @@ a:hover {
   transition: all 200ms linear;
   transition-delay: 300ms;
 }
+.no_profile_details{
+    float:  right;
+    margin: 3% 5% 0 0;
+}
+.no_profile_details span{
+    font-size: 20px;
+}
 .sidebar-menu {
   position: absolute;
   float: left;
@@ -186,6 +193,18 @@ a:hover {
   transition: opacity 0.1s linear;
   border-top: 1px solid rgba(69, 74, 84, 0.7);
 }
+.no_profile_details span a {
+    color: #0060B6;
+    text-decoration: none;
+}
+
+.no_profile_details span a:hover
+{
+color:#00A0C6;
+text-decoration:none;
+cursor:pointer;
+}
+
 #menu li:hover > ul {
   visibility: visible;
   opacity: 1;
@@ -260,7 +279,7 @@ a:hover {
 .logo-name {
     float: left;
     width: 30%;
-    margin: 0% 3% 0% 2%;
+    margin: 1.5% 3% 0% 2%;
 }
 .logo-name h1 {
     font-size: 2.5em;
@@ -291,6 +310,7 @@ span.logo-clr{
     float: left;
     width:40%;
     margin-top: 0.5em;
+    margin-left: 10px;
 	position: relative;
     z-index: 1;
     display: inline-block;
@@ -1525,6 +1545,8 @@ background-color:#000;
 .copyrights {
     padding: 1.5em 1em;
     text-align: center;
+    bottom:0;
+    width:100%;
     box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.15);
 }
 .copyrights p {
