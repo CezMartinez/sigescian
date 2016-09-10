@@ -12,14 +12,14 @@
 */
 
 Route::get('/', function () {
-    return redirect('login');
+    $users = \App\User::with('roles')->get();
+    
+    return view('welcome',compact('users'));
 });
 
 Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout');
-
-Route::get('/home', 'HomeController@index');
 
 Route::resource('administracion/roles','RolesController',['except'=> [
     'edit','show'
@@ -27,9 +27,10 @@ Route::resource('administracion/roles','RolesController',['except'=> [
 Route::get('administracion/roles/{slug}/edit','RolesController@edit');
 
 Route::resource('administracion/usuarios','UserController',['except'=> [
-    'edit',
+    'edit','destroy'
 ]]);
 
 Route::get('administracion/usuarios/{user}/edit','UserController@edit');
+Route::delete('administracion/usuarios/{user}','UserController@destroy');
 
 

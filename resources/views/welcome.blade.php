@@ -6,12 +6,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/css/app.css">
         <title>Laravel</title>
-
-
-
+        <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="/css/template.css">
+        <script>
+            window.Laravel = <?php echo json_encode([
+                    'csrfToken' => csrf_token(),
+            ]); ?>
+        </script>
     </head>
     <body>
-        <example></example>
-        <script src="/js/app.js"></script>
+
+    <div class="container">
+        <users list="{{ $users }}" method="DELETE" token="{{csrf_token()}}"></users>
+    </div>
+    <script src="/js/vue.js"></script>
     </body>
 </html>

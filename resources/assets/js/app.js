@@ -15,7 +15,13 @@ require('./bootstrap');
  */
 
 Vue.component('example', require('./Components/Example.vue'));
+Vue.component('users', require('./Components/Users.vue'));
+Vue.directive('ajax', require('./Components/Ajax.vue'));
 
-const appl = new Vue({
-    el: 'body'
+const App = new Vue({
+    el: 'body',
+
+    created(){
+       
+    }
 });

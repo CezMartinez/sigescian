@@ -21,9 +21,15 @@ require('laravel-elixir-vue');
 
 elixir(function(mix) {
     mix.sass('app.scss')
-        .styles(['bootstrap.css','demo-page.css','examples.css',
-            'font-awesome.css','hover.css',
-            'magnific-popup.css','style.css','style_cesar.css'])
+        .styles([
+                'bootstrap.css',
+                'demo-page.css',
+                'examples.css',
+                'font-awesome.css',
+                'hover.css',
+                'magnific-popup.css',
+                'style.css',
+                'style_cesar.css'],'./public/css/template.css')
         .scripts([
             'template/jquery-2.1.1.js',
             'template/jquery.nicescroll.js',
@@ -34,7 +40,7 @@ elixir(function(mix) {
             'template/skycons.js',
             'template/scripts.js',
             'template/bootstrap.js'],'./public/js/template.js')
-        .webpack('app.js');
+        .webpack('app.js','./public/js/vue.js');
 });
 
 
