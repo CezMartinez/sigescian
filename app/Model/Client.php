@@ -8,6 +8,7 @@ class Client extends Model
 {
     protected $fillable=['customer_type','name','legal_agent','address','nit','slug'];
 
+
     public function setNameAttribute($name)
     {
         $this->attributes['name'] = ucwords($name);
@@ -19,5 +20,16 @@ class Client extends Model
         $client = new static;
 
         return $client->paginate(5);
+    }
+
+    public static function createNewClient($attr)
+    {
+        $client = new static;
+
+        $client->fill($attr);
+
+        $client->save();
+
+        return $client;
     }
 }
