@@ -15,14 +15,14 @@ class CreateMaterialsTable extends Migration
     {
         Schema::create('materials',function (Blueprint $table){
             $table->increments('id');
-            $table->string('materialName');
-            $table->string('materialDescription');
+            $table->string('name');
+            $table->string('description');
             $table->string('slug');
             $table->timestamps();
         });//
     }
 
-    /**
+    /*
      * Reverse the migrations.
      *
      * @return void

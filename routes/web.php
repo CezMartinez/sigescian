@@ -40,3 +40,11 @@ Route::resource('clientes','ClientsController',['except'=> [
 Route::delete('clientes/{cliente}','ClientsController@destroy');
 Route::get('clientes/{slug}/edit','ClientsController@edit');
 
+//---------------------------------
+Route::resource('materiales','MaterialController',['except'=> [
+    'edit','destroy'
+]]);
+Route::delete('materiales/{materiales}','MaterialController@destroy');
+Route::get('materiales/{slug}/edit','MaterialController@edit');
+
+//---------------------------------
