@@ -28,16 +28,15 @@ Route::resource('administracion/roles','RolesController',['except'=> [
 Route::delete('administracion/roles/{role}','RolesController@destroy');
 Route::get('administracion/roles/{slug}/edit','RolesController@edit');
 
-Route::resource('clientes','ClientController',['except'=> [
-    'edit','show','destroy'
-]]);
-Route::delete('clientes/{role}','ClientController@destroy');
-Route::get('clientes/{slug}/edit','ClientController@edit');
-
 Route::resource('administracion/usuarios','UserController',['except'=> [
     'edit','destroy'
 ]]);
 Route::delete('administracion/usuarios/{user}','UserController@destroy');
 Route::get('administracion/usuarios/{user}/edit','UserController@edit');
 
+Route::resource('clientes','ClientsController',['except'=> [
+    'edit','destroy'
+]]);
+Route::delete('clientes/{role}','ClientsController@destroy');
+Route::get('clientes/{slug}/edit','ClientsController@edit');
 
