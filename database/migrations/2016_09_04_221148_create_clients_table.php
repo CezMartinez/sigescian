@@ -11,9 +11,20 @@ class CreateClientsTable extends Migration
      *
      * @return void
      */
+
     public function up()
     {
-        //
+        Schema::create('clients', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('customer_type')->unsigned()->index();
+            $table->foreign('customer_type')->references('id')->on('customer_types')->onDelete('cascade');
+            $table->string('nit')->unique();
+            $table->string('name');
+            $table->string('legal_agent');
+            $table->string('address');
+            $table->string('slug')->unique();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +34,7 @@ class CreateClientsTable extends Migration
      */
     public function down()
     {
+        Schema::drop('clients');
         //
     }
 }
