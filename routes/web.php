@@ -37,6 +37,6 @@ Route::get('administracion/usuarios/{user}/edit','UserController@edit');
 Route::resource('clientes','ClientsController',['except'=> [
     'edit','destroy'
 ]]);
-Route::delete('clientes/{role}','ClientsController@destroy');
+Route::delete('clientes/{cliente}','ClientsController@destroy');
 Route::get('clientes/{slug}/edit','ClientsController@edit');
 
