@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/api/administracion/usuarios',function(){
+    return \App\User::all();
+});
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 });

@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+/*import Vue from "../../../node_modules/vue/src/directives/internal/index";*/
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -13,8 +14,12 @@ require('./bootstrap');
  * the application, or feel free to tweak this setup for your needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+Vue.directive('ajax', require('./Components/Ajax.vue'));
 
-const app = new Vue({
-    el: 'body'
+const App = new Vue({
+    el: 'body',
+
+    created(){
+       
+    }
 });
