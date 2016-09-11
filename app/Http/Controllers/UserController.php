@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles')->get();
+        $users = User::fetchAll();
 
         return view('administration.users.users_index',compact('users'));
     }

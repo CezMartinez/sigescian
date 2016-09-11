@@ -15,10 +15,11 @@
                     <th>Nombre Usuario</th>
                     <th>Correo</th>
                     <th>Roles</th>
+                    <th>Acciones</th>
                 </thead>
                 <tbody>
                 @foreach($users as $user)
-                    <tr>
+                    <tr id="row-{{$user->id}}">
                         <td>
                             {{$user->full_name}}
                         </td>
@@ -38,10 +39,23 @@
                                 <p>No tiene roles asignados</p>
                             @endif
                         </td>
+                        <td>
+                            <div class="acciones" >
+                                <a href="/administracion/usuarios/{{$user->id}}/edit" class="btn btn-sm btn-success">Editar</a> |
+                                <form action="/administracion/usuarios/{{$user->id}}"  v-ajax row="row-{{$user->id}}" method="POST">
+                                    {{ method_field('DELETE') }}
+                                    {{ csrf_field() }}
+                                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+
+            {!! $users->links() !!}
         </div>
     @else
         <p>No hay usuarios registrados</p>

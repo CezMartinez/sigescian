@@ -21,16 +21,18 @@ Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout');
 
+
 Route::resource('administracion/roles','RolesController',['except'=> [
-    'edit','show'
+    'edit','show','destroy'
 ]]);
+Route::delete('administracion/roles/{role}','RolesController@destroy');
 Route::get('administracion/roles/{slug}/edit','RolesController@edit');
+
 
 Route::resource('administracion/usuarios','UserController',['except'=> [
     'edit','destroy'
 ]]);
-
-Route::get('administracion/usuarios/{user}/edit','UserController@edit');
 Route::delete('administracion/usuarios/{user}','UserController@destroy');
+Route::get('administracion/usuarios/{user}/edit','UserController@edit');
 
 

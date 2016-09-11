@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     protected $fillable = ['name','slug'];
-    
+
+
     /**
      * A role have many permission
      *
@@ -38,7 +39,8 @@ class Role extends Model
         return Role::with('permissions')->get();
     }
 
-    public function setMoneAttribute($name)
+
+    public function setNameAttribute($name)
     {
         $this->attributes['name'] = ucwords($name);
         $this->attributes['slug'] = str_slug($name);
@@ -55,19 +57,4 @@ class Role extends Model
         return $role;
     }
 
-    public static function options($slug)
-    {
-        $role = new static;
-        $rolePermissionList = $role->where('slug',$slug)->first()->permissions()->pluck('name');
-        $permissionsList = Permission::pluck('name');
-
-        $permissionsList->each(function($item,$key) use($rolePermissionList)
-        {
-            if($rolePermissionList->contains($item)){
-                echo '<option selected>'.$item.'</option>';
-            }else{
-                echo '<option>'.$item.'</option>';
-            }
-        });
-    }
 }

@@ -55,4 +55,11 @@ class User extends Authenticatable
 
         $this->roles()->save($role);
     }
+
+    public static function fetchAll()
+    {
+        $user = new static;
+
+        return $user->with('roles')->paginate(5);
+    }
 }

@@ -23,22 +23,26 @@
                 <tbody>
                 @foreach($roles as $role)
 
-                    <tr>
+                    <tr id="row-{{$role->id}}">
                         <td>{{$role->name}}</td>
                         <td>
-                            <ul>
-                                @foreach($role->permissions as $permission)
-                                    <li>{{$permission->name}}</li>
-                                @endforeach
-                            </ul>
+                            @if($role->permissions()->count() > 0)
+                                <ul>
+                                    @foreach($role->permissions as $permission)
+                                        <li>{{$permission->name}}</li>
+                                    @endforeach
+                                </ul>
+                                @else
+                                <p>No tiene permisos asignados</p>
+                            @endif
                         </td>
                         <td>
                             <div class="acciones">
-                                <a href="/administracion/roles/{{$role->slug}}/edit" id="accion_editar">editar</a>
-                                <form action='/administracion/roles/{{$role->id}}' method="POST" id="accion_eliminar">
-                                    {{method_field('DELETE')}}
-                                    {{csrf_field()}}
-                                    <button class="btn btn-danger">x</button>
+                                <a href="/administracion/roles/{{$role->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
+                                <form action='/administracion/roles/{{$role->id}}' v-ajax row="row-{{$role->id}}" method="POST">
+                                    {{ method_field('DELETE') }}
+                                    {{ csrf_field() }}
+                                    <button class="btn btn-sm btn-danger"><span class="texto">Eliminar</span></button>
                                 </form>
                             </div>
                         </td>

@@ -14,8 +14,6 @@ require('./bootstrap');
  * the application, or feel free to tweak this setup for your needs.
  */
 
-Vue.component('example', require('./Components/Example.vue'));
-Vue.component('users', require('./Components/Users.vue'));
 Vue.directive('ajax', require('./Components/Ajax.vue'));
 
 const App = new Vue({

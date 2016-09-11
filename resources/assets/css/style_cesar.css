@@ -1,8 +1,26 @@
 .acciones{
-    display: inline-flex;
+	display: inline-flex;
+}
+.acciones a{
+margin-right: 0.5em;
+padding: 6 12;
+margin-bottom: 1em;
 }
 
-#accion_eliminar{
-    margin-left: 1em;
+.acciones form button{
+margin-left: 0.5em;
+}
+
+.texto{
+	font-size: 1em;
+}
+
+#pagination{
+	margin-left: auto; 
+	margin-right: auto;
+}
+
+#pagination ul{
+	margin: 0 20% 0 40%;
 }
 

@@ -6,17 +6,13 @@
             this.el.addEventListener('submit',this.onFormSubmission.bind(this));
         },
 
-        update: function(){
-
-        },
 
         onComplete: function(){
-            alert(this.params.row);
+            $('#'+this.params.row).fadeOut();
         },
 
         onFormSubmission: function(e){
             e.preventDefault();
-
             this.vm.$http[this.getResquestType()](this.el.action)
                     .then(this.onComplete.bind(this));
         },
