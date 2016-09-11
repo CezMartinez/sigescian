@@ -2,7 +2,7 @@
     
 @section('content')
     
-    <h1>Role: {{$role->name}}</h1>
+    <h1>Rol: {{$role->name}}</h1>
 
     <div class="row">
         <div class="col-md-6">
