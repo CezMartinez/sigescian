@@ -15,7 +15,7 @@ class MaterialController extends Controller
     public function index()
     {
         $materials = Material::fetchAll();
-        return view('materials.index',compact('materials'));
+        return view('materials.materials_index',compact('materials'));
     }
 
     /**
@@ -25,7 +25,7 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        return view('materials.create');
+        return view('materials.materials_create');
     }
 
     public function store(Request $request)
@@ -38,7 +38,7 @@ class MaterialController extends Controller
     public function edit($slug)
     {
         $materials = Material::where('slug',$slug)->first();
-        return view('materials.edit',compact('materials'));
+        return view('materials.materials_edit',compact('materials'));
     }
 
     public function update(Request $request, Material $materiale)

@@ -14,7 +14,7 @@ class ClientsController extends Controller
     public function index()
     {
         $clients = Client::fetchAll();
-        return view('clients.index',compact('clients'));
+        return view('clients.clients_index',compact('clients'));
     }
 
     /**
@@ -25,7 +25,7 @@ class ClientsController extends Controller
     public function create()
     {
         $types = CustomerType::pluck('name','id')->toArray();
-        return view('clients.create',compact('types'));
+        return view('clients.clients_create',compact('types'));
     }
 
     public function store(Request $request)
@@ -39,7 +39,7 @@ class ClientsController extends Controller
     {
         $types = CustomerType::pluck('name','id')->toArray();
         $clients = Client::where('slug',$slug)->first();
-        return view('clients.edit',compact('clients','types'));
+        return view('clients.clients_edit',compact('clients','types'));
     }
 
     public function update(Request $request, Client $cliente)

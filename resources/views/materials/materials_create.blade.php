@@ -5,9 +5,9 @@
     <div class="row">
         <div class="col-md-10">
 
-            <h1>Agregar nuevo cliente</h1>
+            <h1>Agregar nuevo material</h1>
             <hr>
-            @include('clients.forms.create');
+            @include('materials.forms_materials.form_materials_create');
         </div>
     </div>
     
