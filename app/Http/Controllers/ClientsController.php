@@ -42,18 +42,16 @@ class ClientsController extends Controller
         return view('clients.edit',compact('clients','types'));
     }
 
-    public function update(Request $request, Client $client)
+    public function update(Request $request, Client $cliente)
     {
-        dd($client);
         $this->validator($request->all())->validate();
-        $client->update($request->all());
+        $cliente->update($request->all());
         return redirect('/clientes');
     }
 
-    public function destroy(Client $client)
+    public function destroy(Client $cliente)
     {
-        $client->delete();
-
+        $cliente->delete();
     }
 
     protected function validator(array $data, $id=null)
