@@ -14,17 +14,20 @@ class PlantsTableSeeder extends Seeder
         DB::table('plants')->insert([
             'name' => 'Equipo de rayos X',
             'brand'=>'Lenovo',
-            'model'=>'Thinkpad'
+            'model'=>'Thinkpad',
+            'slug'=>'lenovo-thinkpad'
         ]);
         DB::table('plants')->insert([
             'name' => 'Equipo de rayos Y',
             'brand'=>'HP',
-            'model'=>'Pavilion'
+            'model'=>'Pavilion',
+            'slug'=>'hp-pavilion'
         ]);
         DB::table('plants')->insert([
             'name' => 'Equipo de rayos Z',
             'brand'=>'Sony',
-            'model'=>'Vaio'
+            'model'=>'Vaio',
+            'slug'=>'sony-vaio'
         ]);
     }
 }
