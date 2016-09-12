@@ -12,6 +12,9 @@ class Material extends Model
     {
         $this->attributes['name']=ucwords($nameMaterial);
         $this->attributes['slug']=str_slug($nameMaterial);
+       /* if(Material::exists( $this->attributes['slug'])){
+            abort(404,'Este material ya esta registrado');
+        }*/
     }
 
     public static function fetchAll()
@@ -30,5 +33,13 @@ class Material extends Model
         $material->save();
 
         return $material;
+    }
+
+    public function exists($slug){
+        $material = $this->where('slug',$slug)->first();
+        if($material!=null){
+            return true;
+        }
+        return false;
     }
 }

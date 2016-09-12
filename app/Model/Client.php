@@ -13,6 +13,9 @@ class Client extends Model
     {
         $this->attributes['name'] = ucwords($name);
         $this->attributes['slug'] = str_slug($name);
+       /* if(Client::exists( $this->attributes['slug'])){
+            abort(404,'Este cliente ya esta registrado');
+        }*/
     }
 
     public static function fetchAll()
@@ -31,5 +34,13 @@ class Client extends Model
         $client->save();
 
         return $client;
+    }
+
+    public function exists($slug){
+        $client = $this->where('slug',$slug)->first();
+        if($client!=null){
+            return true;
+        }
+        return false;
     }
 }

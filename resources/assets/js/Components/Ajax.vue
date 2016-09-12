@@ -8,6 +8,7 @@
 
 
         onComplete: function(){
+
             $('#'+this.params.row).fadeOut();
         },
 
