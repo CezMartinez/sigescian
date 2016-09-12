@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "807f93e000c1e64361bf2aef327d9644",
-    "content-hash": "3b040b380e3e8998f12958c5329551af",
+    "hash": "2df1a4098457d8f22dbdadf919a8d570",
+    "content-hash": "ce403537cd1747f1b8645b0e7cedaae3",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -307,17 +307,60 @@
             "time": "2015-12-05 17:17:57"
         },
         {
-            "name": "laravel/framework",
-            "version": "v5.3.8",
+            "name": "laracasts/flash",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "99c74afc0b99e1af1984cb55dc242ab28a0e496b"
+                "url": "https://github.com/laracasts/flash.git",
+                "reference": "03eec812fd6ae948664ff51b4320785f6d15ee5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/99c74afc0b99e1af1984cb55dc242ab28a0e496b",
-                "reference": "99c74afc0b99e1af1984cb55dc242ab28a0e496b",
+                "url": "https://api.github.com/repos/laracasts/flash/zipball/03eec812fd6ae948664ff51b4320785f6d15ee5d",
+                "reference": "03eec812fd6ae948664ff51b4320785f6d15ee5d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Laracasts\\Flash": "src/"
+                },
+                "files": [
+                    "src/Laracasts/Flash/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Way",
+                    "email": "jeffrey@laracasts.com"
+                }
+            ],
+            "description": "Easy flash notifications",
+            "time": "2016-07-11 20:46:02"
+        },
+        {
+            "name": "laravel/framework",
+            "version": "v5.3.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "f6fbb481672f8dc4bc6882d5d654bbfa3588c8ec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f6fbb481672f8dc4bc6882d5d654bbfa3588c8ec",
+                "reference": "f6fbb481672f8dc4bc6882d5d654bbfa3588c8ec",
                 "shasum": ""
             },
             "require": {
@@ -431,7 +474,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-09-09 16:33:59"
+            "time": "2016-09-12 14:08:29"
         },
         {
             "name": "laravelcollective/html",

@@ -34,9 +34,9 @@ class Role extends Model
      *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public static function withPermission()
+    public static function fetchAll()
     {
-        return Role::with('permissions')->get();
+        return Role::with('permissions')->paginate(5);
     }
 
 

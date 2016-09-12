@@ -52,6 +52,7 @@
 
             </table>
         </div>
+        {{$roles->links()}}
     @else
         <p>No hay roles agregados</p>
     @endif

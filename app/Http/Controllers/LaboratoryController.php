@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Department;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -29,7 +30,9 @@ class LaboratoryController extends Controller
      */
     public function create()
     {
-        return view('laboratories.laboratories_create');
+        $departments = Department::pluck('name' ,'id')->toArray();
+//        dd($departments);
+        return view('laboratories.laboratories_create',compact('departments'));
     }
 
     /**
@@ -41,7 +44,20 @@ class LaboratoryController extends Controller
     public function store(Request $request)
     {
         $this->validator($request->all())->validate();
-        Laboratory::createLaboratory($request->all());
+        if(Laboratory::exists($request->input('name'))){
+            flash('Laboratorio '.$request->input('name').' ya existe!', 'danger');
+            return back()->withInput();
+        }
+
+        $departamento = Department::findOrFail($request->input('department'));
+
+        flash('Laboratorio '.$request->input('name').' creado correctamente', 'success');
+
+
+        Laboratory::createLaboratory($request->all(),$departamento);
+
+
+
         return redirect('/laboratorios');
     }
 
@@ -53,8 +69,11 @@ class LaboratoryController extends Controller
      */
     public function edit($slug)
     {
-        $laboratories = Laboratory::where('slug',$slug)->first();
-        return view('laboratories.laboratories_edit',compact('laboratories'));
+        $laboratory = Laboratory::with('department')->where('slug',$slug)->first();
+        $departments = Department::pluck('name','id');
+        $id = $laboratory->department->id;
+
+        return view('laboratories.laboratories_edit',compact('laboratory','departments','id'));
     }
 
     /**
@@ -66,8 +85,28 @@ class LaboratoryController extends Controller
      */
     public function update(Request $request, Laboratory $laboratorio)
     {
+        $laboratorio = $laboratorio->fill($request->all());
         $this->validator($request->all())->validate();
-        $laboratorio->update($request->all());
+
+        if($laboratorio->getOriginal('slug') == $laboratorio->getAttribute('slug')){
+            $laboratorio->update($request->all());
+        }
+
+        elseif($laboratorio->exists($request->input('name'))){
+            flash('Laboratorio '.$request->input('name').' ya existe!', 'danger');
+            return back()->withInput();
+        }
+
+        $departamento = Department::findOrFail($request->input('department'));
+
+        $laboratorio->fill($request->all())->department()->dissociate();
+        $laboratorio->department()->associate($departamento);
+
+        $laboratorio->save();
+
+        flash('Laboratorio '.$request->input('name').' editado correctamente', 'success');
+
+
         return redirect('/laboratorios');
     }
 

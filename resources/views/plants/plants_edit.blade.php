@@ -2,11 +2,11 @@
     
 @section('content')
     
-    <h1>Laboratorio: {{$laboratory->name}}</h1>
+    <h1>Role: {{$plants->name}}</h1>
 
     <div class="row">
         <div class="col-md-10">
-            @include('laboratories.form_laboratories.form_laboratories_edit')
+            @include('plants.form_plants.form_plants_edit')
         </div>
     </div>
     

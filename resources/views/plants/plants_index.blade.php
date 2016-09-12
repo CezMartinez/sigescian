@@ -1,12 +1,13 @@
 @extends('app')
+
 @section('content')
 
     <div>
-        <a href="/laboratorios/create" class="btn btn-primary">Agregar Nuevo Laboratorio</a>
+        <a href="/equipos/create" class="btn btn-primary">Agregar Nuevo Equipo</a>
     </div>
 
     <hr>
-    @if($laboratories->count() > 0)
+    @if($plants->count() > 0)
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead>
@@ -14,21 +15,24 @@
                     Nombre
                 </th>
                 <th>
-                    Descripcion
+                    Marca
+                </th>
+                <th>
+                    Modelo
                 </th>
                 <th>Acciones</th>
                 </thead>
                 <tbody>
-                @foreach($laboratories as $laboratorio)
+                @foreach($plants as $equipo)
 
-                    <tr id="row-{{$laboratorio->id}}">
-                        <td>{{$laboratorio->name}}</td>
-                        <td>{{$laboratorio->description}}</td>
-                        <td>{{$laboratorio->department->name}}</td>
+                    <tr id="row-{{$equipo->id}}">
+                        <td>{{$equipo->name}}</td>
+                        <td>{{$equipo->brand}}</td>
+                        <td>{{$equipo->model}}</td>
                         <td>
                             <div class="acciones">
-                                <a href="/laboratorios/{{$laboratorio->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
-                                <form action='/laboratorios/{{$laboratorio->id}}' v-ajax row="row-{{$laboratorio->id}}" method="POST">
+                                <a href="/equipos/{{$equipo->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
+                                <form action='/equipos/{{$equipo->id}}' v-ajax row="row-{{$equipo->id}}" method="POST">
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
                                     <button class="btn btn-sm btn-danger"><span class="texto">Eliminar</span></button>
@@ -41,11 +45,7 @@
 
             </table>
         </div>
-
-         {{$laboratories->links()}}
     @else
-        <p>No hay laboratorios en el sistema.</p>
+        <p>No hay equipos en el sistema</p>
     @endif
-
 @endsection
-

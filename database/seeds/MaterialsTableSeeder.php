@@ -12,13 +12,20 @@ class MaterialsTableSeeder extends Seeder
     public function run()
     {
         DB::table('materials')->insert([
-            'name' => 'Peroxido de Cloruro',
+            'name' => 'Oxigeno',
+            'description'=>'Da energia a las celulas de la sangre',
+            'slug'=>'oxigeno-1'
         ]);
         DB::table('materials')->insert([
-            'name' => 'Tricarbonato de magnesio',
+            'name' => 'Hidrogeno',
+            'description' => 'Reductor de minerales metalicos',
+            'slug'=>'hidrogeno-1'
         ]);
         DB::table('materials')->insert([
-            'name' => 'Acido desoxidoribonucleico',
+            'name' => 'Fosforo',
+            'description' => 'Compuestos para fertilizantes',
+            'slug'=>'fosforo-1'
+
         ]);
     }
 }

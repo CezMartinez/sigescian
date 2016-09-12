@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Storage;
+
 Route::get('/', function () {
     $users = \App\User::with('roles')->get();
     
@@ -46,8 +48,28 @@ Route::resource('materiales','MaterialController',['except'=> [
 ]]);
 Route::delete('materiales/{materiales}','MaterialController@destroy');
 Route::get('materiales/{slug}/edit','MaterialController@edit');
+//-------------------------------------------------------------------
+Route::resource('equipos','PlantController',['except'=> [
+    'edit','destroy'
+]]);
+Route::delete('equipos/{equipos}','PlantController@destroy');
+Route::get('equipos/{slug}/edit','PlantController@edit');
+//-------------------------------------------------------------------
 
-//---------------------------------
+//NORMA
+
+Route::get('storage/{archivo}', function ($archivo) {
+    $public_path = public_path();
+    $url = $public_path.'/CIAN_files/'.$archivo;
+    return $url;
+});
+
+
+Route::resource('departamentos','DepartmentController',['except'=> [
+    'edit','destroy'
+]]);
+Route::delete('departamentos/{departamento}','DepartmentController@destroy');
+Route::get('departamentos/{slug}/edit','DepartmentController@edit');
 
 Route::resource('laboratorios','LaboratoryController',['except'=> [
     'edit','destroy'

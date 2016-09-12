@@ -21,5 +21,10 @@
         @endif     
         </div>
 
+        <div class="form-group">
+            <label for="department" class="control-label">Departamento</label>
+            {{Form::select('department',$departments,null,['class'=>'form-control'])}}
+        </div>
+
         <button class="btn btn-primary">Agregar Laboratorio</button>
 </form>
