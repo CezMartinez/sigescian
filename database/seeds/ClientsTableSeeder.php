@@ -16,7 +16,7 @@ class ClientsTableSeeder extends Seeder
             'nit'=>'0614-31121994-101-3',
             'name' => 'Carlos Villeda',
             'legal_agent'=>'Carlos Villeda',
-            'slug'=>'carlos-villeda'
+            'slug'=>'carlos-villeda',
         ]);
         DB::table('clients')->insert([
             'customer_type'=>1,
