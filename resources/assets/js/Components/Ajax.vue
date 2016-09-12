@@ -8,7 +8,6 @@
 
 
         onComplete: function(){
-        alert('texto cualquiera');
             $('#'+this.params.row).fadeOut();
         },
 

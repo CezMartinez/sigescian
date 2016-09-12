@@ -15,7 +15,12 @@
         @include('global.header')
 
         <div class="inner-block">
+            @if (session()->has('flash_notification.message'))
+                <div class="alert alert-{{ session('flash_notification.level') }}">
 
+                    {!! session('flash_notification.message') !!}
+                </div>
+            @endif
             <!-- Aqui ira la maquetacion-->
             @yield('content')
 
@@ -71,6 +76,9 @@
     window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
     ]); ?>
+</script>
+<script>
+    $('div.alert').not('.alert-important').delay(3500).fadeOut(350);
 </script>
 
 </body>

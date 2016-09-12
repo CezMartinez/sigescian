@@ -48,3 +48,9 @@ Route::delete('materiales/{materiales}','MaterialController@destroy');
 Route::get('materiales/{slug}/edit','MaterialController@edit');
 
 //---------------------------------
+
+Route::resource('departamentos','DepartmentController',['except'=> [
+    'edit','destroy'
+]]);
+Route::delete('departamentos/{departamento}','DepartmentController@destroy');
+Route::get('departamentos/{slug}/edit','DepartmentController@edit');
