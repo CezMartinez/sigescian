@@ -27,6 +27,10 @@ class Laboratory extends Model
  		$laboratory->save();
  		return $laboratory;
  	}
+
+ 	public function departments(){
+ 		return $this->belongsTo(Department::class);
+ 	}
  	
 }
 

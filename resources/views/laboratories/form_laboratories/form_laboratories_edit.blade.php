@@ -8,7 +8,7 @@
     </div>
         <div class="form-group">
             <label for="description">Descripcion:</label>
-            <input type="text" name="description" class="form-control" value="{{old('description',$laboratories->description)}}" required>
+            <textarea name="description" class="form-control" required>{{old('description',$laboratories->description)}}</textarea>
         </div>
     <button class="btn btn-primary">Editar</button>
 </form>
