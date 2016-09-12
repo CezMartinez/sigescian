@@ -12,6 +12,9 @@ class Plant extends Model
     {
         $this->attributes['name']=ucwords($namePlant);
         $this->attributes['slug']=str_slug($namePlant);
+      /*  if(Plant::exists( $this->attributes['slug'])){
+            abort(404,'Este material ya esta registrado');
+        }*/
     }
 
     public static function fetchAll()
@@ -30,5 +33,13 @@ class Plant extends Model
         $plant->save();
 
         return $plant;
+    }
+
+    public function exists($slug){
+        $plant = $this->where('slug',$slug)->first();
+        if($plant!=null){
+            return true;
+        }
+        return false;
     }
 }

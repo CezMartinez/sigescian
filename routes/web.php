@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Storage;
+
 Route::get('/', function () {
     $users = \App\User::with('roles')->get();
     
@@ -53,3 +55,12 @@ Route::resource('equipos','PlantController',['except'=> [
 Route::delete('equipos/{equipos}','PlantController@destroy');
 Route::get('equipos/{slug}/edit','PlantController@edit');
 //-------------------------------------------------------------------
+
+//NORMA
+
+Route::get('storage/{archivo}', function ($archivo) {
+    $public_path = public_path();
+    $url = $public_path.'/CIAN_files/'.$archivo;
+    return $url;
+});
+
