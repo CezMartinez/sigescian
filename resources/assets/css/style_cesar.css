@@ -1,3 +1,4 @@
+
 .acciones{
 	display: inline-flex;
 }
@@ -9,6 +10,15 @@ margin-bottom: 1em;
 
 .acciones form button{
 margin-left: 0.5em;
+}
+
+
+i.glyphicon{
+	color:white;
+}
+
+i.glyphicon:hover{
+	color:orange;
 }
 
 .texto{
