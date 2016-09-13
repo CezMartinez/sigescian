@@ -47,7 +47,7 @@ class UserController extends Controller
 
         $this->validator($request->all())->validate();
 
-        $user = User::create($request->all());
+        $user = $this->createUser($request->all());
 
         $user->roles()->sync($rolesIds);
 
@@ -131,6 +131,21 @@ class UserController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
+    }
 
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return User
+     */
+    protected function createUser(array $data)
+    {
+        return User::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
     }
 }

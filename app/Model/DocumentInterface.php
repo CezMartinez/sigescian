@@ -2,11 +2,12 @@
 
 namespace App\Model;
 
-interface Document{
+
+interface DocumentInterface{
 
     /**
-     * Save the document 
-     * 
+     * Save the document
+     *
      * @return mixed
      */
     public function save();
