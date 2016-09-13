@@ -28,6 +28,7 @@ elixir(function(mix) {
                 'font-awesome.css',
                 'hover.css',
                 'magnific-popup.css',
+                'sweetalert.css',
                 'style.css',
                 'style_cesar.css'],'./public/css/template.css')
         .scripts([
@@ -35,6 +36,7 @@ elixir(function(mix) {
             'template/jquery.nicescroll.js',
             'template/bars.js',
             'template/jquery.magnific-popup.js',
+            'template/sweetalert.min.js',
             'template/modernizr.min.js',
             'template/nivo-lightbox.min.js',
             'template/skycons.js',
@@ -42,5 +44,3 @@ elixir(function(mix) {
             'template/bootstrap.js'],'./public/js/template.js')
         .webpack('app.js','./public/js/vue.js');
 });
-
-
