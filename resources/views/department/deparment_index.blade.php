@@ -26,7 +26,8 @@
                         <td>
                             <div class="acciones" >
                                 <a href="/departamentos/{{$deparment->slug}}/edit" class="btn btn-sm btn-success">Editar</a> |
-                                <a class="btn btn-sm btn-danger" onclick="deleteConfirm('<?php echo($deparment->name)?>','<?php echo($deparment->id)?>','/departamentos/')">Eliminar</a>
+                                <a class="btn btn-sm btn-danger"
+                                   onclick="deleteConfirm('{{$deparment->name}}','{{$deparment->id}}','/departamentos/')">Eliminar</a>
                             </div>
                         </td>
                     </tr>

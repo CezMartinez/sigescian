@@ -24,12 +24,15 @@ elixir(function(mix) {
                 'bootstrap.css',
                 'style.css',
                 'font-awesome.css',
+                'sweetalert.css',
                 'style_cesar.css'],'./public/css/template.css')
         .scripts([
             'template/jquery-2.1.1.min.js',
             'template/jquery.nicescroll.js',
+            'template/nicescroll_script.js',
             'template/scripts.js',
             'template/sticky-nav.js',
+            'template/sweetalert.min.js',
             'template/bootstrap.js',],'./public/js/template.js')
         .webpack('app.js','./public/js/vue.js');
 });
