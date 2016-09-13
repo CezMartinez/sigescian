@@ -16,7 +16,7 @@
 
 })(jQuery);
 //otros
-function deleteConfirm(name, idD){
+function deleteConfirm(name, idD, url){
   var csrf = $("meta[name='csrf_token']").attr('content');
   console.log(csrf);
   swal({
@@ -34,7 +34,7 @@ function deleteConfirm(name, idD){
     if (isConfirm) {
       $.ajax({
         type:'DELETE',
-        url:"/departamentos/"+idD,
+        url:url+idD,
         headers: {
             'X-CSRF-Token': csrf,
         },
