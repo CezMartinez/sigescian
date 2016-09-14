@@ -31,5 +31,23 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'Editar Laboratorios',
             'slug' => 'editar-laboratorio',
         ]);
+        DB::table('permissions')->insert([
+            'name' => 'Eliminar Roles',
+            'slug' => 'eliminar-roles',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Editar Roles',
+            'slug' => 'editar-roles',
+        ]);DB::table('permissions')->insert([
+            'name' => 'Editar Roles',
+            'slug' => 'editar-roles',
+        ]);DB::table('permissions')->insert([
+            'name' => 'Editar Roles',
+            'slug' => 'editar-roles',
+        ]);DB::table('permissions')->insert([
+            'name' => 'Editar Roles',
+            'slug' => 'editar-roles',
+        ]);
+
     }
 }

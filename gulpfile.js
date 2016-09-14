@@ -33,8 +33,9 @@ elixir(function(mix) {
             'template/scripts.js',
             'template/sticky-nav.js',
             'template/sweetalert.min.js',
-            'template/bootstrap.js',],'./public/js/template.js')
-        .webpack('app.js','./public/js/vue.js');
+            'template/menu-hide-toggle.js',
+            'template/flash-message.js',
+            'template/bootstrap.js',],'./public/js/template.js');
 });
 
 

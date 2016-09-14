@@ -39,37 +39,10 @@
     </div>
 
 
-
-
-
     <script src="/js/template.js"></script>
-    <script>
-        var toggle = true;
 
-        $(".sidebar-icon").click(function() {
-            if (toggle)
-            {
-                $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
-                $("#menu span").css({"position":"absolute"});
-            }
-            else
-            {
-                $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
-                setTimeout(function() {
-                    $("#menu span").css({"position":"relative"});
-                }, 400);
-            }
-            toggle = !toggle;
-        });
-    </script>
-    <script src="/js/vue.js"></script>
     <script>
-        window.Laravel = <?php echo json_encode([
-                'csrfToken' => csrf_token(),
-        ]); ?>
-    </script>
-    <script>
-        $('div.alert').not('.alert-important').delay(3500).fadeOut(350);
+
     </script>
 
 </body>

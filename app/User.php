@@ -62,4 +62,38 @@ class User extends Authenticatable
 
         return $user->with('roles')->paginate(5);
     }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return User
+     */
+    public static function createUser(array $data)
+    {
+        $user = new static;
+        
+        return $user->create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+    }
+
+    /**
+     * Update a user instance after a valid registration.
+     * 
+     * @param array $data
+     * @return bool
+     */
+    public function updateUser(array $data)
+    {
+        return $this->update([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+    }
 }

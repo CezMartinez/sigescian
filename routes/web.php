@@ -27,8 +27,8 @@ Route::get('logout', 'Auth\LoginController@logout');
 Route::resource('administracion/roles','RolesController',['except'=> [
     'edit','show','destroy'
 ]]);
-Route::delete('administracion/roles/{role}','RolesController@destroy');
-Route::get('administracion/roles/{slug}/edit','RolesController@edit');
+Route::delete('administracion/roles/{role}','RolesController@destroy')->middleware('permission:eliminar-rol');
+Route::get('administracion/roles/{slug}/edit','RolesController@edit')->middleware('permission:editar-rol');
 
 Route::resource('administracion/usuarios','UserController',['except'=> [
     'edit','destroy'

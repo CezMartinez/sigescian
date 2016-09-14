@@ -21,14 +21,15 @@ function deleteConfirm(name, idD, url){
                             'X-CSRF-Token': csrf,
                         },
                         success: function(data){
+
                         },
                     })
                     .done(function(data){
                         $('#row-'+idD).fadeOut();
-                        swal("Eliminado","El registro fue eliminado con exito.","success");
+                        swal("Eliminado",data,"success");
                     })
                     .error(function(data){
-                        swal("Error","El registro no ha sido modificado.","error");
+                        swal("Error",data.responseText,"error");
                     });
             }else {
                 swal("Cancelado","El registro no ha sido modificado.","error");
