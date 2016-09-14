@@ -35,12 +35,16 @@ class Client extends Model
 
         return $client;
     }
+    public static function exists($name)
+    {
+        $client = new static;
 
-    public function exists($slug){
-        $client = $this->where('slug',$slug)->first();
-        if($client!=null){
+        $client = $client->where('slug',str_slug($name))->first();
+
+        if($client != null){
             return true;
         }
+
         return false;
     }
 }

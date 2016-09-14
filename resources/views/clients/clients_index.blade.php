@@ -34,13 +34,10 @@
                         <td>{{$client->nit}}</td>
                         <td>{{$client->legal_agent}}</td>
                         <td>
-                            <div class="acciones">
+                            <div class="acciones" >
                                 <a href="/clientes/{{$client->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
-                                <form action='/clientes/{{$client->id}}' v-ajax row="row-{{$client->id}}" method="POST">
-                                    {{ method_field('DELETE') }}
-                                    {{ csrf_field() }}
-                                    <button class="btn btn-sm btn-danger"><span class="texto">Eliminar</span></button>
-                                </form>
+                                <a class="btn btn-sm btn-danger"
+                                   onclick="deleteConfirm('{{$client->name}}','{{$client->id}}','/clientes/')">Eliminar</a>
                             </div>
                         </td>
                     </tr>
