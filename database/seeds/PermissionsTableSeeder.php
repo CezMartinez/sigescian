@@ -32,21 +32,40 @@ class PermissionsTableSeeder extends Seeder
             'slug' => 'editar-laboratorio',
         ]);
         DB::table('permissions')->insert([
+            'name' => 'Crear Roles',
+            'slug' => 'crear-roles',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Editar Roles',
+            'slug' => 'editar-roles',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Ver Roles',
+            'slug' => 'ver-roles',
+        ]);
+        DB::table('permissions')->insert([
             'name' => 'Eliminar Roles',
             'slug' => 'eliminar-roles',
         ]);
         DB::table('permissions')->insert([
             'name' => 'Editar Roles',
             'slug' => 'editar-roles',
-        ]);DB::table('permissions')->insert([
-            'name' => 'Editar Roles',
-            'slug' => 'editar-roles',
-        ]);DB::table('permissions')->insert([
-            'name' => 'Editar Roles',
-            'slug' => 'editar-roles',
-        ]);DB::table('permissions')->insert([
-            'name' => 'Editar Roles',
-            'slug' => 'editar-roles',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Crear Clientes',
+            'slug' => 'crear-clientes',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Editar Clientes',
+            'slug' => 'editar-clientes',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Eliminar Clientes',
+            'slug' => 'eliminar-clientes',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Ver Clientes',
+            'slug' => 'ver-clientes',
         ]);
 
     }
