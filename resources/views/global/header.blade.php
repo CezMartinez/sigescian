@@ -1,7 +1,7 @@
 <div class="header-main">
     <div class="header-left">
         <div class="logo-name">
-            <a href="index.html"> <h1>CIAN</h1>
+            <a href="#"> <h1>CIAN</h1>
                 <!--<img id="logo" src="" alt="Logo"/>-->
             </a>
         </div>
@@ -71,7 +71,7 @@
                     <ul class="dropdown-menu drp-mnu">
                         <li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li>
                         <li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li>
-                        <li> <a href="#"><i class="fa fa-sign-out"></i> Logout</a> </li>
+                        <li> <a href="/logout"><i class="fa fa-sign-out"></i> Cerrar Sesión</a> </li>
                     </ul>
                 </li>
             </ul>

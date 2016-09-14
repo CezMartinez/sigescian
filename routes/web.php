@@ -39,8 +39,8 @@ Route::get('administracion/usuarios/{user}/edit','UserController@edit');
 Route::resource('clientes','ClientsController',['except'=> [
     'edit','destroy'
 ]]);
-Route::delete('clientes/{cliente}','ClientsController@destroy');
-Route::get('clientes/{slug}/edit','ClientsController@edit');
+Route::delete('clientes/{cliente}','ClientsController@destroy')->middleware('permission:eliminar-clientes');
+Route::get('clientes/{slug}/edit','ClientsController@edit')->middleware('permission:editar-clientes');
 
 //---------------------------------
 Route::resource('materiales','MaterialController',['except'=> [

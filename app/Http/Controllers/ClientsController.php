@@ -71,9 +71,17 @@ class ClientsController extends Controller
         return redirect('/clientes');
     }
 
-    public function destroy(Client $cliente)
+    public function destroy(Request $request,Client $cliente)
     {
-        $cliente->delete();
+        $wasDeleted = $cliente->delete();
+        if($request->ajax()){
+            if($wasDeleted){
+                return response("El Cliente: {$cliente->name} fue eliminado",200);
+            }else{
+                return response("No fue eliminado.",404);
+            }
+        }
+
     }
 
     protected function validator(array $data, $id=null)
