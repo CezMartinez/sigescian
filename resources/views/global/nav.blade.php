@@ -21,7 +21,7 @@
                 </ul>
             </li>
 
-            <li><a href="#"><i class="fa fa-users"></i><span>Clientes</span></a></li>
+            <li><a href="/clientes"><i class="fa fa-users"></i><span>Clientes</span></a></li>
 
             <li><a href="#"><i class="fa fa-inbox"></i><span>Solicitudes</span></a></li>
 
