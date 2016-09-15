@@ -11,10 +11,14 @@
         
     </head>
     <body>
+    <div class="page-container">
 
-    <div class="container">
-        <user list="{{$users}}"></user>
+        @include('auth.login1')
+
+        @include('global.footer')
+
     </div>
+
     <script src="/js/vue.js"></script>
     </body>
 </html>
