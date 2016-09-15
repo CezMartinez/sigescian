@@ -22,7 +22,7 @@ class UserTableSeeder extends Seeder
         DB::table('users')->insert([
             'first_name'        => 'Gabriela',
             'last_name'         => 'Mejia',
-            'full_name'         => 'Doris Mejia',
+            'full_name'         => 'Gabriela Mejia',
             'email'             => 'gabyhdzmejia@gmail.com',
             'password'          => bcrypt('123456'),
             'remember_token'    => str_random(10),

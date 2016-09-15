@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <h1>Agregar nuevo material</h1>
                     <hr>
-                    @include('materials.form_materials.form_materials_create');
+                    @include('materials.form_materials.form_materials_create')
                 </div>
             </div>
 

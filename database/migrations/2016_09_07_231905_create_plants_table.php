@@ -19,6 +19,10 @@ class CreatePlantsTable extends Migration
             $table->string('brand');
             $table->string('model');
             $table->string('slug');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamp('date_calibration')->nullable();
+            $table->timestamp('date_end_calibration')->nullable();
             $table->timestamps();
         });//
         //

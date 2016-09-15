@@ -28,5 +28,25 @@
             </span>
         @endif
     </div>
+    <div class="row">
+        <div class="form-group col-md-6{{$errors->has('date_calibration') ? 'has-error': ''}} ">
+            <label for="date_calibration">Fecha Calibracion:</label>
+            <input type="date" name="date_calibration" class="form-control" value="{{old('date_calibration',$plants->date_calibration->format('Y-m-d'))}}" required autofocus>
+            @if ($errors->has('date_calibration'))
+                <span class="help-block">
+                <strong>{{ $errors->first('date_calibration') }}</strong>
+            </span>
+            @endif
+        </div>
+        <div class="form-group col-md-6{{$errors->has('date_end_calibration') ? 'has-error': ''}} ">
+            <label for="date_end_calibration">Fecha Finalizacion de Calibracion:</label>
+            <input type="date" name="date_end_calibration" class="form-control" value="{{old('date_end_calibration',$plants->date_end_calibration->format('Y-m-d'))}}" required autofocus>
+            @if ($errors->has('date_end_calibration'))
+                <span class="help-block">
+                <strong>{{ $errors->first('date_end_calibration') }}</strong>
+            </span>
+            @endif
+        </div>
+    </div>
     <button class="btn btn-primary">Editar</button>
 </form>

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Client;
-use App\Model\CustomerType;
-use App\Model\Material;
 use App\Model\Plant;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 use App\Http\Requests;
@@ -44,9 +43,11 @@ class PlantController extends Controller
             return back()->withInput();
         }
 
-        Plant::createPlant($request->all());
+        $usuario = Auth::user();
 
         flash('Equipo guardado', 'success');
+
+        Plant::createPlant($request->all(),$usuario);
 
         return redirect('/equipos');
     }
@@ -65,17 +66,25 @@ class PlantController extends Controller
         if($equipo->getOriginal('slug') == $equipo->getAttribute('slug')){
             $equipo->update($request->all());
         }
-        else {
-            if ($equipo->exists($request->input('name'))) {
-                flash('El equipo '.$request->input('name').' ya existe', 'danger');
 
-                return back()->withInput();
-            }
-            flash('Equipo actualizado', 'success');
-            $equipo->update($request->all());
+        elseif($equipo->exists($request->input('name'))){
+            flash('Equipo '.$request->input('name').' ya existe!', 'danger');
+            return back()->withInput();
         }
+
+        $user = Auth::user();
+
+        $equipo->fill($request->all())->user()->dissociate();
+        $equipo->user()->associate($user);
+
+        $equipo->save();
+
+        flash('Equipo '.$request->input('name').' editado correctamente', 'success');
+
+
         return redirect('/equipos');
     }
+
 
     public function destroy(Request $request, Plant $equipos)
     {
@@ -90,12 +99,14 @@ class PlantController extends Controller
 
     }
 
-    protected function validator(array $data, $id=null)
+    protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'brand' => 'required|max:255',
-            'model' => 'required|max:255'
+            'name'              => 'required|max:255',
+            'brand'             => 'required|max:255',
+            'model'             => 'required|max:255',
+            'date_calibration'	=> 'required|after:'.Carbon::today(),
+            'date_end_calibration'	=> 'required|after:date_calibration',
         ]);
 
     }

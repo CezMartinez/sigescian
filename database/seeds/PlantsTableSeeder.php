@@ -15,19 +15,28 @@ class PlantsTableSeeder extends Seeder
             'name' => 'Equipo de rayos X',
             'brand'=>'Lenovo',
             'model'=>'Thinkpad',
-            'slug'=>'lenovo-thinkpad'
+            'slug'=>'lenovo-thinkpad',
+            'user_id'=>'2',
+            'date_calibration'=>\Carbon\Carbon::now(),
+            'date_end_calibration'=>Carbon\Carbon::now()->addDays(30),
         ]);
         DB::table('plants')->insert([
             'name' => 'Equipo de rayos Y',
             'brand'=>'HP',
             'model'=>'Pavilion',
-            'slug'=>'hp-pavilion'
+            'slug'=>'hp-pavilion',
+            'user_id'=>'2',
+            'date_calibration'=>\Carbon\Carbon::now(),
+            'date_end_calibration'=>Carbon\Carbon::now()->addDays(30),
         ]);
         DB::table('plants')->insert([
             'name' => 'Equipo de rayos Z',
             'brand'=>'Sony',
             'model'=>'Vaio',
-            'slug'=>'sony-vaio'
+            'slug'=>'sony-vaio',
+            'user_id'=>'2',
+            'date_calibration'=>\Carbon\Carbon::now(),
+            'date_end_calibration'=>Carbon\Carbon::now()->addDays(30),
         ]);
     }
 }
