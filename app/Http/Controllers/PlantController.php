@@ -13,6 +13,12 @@ use App\Http\Requests;
 
 class PlantController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $plants = Plant::fetchAll();
