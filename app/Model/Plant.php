@@ -35,11 +35,16 @@ class Plant extends Model
         return $plant;
     }
 
-    public function exists($slug){
-        $plant = $this->where('slug',$slug)->first();
-        if($plant!=null){
+    public static function exists($name)
+    {
+        $plant = new static;
+
+        $plant = $plant->where('slug',str_slug($name))->first();
+
+        if($plant != null){
             return true;
         }
+
         return false;
     }
 }

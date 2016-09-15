@@ -31,9 +31,19 @@ class MaterialController extends Controller
     public function store(Request $request)
     {
         $this->validator($request->all())->validate();
+        if (Material::exists($request->input('name'))) {
+            flash('El material '.$request->input('name').' ya existe', 'danger');
+
+            return back()->withInput();
+        }
+
         Material::createMaterial($request->all());
+
+        flash('Material Guardado', 'success');
+
         return redirect('/materiales');
     }
+
 
     public function edit($slug)
     {
@@ -43,14 +53,35 @@ class MaterialController extends Controller
 
     public function update(Request $request, Material $materiale)
     {
+        $materiale = $materiale->fill($request->all());
         $this->validator($request->all())->validate();
-        $materiale->update($request->all());
+
+        if($materiale->getOriginal('slug') == $materiale->getAttribute('slug')){
+            $materiale->update($request->all());
+        }
+        else {
+            if ($materiale->exists($request->input('name'))) {
+                flash('El material '.$request->input('name').' ya existe', 'danger');
+
+                return back()->withInput();
+            }
+            flash('Material actualizado', 'success');
+            $materiale->update($request->all());
+        }
         return redirect('/materiales');
     }
 
-    public function destroy(Material $materiales)
+    public function destroy(Request $request, Material $materiales)
     {
-        $materiales->delete();
+        $wasDeleted = $materiales->delete();
+        if($request->ajax()){
+            if($wasDeleted){
+                return response("El material: {$materiales->name} fue eliminado",200);
+            }else{
+                return response("No fue eliminado.",404);
+            }
+        }
+
     }
 
     protected function validator(array $data, $id=null)

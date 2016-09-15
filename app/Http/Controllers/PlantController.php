@@ -32,7 +32,16 @@ class PlantController extends Controller
     public function store(Request $request)
     {
         $this->validator($request->all())->validate();
+        if (Plant::exists($request->input('name'))) {
+            flash('El equipo '.$request->input('name').' ya existe', 'danger');
+
+            return back()->withInput();
+        }
+
         Plant::createPlant($request->all());
+
+        flash('Equipo guardado', 'success');
+
         return redirect('/equipos');
     }
 
@@ -44,14 +53,35 @@ class PlantController extends Controller
 
     public function update(Request $request, Plant $equipo)
     {
+        $equipo = $equipo->fill($request->all());
+        $this->validator($request->all())->validate();
 
-        $equipo->update($request->all());
+        if($equipo->getOriginal('slug') == $equipo->getAttribute('slug')){
+            $equipo->update($request->all());
+        }
+        else {
+            if ($equipo->exists($request->input('name'))) {
+                flash('El equipo '.$request->input('name').' ya existe', 'danger');
+
+                return back()->withInput();
+            }
+            flash('Equipo actualizado', 'success');
+            $equipo->update($request->all());
+        }
         return redirect('/equipos');
     }
 
-    public function destroy(Plant $equipos)
+    public function destroy(Request $request, Plant $equipos)
     {
-        $equipos->delete();
+        $wasDeleted = $equipos->delete();
+        if($request->ajax()){
+            if($wasDeleted){
+                return response("El equipo: {$equipos->name} fue eliminado",200);
+            }else{
+                return response("No fue eliminado.",404);
+            }
+        }
+
     }
 
     protected function validator(array $data, $id=null)
