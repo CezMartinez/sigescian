@@ -23,18 +23,27 @@ Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout');
 
+/**---------------------------------------------- Roles ------------------------------------------------**/
 
-Route::resource('administracion/roles','RolesController',['except'=> [
-    'edit','show','destroy'
-]]);
-Route::delete('administracion/roles/{role}','RolesController@destroy')->middleware('permission:eliminar-rol');
-Route::get('administracion/roles/{slug}/edit','RolesController@edit')->middleware('permission:editar-rol');
+Route::group(['middleware' => ['permission:crear-roles,ver-roles']], function () {
+    Route::resource('administracion/roles','RolesController',['except'=> [
+        'edit','show','destroy'
+    ]]);
+});
+Route::delete('administracion/roles/{role}','RolesController@destroy')->middleware('permission:eliminar-roles');
+Route::get('administracion/roles/{slug}/edit','RolesController@edit')->middleware('permission:editar-roles');
 
-Route::resource('administracion/usuarios','UserController',['except'=> [
-    'edit','destroy'
-]]);
-Route::delete('administracion/usuarios/{user}','UserController@destroy');
-Route::get('administracion/usuarios/{user}/edit','UserController@edit');
+
+
+/**---------------------------------------------- Usuarios ------------------------------------------------**/
+Route::group(['middleware' => ['permission:crear-usuarios,ver-usuarios']], function () {
+
+    Route::resource('administracion/usuarios','UserController',['except'=> [
+        'edit','destroy'
+    ]]);
+});
+Route::delete('administracion/usuarios/{user}','UserController@destroy')->middleware('permission:eliminar-usuarios');
+Route::get('administracion/usuarios/{user}/edit','UserController@edit')->middleware('permission:editar-usuarios');
 
 Route::resource('clientes','ClientsController',['except'=> [
     'edit','destroy'

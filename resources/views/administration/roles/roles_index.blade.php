@@ -37,11 +37,13 @@
                             @endif
                         </td>
                         <td>
-                            <div class="acciones">
-                                <a href="/administracion/roles/{{$role->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
-                                <a class="btn btn-sm btn-danger"
-                                   onclick="deleteConfirm('{{$role->name}}','{{$role->id}}','/administracion/roles/')">Eliminar</a>
-                            </div>
+                            @if($role->slug != 'dministrador-del-sistema')
+                                <div class="acciones">
+                                    <a href="/administracion/roles/{{$role->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
+                                    <a class="btn btn-sm btn-danger"
+                                       onclick="deleteConfirm('{{$role->name}}','{{$role->id}}','/administracion/roles/')">Eliminar</a>
+                                </div>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

@@ -43,9 +43,8 @@
                             <div class="acciones" >
                                 <a href="/administracion/usuarios/{{$user->id}}/edit" class="btn btn-sm btn-success">Editar</a> |
                                 <a class="btn btn-sm btn-danger"
-                                       onclick="deleteConfirm('{{$user->full_name}}','{{$user->id}}','/administracion/usuarios/')">Eliminar</a>
+                                   onclick="deleteConfirm('{{$user->full_name}}','{{$user->id}}','/administracion/usuarios/')">Eliminar</a>
                             </div>
-
                         </td>
                     </tr>
                 @endforeach
