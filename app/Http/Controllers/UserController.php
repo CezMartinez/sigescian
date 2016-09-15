@@ -58,6 +58,8 @@ class UserController extends Controller
         $user = User::createUser($request->all());
 
         $user->roles()->sync($rolesIds);
+        
+        flash('usuario creado exitosamente','success');
 
         return redirect('administracion/usuarios');
 
@@ -72,7 +74,7 @@ class UserController extends Controller
      */
     public function show(User $usuario)
     {
-        dd($usuario);
+        
     }
 
     /**
