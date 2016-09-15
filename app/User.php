@@ -63,6 +63,10 @@ class User extends Authenticatable
         return $user->with('roles')->paginate(5);
     }
 
+    public function hasRole($role){
+        return $this->roles()->get(['slug'])->pluck('slug')->contains($role);
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *

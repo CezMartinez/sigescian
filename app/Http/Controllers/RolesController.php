@@ -102,8 +102,6 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //TODO: si los Permisos son vacios quitarlos todos
-
         if($role->slug != 'administrador'){
             $this->validator($request->all(),1)->validate();
 
@@ -144,7 +142,7 @@ class RolesController extends Controller
             }
         }else{
             if($request->ajax()){
-                return response("El rol administrador no puede ser actualizado",404);
+                return response("El rol administrador no puede ser eliminado",404);
             }
         }
 

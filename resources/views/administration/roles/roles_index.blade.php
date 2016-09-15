@@ -37,7 +37,7 @@
                             @endif
                         </td>
                         <td>
-                            @if($role->slug != 'dministrador-del-sistema')
+                            @if($role->slug != 'administrador-del-sistema')
                                 <div class="acciones">
                                     <a href="/administracion/roles/{{$role->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
                                     <a class="btn btn-sm btn-danger"

@@ -106,12 +106,23 @@ class UserController extends Controller
 
         $usuario->updateUser($request->all());
 
-        if($roleIds == null){
-            $roleList = Role::pluck('id','id')->toArray();
-            $usuario->roles()->detach($roleList);
-        }else{
-            $usuario->roles()->sync($roleIds);
+        if($usuario->id != 1){
 
+            if($roleIds == null){
+
+                $roleList = Role::pluck('id','id')->toArray();
+
+                $usuario->roles()->detach($roleList);
+
+            }else{
+
+                $usuario->roles()->sync($roleIds);
+
+            }
+        }else{
+            flash('Los roles de este usuario no son editables','warning');
+
+            return redirect('administracion/usuarios');
         }
 
         flash('El usuario fue actualizado correctamente','success');
