@@ -39,11 +39,8 @@
                         <td>
                             <div class="acciones">
                                 <a href="/administracion/roles/{{$role->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
-                                <form action='/administracion/roles/{{$role->id}}' v-ajax row="row-{{$role->id}}" method="POST">
-                                    {{ method_field('DELETE') }}
-                                    {{ csrf_field() }}
-                                    <button class="btn btn-sm btn-danger"><span class="texto">Eliminar</span></button>
-                                </form>
+                                <a class="btn btn-sm btn-danger"
+                                   onclick="deleteConfirm('{{$role->name}}','{{$role->id}}','/administracion/roles/')">Eliminar</a>
                             </div>
                         </td>
                     </tr>

@@ -1,3 +1,3 @@
 <div class="copyrights">
-    <p>© 2016 SIGESCIAN. Todos los derechos reservados. </p>
+    <p>© 2016 Grupo 18 DSI 215. Derechos Reservados</p>
 </div>

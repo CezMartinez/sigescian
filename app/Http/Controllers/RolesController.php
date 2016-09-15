@@ -76,9 +76,10 @@ class RolesController extends Controller
     public function edit($slug)
     {
         $role = Role::with('permissions')->where('slug',$slug)->first();
-        $permissionList = Permission::pluck('name','id')->toArray();
-        $rolePermissionList = $role->permissions()->pluck('id','id')->toArray();
 
+        $permissionList = Permission::pluck('name','id')->toArray();
+
+        $rolePermissionList = $role->permissions()->pluck('id','id')->toArray();
 
         return view('administration.roles.roles_edit',compact('role','permissionList','rolePermissionList'));
     }
@@ -97,7 +98,7 @@ class RolesController extends Controller
         if($request->input('permission') != null){
             $role->permissions()->sync($request->input('permission'));
         }
-        //TODO: si los mermisos son vacios quitarlos todos
+        //TODO: si los Permisos son vacios quitarlos todos
 
 
         return redirect('/administracion/roles');
@@ -106,13 +107,21 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param Role $role
      * @return \Illuminate\Http\Response
-     * @throws \Exception
      */
-    public function destroy(Role $role)
+    public function destroy(Request $request,Role $role)
     {
-        $role->delete();
+        $wasDeleted = $role->delete();
+        
+        if($request->ajax()){
+            if($wasDeleted){
+                return response("El Rol {$role->name} fue eliminado",200);
+            }else{
+                return response("No fue eliminado.",404);
+            }
+        }
 
     }
 

@@ -20,27 +20,22 @@ require('laravel-elixir-vue');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss')
-        .styles([
+    mix.styles([
                 'bootstrap.css',
-                'demo-page.css',
-                'examples.css',
-                'font-awesome.css',
-                'hover.css',
-                'magnific-popup.css',
                 'style.css',
+                'font-awesome.css',
+                'sweetalert.css',
                 'style_cesar.css'],'./public/css/template.css')
         .scripts([
-            'template/jquery-2.1.1.js',
+            'template/jquery-2.1.1.min.js',
             'template/jquery.nicescroll.js',
-            'template/bars.js',
-            'template/jquery.magnific-popup.js',
-            'template/modernizr.min.js',
-            'template/nivo-lightbox.min.js',
-            'template/skycons.js',
+            'template/nicescroll_script.js',
             'template/scripts.js',
-            'template/bootstrap.js'],'./public/js/template.js')
-        .webpack('app.js','./public/js/vue.js');
+            'template/sticky-nav.js',
+            'template/sweetalert.min.js',
+            'template/menu-hide-toggle.js',
+            'template/flash-message.js',
+            'template/bootstrap.js',],'./public/js/template.js');
 });
 
 

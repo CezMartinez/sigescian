@@ -47,7 +47,7 @@ class UserController extends Controller
 
         $this->validator($request->all())->validate();
 
-        $user = User::create($request->all());
+        $user = User::createUser($request->all());
 
         $user->roles()->sync($rolesIds);
 
@@ -58,12 +58,13 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param User $usuario
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function show($id)
+    public function show(User $usuario)
     {
-        //
+        dd($usuario);
     }
 
     /**
@@ -85,17 +86,15 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param User $usuario
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,User $usuario)
     {
-        $user = User::findOrFail($id);
         $roleIds = $request->input('roles');
-        $this->validator($request->all(),1,$user->id)->validate();
-        $user->update($request->all());
-        $user->roles()->sync($roleIds);
+        $usuario->updateUser($request->all());
+        $usuario->roles()->sync($roleIds);
 
         return redirect('administracion/usuarios');
     }
@@ -113,17 +112,8 @@ class UserController extends Controller
     }
 
 
-    protected function validator(array $data,$id=null,$userId=null)
+    protected function validator(array $data)
     {
-        if($id == 1){
-            return Validator::make($data, [
-                'first_name' => 'required|max:255',
-                'last_name' => 'required|max:255',
-                'email' => 'required|email|max:255|unique:users,email,'.$userId,
-                'password' => 'min:6|confirmed',
-            ]);
-        }
-
         return Validator::make($data, [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
@@ -131,6 +121,7 @@ class UserController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
-
     }
+
+
 }

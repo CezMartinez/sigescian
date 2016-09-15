@@ -31,7 +31,16 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         $this->validator($request->all())->validate();
+        if (Client::exists($request->input('name'))) {
+            flash('El cliente '.$request->input('name').' ya existe', 'danger');
+
+            return back()->withInput();
+        }
+
         Client::createNewClient($request->all());
+
+        flash('Cliente Guardado', 'success');
+
         return redirect('/clientes');
     }
 
@@ -44,14 +53,35 @@ class ClientsController extends Controller
 
     public function update(Request $request, Client $cliente)
     {
+        $cliente = $cliente->fill($request->all());
         $this->validator($request->all())->validate();
-        $cliente->update($request->all());
+
+        if($cliente->getOriginal('slug') == $cliente->getAttribute('slug')){
+            $cliente->update($request->all());
+        }
+        else {
+            if ($cliente->exists($request->input('name'))) {
+                flash('El cliente '.$request->input('name').' ya existe', 'danger');
+
+                return back()->withInput();
+            }
+            flash('Cliente Actualizado', 'success');
+            $cliente->update($request->all());
+        }
         return redirect('/clientes');
     }
 
-    public function destroy(Client $cliente)
+    public function destroy(Request $request,Client $cliente)
     {
-        $cliente->delete();
+        $wasDeleted = $cliente->delete();
+        if($request->ajax()){
+            if($wasDeleted){
+                return response("El Cliente: {$cliente->name} fue eliminado",200);
+            }else{
+                return response("No fue eliminado.",404);
+            }
+        }
+
     }
 
     protected function validator(array $data, $id=null)
