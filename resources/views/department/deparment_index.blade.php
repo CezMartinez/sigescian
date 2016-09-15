@@ -1,5 +1,5 @@
 @extends('app')
-    
+
 @section('content')
 
     <a href="/departamentos/create" class="btn btn-primary">Agregar Departamento</a>
@@ -26,13 +26,9 @@
                         <td>
                             <div class="acciones" >
                                 <a href="/departamentos/{{$deparment->slug}}/edit" class="btn btn-sm btn-success">Editar</a> |
-                                <form action="/departamentos/{{$deparment->id}}"  v-ajax row="row-{{$deparment->id}}" method="POST">
-                                    {{ method_field('DELETE') }}
-                                    {{ csrf_field() }}
-                                    <button class="btn btn-sm btn-danger">Eliminar</button>
-                                </form>
+                                <a class="btn btn-sm btn-danger"
+                                   onclick="deleteConfirm('{{$deparment->name}}','{{$deparment->id}}','/departamentos/')">Eliminar</a>
                             </div>
-
                         </td>
                     </tr>
                 @endforeach
@@ -41,5 +37,7 @@
 
         {{$departments->links()}}
     </div>
+    <script>
 
+    </script>
 @endsection
