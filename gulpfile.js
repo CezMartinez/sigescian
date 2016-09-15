@@ -25,7 +25,8 @@ elixir(function(mix) {
                 'style.css',
                 'font-awesome.css',
                 'sweetalert.css',
-                'style_cesar.css'],'./public/css/template.css')
+                'style_cesar.css',
+                'welcome.css'],'./public/css/template.css')
         .scripts([
             'template/jquery-2.1.1.min.js',
             'template/jquery.nicescroll.js',
