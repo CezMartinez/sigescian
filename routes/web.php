@@ -45,34 +45,36 @@ Route::group(['middleware' => ['permission:crear-usuarios,ver-usuarios']], funct
 Route::delete('administracion/usuarios/{user}','UserController@destroy')->middleware('permission:eliminar-usuarios');
 Route::get('administracion/usuarios/{user}/edit','UserController@edit')->middleware('permission:editar-usuarios');
 
-Route::resource('clientes','ClientsController',['except'=> [
-    'edit','destroy'
-]]);
+/**---------------------------------------------- Clientes ------------------------------------------------**/
+
+Route::group(['middleware' => ['permission:crear-clientes,ver-clientes']], function () {
+    Route::resource('clientes','ClientsController',['except'=> [
+        'edit','destroy'
+    ]]);
+});
 Route::delete('clientes/{cliente}','ClientsController@destroy')->middleware('permission:eliminar-clientes');
 Route::get('clientes/{slug}/edit','ClientsController@edit')->middleware('permission:editar-clientes');
 
-//---------------------------------
-Route::resource('materiales','MaterialController',['except'=> [
-    'edit','destroy'
-]]);
+/**---------------------------------------------- Materiales ------------------------------------------------**/
+
+Route::group(['middleware' => ['permission:crear-materiales,ver-materiales']], function () {
+    Route::resource('materiales','MaterialController',['except'=> [
+        'edit','destroy'
+    ]]);
+});
 Route::delete('materiales/{materiales}','MaterialController@destroy');
 Route::get('materiales/{slug}/edit','MaterialController@edit');
-//-------------------------------------------------------------------
-Route::resource('equipos','PlantController',['except'=> [
-    'edit','destroy'
-]]);
+
+/**---------------------------------------------- Equipos ------------------------------------------------**/
+
+Route::group(['middleware' => ['permission:crear-equipos,ver-equipos']], function () {
+    Route::resource('equipos','PlantController',['except'=> [
+        'edit','destroy'
+    ]]);
+});
 Route::delete('equipos/{equipos}','PlantController@destroy');
 Route::get('equipos/{slug}/edit','PlantController@edit');
 //-------------------------------------------------------------------
-
-//NORMA
-
-Route::get('storage/{archivo}', function ($archivo) {
-    $public_path = public_path();
-    $url = $public_path.'/CIAN_files/'.$archivo;
-    return $url;
-});
-
 
 Route::resource('departamentos','DepartmentController',['except'=> [
     'edit','destroy'

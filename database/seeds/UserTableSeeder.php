@@ -20,12 +20,12 @@ class UserTableSeeder extends Seeder
             'remember_token'    => str_random(10),
         ]);
         DB::table('users')->insert([
-        'first_name'        => 'Doris',
-        'last_name'         => 'Mejia',
-        'full_name'         => 'Doris Mejia',
-        'email'             => 'gabyhdzmejia@gmail.com',
-        'password'          => bcrypt('doris1'),
-        'remember_token'    => str_random(10),
+            'first_name'        => 'Gabriela',
+            'last_name'         => 'Mejia',
+            'full_name'         => 'Doris Mejia',
+            'email'             => 'gabyhdzmejia@gmail.com',
+            'password'          => bcrypt('123456'),
+            'remember_token'    => str_random(10),
         ]);
     }
 }

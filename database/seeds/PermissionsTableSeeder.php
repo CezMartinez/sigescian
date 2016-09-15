@@ -67,6 +67,43 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'Ver Clientes',
             'slug' => 'ver-clientes',
         ]);
+        /**---------Materiales--------**/
+
+        DB::table('permissions')->insert([
+            'name' => 'Crear Materiales',
+            'slug' => 'crear-materiales',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Editar Materiales',
+            'slug' => 'editar-materiales',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Eliminar Materiales',
+            'slug' => 'eliminar-materiales',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Ver Materiales',
+            'slug' => 'ver-materiales',
+        ]);
+
+        /**---------Equipos--------**/
+
+        DB::table('permissions')->insert([
+            'name' => 'Crear Equipos',
+            'slug' => 'crear-equipos',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Editar Equipos',
+            'slug' => 'editar-equipos',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Eliminar Equipos',
+            'slug' => 'eliminar-equipos',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Ver Equipos',
+            'slug' => 'ver-equipos',
+        ]);
 
     }
 }
