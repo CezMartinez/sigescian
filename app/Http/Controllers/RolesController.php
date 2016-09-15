@@ -60,6 +60,8 @@ class RolesController extends Controller
         
         $role->givePermissionTo($permissionIds);
 
+        flash("El rol fue creado correctamente",'success');
+
         return redirect('/administracion/roles');
     }
 
@@ -116,6 +118,8 @@ class RolesController extends Controller
         }else{
             flash('El rol administrador no se puede modificar','warning');
         }
+
+        flash("El rol fue modificado correctamente",'success');
 
 
         return redirect('/administracion/roles');
