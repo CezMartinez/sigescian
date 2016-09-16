@@ -24,10 +24,8 @@
 					</td>
 					<td>
 						<div class="acciones" >
-							<a href="/procedimientos/administrativos/{{$admin->code}}/edit" class="btn btn-sm btn-success">Editar</a> |
-							<a class="btn btn-sm btn-danger"
-							   onclick="deleteConfirm('{{$admin->code}}','{{$admin->name}}','/procedimientos/administrativos/')">Eliminar</a>
-						</div>
+							<a href="/procedimientos/administrativos/{{$admin->code}}/edit" class="btn btn-sm btn-success">Editar</a>
+							</div>
 					</td>
 				</tr>
 			@endforeach
