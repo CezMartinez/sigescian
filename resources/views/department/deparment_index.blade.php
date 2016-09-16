@@ -9,10 +9,10 @@
         <table class="table table-hover table-bordered">
             <thead>
                 <th>
-                    nombre
+                    Nombre
                 </th>
-                <th>descripcion</th>
-                <th>acciones</th>
+                <th>Descripcion</th>
+                <th>Acciones</th>
             </thead>
             <tbody>
                 @foreach($departments as $deparment)

@@ -76,15 +76,21 @@ Route::get('equipos/{slug}/edit','PlantController@edit');
 
 /**---------------------------------------------- Departamentos ------------------------------------------------**/
 
-Route::resource('departamentos','DepartmentController',['except'=> [
-    'edit','destroy'
-]]);
+Route::group(['middleware' => ['permission:crear-departamentos,ver-departamentos']], function () {
+    Route::resource('departamentos','DepartmentController',['except'=> [
+        'edit','destroy'
+    ]]);
+});
+
 Route::delete('departamentos/{departamento}','DepartmentController@destroy');
 Route::get('departamentos/{slug}/edit','DepartmentController@edit');
 
-Route::resource('laboratorios','LaboratoryController',['except'=> [
-    'edit','destroy'
-]]);
+/**---------------------------------------------- Laboratorios ------------------------------------------------**/
+Route::group(['middleware' => ['permission:crear-departamentos,ver-departamentos']], function () {
+    Route::resource('laboratorios','LaboratoryController',['except'=> [
+        'edit','destroy'
+    ]]);
+});
 Route::delete('laboratorios/{laboratorio}','LaboratoryController@destroy');
 Route::get('laboratorios/{slug}/edit','LaboratoryController@edit');
 

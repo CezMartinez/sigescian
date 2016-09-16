@@ -13,15 +13,21 @@ class LaboratoriesTableSeeder extends Seeder
     {
         DB::table('laboratories')->insert([
         	'name'=>'Fluorescencia de rayos X',
-        	'description'=>'Laboratorio de Fluorescencia de rayos X y reflexión total de rayos x'
+        	'description'=>'Laboratorio de Fluorescencia de rayos X y reflexión total de rayos x',
+            'department_id'=>'2',
+            'slug'=>'fluorescencia-de-rayos-x'
         	]);
         DB::table('laboratories')->insert([
         	'name'=>'Dosimetria',
-        	'description'=>'Laboratorio de Dosimetria personal externa TLD'
+        	'description'=>'Laboratorio de Dosimetria personal externa TLD',
+            'department_id'=>'3',
+            'slug'=>'dosimetria'
         	]);
         DB::table('laboratories')->insert([
         	'name'=>'Calibracion',
-        	'description'=>'Laboratorio de calibracion de monitores de radiacion'
+        	'description'=>'Laboratorio de calibracion de monitores de radiacion',
+            'department_id'=>'1',
+            'slug'=>'calibracion'
         	]);
     }
 }

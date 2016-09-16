@@ -16,6 +16,7 @@
                 <th>
                     Descripcion
                 </th>
+                <th>Departamento</th>
                 <th>Acciones</th>
                 </thead>
                 <tbody>
