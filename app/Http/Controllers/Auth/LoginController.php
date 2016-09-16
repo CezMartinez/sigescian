@@ -38,6 +38,12 @@ class LoginController extends Controller
         $this->middleware('guest', ['except' => 'logout']);
     }
 
+    /**
+     * Redirect searching in the permission of the user
+     *
+     * @param $user
+     * @return string
+     */
     protected function redirecByPermission($user)
     {
         $roles = $user->roles()->get();
@@ -87,17 +93,73 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        if($user->roles()->get()->count() > 0){
+        $roles = $user->roles()->get();
+        if(!$this->hasRoles($roles)){
 
-            $this->redirectTo = $this->redirecByPermission($user);
+            return $this->logoutUserWithErrorMessage('roles');
 
-        }else{
-
-            Auth::logout();
-
-            flash('No Tienes Roles o Permisos asignados, Consulta al administrador del sistema','danger');
-
-            return redirect('/login');
         }
+
+        if (! $this->hasPermission($this->countPermissions($roles))) {
+
+            return $this->logoutUserWithErrorMessage('permission');
+
+        }
+
+        $this->redirectTo = $this->redirecByPermission($user);
+    }
+
+    /**
+     * verify is the login users has roles in the system
+     *
+     * @param $roles
+     * @return bool
+     */
+    public function hasRoles($roles)
+    {
+        return ($roles->count() > 0) ? true : false;
+    }
+
+    /**
+     * count the permissions of the login user
+     *
+     * @param $roles
+     * @return int
+     */
+    public function countPermissions($roles)
+    {
+        $numpermission = 0;
+
+        foreach ($roles as $role){
+            $numpermission = $numpermission + $role->permissions()->get()->count();
+        }
+
+        return $numpermission;
+    }
+
+    /**
+     * verify if the login user has permission
+     *
+     * @param $numPermissions
+     * @return bool
+     */
+    public function hasPermission($numPermissions)
+    {
+        return ($numPermissions > 0) ? true : false;
+    }
+
+    /**
+     * Logout the uses
+     *
+     * @param $mensaje
+     * @return mixed
+     */
+    public function logoutUserWithErrorMessage($mensaje)
+    {
+        Auth::logout();
+
+        flash(ucwords("No tienes {$mensaje} asignados, Consulta al administrador del sistema"),'danger')->important();
+        
+        return redirect('/login');
     }
 }

@@ -10,7 +10,7 @@
     <style>
         body{
             height: 100%;
-            background: cornflowerblue;
+            background: aliceblue;
         }
         .login-page{
             padding: 1em;
@@ -18,12 +18,17 @@
         .login-head h1{
             padding: 1em;
         }
+        .flash_message{
+            padding: 0.5em;
+        }
     </style>
 
 </head>
 <body>
 
-    @include('global.flash_message')
+    <div class="flash_message">
+        @include('global.flash_message')
+    </div>
 
     @include('auth.login1')
 

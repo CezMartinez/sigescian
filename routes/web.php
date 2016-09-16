@@ -14,9 +14,8 @@
 use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
-    
     return view('welcome');
-});
+})->middleware('guest');
 
 Auth::routes();
 

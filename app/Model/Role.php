@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
@@ -44,6 +45,19 @@ class Role extends Model
     {
         $this->attributes['name'] = ucwords($name);
         $this->attributes['slug'] = str_slug($name);
+    }
+
+    /**
+     * Fetch all permission of the role with the slug given
+     *
+     * @param $slug
+     * @return Collection
+     */
+    public static function permissionList($slug)
+    {
+        $role = new static;
+
+        return $role->where('slug',$slug)->first()->permissions()->pluck('slug');
     }
     
     public static function createNewRole($attr)

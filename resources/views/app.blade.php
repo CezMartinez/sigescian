@@ -41,9 +41,5 @@
 
     <script src="/js/template.js"></script>
 
-    <script>
-
-    </script>
-
 </body>
 </html>

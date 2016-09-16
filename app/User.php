@@ -99,4 +99,27 @@ class User extends Authenticatable
             'email' => $data['email'],
         ]);
     }
+
+    public function hasRoles()
+    {
+        return ($this->roles()->get()->count() > 0) ? true : false;
+    }
+
+    public function countPermissions()
+    {
+        $numpermission = 0;
+
+        $roles = $this->roles()->get();
+
+        foreach ($roles as $role){
+            $numpermission = $numpermission + $role->permissions()->get()->count();
+        }
+
+        return $numpermission;
+    }
+
+    public function hasPermission($numPermissions)
+    {
+        return ($numPermissions > 0) ? true : false;
+    }
 }

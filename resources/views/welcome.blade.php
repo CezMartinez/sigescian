@@ -5,7 +5,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Sigescian - Home</title>
-        <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="/css/welcome.css">
 
         <link rel="stylesheet" href="/css/template.css">
@@ -20,9 +19,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-message">
+                        @include('global.flash_message')
                         <h1>Gestión de Calidad</h1>
                         <h3>Centro de Investigaciones y Aplicaciones Nucleares</h3>
-
+                        {{Auth::check()}}
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li>
@@ -41,7 +41,7 @@
     </div>
 
 
-    <script src="/js/vue.js"></script>
+    <script src="/js/template.js"></script>
 
     </body>
 </html>
