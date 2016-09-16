@@ -14,9 +14,8 @@
 use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
-    $users = \App\User::with('roles')->get();
     
-    return view('welcome',compact('users'));
+    return view('welcome');
 });
 
 Auth::routes();

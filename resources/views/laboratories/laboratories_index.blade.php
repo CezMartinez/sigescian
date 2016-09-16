@@ -28,10 +28,7 @@
                         <td>
                             <div class="acciones">
                                 <a href="/laboratorios/{{$laboratorio->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
-                                <form action='/laboratorios/{{$laboratorio->id}}' v-ajax row="row-{{$laboratorio->id}}" method="POST">
-                                    {{ method_field('DELETE') }}
-                                    {{ csrf_field() }}
-                                    <button class="btn btn-sm btn-danger"><span class="texto">Eliminar</span></button>
+                                    <a class="btn btn-sm btn-danger" onclick="deleteConfirm('{{$laboratorio->name}}','{{$laboratorio->id}}','/laboratorios/')">Eliminar</a>
                                 </form>
                             </div>
                         </td>

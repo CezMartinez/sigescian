@@ -81,7 +81,7 @@ a:hover {
 .page-container.sidebar-collapsed .sidebar-icon {
    transition: all 300ms ease-in-out;
 	   color: #fff;
-    background:#68AE00;
+    background:#5299d3;
 
 }
 .page-container.sidebar-collapsed .logo {
@@ -169,7 +169,7 @@ a:hover {
     font-family: 'Carrois Gothic', sans-serif;
 }
 #menu li a:hover {
-  color:#fdbb30;
+  color:#09bc8a;
   transition: color 250ms ease-in-out, background-color 250ms ease-in-out;
 }
 #menu li.active > a {
@@ -253,7 +253,7 @@ cursor:pointer;
     -o-border-radius:3px;
     color: #FFF;
     background-clip: padding-box;
-    background:#68AE00;
+    background:#5299d3;
 }
 .sidebar-icon:hover{
 	 color: #FFF;
@@ -283,7 +283,7 @@ cursor:pointer;
 }
 .logo-name h1 {
     font-size: 2.5em;
-    color: #FC8213;
+    color: #5299d3;
     margin: 0em;
     font-weight: 700;
     text-decoration: none;
@@ -813,7 +813,7 @@ ul.dropdown-menu.drp-mnu li {
 }
 .user-name p{
 	font-size:1em;
-	color:#FC8213;
+	color:#5299d3;
 	line-height:1em;
 	font-weight:700;
 }
@@ -1756,12 +1756,12 @@ p.grid1 {
 .login-head {
     background: url(../images/login.jpg)no-repeat;
     background-size: cover;
-    min-height: 150px;
+    min-height: 100px;
 }
 .login-head h1 {
     font-size:3em;
      color:#FFF;
-    padding: 1em 0em 0em 0em;
+    padding: em 0em 0em 0em;
     text-align: center;
     font-family: 'Carrois Gothic', sans-serif;
 }
@@ -3158,6 +3158,7 @@ li.dropdown.head-dpdn a.dropdown-toggle {
     font-size: 2.3em;
     margin-top: 0.1em;
 }
+
 #menu .fa {
     margin-bottom: 3px;
 }
