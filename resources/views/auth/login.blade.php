@@ -6,15 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/app.css">
     <title>Inicio de Sesión</title>
-    <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/template.css">
-
+    <style>
+        body{
+            height: 100%;
+            background: cornflowerblue;
+        }
+        .login-page{
+            padding: 1em;
+        }
+        .login-head h1{
+            padding: 1em;
+        }
+    </style>
 
 </head>
 <body>
 
+    @include('global.flash_message')
+
     @include('auth.login1')
 
-<script src="/js/vue.js"></script>
+<script src="/js/template.js"></script>
 </body>
 </html>

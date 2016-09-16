@@ -54,13 +54,49 @@ class PermissionMiddleware
 
             flash('Error, No tiene permiso para realizar la accion deseada contacte al administrador de sistema.','danger');
 
-            return redirect('/home');
+            $roles = $authenticatedUser->roles()->get();
+            if($roles->count() > 0){
+                return $this->redirectByPermissions($roles);
+            }else{
+                Auth::logout();
+                flash('No tienes roles asignados, consulta al administrador del sistema','danger');
+                return redirect('/login');
+            }
 
         }
 
         if($request->ajax())
         {
             return response('Debes estar logeado',404);
+        }
+    }
+
+    /**
+     * Redirect the users to the place his has permission
+     *
+     * @param $roles
+     * @return mixed
+     */
+    protected function redirectByPermissions($roles)
+    {
+        foreach ($roles as $role){
+            $permission = $role->permissions()->get()->pluck('slug');
+
+            if($permission->contains('ver-usuarios')){
+                return redirect('/administracion/usuarios');
+            }elseif ($permission->contains('ver-roles')){
+                return redirect('/administracion/roles');
+            }elseif ($permission->contains('ver-clientes')){
+                return redirect('/clientes');
+            }elseif ($permission->contains('ver-equipos')){
+                return redirect('/equipos');
+            }elseif ($permission->contains('ver-materiales')){
+                return redirect('/materiales');
+            }elseif ($permission->contains('ver-departamentos')){
+                return redirect('/departamentos');
+            }elseif ($permission->contains('ver-laboratorios')){
+                return redirect('/laboratorios');
+            }
         }
     }
 }

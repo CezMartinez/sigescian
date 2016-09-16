@@ -57,8 +57,10 @@ class UserController extends Controller
 
         $user = User::createUser($request->all());
 
-        $user->roles()->sync($rolesIds);
-        
+        if($rolesIds!=null){
+            $user->roles()->sync($rolesIds);
+        }
+
         flash('usuario creado exitosamente','success');
 
         return redirect('administracion/usuarios');
