@@ -105,5 +105,42 @@ class PermissionsTableSeeder extends Seeder
             'slug' => 'ver-equipos',
         ]);
 
+        /**---------Departamentos--------**/
+
+        DB::table('permissions')->insert([
+            'name' => 'Crear Departamentos',
+            'slug' => 'crear-departamentos',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Editar Departamentos',
+            'slug' => 'editar-departamentos',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Eliminar Departamentos',
+            'slug' => 'eliminar-departamentos',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Ver Departamentos',
+            'slug' => 'ver-departamentos',
+        ]);
+
+        /**---------Laboratorios--------**/
+
+        DB::table('permissions')->insert([
+            'name' => 'Crear Laboratorios',
+            'slug' => 'crear-laboratorios',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Editar Laboratorios',
+            'slug' => 'editar-laboratorios',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Eliminar Laboratorios',
+            'slug' => 'eliminar-laboratorios',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Ver Laboratorios',
+            'slug' => 'ver-laboratorios',
+        ]);
     }
 }

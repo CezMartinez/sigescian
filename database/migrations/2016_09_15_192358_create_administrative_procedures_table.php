@@ -15,6 +15,9 @@ class CreateAdministrativeProceduresTable extends Migration
     {
         Schema::create('administrative_procedures', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('code');
+            $table->string('name');
+            $table->string('acronym');
             $table->timestamps();
         });
     }

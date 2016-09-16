@@ -8,7 +8,7 @@
 
             <li id="menu-comunicacao" ><a href="#"><i class="fa fa-list nav_icon"></i><span>Procedimientos</span><span class="fa fa-angle-right" style="float: right"></span></a>
                 <ul id="menu-comunicacao-sub" >
-                    <li id="menu-mensagens" style="width:130px" ><a href="#">Administrativos</a></li>
+                    <li id="menu-mensagens" style="width:130px" ><a href="/procedimientos/administrativos">Administrativos</a></li>
                     <li id="menu-arquivos" ><a href="#">Tecnicos</a></li>
                 </ul>
             </li>

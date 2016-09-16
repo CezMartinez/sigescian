@@ -86,7 +86,7 @@ Route::delete('departamentos/{departamento}','DepartmentController@destroy');
 Route::get('departamentos/{slug}/edit','DepartmentController@edit');
 
 /**---------------------------------------------- Laboratorios ------------------------------------------------**/
-Route::group(['middleware' => ['permission:crear-departamentos,ver-departamentos']], function () {
+Route::group(['middleware' => ['permission:crear-laboratorios,ver-laboratorios']], function () {
     Route::resource('laboratorios','LaboratoryController',['except'=> [
         'edit','destroy'
     ]]);
