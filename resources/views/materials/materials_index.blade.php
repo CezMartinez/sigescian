@@ -26,15 +26,13 @@
                         <td>{{$material->name}}</td>
                         <td>{{$material->description}}</td>
                         <td>
-                            <div class="acciones">
+                            <div class="acciones" >
                                 <a href="/materiales/{{$material->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
-                                <form action='/materiales/{{$material->id}}' v-ajax row="row-{{$material->id}}" method="POST">
-                                    {{ method_field('DELETE') }}
-                                    {{ csrf_field() }}
-                                    <button class="btn btn-sm btn-danger"><span class="texto">Eliminar</span></button>
-                                </form>
+                                <a class="btn btn-sm btn-danger"
+                                   onclick="deleteConfirm('{{$material->name}}','{{$material->id}}','/materiales/')">Eliminar</a>
                             </div>
                         </td>
+
                     </tr>
                 @endforeach
                 </tbody>

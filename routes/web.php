@@ -23,47 +23,59 @@ Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout');
 
+/**---------------------------------------------- Roles ------------------------------------------------**/
 
-Route::resource('administracion/roles','RolesController',['except'=> [
-    'edit','show','destroy'
-]]);
-Route::delete('administracion/roles/{role}','RolesController@destroy')->middleware('permission:eliminar-rol');
-Route::get('administracion/roles/{slug}/edit','RolesController@edit')->middleware('permission:editar-rol');
+Route::group(['middleware' => ['permission:crear-roles,ver-roles']], function () {
+    Route::resource('administracion/roles','RolesController',['except'=> [
+        'edit','show','destroy'
+    ]]);
+});
+Route::delete('administracion/roles/{role}','RolesController@destroy')->middleware('permission:eliminar-roles');
+Route::get('administracion/roles/{slug}/edit','RolesController@edit')->middleware('permission:editar-roles');
 
-Route::resource('administracion/usuarios','UserController',['except'=> [
-    'edit','destroy'
-]]);
-Route::delete('administracion/usuarios/{user}','UserController@destroy');
-Route::get('administracion/usuarios/{user}/edit','UserController@edit');
 
-Route::resource('clientes','ClientsController',['except'=> [
-    'edit','destroy'
-]]);
+
+/**---------------------------------------------- Usuarios ------------------------------------------------**/
+Route::group(['middleware' => ['permission:crear-usuarios,ver-usuarios']], function () {
+
+    Route::resource('administracion/usuarios','UserController',['except'=> [
+        'edit','destroy'
+    ]]);
+});
+Route::delete('administracion/usuarios/{user}','UserController@destroy')->middleware('permission:eliminar-usuarios');
+Route::get('administracion/usuarios/{user}/edit','UserController@edit')->middleware('permission:editar-usuarios');
+
+/**---------------------------------------------- Clientes ------------------------------------------------**/
+
+Route::group(['middleware' => ['permission:crear-clientes,ver-clientes']], function () {
+    Route::resource('clientes','ClientsController',['except'=> [
+        'edit','destroy'
+    ]]);
+});
 Route::delete('clientes/{cliente}','ClientsController@destroy')->middleware('permission:eliminar-clientes');
 Route::get('clientes/{slug}/edit','ClientsController@edit')->middleware('permission:editar-clientes');
 
-//---------------------------------
-Route::resource('materiales','MaterialController',['except'=> [
-    'edit','destroy'
-]]);
+/**---------------------------------------------- Materiales ------------------------------------------------**/
+
+Route::group(['middleware' => ['permission:crear-materiales,ver-materiales']], function () {
+    Route::resource('materiales','MaterialController',['except'=> [
+        'edit','destroy'
+    ]]);
+});
 Route::delete('materiales/{materiales}','MaterialController@destroy');
 Route::get('materiales/{slug}/edit','MaterialController@edit');
-//-------------------------------------------------------------------
-Route::resource('equipos','PlantController',['except'=> [
-    'edit','destroy'
-]]);
+
+/**---------------------------------------------- Equipos ------------------------------------------------**/
+
+Route::group(['middleware' => ['permission:crear-equipos,ver-equipos']], function () {
+    Route::resource('equipos','PlantController',['except'=> [
+        'edit','destroy'
+    ]]);
+});
 Route::delete('equipos/{equipos}','PlantController@destroy');
 Route::get('equipos/{slug}/edit','PlantController@edit');
-//-------------------------------------------------------------------
 
-//NORMA
-
-Route::get('storage/{archivo}', function ($archivo) {
-    $public_path = public_path();
-    $url = $public_path.'/CIAN_files/'.$archivo;
-    return $url;
-});
-
+/**---------------------------------------------- Departamentos ------------------------------------------------**/
 
 Route::resource('departamentos','DepartmentController',['except'=> [
     'edit','destroy'
@@ -77,5 +89,14 @@ Route::resource('laboratorios','LaboratoryController',['except'=> [
 Route::delete('laboratorios/{laboratorio}','LaboratoryController@destroy');
 Route::get('laboratorios/{slug}/edit','LaboratoryController@edit');
 
-//---------------------------------
+/**---------------------------------------------- Procedimientos Administrativos ------------------------------------------------**/
+
+Route::get('procedimientos/administrativos', 'AdministrativeProceduresController@index');
+Route::post('procedimientos/administrativos', 'AdministrativeProceduresController@store');
+Route::get('procedimientos/administrativos/create', 'AdministrativeProceduresController@create');
+Route::get('procedimientos/administrativos/{procedure}/edit','AdministrativeProceduresController@edit');
+Route::delete('procedimientos/administrativos/{procedure}', 'AdministrativeProceduresController@changeStatus');
+Route::get('procedimientos/administrativos/{procedute}','AdministrativeProceduresController@show');
+Route::put('procedimientos/administrativos/{procedure}','AdministrativeProceduresController@update');
+
 

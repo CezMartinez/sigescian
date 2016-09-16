@@ -12,6 +12,14 @@ use App\Http\Requests;
 class UserController extends Controller
 {
     /**
+     * UserController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -45,11 +53,13 @@ class UserController extends Controller
     {
         $rolesIds = $request->input('roles');
 
-        $this->validator($request->all())->validate();
+        $this->validateCreateUser($request->all())->validate();
 
         $user = User::createUser($request->all());
 
         $user->roles()->sync($rolesIds);
+        
+        flash('usuario creado exitosamente','success');
 
         return redirect('administracion/usuarios');
 
@@ -64,7 +74,7 @@ class UserController extends Controller
      */
     public function show(User $usuario)
     {
-        dd($usuario);
+        
     }
 
     /**
@@ -93,8 +103,31 @@ class UserController extends Controller
     public function update(Request $request,User $usuario)
     {
         $roleIds = $request->input('roles');
+
+        $this->validateUpdateUser($usuario,$request->all())->validate();
+
         $usuario->updateUser($request->all());
-        $usuario->roles()->sync($roleIds);
+
+        if($usuario->id != 1){
+
+            if($roleIds == null){
+
+                $roleList = Role::pluck('id','id')->toArray();
+
+                $usuario->roles()->detach($roleList);
+
+            }else{
+
+                $usuario->roles()->sync($roleIds);
+
+            }
+        }else{
+            flash('Los roles de este usuario no son editables','warning');
+
+            return redirect('administracion/usuarios');
+        }
+
+        flash('El usuario fue actualizado correctamente','success');
 
         return redirect('administracion/usuarios');
     }
@@ -102,23 +135,42 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param User $user
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(User $user)
+    public function destroy(Request $request,User $user)
     {
-        $user->delete();
+        $wasDeleted = $user->delete();
+
+        if($request->ajax()){
+            if($wasDeleted){
+                return response("El Rol {$user->first_name} fue eliminado",200);
+            }else{
+                return response("No fue eliminado.",404);
+            }
+        }
     }
 
 
-    protected function validator(array $data)
+    protected function validateCreateUser(array $data)
     {
         return Validator::make($data, [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+        ]);
+
+    }
+
+    protected function validateUpdateUser(User $user,array $data)
+    {
+        return Validator::make($data, [
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users,email,'.$user->id
         ]);
 
     }

@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('global.header', function($view){
             $view->with('user', Auth::user());
-            $view->with('isSignedUp',Auth::check());
+            $view->with('signedIn',Auth::check());
         });
     }
 

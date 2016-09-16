@@ -2,7 +2,7 @@
     
 @section('content')
 
-    <a href="/administracion/usuarios/create" class="btn btn-success">
+    <a href="/administracion/usuarios/create" class="btn btn-primary">
         Agregar un nuevo usuario
     </a>
 
@@ -41,11 +41,12 @@
                         </td>
                         <td>
                             <div class="acciones" >
-                                <a href="/administracion/usuarios/{{$user->id}}/edit" class="btn btn-sm btn-success">Editar</a> |
-                                <a class="btn btn-sm btn-danger"
+                                <a href="/administracion/usuarios/{{$user->id}}/edit" class="btn btn-sm btn-primary">Editar</a>
+                                @if(!$user->hasRole('administrador-del-sistema'))
+                                    | <a class="btn btn-sm btn-danger"
                                        onclick="deleteConfirm('{{$user->full_name}}','{{$user->id}}','/administracion/usuarios/')">Eliminar</a>
+                                @endif
                             </div>
-
                         </td>
                     </tr>
                 @endforeach

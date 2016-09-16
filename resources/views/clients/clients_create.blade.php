@@ -7,7 +7,7 @@
 
             <h1>Agregar nuevo cliente</h1>
             <hr>
-            @include('clients.forms_clients.form_client_create');
+            @include('clients.forms_clients.form_client_create')
         </div>
     </div>
     

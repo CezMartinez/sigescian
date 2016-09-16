@@ -42,22 +42,6 @@
         {{Form::select('roles[]',$roleList,$userRoleList,['class'=>'form-control', 'multiple'])}}
     </div>
 
-    <!-- password Form Input -->
-    <div class="form-group {{$errors->has('password') ? 'has-error' : ''}}">
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" class="form-control" >
-        @if($errors->has('password'))
-            <span class="help-block">
-                <strong>{{ $errors->first('password') }}</strong>
-            </span>
-        @endif
-    </div>
-
-    <!-- password_confirmation Form Input -->
-    <div class="form-group">
-        <label for="password_confirmation">Confirme Contraseña:</label>
-        <input type="password" name="password_confirmation" class="form-control">
-    </div>
 
     <button class="btn btn-primary">
         Guardar

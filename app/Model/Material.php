@@ -35,11 +35,16 @@ class Material extends Model
         return $material;
     }
 
-    public function exists($slug){
-        $material = $this->where('slug',$slug)->first();
-        if($material!=null){
+    public static function exists($name)
+    {
+        $material = new static;
+
+        $material = $material->where('slug',str_slug($name))->first();
+
+        if($material != null){
             return true;
         }
+
         return false;
     }
 }

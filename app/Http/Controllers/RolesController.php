@@ -11,6 +11,14 @@ use App\Http\Requests;
 
 class RolesController extends Controller
 {
+
+    /**
+     * UserController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -45,11 +53,14 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $this->validator($request->all())->validate();
+
         $permissionIds = $request->input('permission');
         
         $role = Role::createNewRole($request->all());
         
         $role->givePermissionTo($permissionIds);
+
+        flash("El rol fue creado correctamente",'success');
 
         return redirect('/administracion/roles');
     }
@@ -93,12 +104,22 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $this->validator($request->all(),1)->validate();
-        $role->update($request->all());
-        if($request->input('permission') != null){
-            $role->permissions()->sync($request->input('permission'));
+        if($role->slug != 'administrador'){
+            $this->validator($request->all(),1)->validate();
+
+            $role->update($request->all());
+
+            if($request->input('permission') != null){
+                $role->permissions()->sync($request->input('permission'));
+            }else{
+                $permissionIds = Permission::pluck('id','id')->toArray();
+                $role->permissions()->detach($permissionIds);
+            }
+        }else{
+            flash('El rol administrador no se puede modificar','warning');
         }
-        //TODO: si los Permisos son vacios quitarlos todos
+
+        flash("El rol fue modificado correctamente",'success');
 
 
         return redirect('/administracion/roles');
@@ -113,13 +134,19 @@ class RolesController extends Controller
      */
     public function destroy(Request $request,Role $role)
     {
-        $wasDeleted = $role->delete();
-        
-        if($request->ajax()){
-            if($wasDeleted){
-                return response("El Rol {$role->name} fue eliminado",200);
-            }else{
-                return response("No fue eliminado.",404);
+        if($role->slug !=  'administrador-del-sistema'){
+            $wasDeleted = $role->delete();
+
+            if($request->ajax()){
+                if($wasDeleted){
+                    return response("El Rol {$role->name} fue eliminado",200);
+                }else{
+                    return response("No fue eliminado.",404);
+                }
+            }
+        }else{
+            if($request->ajax()){
+                return response("El rol administrador no puede ser eliminado",404);
             }
         }
 

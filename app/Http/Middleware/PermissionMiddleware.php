@@ -23,28 +23,44 @@ class PermissionMiddleware
 
         $permissions = collect($permissions);
 
-        $authenticatedUser = Auth::user();
-        $userRoles = $authenticatedUser->roles()->pluck('slug');
+        $isAuthenticated = Auth::check();
 
-        foreach ($userRoles as $key => $value) {
-            $rolePermissions = Role::where('slug',$value)->first()->permissions()->pluck('slug');
-            foreach ($permissions as $permission){
-                $havePermission = $rolePermissions->contains($permission);
+        if($isAuthenticated){
 
-                if($havePermission) {
-                    return $next($request);
+            $authenticatedUser = Auth::user();
+
+            $userRoles = $authenticatedUser->roles()->pluck('slug');
+
+            foreach ($userRoles as $key => $value) {
+
+                $rolePermissions = Role::where('slug',$value)->first()->permissions()->pluck('slug');
+
+                foreach ($permissions as $permission){
+
+                    $havePermission = $rolePermissions->contains($permission);
+
+                    if($havePermission) {
+
+                        return $next($request);
+
+                    }
                 }
             }
+
+            if($request->ajax())
+            {
+                return response('Error no tiene permiso para realizar la accion deseada contacte al administrador de sistema.',404);
+            }
+
+            flash('Error, No tiene permiso para realizar la accion deseada contacte al administrador de sistema.','danger');
+
+            return redirect('/home');
+
         }
 
         if($request->ajax())
         {
-            return response('Error no tiene permiso para realizar la accion deseada contacte al administrador de sistema.',404);
+            return response('Debes estar logeado',404);
         }
-
-        flash('Error, No tiene permiso para realizar la accion deseada contacte al administrador de sistema.','danger');
-        return back();
-
-        return $next($request);
     }
 }
