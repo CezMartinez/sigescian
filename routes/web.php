@@ -74,7 +74,8 @@ Route::group(['middleware' => ['permission:crear-equipos,ver-equipos']], functio
 });
 Route::delete('equipos/{equipos}','PlantController@destroy');
 Route::get('equipos/{slug}/edit','PlantController@edit');
-//-------------------------------------------------------------------
+
+/**---------------------------------------------- Departamentos ------------------------------------------------**/
 
 Route::resource('departamentos','DepartmentController',['except'=> [
     'edit','destroy'
@@ -88,5 +89,14 @@ Route::resource('laboratorios','LaboratoryController',['except'=> [
 Route::delete('laboratorios/{laboratorio}','LaboratoryController@destroy');
 Route::get('laboratorios/{slug}/edit','LaboratoryController@edit');
 
-//---------------------------------
+/**---------------------------------------------- Procedimientos Administrativos ------------------------------------------------**/
+
+Route::get('procedimientos/administrativos', 'AdministrativeProceduresController@index');
+Route::post('procedimientos/administrativos', 'AdministrativeProceduresController@store');
+Route::get('procedimientos/administrativos/create', 'AdministrativeProceduresController@create');
+Route::get('procedimientos/administrativos/{procedure}/edit','AdministrativeProceduresController@edit');
+Route::delete('procedimientos/administrativos/{procedure}', 'AdministrativeProceduresController@changeStatus');
+Route::get('procedimientos/administrativos/{procedute}','AdministrativeProceduresController@show');
+Route::put('procedimientos/administrativos/{procedure}','AdministrativeProceduresController@update');
+
 
