@@ -18,6 +18,7 @@ class CreateAdministrativeProceduresTable extends Migration
             $table->string('code');
             $table->string('name');
             $table->string('acronym');
+            $table->boolean('state')->default(true);
             $table->timestamps();
         });
     }

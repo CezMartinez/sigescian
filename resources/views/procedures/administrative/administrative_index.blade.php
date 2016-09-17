@@ -11,6 +11,7 @@
 			<thead>
 			<th>Codigo</th>
 			<th>Titulo</th>
+			<th>Estado</th>
 			<th>Acciones</th>
 			</thead>
 			<tbody>
@@ -23,8 +24,11 @@
 						{{$admin->name}}
 					</td>
 					<td>
+						{{$admin->status}}
+					</td>
+					<td>
 						<div class="acciones" >
-							<a href="/procedimientos/administrativos/{{$admin->code}}/edit" class="btn btn-sm btn-success">Editar</a>
+							<a href="/procedimientos/administrativos/{{$admin->code}}/edit" class="btn btn-sm btn-primary">Editar</a>
 							</div>
 					</td>
 				</tr>

@@ -21,8 +21,9 @@ class AdministrativeProceduresController extends Controller
         return view('procedures.administrative.administrative_create');
     }
 
-    public function edit(AdministrativeProcedure $procedure)
+    public function edit($code)
     {
+        $procedure = AdministrativeProcedure::where('code',$code)->first();
         return view('procedures.administrative.administrative_edit',compact('procedure'));
     }
 
@@ -34,7 +35,7 @@ class AdministrativeProceduresController extends Controller
     public function store(Request $request)
     {
         //dd($request->all());
-        $this->validator($request->all())->validate();
+        $this->validateCreateProcedure($request->all())->validate();
         if (AdministrativeProcedure::exists($request->input('name'))) {
             flash('El procedimiento '.$request->input('name').' ya existe', 'danger');
 
@@ -49,9 +50,31 @@ class AdministrativeProceduresController extends Controller
 
     }
 
-    public function update(Request $request,AdministrativeProcedure $procedure)
+    public function update(Request $request, $procedure)
     {
-        dd($request->all());
+
+        $procedure = AdministrativeProcedure::where('code',$procedure)->first();
+        $procedure->name=$request->input('name');
+        if (!$request->has('state')) {
+            $procedure->state='0';
+        }
+        else{
+            $procedure->state='1';
+        }
+        //dd($procedure);
+        $this->validateUpdateProcedure($request->all())->validate();
+
+
+            if ($procedure->exists($request->input('name'))) {
+                flash('El procedimiento '.$request->input('name').' ya existe', 'danger');
+
+                return back()->withInput();
+            }
+            flash('Procedimiento Actualizado', 'success');
+            $procedure->save();
+
+
+        return redirect('/procedimientos/administrativos');
     }
 
     public function changeStatus(Request $request,AdministrativeProcedure $procedure)
@@ -59,11 +82,18 @@ class AdministrativeProceduresController extends Controller
         dd($procedure);
     }
 
-    public function validator($data)
+    public function validateCreateProcedure($data)
     {
         return Validator::make($data,[
             'name' =>'required',
             'acronym' => 'required',
         ]);
     }
+    public function validateUpdateProcedure($data){
+        return Validator::make($data,[
+            'name' => 'required',
+        ]);
+    }
+
+
 }

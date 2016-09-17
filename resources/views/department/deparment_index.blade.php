@@ -25,7 +25,7 @@
                         </td>
                         <td>
                             <div class="acciones" >
-                                <a href="#" class="fa fa-lg fa-pencil" data-toggle="tooltip" title="Editar!"></a> |
+                                <a href="/departamentos/{{$deparment->slug}}/edit" class="fa fa-lg fa-pencil" data-toggle="tooltip" title="Editar!"></a> |
                                 <a class="fa fa-lg fa-times" data-toggle="tooltip" title="Eliminar!" data-container="body"
                                    onclick="deleteConfirm('{{$deparment->name}}','{{$deparment->id}}','/departamentos/')"></a>
                             </div>

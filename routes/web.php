@@ -60,8 +60,8 @@ Route::group(['middleware' => ['permission:crear-materiales,ver-materiales']], f
         'edit','destroy'
     ]]);
 });
-Route::delete('materiales/{materiales}','MaterialController@destroy');
-Route::get('materiales/{slug}/edit','MaterialController@edit');
+Route::delete('materiales/{materiales}','MaterialController@destroy')->middleware('permission:eliminar-materiales');
+Route::get('materiales/{slug}/edit','MaterialController@edit')->middleware('permission:editar-materiales');
 
 /**---------------------------------------------- Equipos ------------------------------------------------**/
 
@@ -70,8 +70,8 @@ Route::group(['middleware' => ['permission:crear-equipos,ver-equipos']], functio
         'edit','destroy'
     ]]);
 });
-Route::delete('equipos/{equipos}','PlantController@destroy');
-Route::get('equipos/{slug}/edit','PlantController@edit');
+Route::delete('equipos/{equipos}','PlantController@destroy')->middleware('permission:eliminar-equipos');
+Route::get('equipos/{slug}/edit','PlantController@edit')->middleware('permission:editar-equipos');
 
 /**---------------------------------------------- Departamentos ------------------------------------------------**/
 
@@ -81,8 +81,8 @@ Route::group(['middleware' => ['permission:crear-departamentos,ver-departamentos
     ]]);
 });
 
-Route::delete('departamentos/{departamento}','DepartmentController@destroy');
-Route::get('departamentos/{slug}/edit','DepartmentController@edit');
+Route::delete('departamentos/{departamento}','DepartmentController@destroy')->middleware('permission:eliminar-departamentos');
+Route::get('departamentos/{slug}/edit','DepartmentController@edit')->middleware('permission:editar-departamentos');
 
 /**---------------------------------------------- Laboratorios ------------------------------------------------**/
 Route::group(['middleware' => ['permission:crear-laboratorios,ver-laboratorios']], function () {
@@ -90,8 +90,8 @@ Route::group(['middleware' => ['permission:crear-laboratorios,ver-laboratorios']
         'edit','destroy'
     ]]);
 });
-Route::delete('laboratorios/{laboratorio}','LaboratoryController@destroy');
-Route::get('laboratorios/{slug}/edit','LaboratoryController@edit');
+Route::delete('laboratorios/{laboratorio}','LaboratoryController@destroy')->middleware('permission:eliminar-laboratorios');
+Route::get('laboratorios/{slug}/edit','LaboratoryController@edit')->middleware('permission:editar-laboratorios');
 
 /**---------------------------------------------- Procedimientos Administrativos ------------------------------------------------**/
 
@@ -100,7 +100,7 @@ Route::post('procedimientos/administrativos', 'AdministrativeProceduresControlle
 Route::get('procedimientos/administrativos/create', 'AdministrativeProceduresController@create');
 Route::get('procedimientos/administrativos/{procedure}/edit','AdministrativeProceduresController@edit');
 Route::delete('procedimientos/administrativos/{procedure}', 'AdministrativeProceduresController@changeStatus');
-Route::get('procedimientos/administrativos/{procedute}','AdministrativeProceduresController@show');
 Route::put('procedimientos/administrativos/{procedure}','AdministrativeProceduresController@update');
+Route::get('procedimientos/administrativos/{procedute}','AdministrativeProceduresController@show');
 
 
