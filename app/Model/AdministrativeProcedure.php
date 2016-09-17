@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AdministrativeProcedure extends Model
 {
-    protected $fillable = ['code','name','acronym'];
+    protected $fillable = ['code','name','acronym','state'];
 
     public function annexedFiles()
     {
@@ -17,7 +17,6 @@ class AdministrativeProcedure extends Model
     public static function fetchAll()
     {
         $administrativeProcedure = new static;
-        
         return $administrativeProcedure->paginate(5);
     }
 
@@ -53,6 +52,7 @@ class AdministrativeProcedure extends Model
 
     private function generateCode()
     {
+        //todo arreglar bug de codigo
         $procedimiento = $this->first();
 
         if(!$procedimiento){
@@ -62,5 +62,13 @@ class AdministrativeProcedure extends Model
             $ultimo = $this->orderBy('created_at', 'desc')->first();
             $this->attributes['code'] = 'PG-'.$this->attributes['acronym'].'-CIAN'.($ultimo->id+1);
         }
+    }
+
+    public function getStateAttribute(){
+        return $this->attributes['state'] == 1 ? true : false;
+    }
+    public function getStatusAttribute(){
+        return $this->attributes['state'] == 1 ? 'Activo' : 'Inactivo';
+
     }
 }
