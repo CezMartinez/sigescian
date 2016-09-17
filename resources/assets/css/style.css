@@ -81,7 +81,7 @@ a:hover {
 .page-container.sidebar-collapsed .sidebar-icon {
    transition: all 300ms ease-in-out;
 	   color: #fff;
-    background:#5299d3;
+    background:#005199;
 
 }
 .page-container.sidebar-collapsed .logo {
@@ -169,7 +169,7 @@ a:hover {
     font-family: 'Carrois Gothic', sans-serif;
 }
 #menu li a:hover {
-  color:#09bc8a;
+  color:#f0c808;
   transition: color 250ms ease-in-out, background-color 250ms ease-in-out;
 }
 #menu li.active > a {
@@ -253,7 +253,7 @@ cursor:pointer;
     -o-border-radius:3px;
     color: #FFF;
     background-clip: padding-box;
-    background:#5299d3;
+    background: #005199;
 }
 .sidebar-icon:hover{
 	 color: #FFF;
