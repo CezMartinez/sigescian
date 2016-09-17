@@ -16,7 +16,7 @@ class CreateStandardTable extends Migration
         Schema::create('standards', function (Blueprint $table) {
             $table->increments('id');
             $table->string('section');
-            $table->string('route');
+            $table->string('bookmark');
         });
     }
 
