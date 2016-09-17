@@ -7,7 +7,7 @@
 	<hr>
 	<div class="table-responsive">
 
-		<table class="table table-hover table-bordered">
+		<table class="table table-bordered">
 			<thead>
 			<th>Codigo</th>
 			<th>Titulo</th>
@@ -16,7 +16,7 @@
 			</thead>
 			<tbody>
 			@foreach($admins as $admin)
-				<tr id="row-{{$admin->id}}">
+				<tr id="row-{{$admin->id}}" class="{{($admin->state) ? '':'info'}}">
 					<td>
 						{{$admin->code}}
 					</td>
