@@ -33,19 +33,20 @@ class AdministrativeProceduresController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->all());
         $this->validator($request->all())->validate();
-        if (AdministrativeProcedure::exists($request->input('name'))) {
+
+        if (AdministrativeProcedure::exists($request->input('acronym'))) {
+            
             flash('El procedimiento '.$request->input('name').' ya existe', 'danger');
 
             return back()->withInput();
         }
 
-        AdministrativeProcedure::createAdministrative($request->all());
+        $procedure = AdministrativeProcedure::createAdministrative($request->all());
 
         flash('Procedimiento Guardado', 'success');
 
-        return redirect('/procedimientos/administrativos');
+        return redirect("/procedimientos/administrativos/{$procedure->code}");
 
     }
 

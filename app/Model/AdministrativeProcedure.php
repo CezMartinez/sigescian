@@ -2,11 +2,17 @@
 
 namespace App\Model;
 
+use App\AnnexedFile;
 use Illuminate\Database\Eloquent\Model;
 
 class AdministrativeProcedure extends Model
 {
     protected $fillable = ['code','name','acronym'];
+
+    public function annexedFiles()
+    {
+        return $this->belongsToMany(AnnexedFile::class);
+    }
 
     public static function fetchAll()
     {
