@@ -1,23 +1,20 @@
 
-.acciones{
-	display: inline-flex;
-}
 .acciones a{
-margin-right: 0.5em;
-padding: 6 12;
-margin-bottom: 1em;
+	margin-right: 1em;
 }
-.acciones a:nth-child(2){
-margin-left: 0.5em;
-padding: 6 12;
-margin-bottom: 1em;
-}
+
 
 .acciones form button{
 margin-left: 0.5em;
 }
 
+.header-main{
+	padding: 0 0 0 1em;
+}
 
+.header-right{
+	padding-top: 0.5em;
+}
 i.glyphicon{
 	color:white;
 }
@@ -40,6 +37,9 @@ i.glyphicon:hover{
 }
 
 /*--------------------------------*/
+body{
+	font-size: 14px;
+}
 .page-container{
 	position: absolute;
 	bottom: 0;
@@ -50,6 +50,8 @@ i.glyphicon:hover{
 }
 .copyrights{
 	margin-top: auto;
+	font-size: 15px;
+	padding: 1em 1em;
 }
 .login_link{
 	margin: 0.5em;
@@ -87,4 +89,34 @@ i.glyphicon:hover{
 	height: 100%;
 	overflow-y: scroll;
 }
+.logo-name{
+	margin: 0em;
+	padding: 0em;
+}
 
+.tooltip {
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+
+	/* Position the tooltip */
+	position: absolute;
+	z-index: 1;
+	bottom: 100%;
+	left: 50%;
+	margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}

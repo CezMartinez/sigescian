@@ -99,9 +99,9 @@ a:hover {
 }
 
 .page-container.sidebar-collapsed #logo {
-    opacity: 0;
+  /*  opacity: 0;*/
     transition: all 200ms ease-in-out;
-    display: none;
+/*    display: none;*/
 }
 .page-container.sidebar-collapsed .down {
     display: none;
