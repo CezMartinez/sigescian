@@ -22,14 +22,23 @@
                         @include('global.flash_message')
                         <h1>Gestión de Calidad</h1>
                         <h3>Centro de Investigaciones y Aplicaciones Nucleares</h3>
-                        {{Auth::check()}}
-                        <hr class="intro-divider">
-                        <ul class="list-inline intro-social-buttons">
-                            <li>
-                                <a href="/login" class="btn btn-primary btn-lg"><span class="network-name">Iniciar Sesión</span></a>
-                            </li>
+                        @if(!Auth::check())
+                            <hr class="intro-divider">
+                            <ul class="list-inline intro-social-buttons">
+                                <li>
+                                    <a href="/login" class="btn btn-primary btn-lg"><span class="network-name">Iniciar Sesión</span></a>
+                                </li>
 
-                        </ul>
+                            </ul>
+                            @else
+                                <hr class="intro-divider">
+                                <ul class="list-inline intro-social-buttons">
+                                    <li>
+                                        <a href="/laboratorios" class="btn btn-primary btn-lg"><span class="network-name">Entrar al sistema</span></a>
+                                    </li>
+
+                                </ul>
+                        @endif
                     </div>
                 </div>
 
