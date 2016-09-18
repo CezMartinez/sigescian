@@ -120,3 +120,7 @@ body{
 .tooltip:hover .tooltiptext {
 	visibility: visible;
 }
+
+.form-control{
+	height: 39px;
+}

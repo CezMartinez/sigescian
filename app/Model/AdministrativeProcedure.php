@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use App\AnnexedFile;
 use Illuminate\Database\Eloquent\Model;
 
 class AdministrativeProcedure extends Model
@@ -11,7 +10,7 @@ class AdministrativeProcedure extends Model
 
     public function annexedFiles()
     {
-        return $this->belongsToMany(AnnexedFile::class);
+        return $this->belongsToMany(AnnexedFile::class,'administrative_procedure_annexed_files');
     }
 
     public static function fetchAll()

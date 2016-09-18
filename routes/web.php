@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('guest');
 
 Auth::routes();
 
@@ -95,12 +95,7 @@ Route::get('laboratorios/{slug}/edit','LaboratoryController@edit')->middleware('
 
 /**---------------------------------------------- Procedimientos Administrativos ------------------------------------------------**/
 
-Route::get('procedimientos/administrativos', 'AdministrativeProceduresController@index');
-Route::post('procedimientos/administrativos', 'AdministrativeProceduresController@store');
-Route::get('procedimientos/administrativos/create', 'AdministrativeProceduresController@create');
-Route::get('procedimientos/administrativos/{procedure}/edit','AdministrativeProceduresController@edit');
-Route::delete('procedimientos/administrativos/{procedure}', 'AdministrativeProceduresController@changeStatus');
-Route::put('procedimientos/administrativos/{procedure}','AdministrativeProceduresController@update');
-Route::get('procedimientos/administrativos/{procedute}','AdministrativeProceduresController@show');
-
+Route::post('procedimiento/administrativo/{procedure}/archivos-adjuntos','AnnexedFilesController@uploadFile');
+Route::delete('procedimiento/administrativo/archivo/{procedure}/{annexedFile}','AnnexedFilesController@deleteFile');
+Route::resource('procedimientos/administrativos','AdministrativeController');
 

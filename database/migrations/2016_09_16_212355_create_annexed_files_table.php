@@ -15,6 +15,13 @@ class CreateAnnexedFilesTable extends Migration
     {
         Schema::create('annexed_files', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('path');
+            $table->string('originalName');
+            $table->string('nameWithoutExtension');
+            $table->string('mime');
+            $table->string('title');
+            $table->string('extension');
+            $table->integer('size');
             $table->timestamps();
         });
     }

@@ -21,6 +21,7 @@ require('laravel-elixir-vue');
 
 elixir(function(mix) {
     mix.styles([
+                'dropzone.css',
                 'bootstrap.css',
                 'style.css',
                 'font-awesome.css',
@@ -36,6 +37,7 @@ elixir(function(mix) {
             'template/sweetalert.min.js',
             'template/menu-hide-toggle.js',
             'template/flash-message.js',
+            'template/dropzone.js',
             'template/bootstrap.js',],'./public/js/template.js');
 });
 

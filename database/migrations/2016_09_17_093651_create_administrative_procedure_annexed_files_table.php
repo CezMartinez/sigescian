@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdministrativeProceduresTable extends Migration
+class CreateAdministrativeProcedureAnnexedFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateAdministrativeProceduresTable extends Migration
      */
     public function up()
     {
-        Schema::create('administrative_procedures', function (Blueprint $table) {
+        Schema::create('administrative_procedure_annexed_files', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code')->unique();
-            $table->string('name');
-            $table->string('acronym');
-            $table->boolean('state')->default(true);
+            $table->integer('administrative_procedure_id')->unsigned();
+            $table->integer('annexed_file_id')->unsigned();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateAdministrativeProceduresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('administrative_procedures');
+        Schema::dropIfExists('administrative_procedure_annexed_files');
     }
 }

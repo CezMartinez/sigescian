@@ -40,10 +40,7 @@
 
 
     <script src="/js/template.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
+
+    @yield('scripts')
 </body>
 </html>
