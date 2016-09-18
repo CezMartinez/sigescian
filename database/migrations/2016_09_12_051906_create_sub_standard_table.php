@@ -16,7 +16,7 @@ class CreateSubStandardTable extends Migration
        Schema::create('sub_standards', function (Blueprint $table) {
            $table->increments('id');
            $table->string('section');
-           $table->string('bookmark');
+           $table->string('route');
            $table->integer('standard_id')->unsigned();
            $table->foreign('standard_id')->references('id')->on('standards')->onDelete('cascade');
        });
