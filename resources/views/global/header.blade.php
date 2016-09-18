@@ -2,7 +2,7 @@
     <div class="header-left">
         <div class="logo-name">
             <a href="#"> {{--<h1>CIAN</h1>--}}
-               <img id="logo" src="/images/Logo_CIAN.jpg" alt="Logo" width="75%"/>
+               <img id="logo" src="/images/Logo_CIAN.png" alt="Logo" width="100%"/>
             </a>
         </div>
         <div class="clearfix"> </div>

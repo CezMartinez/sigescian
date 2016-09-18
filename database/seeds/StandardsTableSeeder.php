@@ -12,12 +12,28 @@ class StandardsTableSeeder extends Seeder
     public function run()
     {
         DB::table('standards')->insert([
-            'section' => 'Sección 2',
-            'route'=>'norma-seccion-2.pdf',
+            'section' => 'Objeto y Campo de Aplicación',
+            'route'=>'seccion_1',
         ]);
         DB::table('standards')->insert([
-            'section' => 'Sección 4',
-            'route'=>'norma-seccion-4.pdf',
+            'section' => 'Normas de Referencia',
+            'route'=>'seccion_2',
+        ]);
+        DB::table('standards')->insert([
+            'section' => 'Terminos y Definiciones',
+            'route'=>'seccion_3',
+        ]);
+        DB::table('standards')->insert([
+            'section' => 'Requisitos Relativos a la Gestión',
+            'route'=>'seccion_4',
+        ]);
+        DB::table('standards')->insert([
+            'section' => 'Requisitos Técnicos',
+            'route'=>'seccion_5',
+        ]);
+        DB::table('standards')->insert([
+            'section' => 'Correspondencia',
+            'route'=>'seccion_6',
         ]);
     }
 }

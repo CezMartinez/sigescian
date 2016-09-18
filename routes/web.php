@@ -11,8 +11,6 @@
 |
 */
 
-use Illuminate\Support\Facades\Storage;
-
 Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
@@ -20,6 +18,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout');
+
+/**---------------------------------------------- NORMA ------------------------------------------------**/
+Route::get('storage/{archivo}', function ($archivo) {
+    $public_path = public_path();
+    $url = $public_path.'/CIAN_files/ISO-IEC-17025.pdf#'.$archivo;
+    return Response::make(file_get_contents($url), 200, ['Content-Type' => 'application/pdf','Content-Disposition' => 'inline; filename="'.$archivo.'"']);
+});
 
 /**---------------------------------------------- Roles ------------------------------------------------**/
 
