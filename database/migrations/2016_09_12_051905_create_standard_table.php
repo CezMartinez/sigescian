@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateStandardTable extends Migration
 {
@@ -16,7 +16,7 @@ class CreateStandardTable extends Migration
         Schema::create('standards', function (Blueprint $table) {
             $table->increments('id');
             $table->string('section');
-            $table->string('bookmark');
+            $table->string('route');
         });
     }
 
