@@ -96,4 +96,7 @@ Route::get('laboratorios/{slug}/edit','LaboratoryController@edit')->middleware('
 Route::post('procedimiento/administrativo/{procedure}/archivos-adjuntos','AnnexedFilesController@uploadFile');
 Route::delete('procedimiento/administrativo/archivo/{procedure}/{annexedFile}','AnnexedFilesController@deleteFile');
 Route::resource('procedimientos/administrativos','AdministrativeController');
-
+/**---------------------------------------------- ruta de prueba 2 ------------------------------------------------**/
+Route::get('/prueba', function () {
+    return view('prueba', ['name' => 'El Kevin']);
+});

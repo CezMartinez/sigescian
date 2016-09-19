@@ -15,7 +15,7 @@ class UserTableSeeder extends Seeder
             'first_name'        => 'Super',
             'last_name'         => 'Administrador',
             'full_name'         => 'Super Administrador',
-            'email'             => 'administrador@admin.com',
+            'email'             => 'administrador@cian.com',
             'password'          => bcrypt('admin'),
             'remember_token'    => str_random(10),
         ]);
