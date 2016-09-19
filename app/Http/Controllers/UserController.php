@@ -26,6 +26,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        $users = User::with(['roles' => function ($query) { $query->where('slug','tecnico'); }])->get();
+        
         $users = User::fetchAll();
 
         return view('administration.users.users_index',compact('users'));
