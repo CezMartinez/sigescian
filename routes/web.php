@@ -99,3 +99,4 @@ Route::post('procedimiento/administrativo/{procedure}/archivos-adjuntos','Annexe
 Route::delete('procedimiento/administrativo/archivo/{procedure}/{annexedFile}','AnnexedFilesController@deleteFile');
 Route::resource('procedimientos/administrativos','AdministrativeController');
 
+Route::get('archivos/procedimientos/administrativos/{procedure}','AnnexedFilesController@getAllAnnexedFiles');

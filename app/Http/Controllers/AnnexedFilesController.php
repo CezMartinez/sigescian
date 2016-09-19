@@ -42,4 +42,9 @@ class AnnexedFilesController extends Controller
 
         Storage::delete('/archivos/procedimientos/administrativos/'.$annexedFile->originalName);
     }
+
+    public function getAllAnnexedFiles(AdministrativeProcedure $procedure){
+      //dd($procedure->with('annexedFiles')->get());
+      return $procedure->annexedFiles()->get();
+    }
 }
