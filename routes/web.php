@@ -64,12 +64,14 @@ Route::get('materiales/{slug}/edit','MaterialController@edit')->middleware('perm
 /**---------------------------------------------- Equipos ------------------------------------------------**/
 
 Route::group(['middleware' => ['permission:crear-equipos,ver-equipos']], function () {
-    Route::resource('equipos','PlantController',['except'=> [
+    Route::resource('equipos','EquipmentController',['except'=> [
         'edit','destroy'
     ]]);
 });
-Route::delete('equipos/{equipos}','PlantController@destroy')->middleware('permission:eliminar-equipos');
-Route::get('equipos/{slug}/edit','PlantController@edit')->middleware('permission:editar-equipos');
+Route::delete('equipos/{equipos}','EquipmentController@destroy')->middleware('permission:eliminar-equipos');
+Route::get('equipos/{slug}/edit','EquipmentController@edit')->middleware('permission:editar-equipos');
+Route::get('equipos/{slug}/calibrar','EquipmentController@calibrar')->middleware('permission:calibrar-equipos');
+Route::post('equipos/{id}/calibrate','EquipmentController@calibrate')->middleware('permission:calibrar-equipos');
 
 /**---------------------------------------------- Departamentos ------------------------------------------------**/
 
