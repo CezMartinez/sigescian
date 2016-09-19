@@ -65,7 +65,7 @@ class AdministrativeController extends Controller
      */
     public function show(AdministrativeProcedure $administrativo)
     {
-
+        $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles'])->first();
         return view('procedures.administrative.administrative_show',compact('administrativo'));
     }
 

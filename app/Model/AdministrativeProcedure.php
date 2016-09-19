@@ -12,6 +12,14 @@ class AdministrativeProcedure extends Model
     {
         return $this->belongsToMany(AnnexedFile::class,'administrative_procedure_annexed_files');
     }
+    public function flowChartFile()
+    {
+        return $this->belongsTo(FlowChartFile::class);
+    }
+    public function formatFiles()
+    {
+        return $this->belongsToMany(FormatFile::class);
+    }
 
     public static function fetchAll()
     {
@@ -68,6 +76,5 @@ class AdministrativeProcedure extends Model
     }
     public function getStatusAttribute(){
         return $this->attributes['state'] == 1 ? 'Activo' : 'Inactivo';
-
     }
 }

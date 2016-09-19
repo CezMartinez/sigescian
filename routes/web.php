@@ -96,6 +96,12 @@ Route::get('laboratorios/{slug}/edit','LaboratoryController@edit')->middleware('
 /**---------------------------------------------- Procedimientos Administrativos ------------------------------------------------**/
 
 Route::post('procedimiento/administrativo/{procedure}/archivos-adjuntos','AnnexedFilesController@uploadFile');
-Route::delete('procedimiento/administrativo/archivo/{procedure}/{annexedFile}','AnnexedFilesController@deleteFile');
 Route::resource('procedimientos/administrativos','AdministrativeController');
+Route::delete('procedimiento/administrativo/archivos/anexo/{procedure}/{annexedFile}','AnnexedFilesController@deleteAnnexedFile');
+Route::delete('procedimiento/administrativo/archivos/flujograma/{procedure}/{flowChartFile}','AnnexedFilesController@deleteFlowChartFile');
+Route::delete('procedimiento/administrativo/archivos/formato/{procedure}/{formatFile}','AnnexedFilesController@deleteFormatFile');
+
+Route::get('archivos/procedimientos/administrativos/anexos/{procedure}','AnnexedFilesController@getAllAnnexedFiles');
+Route::get('archivos/procedimientos/administrativos/flujograma/{procedure}','AnnexedFilesController@getFlowCharFileFiles');
+Route::get('archivos/procedimientos/administrativos/formatos/{procedure}','AnnexedFilesController@getAllFormatsFiles');
 
