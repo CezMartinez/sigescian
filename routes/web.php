@@ -105,3 +105,4 @@ Route::get('archivos/procedimientos/administrativos/anexos/{procedure}','Annexed
 Route::get('archivos/procedimientos/administrativos/flujograma/{procedure}','AnnexedFilesController@getFlowCharFileFiles');
 Route::get('archivos/procedimientos/administrativos/formatos/{procedure}','AnnexedFilesController@getAllFormatsFiles');
 
+Route::get('archivos/procedimientos/administrativos/{procedure}','AnnexedFilesController@getAllAnnexedFiles');

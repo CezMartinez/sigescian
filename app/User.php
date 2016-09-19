@@ -36,7 +36,7 @@ class User extends Authenticatable
      */
     public function roles()
     {
-        return $this->belongsToMany(Model\Role::class);
+        return $this->belongsToMany(Role::class);
     }
     
     protected function setFirstNameAttribute($firstName){
@@ -46,7 +46,7 @@ class User extends Authenticatable
     protected function setLastNameAttribute($lastName){
         $this->attributes['last_name'] = ucwords($lastName);
 
-        $this->attributes['full_name'] =  $this->attributes['first_name'] . ' ' .$this->attributes['last_name'];
+        $this->attributes['full_name'] =  "{$this->attributes['first_name']}  {$this->attributes['last_name']}";
 
     }
 

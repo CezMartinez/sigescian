@@ -28,7 +28,7 @@
 					</td>
 					<td>
 						<div class="acciones" >
-							<a href="/procedimientos/administrativos/{{$admin->code}}/edit" class="btn btn-sm btn-primary">Editar</a>
+							<a href="/procedimientos/administrativos/{{$admin->code}}/edit" data-toggle="tooltip" data-placement="top" title="Hooray!" class="btn btn-sm btn-primary">Editar</a>
 							</div>
 					</td>
 				</tr>

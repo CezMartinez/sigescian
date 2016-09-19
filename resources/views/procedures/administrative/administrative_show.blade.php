@@ -2,7 +2,7 @@
 
 @section('content')
 
-	
+
 	<div class="row">
 		<div class="col-md-6">
 			<div class="panel panel-primary">
@@ -90,12 +90,15 @@
 				<div class="panel-heading"><h3>Archivos Anexos</h3></div>
 				<div class="panel-body">
 					<ul class="list-group">
+						<div class="lista">
 						@foreach($administrativo->annexedFiles()->get() as $file)
+
 							<li id="file-{{$file->id}}" class="list-group-item list-group-item-info">
-								<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}"
-								>
+
+								<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
 									{{$file->title}}
 								</a>
+
 								<i class="fa fa-times pull-right"
 								   onclick="deleteFile(
 										   '{{$file->originalName}}',
@@ -124,6 +127,7 @@
 								</li>
 							@endforeach
 						</div>
+							</div>
 					</ul>
 				</div>
 			</div>
