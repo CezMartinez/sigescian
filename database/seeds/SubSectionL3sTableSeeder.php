@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class SubSubSubStandardsTableSeeder extends Seeder
+class SubSectionL3sTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class SubSubStandardsTableSeeder extends Seeder
+class SubSectionL2sTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -156,6 +156,5 @@ class SubSubStandardsTableSeeder extends Seeder
             'route'=>'seccion_5_10_9',
             'sub_section_level1_id' =>'25'
         ]);
-
     }
 }
