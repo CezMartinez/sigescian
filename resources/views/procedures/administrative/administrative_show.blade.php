@@ -90,24 +90,6 @@
 				<div class="panel-heading"><h3>Archivos Anexos</h3></div>
 				<div class="panel-body">
 					<ul class="list-group">
-						<div class="lista">
-						@foreach($administrativo->annexedFiles()->get() as $file)
-
-							<li id="file-{{$file->id}}" class="list-group-item list-group-item-info">
-
-								<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
-									{{$file->title}}
-								</a>
-
-								<i class="fa fa-times pull-right"
-								   onclick="deleteFile(
-										   '{{$file->originalName}}',
-										   '{{$administrativo->id}}',
-										   '{{$file->id}}',
-										   '/procedimiento/administrativo/archivo/')"></i>
-							</li>
-						@endforeach
-
 						<div class="lista-anexos">
 							@foreach($administrativo->annexedFiles()->get() as $file)
 
@@ -127,7 +109,6 @@
 								</li>
 							@endforeach
 						</div>
-							</div>
 					</ul>
 				</div>
 			</div>
@@ -142,11 +123,13 @@
 		var listaFlujogramas= [];
 		var listaAnexos= [];
 		var url;
-		var procedureId = {{$administrativo->id}};
+		var procedureId = '{{$administrativo->id}}';
 		var radioValue;
 		Dropzone.options.uploadFile= {
+			maxFilesize: 20, // MB
+			acceptedFiles: ".pdf,.docx",
 			init: function(){
-				this.on("addedfile", function(file,e) {
+				this.on("addedfile", function() {
 					radioValue =  $("input[name='type']:checked"). val();
 					if(radioValue === undefined){
 						swal("Error",'Debe Seleccionar un tipo de archivo',"error");
@@ -177,15 +160,15 @@
 							listaArchivos=[];
 							listaArchivos.push('<div class="lista-formatos">')
 							$.each(data, function(i, item){
-								listaArchivos.push('<li id="file-'+item.id+'" class="list-group-item list-group-item-info">'+
+								listaArchivos.push('<li id="file-formato-'+item.id+'" class="list-group-item list-group-item-info">'+
 										'<a href="/procedimiento/administrativos/'+item.originalName+'.'+item.extension+'">'+
 										item.title+'</a>'+
 										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
 										item.originalName+'\',\'{{$administrativo->id}}\',\''+item.id+'\''+
-										',\'/procedimiento/administrativo/archivos/formato/\')"></i></li>')
+										',\'formato\',\'/procedimiento/administrativo/archivos/formato/\')"></i></li>')
 							});
 							listaArchivos.push('</div>')
-							console.log(listaArchivos.join(''));
+
 							$('div.lista-formatos').replaceWith(listaArchivos.join(''));
 						}
 						if(radioValue==2){
@@ -193,41 +176,47 @@
 							listaFlujogramas.pop();
 							listaFlujogramas.push('<div class="lista-flujogramas">')
 							$.each(data, function(i, item){
-								listaFlujogramas.push('<li id="file-'+item.id+'" class="list-group-item list-group-item-info">'+
+								listaFlujogramas.push('' +
+										'<li id="file-flujograma-'+item.id+'" class="list-group-item list-group-item-info">'+
 										'<a href="/procedimiento/administrativos/'+item.originalName+'.'+item.extension+'">'+
 										item.title+'</a>'+
 										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
 										item.originalName+'\',\'{{$administrativo->id}}\',\''+item.id+'\''+
-										',\'/procedimiento/administrativo/archivos/flujograma/\')"></i></li>')
+										',\'flujograma\',\'/procedimiento/administrativo/archivos/flujograma/\')"></i></li>')
 							});
 							listaFlujogramas.push('</div>')
-							console.log(listaFlujogramas.join(''));
+
 							$('div.lista-flujogramas').replaceWith(listaFlujogramas.join(''));
 						}
 						if(radioValue==3){
 							listaAnexos=[];
 							listaAnexos.push('<div class="lista-anexos">')
 							$.each(data, function(i, item){
-								listaAnexos.push('<li id="file-'+item.id+'" class="list-group-item list-group-item-info">'+
-										'<a href="/procedimiento/administrativos/'+item.originalName+'.'+item.extension+'">'+
-										item.title+'</a>'+
-										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
-										item.originalName+'\',\'{{$administrativo->id}}\',\''+item.id+'\''+
-										',\'/procedimiento/administrativo/archivos/anexo/\')"></i></li>')
+								listaAnexos.push(
+									'<li id="file-anexo-'+item.id+'" ' +
+										'class="list-group-item list-group-item-info">'+
+									'<a href="/procedimiento/administrativos/' +item.originalName+ '.' +item.extension+ '">'
+										+item.title+
+									'</a>'+
+										'<i class="fa fa-times pull-right" ' +
+											'onclick="deleteFile(\'' +item.originalName+ '\',\'{{$administrativo->id}}\',\'' +item.id+ '\''+
+										',\'anexo\',\'/procedimiento/administrativo/archivos/anexo/\')">' +
+										'</i>' +
+									'</li>')
 							});
 							listaAnexos.push('</div>')
-							console.log(listaAnexos.join(''));
+
 							$('div.lista-anexos').replaceWith(listaAnexos.join(''));
 						}
 					})
 					.error(function(data){
+						console.log(data);
 						swal("Error",data.responseText,"error");
 					});
 					var self = this;
 					setTimeout(function(){
 						self.removeFile(file);
 					},3500);
-
 				});
 			}
 		}
@@ -238,7 +227,7 @@
 	<script>
 		function deleteFile(nameFile,idProcedure,idAnnexedFile,tipo, url){
 			var csrf = $("meta[name='csrf_token']").attr('content');
-			console.log(csrf);
+
 			swal({
 						title: "¿Esta seguro de eliminar "+nameFile+"?",
 						text: "Esta accion no puede ser revertida",

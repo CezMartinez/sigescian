@@ -24,6 +24,9 @@ class AnnexedFilesController extends Controller
      */
     public function uploadFile(Request $request,AdministrativeProcedure $procedure)
     {
+        $this->validate($request,
+            ['file'   => 'mimes:doc,pdf,docx']
+            );
         $type = $request->input('type');
         $file = $request->file('file');
         $extension = $file->getClientOriginalExtension();
@@ -61,7 +64,7 @@ class AnnexedFilesController extends Controller
             ]);
             if($request->ajax()){
                if($procedure->flowChartFile()->get()->count()){
-                   return response('Este procedimiento ya tiene flujogramas asociados. Si quiere agregar otro elimine el existente.',500);
+                   return response('Este procedimiento ya tiene un flujograma asociados. Si quiere agregar otro elimine el existente.',500);
                };
             }
             $procedure->flowChartFile()->dissociate();
