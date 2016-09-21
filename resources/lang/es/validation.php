@@ -104,6 +104,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'acronym' => 'acronimo de procedimiento',
+    ],
 
 ];

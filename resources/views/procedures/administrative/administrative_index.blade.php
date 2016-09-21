@@ -12,6 +12,8 @@
 			<th>Codigo</th>
 			<th>Titulo</th>
 			<th>Estado</th>
+			<th>Descripción</th>
+			<th>Politicas</th>
 			<th>Acciones</th>
 			</thead>
 			<tbody>
@@ -27,8 +29,14 @@
 						{{$admin->status}}
 					</td>
 					<td>
+						{{$admin->description}}
+					</td>
+					<td>
+						{{$admin->politic}}
+					</td>
+					<td>
 						<div class="acciones" >
-							<a href="/procedimientos/administrativos/{{$admin->code}}/edit" data-toggle="tooltip" data-placement="top" title="Hooray!" class="btn btn-sm btn-primary">Editar</a>
+							<a href="/procedimientos/administrativos/{{$admin->code}}/edit" class="fa fa-lg fa-pencil" data-toggle="tooltip" title="Editar!"></a>
 							</div>
 					</td>
 				</tr>
