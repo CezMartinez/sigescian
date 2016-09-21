@@ -82,12 +82,8 @@ class Role extends Model
         return $role;
     }
 
-    public function updateRoleData($data)
+    public function updateRolePermissions($permissionSelected)
     {
-        $this->update($data);
-        
-        $permissionSelected = $data['permission'];
-        
         if(! $this->hasSelectedPermissions($permissionSelected)){
 
             $this->updatePermission($permissionSelected);

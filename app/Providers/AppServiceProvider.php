@@ -18,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
             $view->with('user', Auth::user());
             $view->with('signedIn',Auth::check());
         });
+        view()->composer('global.nav', function($view){
+            $view->with('user', Auth::user());
+            $view->with('signedIn',Auth::check());
+        });
     }
 
     /**

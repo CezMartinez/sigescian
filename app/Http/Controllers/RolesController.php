@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests;
 use App\Model\Permission;
 use App\Model\Role;
 use Illuminate\Http\Request;
 use Validator;
-
-use App\Http\Requests;
 
 class RolesController extends Controller
 {
@@ -106,8 +105,8 @@ class RolesController extends Controller
     {
         if($role->slug != 'administrador'){
             $this->validator($request->all(),1)->validate();
-
-            $role->updateRoleData($request->all());
+            $role->update($request->all());
+            $role->updateRolePermissions($request->input('permission'));
         }else{
             flash('El rol administrador no se puede modificar','warning');
         }
