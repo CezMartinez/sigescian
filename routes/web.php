@@ -106,3 +106,7 @@ Route::get('archivos/procedimientos/administrativos/flujograma/{procedure}','Ann
 Route::get('archivos/procedimientos/administrativos/formatos/{procedure}','AnnexedFilesController@getAllFormatsFiles');
 
 Route::get('archivos/procedimientos/administrativos/{procedure}','AnnexedFilesController@getAllAnnexedFiles');
+
+/*no tocar CARAJO*/
+Route::get('/prueba', function () {
+    return view('prueba');});

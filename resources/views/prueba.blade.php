@@ -21,7 +21,6 @@
 
         </div>
 
-
         <button type="submit" class="btn btn-default">Enviar</button>
     </form>
 @endsection('content')
@@ -31,17 +30,32 @@
         var stepn=0;
         function agregar() {
             stepn+=1;
-            $('#pasos').append('<div class="eln">'+
+            $('#pasos').append('<div id="step'+stepn+'" class="eln">'+
                     '<label>Paso'+' '+stepn+
                             '<div class="input-group">'+
-                    '</label>'+' <input placeholder="ola ke ase" name="step[]" class="form-control"/>'+
-                    '<span class="input-group-btn"><button class="btn btn-danger" onclick="eliminar()"><span class="glyphicon glyphicon-remove"></span></button>Eliminar</span>'+'</div></div>' +
-            '<hr>');
+                    '</label>'+' <input placeholder="Tirate un paso WA-CHI-TU-RROS" name="paso'+stepn+'" class="form-control"/>'+
+                    '<span class="input-group-btn"><button class="btn btn-danger" onclick="eliminar('+stepn+')"><span class="glyphicon glyphicon-remove"></span></button>Eliminar</span>'+
+                    '</div><hr></div>'
+            );
         }
 
-        function eliminar() {
-            $(this).closest('div.eln').fadeOut();
-        }
+        function eliminar(n) {
+            $('#step'+n).remove().fadeOut();
+            ordenar();
 
+        }
+        
+        function ordenar() {
+            var i=0;
+            var elements=[];
+                    $('.eln').each(function (){
+
+                        i+=1;
+                        $('div#step>label').attr("value","paso "+i);
+                        $('div#step'+stepn).attr("id","step"+i);
+
+                })
+
+        }
     </script>
 @endsection('scripts')
