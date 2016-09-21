@@ -40,7 +40,7 @@ class RolesController extends Controller
     public function create()
     {
         $permissionList = Permission::pluck('name','id');
-
+        
         return view('administration.roles.roles_create',compact('permissionList'));
     }
 
@@ -107,14 +107,7 @@ class RolesController extends Controller
         if($role->slug != 'administrador'){
             $this->validator($request->all(),1)->validate();
 
-            $role->update($request->all());
-
-            if($request->input('permission') != null){
-                $role->permissions()->sync($request->input('permission'));
-            }else{
-                $permissionIds = Permission::pluck('id','id')->toArray();
-                $role->permissions()->detach($permissionIds);
-            }
+            $role->updateRoleData($request->all());
         }else{
             flash('El rol administrador no se puede modificar','warning');
         }

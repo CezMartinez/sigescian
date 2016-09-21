@@ -2,7 +2,7 @@
     
 @section('content')
 
-    <a href="/administracion/usuarios/create" class="btn btn-primary">
+    <a href="/administracion/usuarios/create" class="btn btn-lg btn-primary">
         Agregar un nuevo usuario
     </a>
 
@@ -40,13 +40,29 @@
                             @endif
                         </td>
                         <td>
-                            <div class="acciones" >
-                                <a href="/administracion/usuarios/{{$user->id}}/edit" class="btn btn-sm btn-primary">Editar</a>
+                            <ul class="list-inline" >
+                                @can('editar-usuarios')
+                                <li>
+                                    <a href="/administracion/usuarios/{{$user->id}}/edit"
+                                       class="fa fa-lg fa-pencil"
+                                       data-toggle="tooltip"
+                                       title="Editar!">
+                                    </a>
+                                </li>
+                                @endcan
                                 @if(!$user->hasRole('administrador-del-sistema'))
-                                    | <a class="btn btn-sm btn-danger"
-                                       onclick="deleteConfirm('{{$user->full_name}}','{{$user->id}}','/administracion/usuarios/')">Eliminar</a>
+                                    @can('eliminar-usuarios')
+                                    |
+                                    <li>
+                                        <a onclick="deleteConfirm('{{$user->full_name}}','{{$user->id}}','/administracion/usuarios/')"
+                                           class="fa fa-lg fa-times"
+                                           data-toggle="tooltip"
+                                           title="Eliminar!">
+                                        </a>
+                                    </li>
+                                    @endcan
                                 @endif
-                            </div>
+                            </ul>
                         </td>
                     </tr>
                 @endforeach
@@ -59,4 +75,13 @@
         <p>No hay usuarios registrados</p>
     @endif
     
+@endsection
+
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 @endsection

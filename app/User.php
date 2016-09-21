@@ -101,6 +101,15 @@ class User extends Authenticatable
         ]);
     }
 
+    public function haveRole($role)
+    {
+        if(is_string($role)){
+            return $this->roles->contains('slug',$role);
+        }
+
+        return !! $role->intersect($this->roles)->count();
+    }
+
     public function hasRoles()
     {
         return ($this->roles()->get()->count() > 0) ? true : false;

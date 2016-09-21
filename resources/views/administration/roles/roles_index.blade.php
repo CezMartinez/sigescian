@@ -38,11 +38,28 @@
                         </td>
                         <td>
                             @if($role->slug != 'administrador-del-sistema')
-                                <div class="acciones">
-                                    <a href="/administracion/roles/{{$role->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
-                                    <a class="btn btn-sm btn-danger"
-                                       onclick="deleteConfirm('{{$role->name}}','{{$role->id}}','/administracion/roles/')">Eliminar</a>
-                                </div>
+                                <ul class="list-inline">
+                                    @can('editar-roles')
+                                       <li>
+                                           <a
+                                                   href="/administracion/roles/{{$role->slug}}/edit"
+                                                   class="fa fa-lg fa-pencil"
+                                                   data-toggle="tooltip"
+                                                   title="Editar!">
+                                           </a>
+                                       </li>
+                                    @endcan
+                                    @can('eliminar-roles')
+                                    |
+                                        <li>
+                                            <a class="fa fa-lg fa-times"
+                                               onclick="deleteConfirm('{{$role->name}}','{{$role->id}}','/administracion/roles/')"
+                                               data-toggle="tooltip"
+                                               title="Eliminar!">
+                                            </a>
+                                        </li>
+                                    @endcan
+                                </ul>
                             @endif
                         </td>
                     </tr>
@@ -55,4 +72,12 @@
     @else
         <p>No hay roles agregados</p>
     @endif
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 @endsection
