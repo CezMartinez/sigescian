@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\AdministrativeProcedure;
+use App\Model\Section;
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Requests;
@@ -39,13 +40,11 @@ class AdministrativeController extends Controller
      */
     public function store(Request $request)
     {
-        //TODO: falta debuguear el store del metodo guardar
-
         $this->validateCreateProcedure($request->all())->validate();
 
         if (AdministrativeProcedure::exists($request->input('acronym'))) {
 
-            flash('El procedimiento '.$request->input('name').' ya existe', 'danger');
+            flash('El procedimiento '.$request->input('acronym').'ya existe', 'danger');
 
             return back()->withInput();
         }
@@ -90,25 +89,33 @@ class AdministrativeController extends Controller
      */
     public function update(Request $request,AdministrativeProcedure $administrativo)
     {
-        //TODO: falta debuguear el store del metodo actualizar
-        /*$procedure = AdministrativeProcedure::where('code',$procedure)->first();*/
-        $administrativo->name=$request->input('name');
+        $administrativo = $administrativo->fill($request->all());
+
+        $newAcronym = $request->input('acronym');
+
         if (!$request->has('state')) {
+
             $administrativo->state='0';
         }
         else{
+
             $administrativo->state='1';
         }
 
-        $this->validateUpdateProcedure($request->all())->validate();
+        $this->validateUpdateProcedure($request->all(),$administrativo)->validate();
 
 
         if ($administrativo->exists($request->input('name'))) {
+
             flash('El procedimiento '.$request->input('name').' ya existe', 'danger');
 
             return back()->withInput();
         }
+
         flash('Procedimiento Actualizado', 'success');
+
+        $administrativo->code = $administrativo->updateCodeWithAcronym($newAcronym,$administrativo);
+
         $administrativo->save();
 
 
@@ -134,9 +141,10 @@ class AdministrativeController extends Controller
         ]);
     }
 
-    private function validateUpdateProcedure($data){
+    private function validateUpdateProcedure($data,$procedure){
         return Validator::make($data,[
             'name' => 'required',
+            'acronym' => 'unique:administrative_procedures,acronym,'.$procedure->id,
         ]);
     }
 }
