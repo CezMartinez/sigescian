@@ -9,7 +9,7 @@
             <li id="menu-comunicacao" ><a href="#"><i class="fa fa-list nav_icon"></i><span>Procedimientos</span><span class="fa fa-angle-right" style="float: right"></span></a>
                 <ul id="menu-comunicacao-sub" >
                     <li id="menu-mensagens" style="width:130px" ><a href="/procedimientos/administrativos">Administrativos</a></li>
-                    <li id="menu-arquivos" ><a href="#">Tecnicos</a></li>
+                    <li id="menu-mensagens" style="width:130px"><a href="/procedimientos/tecnicos">Tecnicos</a></li>
                 </ul>
             </li>
 
@@ -24,7 +24,7 @@
             <li><a href="/clientes"><i class="fa fa-users"></i><span>Clientes</span></a></li>
             @endcan
             <li><a href="#"><i class="fa fa-inbox"></i><span>Solicitudes</span></a></li>
-            @if($user->canSee('catalogos'))
+            @if($user->canSeeCatalog())
             <li><a href="#"><i class="fa fa-files-o"></i><span>Catalogos</span><span class="fa fa-angle-right" style="float: right"></span></a>
                 <ul>
                     @can('ver-departamentos')
@@ -42,7 +42,7 @@
                 </ul>
             </li>
             @endif
-            @if($user->canSee('administrar'))
+            @if($user->canSeeAdmin())
             <li id="menu-comunicacao" ><a href="#"><i class="fa fa-user nav_icon"></i><span>Administracion</span><span class="fa fa-angle-right" style="float: right"></span></a>
                 <ul id="menu-comunicacao-sub" >
                     @can('ver-usuarios')

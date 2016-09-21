@@ -147,19 +147,24 @@ class User extends Authenticatable
         return $users;
     }
 
-    public function canSee($param){
+    public function canSeeCatalog(){
         foreach ($this->roles()->getParent()->getRelations() as $u){
             foreach ($u->pluck('slug') as $r){
                 $permission=Role::permissionList($r);
-                if($param=='catalogos'){
-                    if($permission->contains('ver-materiales')||$permission->contains('ver-equipos')||$permission->contains('ver-departamentos')||$permission->contains('ver-laboratorios')){
-                        return true;
-                    }
+                if($permission->contains('ver-materiales')||$permission->contains('ver-equipos')||$permission->contains('ver-departamentos')||$permission->contains('ver-laboratorios')){
+                    return true;
                 }
-                if($param='administrar'){
-                    if($permission->contains('ver-usuarios')||$permission->contains('ver-roles')){
-                        return true;
-                    }
+            }
+        }
+        return false;
+    }
+
+    public function canSeeAdmin(){
+        foreach ($this->roles()->getParent()->getRelations() as $u){
+            foreach ($u->pluck('slug') as $r){
+                $permission=Role::permissionList($r);
+                if($permission->contains('ver-usuarios')||$permission->contains('ver-roles')){
+                    return true;
                 }
             }
         }
