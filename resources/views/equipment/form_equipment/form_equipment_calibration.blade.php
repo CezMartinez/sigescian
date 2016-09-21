@@ -19,16 +19,12 @@
             </span>
         @endif
     </div>
-    <div class="form-group {{$errors->has('user_id') ? 'has-error': ''}} ">
-        <label for="user_id">Calibrado por:</label>
-        @if($equipments->user_id==null)
-            {{Form::select('user_id',$users,null,['class'=>'form-control'])}}
-        @else
-            {{Form::select('user_id',$users,$equipments->user_id,['class'=>'form-control'])}}
-        @endif
-        @if ($errors->has('user_id'))
+    <div class="form-group {{$errors->has('calibrate_company') ? 'has-error': ''}} ">
+        <label for="calibrate_company">Calibrado por:</label>
+        <input type="text" name="calibrate_company" class="form-control" value="{{old('calibrate_company',$equipments->calibrate_company)}}" required autofocus>
+        @if ($errors->has('calibrate_company'))
             <span class="help-block">
-                <strong>{{ $errors->first('user_id') }}</strong>
+                <strong>{{ $errors->first('calibrate_company') }}</strong>
             </span>
         @endif
     </div>

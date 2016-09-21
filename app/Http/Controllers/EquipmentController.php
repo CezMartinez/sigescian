@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Model\Equipment;
-use App\User;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -86,7 +85,6 @@ class EquipmentController extends Controller
             }else{
                 $request['need_calibration']=1;
             }
-            $equipo-
             flash('Equipo ' . $request->input('name') . ' editado correctamente', 'success');
             $equipo->update($request->all());
         }
@@ -95,16 +93,12 @@ class EquipmentController extends Controller
 
     public function calibrar($slug){
         $equipments = Equipment::where('slug',$slug)->first();
-        $users = User::getTecnicos()->pluck('full_name','id');
-        return view('equipment.equipment_calibration',compact('equipments','users'));
+        return view('equipment.equipment_calibration',compact('equipments'));
     }
 
     public function calibrate(Request $request, $id){
         $equipo=Equipment::findOrFail($id);
         $this->validatorCalibrate($request->all(), $equipo->fill($request->all())->getOriginal('date_calibration'))->validate();
-        $user=User::findOrFail($request->input('user_id'));
-        $equipo->user()->dissociate();
-        $equipo->fill($request->all())->user()->associate($user);
         flash('Equipo ' . $equipo->fill($request->all())->name . ' editado correctamente', 'success');
         $equipo->fill($request->all())->update($request->all());
         return redirect('/equipos');
