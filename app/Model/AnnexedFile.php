@@ -23,5 +23,6 @@ class AnnexedFile extends Model
         'title',
         'size',
         'mime',
-        'extension'];
+        'extension'
+    ];
 }

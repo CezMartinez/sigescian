@@ -19,6 +19,8 @@ class CreateAdministrativeProceduresTable extends Migration
             $table->string('name');
             $table->string('acronym');
             $table->boolean('state')->default(true);
+            $table->integer('flow_chart_file_id')->nullable()->unsigned();
+            $table->foreign('flow_chart_file_id')->references('id')->on('flow_chart_files')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +32,10 @@ class CreateAdministrativeProceduresTable extends Migration
      */
     public function down()
     {
+        Schema::table('administrative_procedures', function (Blueprint $table) {
+            $table->dropForeign('administrative_procedures_flow_chart_file_id_foreign');
+
+        });
         Schema::dropIfExists('administrative_procedures');
     }
 }

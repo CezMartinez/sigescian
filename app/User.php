@@ -3,8 +3,9 @@
 namespace App;
 
 use App\Model\Role;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -35,7 +36,7 @@ class User extends Authenticatable
      */
     public function roles()
     {
-        return $this->belongsToMany(Model\Role::class);
+        return $this->belongsToMany(Role::class);
     }
     
     protected function setFirstNameAttribute($firstName){
@@ -45,7 +46,7 @@ class User extends Authenticatable
     protected function setLastNameAttribute($lastName){
         $this->attributes['last_name'] = ucwords($lastName);
 
-        $this->attributes['full_name'] =  $this->attributes['first_name'] . ' ' .$this->attributes['last_name'];
+        $this->attributes['full_name'] =  "{$this->attributes['first_name']}  {$this->attributes['last_name']}";
 
     }
 
@@ -121,5 +122,19 @@ class User extends Authenticatable
     public function hasPermission($numPermissions)
     {
         return ($numPermissions > 0) ? true : false;
+    }
+
+    public function scopeGetTecnicos(){
+        $users= DB::table('role_user')
+            ->join('roles', function ($join) {
+                $join->on('roles.id', '=', 'role_user.role_id');
+            })
+            ->join('users', function ($joi) {
+                $joi->on('users.id', '=', 'role_user.user_id');
+            })
+            ->select('users.id','users.full_name')
+            ->where('roles.name','Tecnico')
+            ->get();
+        return $users;
     }
 }
