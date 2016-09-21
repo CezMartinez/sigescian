@@ -2,11 +2,12 @@
 
 @section('content')
 
-    <div>
-        <a href="/administracion/roles/create" class="btn btn-primary">Agregar nuevo rol</a>
-    </div>
-
-    <hr>
+    @can('crear-roles')
+        <div>
+            <a href="/administracion/roles/create" class="btn btn-lg btn-primary">Agregar nuevo rol</a>
+        </div>
+        <hr>
+    @endcan
 
     @if($roles->count() > 0)
         <div class="table-responsive">
@@ -70,7 +71,7 @@
         </div>
         {{$roles->links()}}
     @else
-        <p>No hay roles agregados</p>
+        <h2>No hay roles registrados</h2>
     @endif
 @endsection
 

@@ -18,7 +18,6 @@ class CreateAdministrativeProceduresTable extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->string('acronym')->unique();
-            $table->text('description');
             $table->text('politic');
             $table->boolean('state')->default(true);
             $table->integer('flow_chart_file_id')->nullable()->unsigned();
@@ -36,7 +35,6 @@ class CreateAdministrativeProceduresTable extends Migration
     {
         Schema::table('administrative_procedures', function (Blueprint $table) {
             $table->dropForeign('administrative_procedures_flow_chart_file_id_foreign');
-
         });
         Schema::dropIfExists('administrative_procedures');
     }

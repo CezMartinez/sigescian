@@ -2,11 +2,12 @@
     
 @section('content')
 
-    <a href="/administracion/usuarios/create" class="btn btn-lg btn-primary">
-        Agregar un nuevo usuario
-    </a>
-
-    <hr>
+    @can('crear-usuarios')
+        <a href="/administracion/usuarios/create" class="btn btn-lg btn-primary">
+            Agregar un nuevo usuario
+        </a>
+        <hr>
+    @endcan
 
     @if($users->count() >= 0)
         <div class="table-responsive">
@@ -72,7 +73,7 @@
             {!! $users->links() !!}
         </div>
     @else
-        <p>No hay usuarios registrados</p>
+        <h2>No hay usuarios registrados.</h2>
     @endif
     
 @endsection

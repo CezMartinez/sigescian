@@ -11,7 +11,7 @@
         @endif
     </div>
 
-    <!-- description Form Input -->
+    <!-- acronym Form Input -->
     <div class="form-group {{$errors->has('acronym') ? 'has-error': ''}}">
         <label for="acronym" class="control-label">Acrónimo del Procedimiento:</label>
         <input type="text" name="acronym" class="form-control" value="{{old('acronym')}} " required>
@@ -22,24 +22,15 @@
         @endif
     </div>
 
+    {{-- politics --}}
     <div class="form-group {{$errors->has('politic') ? 'has-error': ''}}">
-    <label for="politic" class="control-label">Política:</label>
-    <input type="text" name="politic" class="form-control" value="{{old('politic')}} " required>
-    @if ($errors->has('politic'))
-        <span class="help-block">
-                    <strong>{{ $errors->first('politic') }}</strong>
-                </span>
-        @endif
-        </div>
-
-    <div class="form-group {{$errors->has('description') ? 'has-error': ''}}">
-        <label for="description" class="control-label">Descripción:</label>
-        <input type="text" name="description" class="form-control" value="{{old('description')}} " required>
-        @if ($errors->has('description'))
+        <label for="politic" class="control-label">Política:</label>
+        <textarea rows="5" name="politic" class="form-control" required>{{old('politic')}}</textarea>
+        @if ($errors->has('politic'))
             <span class="help-block">
-                    <strong>{{ $errors->first('description') }}</strong>
-                </span>
-        @endif
+                        <strong>{{ $errors->first('politic') }}</strong>
+                    </span>
+            @endif
     </div>
 
     <button class="btn btn-primary">Guardar Procedimiento</button>

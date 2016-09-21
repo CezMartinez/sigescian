@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AdministrativeProcedure extends Model
 {
-    protected $fillable = ['code','name','acronym','state','description','politic'];
+    protected $fillable = ['code','name','acronym','state','politic'];
 
     public $prefix = 'Procedimiento De Gestión ';
 
