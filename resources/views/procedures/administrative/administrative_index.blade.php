@@ -10,6 +10,7 @@
 
 			<table class="table table-bordered">
 				<thead>
+				<th>Id</th>
 				<th>Codigo</th>
 				<th>Titulo</th>
 				<th>Politicas</th>
@@ -20,7 +21,10 @@
 				@foreach($admins as $admin)
 					<tr id="row-{{$admin->id}}" class="{{($admin->state) ? '':'info'}}">
 						<td>
-							{{$admin->code}}
+							{{$admin->id}}
+						</td>
+						<td>
+							<a href="/procedimientos/administrativos/{{$admin->id}}">{{$admin->code}}</a>
 						</td>
 						<td>
 							{{$admin->name}}

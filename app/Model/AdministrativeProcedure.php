@@ -42,8 +42,9 @@ class AdministrativeProcedure extends Model
         $administrativeProcedure = new static;
         $administrativeProcedure->fill($data);
         $administrativeProcedure->code = $administrativeProcedure->generateCodeAtCreate();
+        $administrativeProcedure->save();
 
-        return $administrativeProcedure->save();
+        return $administrativeProcedure;
     }
 
     public static function exists($name)

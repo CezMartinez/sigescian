@@ -137,7 +137,7 @@ class AdministrativeController extends Controller
     {
         return Validator::make($data,[
             'name' =>'required',
-            'acronym' => 'required',
+            'acronym' => 'required|unique:administrative_procedures',
         ]);
     }
 
