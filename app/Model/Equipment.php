@@ -2,20 +2,15 @@
 
 namespace App\Model;
 
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Equipment extends Model
 {
-    protected $fillable=['name','brand','model','need_calibration','slug','days_of_calibration','user_id','date_calibration','date_end_calibration'];
+    protected $fillable=['stock_number','name','brand','model','need_calibration','slug','days_of_calibration','calibration_company','date_calibration','date_end_calibration'];
 
     protected $dates =['date_calibration','date_end_calibration'];
 
-
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
 
     public function setDaysOfCalibrationAttribute($days){
         $this->attributes['date_end_calibration']= Carbon::parse($this->attributes['date_calibration'])->addDays($days)->toDateTimeString();
@@ -29,7 +24,9 @@ class Equipment extends Model
 
     public static function fetchAll()
     {
-        return Equipment::with('user')->paginate(5);
+        $equipment = new static;
+
+        return $equipment->paginate(5);
     }
 
     public static function createEquipment($request)

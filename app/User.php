@@ -101,6 +101,15 @@ class User extends Authenticatable
         ]);
     }
 
+    public function haveRole($role)
+    {
+        if(is_string($role)){
+            return $this->roles->contains('slug',$role);
+        }
+
+        return !! $role->intersect($this->roles)->count();
+    }
+
     public function hasRoles()
     {
         return ($this->roles()->get()->count() > 0) ? true : false;
@@ -137,4 +146,30 @@ class User extends Authenticatable
             ->get();
         return $users;
     }
+
+    public function canSeeCatalog(){
+        foreach ($this->roles()->getParent()->getRelations() as $u){
+            foreach ($u->pluck('slug') as $r){
+                $permission=Role::permissionList($r);
+                if($permission->contains('ver-materiales')||$permission->contains('ver-equipos')||$permission->contains('ver-departamentos')||$permission->contains('ver-laboratorios')){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public function canSeeAdmin(){
+        foreach ($this->roles()->getParent()->getRelations() as $u){
+            foreach ($u->pluck('slug') as $r){
+                $permission=Role::permissionList($r);
+                if($permission->contains('ver-usuarios')||$permission->contains('ver-roles')){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 }

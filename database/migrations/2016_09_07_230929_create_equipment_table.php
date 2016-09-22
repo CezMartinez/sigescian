@@ -21,9 +21,8 @@ class CreateEquipmentTable extends Migration
             $table->string('slug');
             $table->integer('need_calibration');
             $table->integer('days_of_calibration')->nullable();
-            $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->timestamp('date_calibration')->nullable();//19/Sept/16
+            $table->string('calibrate_company')->nullable();
+            $table->timestamp('date_calibration')->nullable();
             $table->timestamp('date_end_calibration')->nullable(); //
             $table->timestamps();
         });//

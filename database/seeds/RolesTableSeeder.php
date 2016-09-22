@@ -20,8 +20,8 @@ class RolesTableSeeder extends Seeder
         'slug' => 'jefe-de-departamento',
         ]);
         DB::table('roles')->insert([
-        'name' => 'Jefe de Calidad',
-        'slug' => 'jefe-de-calidad',
+        'name' => 'Jefe del Cian',
+        'slug' => 'jefe-del-cian',
         ]);
         DB::table('roles')->insert([
         'name' => 'Tecnico',

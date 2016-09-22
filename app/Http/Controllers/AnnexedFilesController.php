@@ -24,9 +24,6 @@ class AnnexedFilesController extends Controller
      */
     public function uploadFile(Request $request,AdministrativeProcedure $procedure)
     {
-        $this->validate($request,
-            ['file'   => 'mimes:doc,pdf,docx']
-            );
         $type = $request->input('type');
         $file = $request->file('file');
         $extension = $file->getClientOriginalExtension();

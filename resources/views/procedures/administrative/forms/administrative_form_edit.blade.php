@@ -1,15 +1,26 @@
-<form action="/procedimientos/administrativos/{{$procedure->code}}" method="POST">
+<form action="/procedimientos/administrativos/{{$procedure->id}}" method="POST">
 {{method_field('PUT')}}
 {{csrf_field()}}
 
 <!-- name Form Input -->
     <div class="form-group {{$errors->has('name') ? 'has-error': ''}} ">
         <label for="name" class="control-label">Nombre del Procedimiento:</label>
-        <input type="text" name="name" class="form-control" value="{{old('name',str_replace('Procedimiento Administrativo De','',$procedure->name))}}">
+        <input type="text" name="name" class="form-control" value="{{old('name',str_replace($procedure->prefix,'',$procedure->name))}}">
         @if ($errors->has('name'))
             <span class="help-block">
                 <strong>{{ $errors->first('name') }}</strong>
             </span>
+        @endif
+    </div>
+
+    <!-- acronym Form Input -->
+    <div class="form-group {{$errors->has('acronym') ? 'has-error': ''}}">
+        <label for="acronym" class="control-label">Acrónimo del Procedimiento:</label>
+        <input type="text" name="acronym" class="form-control" value="{{old('acronym',$procedure->acronym)}} " required>
+        @if ($errors->has('acronym'))
+            <span class="help-block">
+                    <strong>{{ $errors->first('acronym') }}</strong>
+                </span>
         @endif
     </div>
 

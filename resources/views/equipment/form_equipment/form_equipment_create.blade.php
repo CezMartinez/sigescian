@@ -1,5 +1,14 @@
 <form action="/equipos" method="post">
     {{csrf_field()}}
+    <div class="form-group {{$errors->has('stock_number') ? 'has-error': ''}} ">
+        <label for="stock_number">Numero de Inventario:</label>
+        <input type="text" name="stock_number" class="form-control" value="{{old('stock_number')}}" required autofocus>
+        @if ($errors->has('stock_number'))
+            <span class="help-block">
+                <strong>{{ $errors->first('stock_number') }}</strong>
+            </span>
+        @endif
+    </div>
     <div class="form-group {{$errors->has('name') ? 'has-error': ''}} ">
         <label for="name">Nombre:</label>
         <input type="text" name="name" class="form-control" value="{{old('name')}}" required autofocus>
