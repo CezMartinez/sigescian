@@ -27,6 +27,7 @@ elixir(function(mix) {
                 'font-awesome.css',
                 'sweetalert.css',
                 'style_cesar.css',
+                'select2.css',
                 'welcome.css'],'./public/css/template.css')
         .scripts([
             'template/jquery-2.1.1.min.js',
@@ -38,6 +39,7 @@ elixir(function(mix) {
             'template/menu-hide-toggle.js',
             'template/flash-message.js',
             'template/dropzone.js',
+            'template/select2.js',
             'template/bootstrap.js',],'./public/js/template.js');
 });
 

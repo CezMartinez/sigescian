@@ -6,11 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class AdministrativeProcedure extends Model
 {
-    protected $fillable = ['code','name','acronym','state'];
+    protected $fillable = ['code','name','acronym','state','politic'];
+
+    public $prefix = 'Procedimiento De Gestión ';
 
     public function annexedFiles()
     {
         return $this->belongsToMany(AnnexedFile::class,'administrative_procedure_annexed_files');
+    }
+    public function flowChartFile()
+    {
+        return $this->belongsTo(FlowChartFile::class);
+    }
+    public function formatFiles()
+    {
+        return $this->belongsToMany(FormatFile::class);
     }
 
     public static function fetchAll()
@@ -20,20 +30,21 @@ class AdministrativeProcedure extends Model
     }
 
     protected function setNameAttribute($name){
-        $this->attributes['name'] = ucwords('Procedimiento Administrativo de '.trim($name));
+        $this->attributes['name'] = ucwords($this->prefix.trim($name));
     }
 
     protected function setAcronymAttribute($acronym){
         $this->attributes['acronym'] = strtoupper(trim($acronym));
-
-        $this->generateCode();
     }
 
     public static function createAdministrative($data){
 
         $administrativeProcedure = new static;
+        $administrativeProcedure->fill($data);
+        $administrativeProcedure->code = $administrativeProcedure->generateCodeAtCreate();
+        $administrativeProcedure->save();
 
-        return $administrativeProcedure->create($data);
+        return $administrativeProcedure;
     }
 
     public static function exists($name)
@@ -43,31 +54,47 @@ class AdministrativeProcedure extends Model
         $administrativeProcedure = $administrativeProcedure->where('name',$name)->first();
 
         if($administrativeProcedure != null){
+
             return true;
+
         }
 
         return false;
     }
 
-    private function generateCode()
+    private function generateCodeAtCreate()
     {
-        //todo arreglar bug de codigo
-        $procedimiento = $this->first();
 
-        if(!$procedimiento){
-            $this->attributes['code'] = 'PG-'.$this->attributes['acronym'].'-CIAN1';
+        $ultimo = $this->latest();
 
-        }else{
-            $ultimo = $this->orderBy('created_at', 'desc')->first();
-            $this->attributes['code'] = 'PG-'.$this->attributes['acronym'].'-CIAN'.($ultimo->id+1);
-        }
+        return $this->attributes['code'] = 'PG-'.$this->attributes['acronym'].'-CIAN'.($ultimo->id+1);
     }
+
+    public function updateCodeWithAcronym($acronym,$procedure)
+    {
+
+        $originalCode = $procedure->code;
+
+        $originalAcronym = $procedure->getOriginal('acronym');
+
+        return (str_replace($originalAcronym,strtoupper(trim($acronym)),$originalCode));
+    }
+
+
 
     public function getStateAttribute(){
+
         return $this->attributes['state'] == 1 ? true : false;
+
     }
     public function getStatusAttribute(){
+
         return $this->attributes['state'] == 1 ? 'Activo' : 'Inactivo';
 
+    }
+
+    private function latest()
+    {
+        return $this->orderBy('created_at', 'desc')->first();
     }
 }

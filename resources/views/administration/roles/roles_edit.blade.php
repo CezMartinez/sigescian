@@ -11,3 +11,9 @@
     </div>
     
 @endsection
+
+@section('scripts')
+    <script>
+        $('#selectPermission').select2();
+    </script>
+@endsection

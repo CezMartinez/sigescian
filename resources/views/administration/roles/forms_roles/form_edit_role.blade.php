@@ -10,8 +10,8 @@
 
     <!-- permission Form Input -->
     <div class="form-group">
-        <label for="permission">Permisisos asignados:</label>
-        {!! Form::select('permission[]',$permissionList,$rolePermissionList,['class' => 'form-control','multiple']) !!}
+        <label for="permission">Permisos asignados:</label>
+        {!! Form::select('permission[]',$permissionList,$rolePermissionList,['id'=>'selectPermission','class' => 'form-control','multiple']) !!}
     </div>
 
      <button class="btn btn-primary">Editar</button>

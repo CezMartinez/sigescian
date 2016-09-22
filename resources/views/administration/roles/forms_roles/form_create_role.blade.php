@@ -10,7 +10,7 @@
     <!-- permission Form Input -->
     <div class="form-group">
         <label for="permission">Asignar Permisos:</label>
-        {!! Form::select('permission[]',$permissionList,null,['class' => 'form-control','multiple']) !!}
+        {!! Form::select('permission[]',$permissionList,null,['id'=>'selectPermission','class' => 'form-control','multiple']) !!}
     </div>
 
     <button class="btn btn-primary">Agregar Rol</button>

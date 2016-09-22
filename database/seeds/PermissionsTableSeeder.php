@@ -104,6 +104,10 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'Ver Equipos',
             'slug' => 'ver-equipos',
         ]);
+        DB::table('permissions')->insert([
+            'name' => 'Calibrar Equipos',
+            'slug' => 'calibrar-equipos',
+        ]);
 
         /**---------Departamentos--------**/
 

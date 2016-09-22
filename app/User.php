@@ -3,8 +3,9 @@
 namespace App;
 
 use App\Model\Role;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -35,7 +36,7 @@ class User extends Authenticatable
      */
     public function roles()
     {
-        return $this->belongsToMany(Model\Role::class);
+        return $this->belongsToMany(Role::class);
     }
     
     protected function setFirstNameAttribute($firstName){
@@ -45,7 +46,7 @@ class User extends Authenticatable
     protected function setLastNameAttribute($lastName){
         $this->attributes['last_name'] = ucwords($lastName);
 
-        $this->attributes['full_name'] =  $this->attributes['first_name'] . ' ' .$this->attributes['last_name'];
+        $this->attributes['full_name'] =  "{$this->attributes['first_name']}  {$this->attributes['last_name']}";
 
     }
 
@@ -100,6 +101,15 @@ class User extends Authenticatable
         ]);
     }
 
+    public function haveRole($role)
+    {
+        if(is_string($role)){
+            return $this->roles->contains('slug',$role);
+        }
+
+        return !! $role->intersect($this->roles)->count();
+    }
+
     public function hasRoles()
     {
         return ($this->roles()->get()->count() > 0) ? true : false;
@@ -122,4 +132,44 @@ class User extends Authenticatable
     {
         return ($numPermissions > 0) ? true : false;
     }
+
+    public function scopeGetTecnicos(){
+        $users= DB::table('role_user')
+            ->join('roles', function ($join) {
+                $join->on('roles.id', '=', 'role_user.role_id');
+            })
+            ->join('users', function ($joi) {
+                $joi->on('users.id', '=', 'role_user.user_id');
+            })
+            ->select('users.id','users.full_name')
+            ->where('roles.name','Tecnico')
+            ->get();
+        return $users;
+    }
+
+    public function canSeeCatalog(){
+        foreach ($this->roles()->getParent()->getRelations() as $u){
+            foreach ($u->pluck('slug') as $r){
+                $permission=Role::permissionList($r);
+                if($permission->contains('ver-materiales')||$permission->contains('ver-equipos')||$permission->contains('ver-departamentos')||$permission->contains('ver-laboratorios')){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public function canSeeAdmin(){
+        foreach ($this->roles()->getParent()->getRelations() as $u){
+            foreach ($u->pluck('slug') as $r){
+                $permission=Role::permissionList($r);
+                if($permission->contains('ver-usuarios')||$permission->contains('ver-roles')){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 }

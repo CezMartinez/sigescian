@@ -23,11 +23,22 @@ class Role extends Model
     /**
      * Save a single permission
      *
-     * @param $permissionIds
+     * @param $permissionSelectedIds
      */
-    public function givePermissionTo($permissionIds)
+    public function givePermissionTo($permissionSelectedIds)
     {
-        $this->permissions()->attach($permissionIds);
+        $permissions = Permission::findOrFail($permissionSelectedIds);
+
+        foreach ($permissions as $permission){
+            $slug = $permission->slug;
+            $slugPieces = explode("-", $slug);
+            if(str_contains($slugPieces[0],'crear') || str_contains($slugPieces[0],'editar') || str_contains($slugPieces[0],'eliminar')){
+                $seePermission = Permission::where('slug',"ver-{$slugPieces[1]}")->first();
+                $this->permissions()->attach($seePermission);
+            }
+        }
+
+        $this->permissions()->attach($permissionSelectedIds);
     }
 
     /**
@@ -69,6 +80,45 @@ class Role extends Model
         $role->save();
 
         return $role;
+    }
+
+    public function updateRolePermissions($permissionSelected)
+    {
+        if(! $this->hasSelectedPermissions($permissionSelected)){
+
+            $this->updatePermission($permissionSelected);
+
+        }else{
+
+            $permissionIds = Permission::permissionIds();
+
+            $this->removePermissions($permissionIds);
+        }
+    }
+
+    public function updatePermission($permissionSelectedIds)
+    {
+        $permissions = Permission::findOrFail($permissionSelectedIds);
+
+        foreach ($permissions as $permission){
+            $slug = $permission->slug;
+            $slugPieces = explode("-", $slug);
+            if(str_contains($slugPieces[0],'crear') || str_contains($slugPieces[0],'editar') || str_contains($slugPieces[0],'eliminar')){
+                $seePermission = Permission::where('slug',"ver-{$slugPieces[1]}")->first()->id;
+                array_push($permissionSelectedIds,"{$seePermission}");
+            }
+        }
+        $this->permissions()->sync($permissionSelectedIds);
+    }
+
+    private function removePermissions($permissionIds)
+    {
+        $this->permissions()->detach($permissionIds);
+    }
+
+    private function hasSelectedPermissions($permissionSelected)
+    {
+        return is_null($permissionSelected);
     }
 
 }

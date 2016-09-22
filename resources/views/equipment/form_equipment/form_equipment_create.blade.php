@@ -1,5 +1,14 @@
 <form action="/equipos" method="post">
     {{csrf_field()}}
+    <div class="form-group {{$errors->has('stock_number') ? 'has-error': ''}} ">
+        <label for="stock_number">Numero de Inventario:</label>
+        <input type="text" name="stock_number" class="form-control" value="{{old('stock_number')}}" required autofocus>
+        @if ($errors->has('stock_number'))
+            <span class="help-block">
+                <strong>{{ $errors->first('stock_number') }}</strong>
+            </span>
+        @endif
+    </div>
     <div class="form-group {{$errors->has('name') ? 'has-error': ''}} ">
         <label for="name">Nombre:</label>
         <input type="text" name="name" class="form-control" value="{{old('name')}}" required autofocus>
@@ -27,26 +36,13 @@
             </span>
         @endif
     </div>
-    <div class="row">
-        <div class="form-group col-md-6{{$errors->has('date_calibration') ? 'has-error': ''}} ">
-            <label for="date_calibration">Fecha Calibracion:</label>
-            <input type="date" name="date_calibration" class="form-control" value="{{old('date_calibration')}}" required autofocus>
-            @if ($errors->has('date_calibration'))
-                <span class="help-block">
-                <strong>{{ $errors->first('date_calibration') }}</strong>
+    <div class="form-group {{$errors->has('need_calibration') ? 'has-error': ''}} ">
+        <label for="need_calibration" class="checkbox-inline"><input type="checkbox" name="need_calibration" value="1">Necesita Calibración</label>
+        @if ($errors->has('need_calibration'))
+            <span class="help-block">
+                <strong>{{ $errors->first('need_calibration') }}</strong>
             </span>
-            @endif
-        </div>
-        <div class="form-group col-md-6{{$errors->has('date_end_calibration') ? 'has-error': ''}} ">
-            <label for="date_end_calibration">Fecha Finalizacion de Calibracion:</label>
-            <input type="date" name="date_end_calibration" class="form-control" value="{{old('date_end_calibration')}}" required autofocus>
-            @if ($errors->has('date_end_calibration'))
-                <span class="help-block">
-                <strong>{{ $errors->first('date_end_calibration') }}</strong>
-            </span>
-            @endif
-        </div>
+        @endif
     </div>
-
     <button class="btn btn-primary">Agregar Equipo</button>
 </form>

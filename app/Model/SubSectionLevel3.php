@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Standard extends Model
+class SubSectionLevel3 extends Model
 {
     //
 }

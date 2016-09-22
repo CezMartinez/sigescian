@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreatePlantsTable extends Migration
+class CreateEquipmentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,19 @@ class CreatePlantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('plants',function (Blueprint $table){
+        Schema::create('equipment',function (Blueprint $table){
             $table->increments('id');
             $table->string('name');
             $table->string('brand');
             $table->string('model');
             $table->string('slug');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('need_calibration');
+            $table->integer('days_of_calibration')->nullable();
+            $table->string('calibrate_company')->nullable();
             $table->timestamp('date_calibration')->nullable();
-            $table->timestamp('date_end_calibration')->nullable();
+            $table->timestamp('date_end_calibration')->nullable(); //
             $table->timestamps();
         });//
-        //
     }
 
     /**
@@ -35,6 +35,7 @@ class CreatePlantsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('plants');
+        Schema::dropIfExists('equipment');
     }
 }
+
