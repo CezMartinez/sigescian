@@ -37,6 +37,7 @@
 
 @section('scripts')
     <script>
+
         function myfun(){
             $.get('/select-dep/'+$('#department_id').val(),function(data){
 
