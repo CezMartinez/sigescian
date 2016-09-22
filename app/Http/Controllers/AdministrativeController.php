@@ -11,6 +11,14 @@ use App\Http\Requests;
 class AdministrativeController extends Controller
 {
     /**
+     * AdministrativeController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
