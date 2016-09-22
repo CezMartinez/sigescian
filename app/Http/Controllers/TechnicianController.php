@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Model\Department;
+use App\Model\TechnicianProcedure;
 use Illuminate\Http\Request;
 
 class TechnicianController extends Controller
@@ -14,7 +16,9 @@ class TechnicianController extends Controller
      */
     public function index()
     {
-        //
+        $techs = TechnicianProcedure::fetchAll();
+
+        return view('procedures.technician.technician_index',compact('techs'));
     }
 
     /**
@@ -24,7 +28,10 @@ class TechnicianController extends Controller
      */
     public function create()
     {
-        //
+        $departments = Department::pluck('name','id');
+        //dd($departments);
+        return view('procedures.technician.technician_create',compact('departments'));
+
     }
 
     /**

@@ -106,3 +106,12 @@ Route::get('archivos/procedimientos/administrativos/flujograma/{procedure}','Ann
 Route::get('archivos/procedimientos/administrativos/formatos/{procedure}','AnnexedFilesController@getAllFormatsFiles');
 
 Route::get('archivos/procedimientos/administrativos/{procedure}','AnnexedFilesController@getAllAnnexedFiles');
+
+/**---------------------------------------------- Procedimientos Tecnicos ------------------------------------------------**/
+
+Route::resource('procedimientos/tecnicos','TechnicianController');
+Route::get('select-dep/{id}', function ($id) {
+    $lab = App\Model\Laboratory::where('department_id',$id);//findOrFail($id);
+    dd($lab);//$department->laboratory();
+    return Response::json($lab);
+});
