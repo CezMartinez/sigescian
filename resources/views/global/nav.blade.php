@@ -23,7 +23,6 @@
 
             <li><a href="/clientes"><i class="fa fa-users"></i><span>Clientes</span></a></li>
             <li><a href="#"><i class="fa fa-inbox"></i><span>Solicitudes</span></a></li>
-            @if($user->canSeeCatalog())
             <li><a href="#"><i class="fa fa-files-o"></i><span>Catalogos</span><span class="fa fa-angle-right" style="float: right"></span></a>
                 <ul>
 
@@ -36,8 +35,6 @@
                     <li><a href="/materiales">Materiales</a></li>
                 </ul>
             </li>
-            @endif
-            @if($user->canSeeAdmin())
             <li id="menu-comunicacao" ><a href="#"><i class="fa fa-user nav_icon"></i><span>Administracion</span><span class="fa fa-angle-right" style="float: right"></span></a>
                 <ul id="menu-comunicacao-sub" >
 
@@ -46,7 +43,6 @@
                     <li id="menu-arquivos" ><a href="/administracion/roles">Roles</a></li>
                 </ul>
             </li>
-            @endif
 
 
         </ul>
