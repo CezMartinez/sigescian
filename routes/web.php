@@ -11,8 +11,6 @@
 |
 */
 
-use App\Model\Section;
-
 Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
@@ -111,4 +109,11 @@ Route::get('archivos/procedimientos/administrativos/{procedure}','AnnexedFilesCo
 
 Route::get('subsecciones/{seccion}',function(Section $seccion){
     return $seccion->subsections()->get()->pluck('section','id')->toArray();
+});
+/**---------------------------------------------- Procedimientos Tecnicos ------------------------------------------------**/
+
+Route::resource('procedimientos/tecnicos','TechnicianController');
+
+Route::get('prueba/pasos', function () {
+    return view('procedures.technician.steps_form');
 });
