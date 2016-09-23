@@ -111,3 +111,6 @@ Route::get('archivos/procedimientos/administrativos/{procedure}','AnnexedFilesCo
 
 Route::resource('procedimientos/tecnicos','TechnicianController');
 
+Route::get('prueba/pasos', function () {
+    return view('procedures.technician.steps_form');
+});
