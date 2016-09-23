@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubSectionLevel1sTable extends Migration
+class CreateSectionSubSectionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateSubSectionLevel1sTable extends Migration
      */
     public function up()
     {
-        Schema::create('sub_section_level1s', function (Blueprint $table) {
+        Schema::create('section_sub_section', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('section');
-            $table->string('route');
             $table->integer('section_id')->unsigned();
-            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->integer('sub_section_id')->unsigned();
         });
     }
 
@@ -29,6 +27,6 @@ class CreateSubSectionLevel1sTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sub_section_level1s');
+        Schema::dropIfExists('section_sub_section');
     }
 }

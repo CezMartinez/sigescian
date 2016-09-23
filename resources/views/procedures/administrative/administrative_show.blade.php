@@ -10,11 +10,21 @@
 				<div class="panel-body">
 					<p>Codigo: {{$administrativo->code}}</p>
 					<p>Estado: {{$administrativo->status}}</p>
+					<p>Seccion: {{$administrativo->section->section}}</p>
+					@if($subsections->count() > 0)
+					<p>Subsecciones: </p>
+						<ul>
+							@foreach($subsections as $subsection)
+									<li>{{$subsection->section}}</li>
+							@endforeach
+						</ul>
+					@endif
+
 				</div>
 			</div>
 			<hr>
 			<h2>Seleccione el tipo de archivo que desea subir al sistema:</h2>
-			<div class="">
+			<div>
 				<lable for="type">Formatos: </lable>
 				<input type="radio" name="type" value="1" class="type">
 				<lable for="type"> Flujogramas</lable>

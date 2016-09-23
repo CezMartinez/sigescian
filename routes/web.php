@@ -11,6 +11,8 @@
 |
 */
 
+use App\Model\Section;
+
 Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
@@ -106,3 +108,7 @@ Route::get('archivos/procedimientos/administrativos/flujograma/{procedure}','Ann
 Route::get('archivos/procedimientos/administrativos/formatos/{procedure}','AnnexedFilesController@getAllFormatsFiles');
 
 Route::get('archivos/procedimientos/administrativos/{procedure}','AnnexedFilesController@getAllAnnexedFiles');
+
+Route::get('subsecciones/{seccion}',function(Section $seccion){
+    return $seccion->subsections()->get()->pluck('section','id')->toArray();
+});

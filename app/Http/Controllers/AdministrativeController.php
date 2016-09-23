@@ -37,7 +37,8 @@ class AdministrativeController extends Controller
      */
     public function create()
     {
-        return view('procedures.administrative.administrative_create');
+        $sections = Section::pluck('section','id');
+        return view('procedures.administrative.administrative_create',compact('sections'));
     }
 
     /**
@@ -50,14 +51,13 @@ class AdministrativeController extends Controller
     {
         $this->validateCreateProcedure($request->all())->validate();
 
-        if (AdministrativeProcedure::exists($request->input('acronym'))) {
+        $section = Section::find($request->input('section'));
 
-            flash('El procedimiento '.$request->input('acronym').'ya existe', 'danger');
-
-            return back()->withInput();
+        $procedure = AdministrativeProcedure::createAdministrative($request->all(),$section);
+        
+        if($request->has('subsection')){
+            $procedure->subSections()->attach($request->input('subsection'));
         }
-
-        $procedure = AdministrativeProcedure::createAdministrative($request->all());
 
         flash('Procedimiento Guardado', 'success');
 
@@ -72,8 +72,9 @@ class AdministrativeController extends Controller
      */
     public function show(AdministrativeProcedure $administrativo)
     {
-        $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles'])->first();
-        return view('procedures.administrative.administrative_show',compact('administrativo'));
+        $subsections = $administrativo->subSections()->get();
+        $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles','section'])->first();
+        return view('procedures.administrative.administrative_show',compact('administrativo','subsections'));
     }
 
     /**

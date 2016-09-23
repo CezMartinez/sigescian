@@ -17,6 +17,7 @@ class AdministrativeProcedureTableSeeder extends Seeder
             'acronym'   =>'MC',
             'state'     => true,
             'politic'   =>'Descripcion',
+            'section_id'=> 1,
         ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class AdministrativeProcedure extends Model
 {
@@ -23,6 +24,15 @@ class AdministrativeProcedure extends Model
         return $this->belongsToMany(FormatFile::class);
     }
 
+    public function section(){
+        return $this->belongsTo(Section::class);
+    }
+
+    public function subSections()
+    {
+        return $this->belongsToMany(SubSection::class);
+    }
+
     public static function fetchAll()
     {
         $administrativeProcedure = new static;
@@ -37,11 +47,11 @@ class AdministrativeProcedure extends Model
         $this->attributes['acronym'] = strtoupper(trim($acronym));
     }
 
-    public static function createAdministrative($data){
-
+    public static function createAdministrative($data,$section){
         $administrativeProcedure = new static;
         $administrativeProcedure->fill($data);
         $administrativeProcedure->code = $administrativeProcedure->generateCodeAtCreate();
+        $administrativeProcedure->section()->associate($section);
         $administrativeProcedure->save();
 
         return $administrativeProcedure;
