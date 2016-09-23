@@ -3,7 +3,7 @@
 @section('content')
 
   <div class="panel panel-default">
-    <div class="panel-body"
+    <div class="panel-body">
     <h4>Lista de pasos</h4>
     <hr>
     <div class="row">

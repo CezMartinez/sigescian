@@ -115,5 +115,5 @@ Route::get('subsecciones/{seccion}',function(Section $seccion){
 Route::resource('procedimientos/tecnicos','TechnicianController');
 
 Route::get('prueba/pasos', function () {
-    return view('procedures.technician.steps_form');
+    return view('procedures.technician.technician_form_step');
 });
