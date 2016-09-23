@@ -27,11 +27,25 @@
                         <td>{{$laboratorio->description}}</td>
                         <td>{{$laboratorio->department->name}}</td>
                         <td>
-                            <div class="acciones">
-                                <a href="/laboratorios/{{$laboratorio->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
-                                    <a class="btn btn-sm btn-danger" onclick="deleteConfirm('{{$laboratorio->name}}','{{$laboratorio->id}}','/laboratorios/')">Eliminar</a>
+                            <ul class="list-inline">
+                                <li>
+                                    <a
+                                    href="/laboratorios/{{$laboratorio->slug}}/edit"
+                                    class="fa fa-lg fa-pencil"
+                                    data-toggle="tooltip"
+                                    title="Editar!">
+                                    </a>
+                                </li>
+                                |
+                                <li>
+                                    <a class="fa fa-lg fa-times"
+                                       onclick="deleteConfirm('{{$laboratorio->name}}','{{$laboratorio->id}}','/laboratorios/')"
+                                       data-toggle="tooltip"
+                                       title="Eliminar!">
+                                    </a>
+                                </li>
                                 </form>
-                            </div>
+                            </ul>
                         </td>
                     </tr>
                 @endforeach
@@ -47,3 +61,10 @@
 
 @endsection
 
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+@endsection

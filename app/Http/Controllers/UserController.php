@@ -150,7 +150,7 @@ class UserController extends Controller
 
         if($request->ajax()){
             if($wasDeleted){
-                return response("El Rol {$user->first_name} fue eliminado",200);
+                return response("El Usuario {$user->first_name} fue eliminado",200);
             }else{
                 return response("No fue eliminado.",404);
             }
