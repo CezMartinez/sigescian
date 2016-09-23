@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Model\Laboratory;
+use App\Model\Section;
+use App\Model\SubSection;
+use App\Model\TechnicianProcedure;
 use Illuminate\Http\Request;
 
 class TechnicianController extends Controller
@@ -14,7 +18,9 @@ class TechnicianController extends Controller
      */
     public function index()
     {
-        //
+        $techs = TechnicianProcedure::fetchAll();
+
+        return view('procedures.technician.technician_index',compact('techs'));
     }
 
     /**
@@ -24,7 +30,12 @@ class TechnicianController extends Controller
      */
     public function create()
     {
-        //
+        $laboratory = Laboratory::pluck('name','id');
+        $section = Section::pluck('section','id');
+        $section4=SubSection::where('section_id','4')->pluck('section','id');
+        $section5=SubSection::where('section_id','5')->pluck('section','id');
+        return view('procedures.technician.technician_create',compact('laboratory', 'section', 'section4','section5'));
+
     }
 
     /**
