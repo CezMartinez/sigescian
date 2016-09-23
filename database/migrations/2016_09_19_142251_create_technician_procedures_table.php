@@ -18,10 +18,13 @@ class CreateTechnicianProceduresTable extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->string('acronym')->unique();
-            $table->text('politic');
             $table->boolean('state')->default(true);
-            $table->integer('flow_chart_file_id')->nullable()->unsigned();
-            $table->foreign('flow_chart_file_id')->references('id')->on('flow_chart_files')->onDelete('cascade');
+            $table->integer('laboratory_id')->unsigned();
+            $table->foreign('laboratory_id')->references('id')->on('laboratories')->onDelete('cascade');
+            $table->integer('section_id')->unsigned();
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->integer('sub_section_id')->nullable()->unsigned();
+            $table->foreign('sub_section_id')->references('id')->on('sub_sections')->onDelete('cascade');
             $table->timestamps();
         });
     }

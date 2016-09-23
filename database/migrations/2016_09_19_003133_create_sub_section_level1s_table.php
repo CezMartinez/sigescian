@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSubSectionLevel1sTable extends Migration
 {
@@ -13,7 +13,7 @@ class CreateSubSectionLevel1sTable extends Migration
      */
     public function up()
     {
-        Schema::create('sub_section_level1s', function (Blueprint $table) {
+        Schema::create('sub_sections', function (Blueprint $table) {
             $table->increments('id');
             $table->string('section');
             $table->string('route');
@@ -29,6 +29,6 @@ class CreateSubSectionLevel1sTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sub_section_level1s');
+        Schema::dropIfExists('sub_sections');
     }
 }
