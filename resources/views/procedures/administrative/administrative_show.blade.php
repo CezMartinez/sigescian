@@ -32,6 +32,7 @@
 				<input type="radio" name="type" value="3" class="type">
 				<label for="type"> Anexos</label>
 			</div>
+
 			<form action="/procedimiento/administrativo/{{$administrativo->id}}/archivos-adjuntos" id="uploadFile" method="POST"
 				  class="dropzone"
 				  id="annexed-files">
