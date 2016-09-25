@@ -84,13 +84,12 @@
            function(){
              $.ajax({
                type: "POST",
-               url: "#",
+               url: "/pasos/procedimientos/tecnicos/"+procedureId,
                headers: {
                    'X-CSRF-Token': csrf,
                },
                data:{
-                 steps: pasos,
-                 id_proc: proc
+                 steps: pasos
                },
                success: function(data){
                  swal("Subido con exito", "Se han registrado los pasos", "success");

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Model\Laboratory;
 use App\Model\Section;
+use App\Model\Step;
 use App\Model\TechnicianProcedure;
 use Illuminate\Http\Request;
 use Validator;
@@ -145,6 +146,17 @@ class TechnicianController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function steps(Request $request, $procedure){
+        $tecnico = TechnicianProcedure::findOrFail($procedure);
+        foreach($request->input('steps') as $s){
+            $paso =Step::create([
+               'step'=>$s,
+            ]);
+            $tecnico->steps()->attach($paso);
+        }
+        return redirect("/procedimientos/tecnicos/{$procedure}");
     }
 
     private function validateCreateProcedure($data)

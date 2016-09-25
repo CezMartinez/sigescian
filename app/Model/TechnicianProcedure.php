@@ -23,6 +23,11 @@ class TechnicianProcedure extends Model
         return $this->belongsToMany(SubSection::class);
     }
 
+    public function steps()
+    {
+        return $this->belongsToMany(Step::class);
+    }
+
     public static function fetchAll()
     {
         $technicianProcedure = new static;
