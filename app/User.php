@@ -162,11 +162,12 @@ class User extends Authenticatable
         return false;
     }
 
+
     public function canSeeAdmin(){
         $roles = $this->roles()->get();
         foreach ($roles as $role) {
             $permission = $role->getPermissionsSlug($role->slug);
-            if ($permission->contains('ver-equipos') || $permission->contains('ver-roles'))
+            if ($permission->contains('ver-usuarios') || $permission->contains('ver-roles'))
             {
                 return true;
             }

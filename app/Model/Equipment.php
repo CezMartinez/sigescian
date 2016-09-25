@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Equipment extends Model
 {
-    protected $fillable=['stock_number','name','brand','model','need_calibration','slug','days_of_calibration','calibration_company','date_calibration','date_end_calibration'];
+    protected $fillable=['stock_number','name','brand','model','need_calibration','slug','days_of_calibration','calibration_company','date_calibration','date_end_calibration','laboratory_id'];
 
     protected $dates =['date_calibration','date_end_calibration'];
 
+
+    public function laboratory(){
+        return $this->belongsTo(Laboratory::class);
+    }
 
     public function setDaysOfCalibrationAttribute($days){
         $this->attributes['date_end_calibration']= Carbon::parse($this->attributes['date_calibration'])->addDays($days)->toDateTimeString();
@@ -29,11 +33,14 @@ class Equipment extends Model
         return $equipment->paginate(5);
     }
 
-    public static function createEquipment($request)
+    public static function createEquipment($request, Laboratory $lab)
     {
         $equipment = new static;
 
         $equipment->fill($request);
+
+        $equipment->laboratory()->associate($lab);
+
 
         $equipment->save();
 

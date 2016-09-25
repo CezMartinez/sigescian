@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Model\Equipment;
+use App\Model\Laboratory;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -30,12 +31,14 @@ class EquipmentController extends Controller
      */
     public function create()
     {
-        return view('equipment.equipment_create');
+        $lab = Laboratory::pluck('name','id');
+        return view('equipment.equipment_create', compact('lab'));
     }
 
     public function show($id){
         $equipo=Equipment::findOrFail($id);
-        return view('equipment.equipment_show',compact('equipo'));
+        $lab = Laboratory::findOrFail($equipo->laboratory_id)->name;
+        return view('equipment.equipment_show',compact('equipo','lab'));
     }
 
     public function store(Request $request)
@@ -51,15 +54,17 @@ class EquipmentController extends Controller
         }else{
             $request['need_calibration']=1;
         }
+        $laboratorio= Laboratory::findOrFail($request->input('laboratory_id'));
         flash('Equipo guardado', 'success');
-        $equipo=Equipment::createEquipment($request->all());
+        $equipo=Equipment::createEquipment($request->all(),$laboratorio);
         return redirect("/equipos/{$equipo->id}");
     }
 
     public function edit($slug)
     {
         $equipments = Equipment::where('slug',$slug)->first();
-        return view('equipment.equipment_edit',compact('equipments'));
+        $lab = Laboratory::pluck('name','id');
+        return view('equipment.equipment_edit',compact('equipments','lab'));
     }
 
     public function update(Request $request, Equipment $equipo)
@@ -74,20 +79,23 @@ class EquipmentController extends Controller
                 $request['need_calibration']=1;
             }
             $equipo->update($request->all());
-        } else {
-            if ($equipo->exists($request->input('name'))) {
-                flash('El equipo ' . $request->input('name') . ' ya existe', 'danger');
-
-                return back()->withInput();
-            }
-            if($request->input('need_calibration')==null){
-                $request['need_calibration']=0;
-            }else{
-                $request['need_calibration']=1;
-            }
-            flash('Equipo ' . $request->input('name') . ' editado correctamente', 'success');
-            $equipo->update($request->all());
         }
+        elseif ($equipo->exists($request->input('name'))) {
+            flash('El equipo ' . $request->input('name') . ' ya existe', 'danger');
+
+            return back()->withInput();
+        }
+        if($request->input('need_calibration')==null){
+            $request['need_calibration']=0;
+        }else{
+            $request['need_calibration']=1;
+        }
+        $laboratorio = Laboratory::findOrFail($request->input('laboratory_id'));
+
+        $equipo->fill($request->all())->laboratory()->dissociate();
+        $equipo->laboratory()->associate($laboratorio);
+        $equipo->save();
+        flash('Equipo ' . $request->input('name') . ' editado correctamente', 'success');
         return redirect('/equipos');
     }
 

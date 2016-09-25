@@ -7,6 +7,7 @@
                 <div class="panel-body">
                     <p>Modelo: {{$equipo->model}}</p>
                     <p>Marca: {{$equipo->brand}}</p>
+                    <p>Laboratorio: {{$lab}}</p>
                     @if($equipo->need_calibration==1)
                         @if($equipo->date_calibration!=null)
                             <p>Fecha de Calibracion: {{$equipo->date_calibration->diffForHumans()}}</p>
