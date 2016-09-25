@@ -37,6 +37,15 @@
             </span>
         @endif
     </div>
+    <div class="form-group {{$errors->has('laboratory_id') ? 'has-error': ''}} ">
+        <label for="laboratory_id">Laboratorio:</label>
+        {!! Form::select('laboratory_id',$lab,$equipments->laboratory_id,['class' => 'form-control']) !!}
+        @if ($errors->has('laboratory_id'))
+            <span class="help-block">
+                <strong>{{ $errors->first('laboratory_id') }}</strong>
+            </span>
+        @endif
+    </div>
     <div class="form-group {{$errors->has('need_calibration') ? 'has-error': ''}} ">
         @if($equipments->need_calibration==1)
             <label for="need_calibration" class="checkbox-inline"><input type="checkbox" name="need_calibration" value="1" checked>Necesita Calibración</label>

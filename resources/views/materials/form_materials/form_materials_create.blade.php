@@ -18,7 +18,15 @@
             </span>
             @endif
         </div>
-
+    <div class="form-group {{$errors->has('laboratory_id') ? 'has-error': ''}} ">
+        <label for="laboratory_id">Laboratorio:</label>
+        {!! Form::select('laboratory_id',$lab,null,['class' => 'form-control']) !!}
+        @if ($errors->has('laboratory_id'))
+            <span class="help-block">
+                <strong>{{ $errors->first('laboratory_id') }}</strong>
+            </span>
+        @endif
+    </div>
         <button class="btn btn-primary">Agregar Material</button>
 </form>
 
