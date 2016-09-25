@@ -146,5 +146,36 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'Ver Laboratorios',
             'slug' => 'ver-laboratorios',
         ]);
+
+        /**---------Procedimientos Generaless--------**/
+
+        DB::table('permissions')->insert([
+            'name' => 'Crear Procedimientos Generales',
+            'slug' => 'crear-procedimientos-generales',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Editar Procedimientos Generales',
+            'slug' => 'editar-procedimientos-generales',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Ver Procedimientos Generales',
+            'slug' => 'ver-procedimientos-generales',
+        ]);
+
+        /**---------Procedimientos Generaless--------**/
+
+        DB::table('permissions')->insert([
+            'name' => 'Crear Procedimientos Técnicos',
+            'slug' => 'crear-procedimientos-tecnicos',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Editar Procedimientos Técnicos',
+            'slug' => 'editar-procedimientos-tecnicos',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Ver Procedimientos Técnicos',
+            'slug' => 'ver-procedimientos-tecnicos',
+        ]);
+
     }
 }
