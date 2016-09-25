@@ -107,4 +107,68 @@ class AdministrativeProcedure extends Model
     {
         return $this->orderBy('created_at', 'desc')->first();
     }
+
+    public function attachFiles(Request $request)
+    {
+        $typeFile = $request->input('type');
+        $file = $request->file('file');
+        $extension = $file->getClientOriginalExtension();
+        $clientName = time().$file->getClientOriginalName();
+        $nameWithoutExtension = preg_replace('(.\w+$)','',$file->getClientOriginalName());
+        $title = ucwords(preg_replace('([^A-Za-z0-9])',' ',$nameWithoutExtension));
+        $mime = $file->getClientMimeType();
+        $size = $file->getClientSize();
+        
+        if($typeFile == 1){//Formatos
+            $path = $file->storeAs(
+                'archivos/procedimientos/administrativos/formatos', $clientName,'public'
+            );
+            return $this->formatFiles()->create([
+                'path'                  =>$path,
+                'originalName'          =>$clientName,
+                'nameWithoutExtension'  =>$nameWithoutExtension,
+                'title'                 =>$title,
+                'extension'             =>$extension,
+                'size'                  =>$size,
+                'mime'                  =>$mime,
+            ]);
+        }elseif ($typeFile == 2){//Flujograma
+            $path = $file->storeAs(
+                'archivos/procedimientos/administrativos/flujograma', $clientName,'public'
+            );
+            $flowchartNew = FlowChartFile::create([
+                'path'                  =>$path,
+                'originalName'          =>$clientName,
+                'nameWithoutExtension'  =>$nameWithoutExtension,
+                'title'                 =>$title,
+                'extension'             =>$extension,
+                'size'                  =>$size,
+                'mime'                  =>$mime,
+            ]);
+            if($request->ajax()){
+               if($this->flowChartFile()->get()->count()){
+                   return response('Este procedimiento ya tiene un flujograma asociados. Si quiere agregar otro elimine el existente.',500);
+               };
+            }
+            $this->flowChartFile()->dissociate();
+            $this->flowChartFile()->associate($flowchartNew);
+            $this->save();
+            return $this;
+        }else{//anexo
+            $path = $file->storeAs(
+                'archivos/procedimientos/administrativos/anexos', $clientName,'public'
+            );
+            $this->annexedFiles()->create([
+                'path'                  =>$path,
+                'originalName'          =>$clientName,
+                'nameWithoutExtension'  =>$nameWithoutExtension,
+                'title'                 =>$title,
+                'extension'             =>$extension,
+                'size'                  =>$size,
+                'mime'                  =>$mime,
+            ]);
+
+            return $this;
+        }
+    }
 }

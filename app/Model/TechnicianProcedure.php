@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 
 class TechnicianProcedure extends Model
@@ -26,6 +27,16 @@ class TechnicianProcedure extends Model
     public function steps()
     {
         return $this->belongsToMany(Step::class);
+    }
+
+    public function annexedFiles()
+    {
+        return $this->belongsToMany(AnnexedFile::class);
+    }
+
+    public function formatFiles()
+    {
+        return $this->belongsToMany(FormatFile::class);
     }
 
     public static function fetchAll()
@@ -98,5 +109,47 @@ class TechnicianProcedure extends Model
         $originalAcronym = $procedure->getOriginal('acronym');
 
         return (str_replace($originalAcronym,strtoupper(trim($acronym)),$originalCode));
+    }
+
+    public function attachFiles(Request $request)
+    {
+        $typeFile = $request->input('type');
+        $file = $request->file('file');
+        $extension = $file->getClientOriginalExtension();
+        $clientName = time().$file->getClientOriginalName();
+        $nameWithoutExtension = preg_replace('(.\w+$)','',$file->getClientOriginalName());
+        $title = ucwords(preg_replace('([^A-Za-z0-9])',' ',$nameWithoutExtension));
+        $mime = $file->getClientMimeType();
+        $size = $file->getClientSize();
+        
+        if($typeFile == 1){//Formatos
+            $path = $file->storeAs(
+                'archivos/procedimientos/tecnicos/formatos', $clientName,'public'
+            );
+            return $this->formatFiles()->create([
+                'path'                  =>$path,
+                'originalName'          =>$clientName,
+                'nameWithoutExtension'  =>$nameWithoutExtension,
+                'title'                 =>$title,
+                'extension'             =>$extension,
+                'size'                  =>$size,
+                'mime'                  =>$mime,
+            ]);
+        }else{//anexo
+            $path = $file->storeAs(
+                'archivos/procedimientos/tecnicoss/anexos', $clientName,'public'
+            );
+            $this->annexedFiles()->create([
+                'path'                  =>$path,
+                'originalName'          =>$clientName,
+                'nameWithoutExtension'  =>$nameWithoutExtension,
+                'title'                 =>$title,
+                'extension'             =>$extension,
+                'size'                  =>$size,
+                'mime'                  =>$mime,
+            ]);
+
+            return $this;
+        }
     }
 }

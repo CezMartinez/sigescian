@@ -37,6 +37,7 @@
 				  class="dropzone"
 				  id="annexed-files">
 				<input type="hidden" name="type" id="type_hidden">
+				<input type="hidden" name="procedure" value="1">
 				{{csrf_field()}}
 			</form>
 

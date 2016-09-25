@@ -34,6 +34,7 @@
 				  class="dropzone"
 				  id="annexed-files">
 				<input type="hidden" name="type" id="type_hidden">
+				<input type="hidden" name="procedure" value="2">
 				{{csrf_field()}}
 			</form>
 		</div>
@@ -75,7 +76,23 @@
 				<div class="panel-body">
 					<ul class="list-group">
 						<div class="lista-formatos">
+								@foreach($tecnico->formatFiles()->get() as $file)
 
+								<li id="file-formato-{{$file->id}}" class="list-group-item list-group-item-info">
+
+									<a href="/archivos/procedimientos/tecnicos/{{$file->originalName}}.{{$file->extension}}">
+										{{$file->title}}
+									</a>
+
+									<i class="fa fa-times pull-right"
+									   onclick="deleteFile(
+											   '{{$file->originalName}}',
+											   '{{$tecnico->id}}',
+											   '{{$file->id}}',
+											   'formato',
+											   '/procedimiento/tecnico/archivos/formato/')"></i>
+								</li>
+							@endforeach
 						</div>
 					</ul>
 				</div>
@@ -87,7 +104,23 @@
 				<div class="panel-body">
 					<ul class="list-group">
 						<div class="lista-anexos">
+							@foreach($tecnico->annexedFiles()->get() as $file)
 
+							<li id="file-anexo-{{$file->id}}" class="list-group-item list-group-item-info">
+
+								<a href="/archivos/procedimientos/tecnicos/{{$file->originalName}}.{{$file->extension}}">
+									{{$file->title}}
+								</a>
+
+								<i class="fa fa-times pull-right"
+								   onclick="deleteFile(
+										   '{{$file->originalName}}',
+										   '{{$tecnico->id}}',
+										   '{{$file->id}}',
+										   'anexo',
+										   '/procedimiento/tecnico/archivos/anexo/')"></i>
+								</li>
+							@endforeach
 						</div>
 					</ul>
 				</div>
@@ -118,9 +151,6 @@
 					};
 					if(radioValue==1){
 						url = "/archivos/procedimientos/tecnicos/formatos/"+procedureId;
-					}
-					if(radioValue==2){
-						url = "/archivos/procedimientos/tecnicos/flujograma/"+procedureId;
 					}
 					if(radioValue==3){
 						url = "/archivos/procedimientos/tecnicos/anexos/"+procedureId;

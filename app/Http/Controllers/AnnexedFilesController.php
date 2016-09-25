@@ -2,85 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\AdministrativeProcedure;
+use App\Http\Requests;
+use App\Model\FormatFile;
 use App\Model\AnnexedFile;
 use App\Model\FlowChartFile;
-use App\Model\FormatFile;
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use App\Model\TechnicianProcedure;
+use App\Model\AdministrativeProcedure;
 use Illuminate\Support\Facades\Storage;
 
 
 class AnnexedFilesController extends Controller
 {
     /**
-     * Upload File By The type
-     * type 1 = Formatos
-     * type 2 = Flujogramas
-     * type 3 = Anexos
+     * Upload File By The typeFile
+     * typeFile 1 = Formatos
+     * typeFile 2 = Flujogramas
+     * typeFile 3 = Anexos
      *
      * @param Request $request
      * @param AdministrativeProcedure $procedure
      */
-    public function uploadFile(Request $request,AdministrativeProcedure $procedure)
+    public function uploadFile(Request $request, $procedure)
     {
-        $type = $request->input('type');
-        $file = $request->file('file');
-        $extension = $file->getClientOriginalExtension();
-        $clientName = time().$file->getClientOriginalName();
-        $nameWithoutExtension = preg_replace('(.\w+$)','',$file->getClientOriginalName());
-        $title = ucwords(preg_replace('([^A-Za-z0-9])',' ',$nameWithoutExtension));
-        $mime = $file->getClientMimeType();
-        $size = $file->getClientSize();
-        
-        if($type == 1){//Formatos
-            $path = $file->storeAs(
-                'archivos/procedimientos/administrativos/formatos', $clientName,'public'
-            );
-            $procedure->formatFiles()->create([
-                'path'                  =>$path,
-                'originalName'          =>$clientName,
-                'nameWithoutExtension'  =>$nameWithoutExtension,
-                'title'                 =>$title,
-                'extension'             =>$extension,
-                'size'                  =>$size,
-                'mime'                  =>$mime,
-            ]);
-        }elseif ($type == 2){//Flujograma
-            $path = $file->storeAs(
-                'archivos/procedimientos/administrativos/flujograma', $clientName,'public'
-            );
-            $flowchartNew = FlowChartFile::create([
-                'path'                  =>$path,
-                'originalName'          =>$clientName,
-                'nameWithoutExtension'  =>$nameWithoutExtension,
-                'title'                 =>$title,
-                'extension'             =>$extension,
-                'size'                  =>$size,
-                'mime'                  =>$mime,
-            ]);
-            if($request->ajax()){
-               if($procedure->flowChartFile()->get()->count()){
-                   return response('Este procedimiento ya tiene un flujograma asociados. Si quiere agregar otro elimine el existente.',500);
-               };
-            }
-            $procedure->flowChartFile()->dissociate();
-            $procedure->flowChartFile()->associate($flowchartNew);
-            $procedure->save();
-        }else{//anexo
-            $path = $file->storeAs(
-                'archivos/procedimientos/administrativos/anexos', $clientName,'public'
-            );
-            $procedure->annexedFiles()->create([
-                'path'                  =>$path,
-                'originalName'          =>$clientName,
-                'nameWithoutExtension'  =>$nameWithoutExtension,
-                'title'                 =>$title,
-                'extension'             =>$extension,
-                'size'                  =>$size,
-                'mime'                  =>$mime,
-            ]);
-        }
+        $procedureType = $request->input('procedure');
+
+        $procedure = $this->getProcedureByType($procedureType,$procedure);
+
+        $procedure->attachFiles($request);
 
     }
 
@@ -112,13 +61,24 @@ class AnnexedFilesController extends Controller
         Storage::delete('/archivos/procedimientos/administrativos/flujograma/'.$flowChartFile->originalName);
     }
     
-    public function getAllAnnexedFiles(AdministrativeProcedure $procedure){
+    public function getAllAdministrativeAnnexedFiles(AdministrativeProcedure $procedure){
 
       return $procedure->annexedFiles()->get();
 
     }
 
-    public function getAllFormatsFiles(AdministrativeProcedure $procedure){
+    public function getAllAdministrativeFormatsFiles(AdministrativeProcedure $procedure){
+
+        return $procedure->formatFiles()->get();
+
+    }
+    public function getAllTechnicianAnnexedFiles(TechnicianProcedure $procedure){
+
+      return $procedure->annexedFiles()->get();
+
+    }
+
+    public function getAllTechnicianFormatsFiles(TechnicianProcedure $procedure){
 
         return $procedure->formatFiles()->get();
 
@@ -128,6 +88,16 @@ class AnnexedFilesController extends Controller
 
         return $procedure->flowChartFile()->get();
 
+    }
+
+    private function getProcedureByType($type,$id){
+        if($type == 1){
+
+            return AdministrativeProcedure::findOrFail($id);
+
+        }
+
+        return TechnicianProcedure::findOrFail($id);
     }
 
 }

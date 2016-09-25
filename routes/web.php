@@ -1,5 +1,7 @@
 <?php
 
+use App\Model\Section;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -101,9 +103,9 @@ Route::delete('procedimiento/administrativo/archivos/anexo/{procedure}/{annexedF
 Route::delete('procedimiento/administrativo/archivos/flujograma/{procedure}/{flowChartFile}','AnnexedFilesController@deleteFlowChartFile');
 Route::delete('procedimiento/administrativo/archivos/formato/{procedure}/{formatFile}','AnnexedFilesController@deleteFormatFile');
 
-Route::get('archivos/procedimientos/administrativos/anexos/{procedure}','AnnexedFilesController@getAllAnnexedFiles');
+Route::get('archivos/procedimientos/administrativos/anexos/{procedure}','AnnexedFilesController@getAllAdministrativeAnnexedFiles');
 Route::get('archivos/procedimientos/administrativos/flujograma/{procedure}','AnnexedFilesController@getFlowCharFileFiles');
-Route::get('archivos/procedimientos/administrativos/formatos/{procedure}','AnnexedFilesController@getAllFormatsFiles');
+Route::get('archivos/procedimientos/administrativos/formatos/{procedure}','AnnexedFilesController@getAllAdministrativeFormatsFiles');
 
 Route::get('archivos/procedimientos/administrativos/{procedure}','AnnexedFilesController@getAllAnnexedFiles');
 
@@ -113,5 +115,8 @@ Route::get('subsecciones/{seccion}',function(Section $seccion){
 /**---------------------------------------------- Procedimientos Tecnicos ------------------------------------------------**/
 
 Route::resource('procedimientos/tecnicos','TechnicianController');
-
 Route::post('pasos/procedimientos/tecnicos/{procedure}','TechnicianController@steps');
+Route::post('procedimiento/tecnico/{procedure}/archivos-adjuntos','AnnexedFilesController@uploadFile');
+
+Route::get('archivos/procedimientos/tecnicos/anexos/{procedure}','AnnexedFilesController@getAllTechnicianAnnexedFiles');
+Route::get('archivos/procedimientos/tecnicos/formatos/{procedure}','AnnexedFilesController@getAllTechnicianFormatsFiles');

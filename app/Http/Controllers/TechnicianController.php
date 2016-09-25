@@ -71,7 +71,7 @@ class TechnicianController extends Controller
     public function show(TechnicianProcedure $tecnico)
     {
         $subsections = $tecnico->subSections()->get();
-        $tecnico = $tecnico->with(['section'])->first();
+        $tecnico = $tecnico->with(['annexedFiles','section'])->first();
         return view('procedures.technician.technician_show',compact('tecnico','subsections'));
     }
 
