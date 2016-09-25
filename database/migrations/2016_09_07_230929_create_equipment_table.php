@@ -20,6 +20,8 @@ class CreateEquipmentTable extends Migration
             $table->string('brand');
             $table->string('model');
             $table->string('slug');
+            $table->integer('laboratory_id')->unsigned();
+            $table->foreign('laboratory_id')->references('id')->on('laboratories')->onDelete('cascade');
             $table->integer('need_calibration');
             $table->integer('days_of_calibration')->nullable();
             $table->string('calibrate_company')->nullable();
@@ -36,6 +38,9 @@ class CreateEquipmentTable extends Migration
      */
     public function down()
     {
+        Schema::table('equipment',function (Blueprint $table){
+            $table->dropForeign('equipment_laboratory_id_foreign');
+        });
         Schema::dropIfExists('equipment');
     }
 }

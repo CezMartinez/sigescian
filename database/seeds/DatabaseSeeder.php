@@ -19,10 +19,10 @@ class DatabaseSeeder extends Seeder
         $this->call(SectionTableSeeder::class);
         $this->call(SubSectionsTableSeeder::class);
         $this->call(ClientsTableSeeder::class);
-        $this->call(MaterialsTableSeeder::class);
-        $this->call(EquipmentTableSeeder::class);
         $this->call(DepartmentsTableSeeder::class);
         $this->call(LaboratoriesTableSeeder::class);
+        $this->call(EquipmentTableSeeder::class);
+        $this->call(MaterialsTableSeeder::class);
         $this->call(AdministrativeProcedureTableSeeder::class);
         $this->call(TechnicianProcedureTableSeeder::class);
     }

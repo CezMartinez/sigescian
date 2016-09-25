@@ -28,6 +28,10 @@ class CreateStepTechnicianProcedureTable extends Migration
      */
     public function down()
     {
+        Schema::table('step_technician_procedure',function (Blueprint $table){
+            $table->dropForeign('step_technician_procedure_technician_procedure_id_foreign');
+            $table->dropForeign('step_technician_procedure_step_id_foreign');
+        });
         Schema::dropIfExists('step_technician_procedure');
     }
 }

@@ -124,6 +124,54 @@ class SubSectionsTableSeeder extends Seeder
             'sub_section_id' => '3',
         ]);
         DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '4',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '5',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '6',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '7',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '8',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '9',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '10',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '11',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '12',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '13',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '14',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '4',
+            'sub_section_id' => '15',
+        ]);
+        DB::table('section_sub_section')->insert([
             'section_id' => '5',
             'sub_section_id' => '16',
         ]);
@@ -134,6 +182,34 @@ class SubSectionsTableSeeder extends Seeder
         DB::table('section_sub_section')->insert([
             'section_id' => '5',
             'sub_section_id' => '18',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '5',
+            'sub_section_id' => '19',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '5',
+            'sub_section_id' => '20',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '5',
+            'sub_section_id' => '21',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '5',
+            'sub_section_id' => '22',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '5',
+            'sub_section_id' => '23',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '5',
+            'sub_section_id' => '24',
+        ]);
+        DB::table('section_sub_section')->insert([
+            'section_id' => '5',
+            'sub_section_id' => '25',
         ]);
     }
 }

@@ -34,6 +34,9 @@ class CreateTechnicianProceduresTable extends Migration
      */
     public function down()
     {
+        Schema::table('technician_procedures',function (Blueprint $table){
+            $table->dropForeign('technician_procedures_laboratory_id_foreign');
+        });
         Schema::dropIfExists('technician_procedures');
     }
 }
