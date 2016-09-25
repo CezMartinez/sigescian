@@ -15,6 +15,7 @@ class CreateEquipmentTable extends Migration
     {
         Schema::create('equipment',function (Blueprint $table){
             $table->increments('id');
+            $table->string('stock_number');
             $table->string('name');
             $table->string('brand');
             $table->string('model');

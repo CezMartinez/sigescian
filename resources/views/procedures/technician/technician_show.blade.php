@@ -6,11 +6,11 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="panel panel-primary">
-				<div class="panel-heading"><h3> {{$administrativo->name}} </h3></div>
+				<div class="panel-heading"><h3> {{$tecnico->name}} </h3></div>
 				<div class="panel-body">
-					<p>Codigo: {{$administrativo->code}}</p>
-					<p>Estado: {{$administrativo->status}}</p>
-					<p>Seccion: {{$administrativo->section->section}}</p>
+					<p>Codigo: {{$tecnico->code}}</p>
+					<p>Estado: {{$tecnico->status}}</p>
+					<p>Seccion: {{$tecnico->section->section}}</p>
 					@if($subsections->count() > 0)
 					<p>Subsecciones: </p>
 						<ul>
@@ -27,12 +27,10 @@
 			<div>
 				<input type="radio" name="type" value="1" class="type">
 				<label for="type">Formatos </label>
-				<input type="radio" name="type" value="2" class="type">
-				<label for="type"> Flujogramas</label>
 				<input type="radio" name="type" value="3" class="type">
 				<label for="type"> Anexos</label>
 			</div>
-			<form action="/procedimiento/administrativo/{{$administrativo->id}}/archivos-adjuntos" id="uploadFile" method="POST"
+			<form action="/procedimiento/tecnico/{{$tecnico->id}}/archivos-adjuntos" id="uploadFile" method="POST"
 				  class="dropzone"
 				  id="annexed-files">
 				<input type="hidden" name="type" id="type_hidden">
@@ -47,50 +45,7 @@
 				<div class="panel-body">
 					<ul class="list-group">
 						<div class="lista-formatos">
-							@foreach($administrativo->formatFiles()->get() as $file)
 
-								<li id="file-formato-{{$file->id}}" class="list-group-item list-group-item-info">
-
-									<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
-										{{$file->title}}
-									</a>
-
-									<i class="fa fa-times pull-right"
-									   onclick="deleteFile(
-											   '{{$file->originalName}}',
-											   '{{$administrativo->id}}',
-											   '{{$file->id}}',
-											   'formato',
-											   '/procedimiento/administrativo/archivos/formato/')"></i>
-								</li>
-							@endforeach
-						</div>
-					</ul>
-				</div>
-			</div>
-			<hr>
-			<div class="panel panel-primary">
-				<div class="panel-heading"><h3>Flujograma:</h3></div>
-				<div class="panel-body">
-					<ul class="list-group">
-						<div class="lista-flujogramas">
-							@foreach($administrativo->flowChartFile()->get() as $file)
-
-								<li id="file-flujograma-{{$file->id}}" class="list-group-item list-group-item-info">
-
-									<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
-										{{$file->title}}
-									</a>
-
-									<i class="fa fa-times pull-right"
-									   onclick="deleteFile(
-											   '{{$file->originalName}}',
-											   '{{$administrativo->id}}',
-											   '{{$file->id}}',
-											   'flujograma',
-											   '/procedimiento/administrativo/archivos/flujograma/')"></i>
-								</li>
-							@endforeach
 						</div>
 					</ul>
 				</div>
@@ -101,23 +56,7 @@
 				<div class="panel-body">
 					<ul class="list-group">
 						<div class="lista-anexos">
-							@foreach($administrativo->annexedFiles()->get() as $file)
 
-								<li id="file-anexo-{{$file->id}}" class="list-group-item list-group-item-info">
-
-									<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
-										{{$file->title}}
-									</a>
-
-									<i class="fa fa-times pull-right"
-									   onclick="deleteFile(
-											   '{{$file->originalName}}',
-											   '{{$administrativo->id}}',
-											   '{{$file->id}}',
-											   'anexo',
-											   '/procedimiento/administrativo/archivos/anexo/')"></i>
-								</li>
-							@endforeach
 						</div>
 					</ul>
 				</div>
@@ -133,7 +72,7 @@
 		var listaFlujogramas= [];
 		var listaAnexos= [];
 		var url;
-		var procedureId = '{{$administrativo->id}}';
+		var procedureId = '{{$tecnico->id}}';
 		var radioValue;
 		Dropzone.options.uploadFile= {
 			maxFilesize: 20, // MB
@@ -146,13 +85,13 @@
 						this.removeAllFiles(true);
 					};
 					if(radioValue==1){
-						url = "/archivos/procedimientos/administrativos/formatos/"+procedureId;
+						url = "/archivos/procedimientos/tecnicos/formatos/"+procedureId;
 					}
 					if(radioValue==2){
-						url = "/archivos/procedimientos/administrativos/flujograma/"+procedureId;
+						url = "/archivos/procedimientos/tecnicos/flujograma/"+procedureId;
 					}
 					if(radioValue==3){
-						url = "/archivos/procedimientos/administrativos/anexos/"+procedureId;
+						url = "/archivos/procedimientos/tecnicos/anexos/"+procedureId;
 					}
 					$('#type_hidden').val(radioValue);
 					// Create the remove button
@@ -171,11 +110,11 @@
 							listaArchivos.push('<div class="lista-formatos">')
 							$.each(data, function(i, item){
 								listaArchivos.push('<li id="file-formato-'+item.id+'" class="list-group-item list-group-item-info">'+
-										'<a href="/procedimiento/administrativos/'+item.originalName+'.'+item.extension+'">'+
+										'<a href="/procedimiento/tecnicos/'+item.originalName+'.'+item.extension+'">'+
 										item.title+'</a>'+
 										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
-										item.originalName+'\',\'{{$administrativo->id}}\',\''+item.id+'\''+
-										',\'formato\',\'/procedimiento/administrativo/archivos/formato/\')"></i></li>')
+										item.originalName+'\',\'{{$tecnico->id}}\',\''+item.id+'\''+
+										',\'formato\',\'/procedimiento/tecnico/archivos/formato/\')"></i></li>')
 							});
 							listaArchivos.push('</div>')
 
@@ -188,11 +127,11 @@
 							$.each(data, function(i, item){
 								listaFlujogramas.push('' +
 										'<li id="file-flujograma-'+item.id+'" class="list-group-item list-group-item-info">'+
-										'<a href="/procedimiento/administrativos/'+item.originalName+'.'+item.extension+'">'+
+										'<a href="/procedimiento/tecnicos/'+item.originalName+'.'+item.extension+'">'+
 										item.title+'</a>'+
 										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
-										item.originalName+'\',\'{{$administrativo->id}}\',\''+item.id+'\''+
-										',\'flujograma\',\'/procedimiento/administrativo/archivos/flujograma/\')"></i></li>')
+										item.originalName+'\',\'{{$tecnico->id}}\',\''+item.id+'\''+
+										',\'flujograma\',\'/procedimiento/tecnico/archivos/flujograma/\')"></i></li>')
 							});
 							listaFlujogramas.push('</div>')
 
@@ -205,12 +144,12 @@
 								listaAnexos.push(
 									'<li id="file-anexo-'+item.id+'" ' +
 										'class="list-group-item list-group-item-info">'+
-									'<a href="/procedimiento/administrativos/' +item.originalName+ '.' +item.extension+ '">'
+									'<a href="/procedimiento/tecnicos/' +item.originalName+ '.' +item.extension+ '">'
 										+item.title+
 									'</a>'+
 										'<i class="fa fa-times pull-right" ' +
-											'onclick="deleteFile(\'' +item.originalName+ '\',\'{{$administrativo->id}}\',\'' +item.id+ '\''+
-										',\'anexo\',\'/procedimiento/administrativo/archivos/anexo/\')">' +
+											'onclick="deleteFile(\'' +item.originalName+ '\',\'{{$tecnico->id}}\',\'' +item.id+ '\''+
+										',\'anexo\',\'/procedimiento/tecnico/archivos/anexo/\')">' +
 										'</i>' +
 									'</li>')
 							});

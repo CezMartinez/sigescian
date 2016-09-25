@@ -13,31 +13,31 @@
 				<th>Id</th>
 				<th>Codigo</th>
 				<th>Titulo</th>
-				<th>Politicas</th>
+				<th>Laboratorio</th>
 				<th>Estado</th>
 				<th>Acciones</th>
 				</thead>
 				<tbody>
-				@foreach($techs as $admin)
-					<tr id="row-{{$admin->id}}" class="{{($admin->state) ? '':'info'}}">
+				@foreach($techs as $t)
+					<tr id="row-{{$t->id}}" class="{{($t->state) ? '':'info'}}">
 						<td>
-							{{$admin->id}}
+							{{$t->id}}
 						</td>
 						<td>
-							<a href="/procedimientos/administrativos/{{$admin->id}}">{{$admin->code}}</a>
+							<a href="/procedimientos/tecnicos/{{$t->id}}">{{$t->code}}</a>
 						</td>
 						<td>
-							{{$admin->name}}
+							{{$t->name}}
 						</td>
 						<td>
-							{{$admin->politic}}
+							{{$t->laboratory_id}}
 						</td>
 						<td>
-							{{$admin->status}}
+							{{$t->status}}
 						</td>
 						<td>
 							<div class="acciones" >
-								<a href="/procedimientos/tecnicos/{{$admin->code}}/edit" class="fa fa-lg fa-pencil" data-toggle="tooltip" title="Editar!"></a>
+								<a href="/procedimientos/tecnicos/{{$t->code}}/edit" class="fa fa-lg fa-pencil" data-toggle="tooltip" title="Editar!"></a>
 							</div>
 						</td>
 					</tr>

@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Model\Laboratory;
 use App\Model\Section;
-use App\Model\SubSection;
 use App\Model\TechnicianProcedure;
 use Illuminate\Http\Request;
+use Validator;
+
 
 class TechnicianController extends Controller
 {
@@ -31,10 +32,8 @@ class TechnicianController extends Controller
     public function create()
     {
         $laboratory = Laboratory::pluck('name','id');
-        $section = Section::pluck('section','id');
-        $section4=SubSection::where('section_id','4')->pluck('section','id');
-        $section5=SubSection::where('section_id','5')->pluck('section','id');
-        return view('procedures.technician.technician_create',compact('laboratory', 'section', 'section4','section5'));
+        $sections= Section::pluck('section','id');
+        return view('procedures.technician.technician_create',compact('laboratory', 'sections'));
 
     }
 
@@ -46,29 +45,45 @@ class TechnicianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validateCreateProcedure($request->all())->validate();
+
+        $section = Section::find($request->input('section'));
+        $laboratory = Laboratory::find($request->input('laboratory_id'));
+
+        $procedure = TechnicianProcedure::createTechnician($request->all(),$section, $laboratory);
+
+        if($request->has('subsection')){
+            $procedure->subSections()->attach($request->input('subsection'));
+        }
+
+        flash('Procedimiento Guardado', 'success');
+
+        return redirect("/procedimientos/tecnicos/{$procedure->id}");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param TechnicianProcedure $tecnico
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TechnicianProcedure $tecnico)
     {
-        //
+        $subsections = $tecnico->subSections()->get();
+        $tecnico = $tecnico->with(['section'])->first();
+        return view('procedures.technician.technician_show',compact('tecnico','subsections'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param $code
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($code)
     {
-        //
+        $procedure = TechnicianProcedure::where('code',$code)->first();
+        return view('procedures.technician.technician_edit',compact('procedure'));
     }
 
     /**
@@ -78,10 +93,48 @@ class TechnicianController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param TechnicianProcedure $tecnico
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request,TechnicianProcedure $tecnico)
     {
-        //
+        $tecnico = $tecnico->fill($request->all());
+
+        $newAcronym = $request->input('acronym');
+
+        if (!$request->has('state')) {
+
+            $tecnico->state='0';
+        }
+        else{
+
+            $tecnico->state='1';
+        }
+
+        $this->validateUpdateProcedure($request->all(),$tecnico)->validate();
+
+
+        if ($tecnico->exists($request->input('name'))) {
+
+            flash('El procedimiento '.$request->input('name').' ya existe', 'danger');
+
+            return back()->withInput();
+        }
+
+        flash('Procedimiento Actualizado', 'success');
+
+        $tecnico->code = $tecnico->updateCodeWithAcronym($newAcronym,$tecnico);
+
+        $tecnico->save();
+
+
+        return redirect('/procedimientos/tecnicos');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -92,5 +145,20 @@ class TechnicianController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function validateCreateProcedure($data)
+    {
+        return Validator::make($data,[
+            'name' =>'required',
+            'acronym' => 'required|unique:administrative_procedures',
+        ]);
+    }
+
+    private function validateUpdateProcedure($data,$procedure){
+        return Validator::make($data,[
+            'name' => 'required',
+            'acronym' => 'unique:administrative_procedures,acronym,'.$procedure->id,
+        ]);
     }
 }
