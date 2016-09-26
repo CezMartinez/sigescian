@@ -90,7 +90,7 @@
 											   '{{$tecnico->id}}',
 											   '{{$file->id}}',
 											   'formato',
-											   '/procedimiento/tecnico/archivos/formato/')"></i>
+											   '/procedimiento/archivos/formato/')"></i>
 								</li>
 							@endforeach
 						</div>
@@ -118,7 +118,7 @@
 										   '{{$tecnico->id}}',
 										   '{{$file->id}}',
 										   'anexo',
-										   '/procedimiento/tecnico/archivos/anexo/')"></i>
+										   '/procedimiento/archivos/anexo/')"></i>
 								</li>
 							@endforeach
 						</div>
@@ -150,10 +150,10 @@
 						this.removeAllFiles(true);
 					};
 					if(radioValue==1){
-						url = "/archivos/procedimientos/tecnicos/formatos/"+procedureId;
+						url = "/archivos/procedimientos/formatos/"+procedureId+'/2';
 					}
 					if(radioValue==3){
-						url = "/archivos/procedimientos/tecnicos/anexos/"+procedureId;
+						url = "/archivos/procedimientos/anexos/"+procedureId+'/2';
 					}
 					$('#type_hidden').val(radioValue);
 					// Create the remove button
@@ -167,7 +167,7 @@
 					})
 					.done(function(data){
 						var radioValue = $("input[name='type']:checked"). val();
-						if(radioValue==1){
+						if(radioValue == 1){
 							listaArchivos=[];
 							listaArchivos.push('<div class="lista-formatos">')
 							$.each(data, function(i, item){
@@ -176,30 +176,13 @@
 										item.title+'</a>'+
 										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
 										item.originalName+'\',\'{{$tecnico->id}}\',\''+item.id+'\''+
-										',\'formato\',\'/procedimiento/tecnico/archivos/formato/\')"></i></li>')
+										',\'formato\',\'/procedimiento/archivos/formato/\')"></i></li>')
 							});
 							listaArchivos.push('</div>')
 
 							$('div.lista-formatos').replaceWith(listaArchivos.join(''));
 						}
-						if(radioValue==2){
-							listaFlujogramas=[];
-							listaFlujogramas.pop();
-							listaFlujogramas.push('<div class="lista-flujogramas">')
-							$.each(data, function(i, item){
-								listaFlujogramas.push('' +
-										'<li id="file-flujograma-'+item.id+'" class="list-group-item list-group-item-info">'+
-										'<a href="/procedimiento/tecnicos/'+item.originalName+'.'+item.extension+'">'+
-										item.title+'</a>'+
-										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
-										item.originalName+'\',\'{{$tecnico->id}}\',\''+item.id+'\''+
-										',\'flujograma\',\'/procedimiento/tecnico/archivos/flujograma/\')"></i></li>')
-							});
-							listaFlujogramas.push('</div>')
-
-							$('div.lista-flujogramas').replaceWith(listaFlujogramas.join(''));
-						}
-						if(radioValue==3){
+						if(radioValue == 3){
 							listaAnexos=[];
 							listaAnexos.push('<div class="lista-anexos">')
 							$.each(data, function(i, item){
@@ -211,7 +194,7 @@
 									'</a>'+
 										'<i class="fa fa-times pull-right" ' +
 											'onclick="deleteFile(\'' +item.originalName+ '\',\'{{$tecnico->id}}\',\'' +item.id+ '\''+
-										',\'anexo\',\'/procedimiento/tecnico/archivos/anexo/\')">' +
+										',\'anexo\',\'/procedimiento/archivos/anexo/\')">' +
 										'</i>' +
 									'</li>')
 							});
@@ -254,7 +237,7 @@
 						if (isConfirm) {
 							$.ajax({
 									type:'DELETE',
-									url:url+idProcedure+'/'+idAnnexedFile,
+									url:url+idProcedure+'/'+idAnnexedFile+'/2',
 									headers: {
 										'X-CSRF-Token': csrf,
 									},

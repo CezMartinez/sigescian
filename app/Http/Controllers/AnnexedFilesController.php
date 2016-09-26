@@ -21,7 +21,7 @@ class AnnexedFilesController extends Controller
      * typeFile 3 = Anexos
      *
      * @param Request $request
-     * @param AdministrativeProcedure $procedure
+     * @param $procedure
      */
     public function uploadFile(Request $request, $procedure)
     {
@@ -33,22 +33,28 @@ class AnnexedFilesController extends Controller
 
     }
 
-    public function deleteAnnexedFile(AdministrativeProcedure $procedure,AnnexedFile $annexedFile)
+    public function deleteAnnexedFile($procedure,AnnexedFile $annexedFile,$type)
     {
-        $procedure->annexedFiles()->detach($annexedFile->id);
+        $procedure = $this->getProcedureByType($type,$procedure);
+
+        $procedure->annexedFiles()->detach($annexedFile);
 
         $annexedFile->delete();
 
-        Storage::delete('/archivos/procedimientos/administrativos/anexos/'.$annexedFile->originalName);
+        Storage::delete($procedure->getAnnexedFilesDirPath().$annexedFile->originalName);
     }
-    public function deleteFormatFile(AdministrativeProcedure $procedure,FormatFile $formatFile)
+
+    public function deleteFormatFile($procedure,FormatFile $formatFile,$type)
     {
+        $procedure = $this->getProcedureByType($type,$procedure);
+
         $procedure->formatFiles()->detach($formatFile->id);
 
         $formatFile->delete();
 
-        Storage::delete('/archivos/procedimientos/administrativos/formatos/'.$formatFile->originalName);
+        Storage::delete($procedure->getFormatFilesDirPath().$formatFile->originalName);
     }
+
     public function deleteFlowChartFile(AdministrativeProcedure $procedure,FlowChartFile $flowChartFile)
     {
 
@@ -61,30 +67,23 @@ class AnnexedFilesController extends Controller
         Storage::delete('/archivos/procedimientos/administrativos/flujograma/'.$flowChartFile->originalName);
     }
     
-    public function getAllAdministrativeAnnexedFiles(AdministrativeProcedure $procedure){
+    public function getAllAnnexedFiles($procedure,$type){
 
-      return $procedure->annexedFiles()->get();
+        $procedure = $this->getProcedureByType($type,$procedure);
 
-    }
-
-    public function getAllAdministrativeFormatsFiles(AdministrativeProcedure $procedure){
-
-        return $procedure->formatFiles()->get();
-
-    }
-    public function getAllTechnicianAnnexedFiles(TechnicianProcedure $procedure){
-
-      return $procedure->annexedFiles()->get();
+        return $procedure->annexedFiles()->get();
 
     }
 
-    public function getAllTechnicianFormatsFiles(TechnicianProcedure $procedure){
+    public function getAllFormatsFiles($procedure,$type){
+
+        $procedure = $this->getProcedureByType($type,$procedure);
 
         return $procedure->formatFiles()->get();
 
     }
 
-    public function getFlowCharFileFiles(AdministrativeProcedure $procedure){
+    public function getFlowCharFileFiles($procedure){
 
         return $procedure->flowChartFile()->get();
 

@@ -5,7 +5,7 @@ namespace App\Model;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 
-class TechnicianProcedure extends Model
+class TechnicianProcedure extends Model implements ProcedureInterface
 {
     protected $fillable = ['code','name','acronym','state'];
 
@@ -151,5 +151,25 @@ class TechnicianProcedure extends Model
 
             return $this;
         }
+    }
+
+    /**
+     * Get The Dir of the Format files
+     *
+     * @return string
+     */
+    public function getFormatFilesDirPath()
+    {
+        return '/archivos/procedimientos/tecnicoss/formatos/';
+    }
+
+    /**
+     * Get The Dir of the Annexed Files
+     *
+     * @return string
+     */
+    public function getAnnexedFilesDirPath()
+    {
+        return '/archivos/procedimientos/tecnicoss/formatos/';
     }
 }

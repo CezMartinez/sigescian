@@ -5,7 +5,7 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class AdministrativeProcedure extends Model
+class AdministrativeProcedure extends Model implements ProcedureInterface
 {
     protected $fillable = ['code','name','acronym','state','politic'];
 
@@ -170,5 +170,15 @@ class AdministrativeProcedure extends Model
 
             return $this;
         }
+    }
+
+    public function getFormatFilesDirPath()
+    {
+        return '/archivos/procedimientos/administrativos/formatos/';
+    }
+
+    public function getAnnexedFilesDirPath()
+    {
+        return '/archivos/procedimientos/administrativos/anexos/';
     }
 }
