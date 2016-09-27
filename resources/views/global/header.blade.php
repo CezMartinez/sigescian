@@ -9,8 +9,8 @@
     </div>
     @if($signedIn)
         <div class="header-right">
-            <div class="profile_details_left"><!--notifications of menu start -->
-                <ul class="nofitications-dropdown">
+            <!-- <div class="profile_details_left"><!--notifications of menu start -->
+            <!--    <ul class="nofitications-dropdown">
                     <li class="dropdown head-dpdn">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i><span class="badge blue">3</span></a>
                         <ul class="dropdown-menu">
@@ -59,7 +59,6 @@
                     <li class="dropdown profile_details_drop">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <div class="profile_img">
-                                <span class="prfil-img"><img src="/images/p1.png" alt=""> </span>
                                 <div class="user-name">
                                     <p>{{$user->full_name}}</p>
                                     <span>{{$user->roles()->first()->name}}</span>
