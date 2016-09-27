@@ -14,17 +14,21 @@ class MaterialsTableSeeder extends Seeder
         DB::table('materials')->insert([
             'name' => 'Oxigeno',
             'description'=>'Da energia a las celulas de la sangre',
-            'slug'=>'oxigeno-1'
+            'slug'=>'oxigeno-1',
+            'laboratory_id'=>1
         ]);
         DB::table('materials')->insert([
             'name' => 'Hidrogeno',
             'description' => 'Reductor de minerales metalicos',
-            'slug'=>'hidrogeno-1'
+            'slug'=>'hidrogeno-1',
+            'laboratory_id'=>2
+
         ]);
         DB::table('materials')->insert([
             'name' => 'Fosforo',
             'description' => 'Compuestos para fertilizantes',
-            'slug'=>'fosforo-1'
+            'slug'=>'fosforo-1',
+            'laboratory_id'=>3
 
         ]);
     }

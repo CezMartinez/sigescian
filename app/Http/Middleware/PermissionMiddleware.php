@@ -61,7 +61,7 @@ class PermissionMiddleware
     {
         foreach ($userRoles as $role) {
 
-            $rolePermissions = Role::permissionList($role->slug);
+            $rolePermissions = Role::getPermissionsSlug($role->slug);
 
             foreach ($permissions as $permission){
 

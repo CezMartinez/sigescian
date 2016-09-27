@@ -16,3 +16,8 @@
     <button class="btn btn-primary">Agregar Rol</button>
 </form>
 
+@section('scripts')
+    <script>
+        $('#selectPermission').select2();
+    </script>
+@endsection

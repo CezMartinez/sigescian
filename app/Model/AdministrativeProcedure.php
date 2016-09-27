@@ -3,8 +3,9 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
-class AdministrativeProcedure extends Model
+class AdministrativeProcedure extends Model implements ProcedureInterface
 {
     protected $fillable = ['code','name','acronym','state','politic'];
 
@@ -23,6 +24,15 @@ class AdministrativeProcedure extends Model
         return $this->belongsToMany(FormatFile::class);
     }
 
+    public function section(){
+        return $this->belongsTo(Section::class);
+    }
+
+    public function subSections()
+    {
+        return $this->belongsToMany(SubSection::class);
+    }
+
     public static function fetchAll()
     {
         $administrativeProcedure = new static;
@@ -37,11 +47,11 @@ class AdministrativeProcedure extends Model
         $this->attributes['acronym'] = strtoupper(trim($acronym));
     }
 
-    public static function createAdministrative($data){
-
+    public static function createAdministrative($data,$section){
         $administrativeProcedure = new static;
         $administrativeProcedure->fill($data);
         $administrativeProcedure->code = $administrativeProcedure->generateCodeAtCreate();
+        $administrativeProcedure->section()->associate($section);
         $administrativeProcedure->save();
 
         return $administrativeProcedure;
@@ -96,5 +106,79 @@ class AdministrativeProcedure extends Model
     private function latest()
     {
         return $this->orderBy('created_at', 'desc')->first();
+    }
+
+    public function attachFiles(Request $request)
+    {
+        $typeFile = $request->input('type');
+        $file = $request->file('file');
+        $extension = $file->getClientOriginalExtension();
+        $clientName = time().$file->getClientOriginalName();
+        $nameWithoutExtension = preg_replace('(.\w+$)','',$file->getClientOriginalName());
+        $title = ucwords(preg_replace('([^A-Za-z0-9])',' ',$nameWithoutExtension));
+        $mime = $file->getClientMimeType();
+        $size = $file->getClientSize();
+        
+        if($typeFile == 1){//Formatos
+            $path = $file->storeAs(
+                'archivos/procedimientos/administrativos/formatos', $clientName,'public'
+            );
+            return $this->formatFiles()->create([
+                'path'                  =>$path,
+                'originalName'          =>$clientName,
+                'nameWithoutExtension'  =>$nameWithoutExtension,
+                'title'                 =>$title,
+                'extension'             =>$extension,
+                'size'                  =>$size,
+                'mime'                  =>$mime,
+            ]);
+        }elseif ($typeFile == 2){//Flujograma
+            $path = $file->storeAs(
+                'archivos/procedimientos/administrativos/flujograma', $clientName,'public'
+            );
+            $flowchartNew = FlowChartFile::create([
+                'path'                  =>$path,
+                'originalName'          =>$clientName,
+                'nameWithoutExtension'  =>$nameWithoutExtension,
+                'title'                 =>$title,
+                'extension'             =>$extension,
+                'size'                  =>$size,
+                'mime'                  =>$mime,
+            ]);
+            if($request->ajax()){
+               if($this->flowChartFile()->get()->count()){
+                   return response('Este procedimiento ya tiene un flujograma asociados. Si quiere agregar otro elimine el existente.',500);
+               };
+            }
+            $this->flowChartFile()->dissociate();
+            $this->flowChartFile()->associate($flowchartNew);
+            $this->save();
+            return $this;
+        }else{//anexo
+            $path = $file->storeAs(
+                'archivos/procedimientos/administrativos/anexos', $clientName,'public'
+            );
+            $this->annexedFiles()->create([
+                'path'                  =>$path,
+                'originalName'          =>$clientName,
+                'nameWithoutExtension'  =>$nameWithoutExtension,
+                'title'                 =>$title,
+                'extension'             =>$extension,
+                'size'                  =>$size,
+                'mime'                  =>$mime,
+            ]);
+
+            return $this;
+        }
+    }
+
+    public function getFormatFilesDirPath()
+    {
+        return '/archivos/procedimientos/administrativos/formatos/';
+    }
+
+    public function getAnnexedFilesDirPath()
+    {
+        return '/archivos/procedimientos/administrativos/anexos/';
     }
 }

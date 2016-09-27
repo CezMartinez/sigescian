@@ -100,3 +100,10 @@ body{
 .form-control{
 	height: 39px;
 }
+
+/*para que las acciones se vean al centro*/
+ul.list-inline{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
