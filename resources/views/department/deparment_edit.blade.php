@@ -4,7 +4,7 @@
     
     <div class="row">
         <div class="col-md-6">
-            @include('department.forms_deparments.form_deparment_edit');
+            @include('department.forms_deparments.form_deparment_edit')
         </div>
     </div>
     

@@ -36,8 +36,11 @@
 							{{$admin->status}}
 						</td>
 						<td>
-							<div class="acciones" >
-								<a href="/procedimientos/administrativos/{{$admin->code}}/edit" class="fa fa-lg fa-pencil" data-toggle="tooltip" title="Editar!"></a>
+							<div style="display: flex; justify-content: center;">
+								<a href="/procedimientos/administrativos/{{$admin->code}}/edit"
+								   class="fa fa-lg fa-pencil"
+								   data-toggle="tooltip"
+								   title="Editar!"></a>
 							</div>
 						</td>
 					</tr>
@@ -51,6 +54,12 @@
 		<h2>No hay procedimientos adminsitrativos registrados.</h2>
 	@endif
 
+@endsection
 
-
+@section('scripts')
+	<script>
+		$(document).ready(function(){
+			$('[data-toggle="tooltip"]').tooltip();
+		});
+	</script>
 @endsection

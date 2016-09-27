@@ -2,12 +2,10 @@
     
 @section('content')
 
-    @can('crear-usuarios')
-        <a href="/administracion/usuarios/create" class="btn btn-lg btn-primary">
-            Agregar un nuevo usuario
-        </a>
-        <hr>
-    @endcan
+    <a href="/administracion/usuarios/create" class="btn btn-lg btn-primary">
+        Agregar un nuevo usuario
+    </a>
+    <hr>
 
     @if($users->count() >= 0)
         <div class="table-responsive">
@@ -42,7 +40,6 @@
                         </td>
                         <td>
                             <ul class="list-inline" >
-                                @can('editar-usuarios')
                                 <li>
                                     <a href="/administracion/usuarios/{{$user->id}}/edit"
                                        class="fa fa-lg fa-pencil"
@@ -50,9 +47,7 @@
                                        title="Editar!">
                                     </a>
                                 </li>
-                                @endcan
                                 @if(!$user->hasRole('administrador-del-sistema'))
-                                    @can('eliminar-usuarios')
                                     |
                                     <li>
                                         <a onclick="deleteConfirm('{{$user->full_name}}','{{$user->id}}','/administracion/usuarios/')"
@@ -61,7 +56,6 @@
                                            title="Eliminar!">
                                         </a>
                                     </li>
-                                    @endcan
                                 @endif
                             </ul>
                         </td>

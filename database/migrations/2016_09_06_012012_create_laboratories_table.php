@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateLaboratoriesTable extends Migration
 {
@@ -32,6 +32,9 @@ class CreateLaboratoriesTable extends Migration
      */
     public function down()
     {
+        Schema::table('laboratories',function (Blueprint $table){
+            $table->dropForeign('laboratories_department_id_foreign');
+        });
         Schema::dropIfExists('laboratories');
     }
 }

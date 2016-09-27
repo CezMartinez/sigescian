@@ -26,11 +26,22 @@
                         <td>{{$material->name}}</td>
                         <td>{{$material->description}}</td>
                         <td>
-                            <div class="acciones" >
-                                <a href="/materiales/{{$material->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
-                                <a class="btn btn-sm btn-danger"
-                                   onclick="deleteConfirm('{{$material->name}}','{{$material->id}}','/materiales/')">Eliminar</a>
-                            </div>
+                            <ul class="list-inline" >
+                                <li>
+                                    <a  class="fa fa-lg fa-pencil"
+                                        href="/materiales/{{$material->slug}}/edit" class="btn btn-sm btn-primary"
+                                        data-toggle="tooltip"
+                                        title="Editar!">
+                                    </a>
+                                </li> |
+                                <li>
+                                    <a class="fa fa-lg fa-times"
+                                       onclick="deleteConfirm('{{$material->name}}','{{$material->id}}','/materiales/')"
+                                       data-toggle="tooltip"
+                                       title="Eliminar!">
+                                    </a>
+                                </li>
+                            </ul>
                         </td>
 
                     </tr>
@@ -42,4 +53,12 @@
     @else
         <p>No hay materiales en el sistema.</p>
     @endif
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 @endsection

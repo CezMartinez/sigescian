@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Material extends Model
 {
-    protected $fillable=['name','description','slug'];
+    protected $fillable=['name','description','slug','laboratory_id'];
 
     public function setNameAttribute($nameMaterial)
     {
@@ -17,6 +17,9 @@ class Material extends Model
         }*/
     }
 
+    public function laboratory(){
+        return $this->belongsTo(Laboratory::class);
+    }
     public static function fetchAll()
     {
         $material = new static;
@@ -24,11 +27,13 @@ class Material extends Model
         return $material->paginate(5);
     }
 
-    public static function createMaterial($request)
+    public static function createMaterial($request, Laboratory $lab)
     {
         $material = new static;
 
         $material->fill($request);
+
+        $material->laboratory()->associate($lab);
 
         $material->save();
 

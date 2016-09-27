@@ -10,22 +10,34 @@
 				<div class="panel-body">
 					<p>Codigo: {{$administrativo->code}}</p>
 					<p>Estado: {{$administrativo->status}}</p>
+					<p>Seccion: {{$administrativo->section->section}}</p>
+					@if($subsections->count() > 0)
+					<p>Subsecciones: </p>
+						<ul>
+							@foreach($subsections as $subsection)
+									<li>{{$subsection->section}}</li>
+							@endforeach
+						</ul>
+					@endif
+
 				</div>
 			</div>
 			<hr>
 			<h2>Seleccione el tipo de archivo que desea subir al sistema:</h2>
-			<div class="">
-				<lable for="type">Formatos: </lable>
+			<div>
 				<input type="radio" name="type" value="1" class="type">
-				<lable for="type"> Flujogramas</lable>
+				<label for="type">Formatos </label>
 				<input type="radio" name="type" value="2" class="type">
-				<lable for="type"> Anexos</lable>
+				<label for="type"> Flujogramas</label>
 				<input type="radio" name="type" value="3" class="type">
+				<label for="type"> Anexos</label>
 			</div>
+
 			<form action="/procedimiento/administrativo/{{$administrativo->id}}/archivos-adjuntos" id="uploadFile" method="POST"
 				  class="dropzone"
 				  id="annexed-files">
 				<input type="hidden" name="type" id="type_hidden">
+				<input type="hidden" name="procedure" value="1">
 				{{csrf_field()}}
 			</form>
 
@@ -51,7 +63,7 @@
 											   '{{$administrativo->id}}',
 											   '{{$file->id}}',
 											   'formato',
-											   '/procedimiento/administrativo/archivos/formato/')"></i>
+											   '/procedimiento/archivos/formato/')"></i>
 								</li>
 							@endforeach
 						</div>
@@ -78,7 +90,7 @@
 											   '{{$administrativo->id}}',
 											   '{{$file->id}}',
 											   'flujograma',
-											   '/procedimiento/administrativo/archivos/flujograma/')"></i>
+											   '/procedimiento/archivos/flujograma/')"></i>
 								</li>
 							@endforeach
 						</div>
@@ -105,7 +117,7 @@
 											   '{{$administrativo->id}}',
 											   '{{$file->id}}',
 											   'anexo',
-											   '/procedimiento/administrativo/archivos/anexo/')"></i>
+											   '/procedimiento/archivos/anexo/')"></i>
 								</li>
 							@endforeach
 						</div>
@@ -136,13 +148,13 @@
 						this.removeAllFiles(true);
 					};
 					if(radioValue==1){
-						url = "/archivos/procedimientos/administrativos/formatos/"+procedureId;
+						url = "/archivos/procedimientos/formatos/"+procedureId+'/1';
 					}
 					if(radioValue==2){
-						url = "/archivos/procedimientos/administrativos/flujograma/"+procedureId;
+						url = "/archivos/procedimientos/flujograma/"+procedureId;
 					}
 					if(radioValue==3){
-						url = "/archivos/procedimientos/administrativos/anexos/"+procedureId;
+						url = "/archivos/procedimientos/anexos/"+procedureId+'/1';
 					}
 					$('#type_hidden').val(radioValue);
 					// Create the remove button
@@ -165,7 +177,7 @@
 										item.title+'</a>'+
 										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
 										item.originalName+'\',\'{{$administrativo->id}}\',\''+item.id+'\''+
-										',\'formato\',\'/procedimiento/administrativo/archivos/formato/\')"></i></li>')
+										',\'formato\',\'/procedimiento/archivos/formato/\')"></i></li>')
 							});
 							listaArchivos.push('</div>')
 
@@ -182,7 +194,7 @@
 										item.title+'</a>'+
 										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
 										item.originalName+'\',\'{{$administrativo->id}}\',\''+item.id+'\''+
-										',\'flujograma\',\'/procedimiento/administrativo/archivos/flujograma/\')"></i></li>')
+										',\'flujograma\',\'/procedimiento/archivos/flujograma/\')"></i></li>')
 							});
 							listaFlujogramas.push('</div>')
 
@@ -200,7 +212,7 @@
 									'</a>'+
 										'<i class="fa fa-times pull-right" ' +
 											'onclick="deleteFile(\'' +item.originalName+ '\',\'{{$administrativo->id}}\',\'' +item.id+ '\''+
-										',\'anexo\',\'/procedimiento/administrativo/archivos/anexo/\')">' +
+										',\'anexo\',\'/procedimiento/archivos/anexo/\')">' +
 										'</i>' +
 									'</li>')
 							});
@@ -243,7 +255,7 @@
 						if (isConfirm) {
 							$.ajax({
 									type:'DELETE',
-									url:url+idProcedure+'/'+idAnnexedFile,
+									url:url+idProcedure+'/'+idAnnexedFile+'/1',
 									headers: {
 										'X-CSRF-Token': csrf,
 									},

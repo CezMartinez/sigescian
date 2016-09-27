@@ -2,12 +2,10 @@
 
 @section('content')
 
-    @can('crear-roles')
-        <div>
-            <a href="/administracion/roles/create" class="btn btn-lg btn-primary">Agregar nuevo rol</a>
-        </div>
-        <hr>
-    @endcan
+    <div>
+        <a href="/administracion/roles/create" class="btn btn-lg btn-primary">Agregar nuevo rol</a>
+    </div>
+    <hr>
 
     @if($roles->count() > 0)
         <div class="table-responsive">
@@ -40,7 +38,6 @@
                         <td>
                             @if($role->slug != 'administrador-del-sistema')
                                 <ul class="list-inline">
-                                    @can('editar-roles')
                                        <li>
                                            <a
                                                    href="/administracion/roles/{{$role->slug}}/edit"
@@ -48,10 +45,7 @@
                                                    data-toggle="tooltip"
                                                    title="Editar!">
                                            </a>
-                                       </li>
-                                    @endcan
-                                    @can('eliminar-roles')
-                                    |
+                                       </li>|
                                         <li>
                                             <a class="fa fa-lg fa-times"
                                                onclick="deleteConfirm('{{$role->name}}','{{$role->id}}','/administracion/roles/')"
@@ -59,7 +53,6 @@
                                                title="Eliminar!">
                                             </a>
                                         </li>
-                                    @endcan
                                 </ul>
                             @endif
                         </td>

@@ -34,11 +34,25 @@
                         <td>{{$client->nit}}</td>
                         <td>{{$client->legal_agent}}</td>
                         <td>
-                            <div class="acciones" >
-                                <a href="/clientes/{{$client->slug}}/edit" class="btn btn-sm btn-primary"><span class="texto">Editar</span></a> |
-                                <a class="btn btn-sm btn-danger"
-                                   onclick="deleteConfirm('{{$client->name}}','{{$client->id}}','/clientes/')">Eliminar</a>
-                            </div>
+                            <ul class="list-inline" >
+                                <li>
+                                    <a  class="fa fa-lg fa-pencil"
+                                        href="/clientes/{{$client->slug}}/edit" class="btn btn-sm btn-primary"
+                                        data-toggle="tooltip"
+                                        title="Editar!"
+                                    >
+                                    </a>
+                                </li>
+                                |
+                                <li>
+                                    <a class="fa fa-lg fa-times"
+                                       onclick="deleteConfirm('{{$client->name}}','{{$client->id}}','/clientes/')"
+                                       data-toggle="tooltip"
+                                       title="Eliminar!"
+                                    >
+                                    </a>
+                                </li>
+                            </ul>
                         </td>
                     </tr>
                 @endforeach
@@ -49,4 +63,12 @@
     @else
         <p>No hay clientes en el sistema.</p>
     @endif
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 @endsection

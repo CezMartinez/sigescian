@@ -1,5 +1,7 @@
 <?php
 
+use App\Model\Section;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -95,14 +97,24 @@ Route::get('laboratorios/{slug}/edit','LaboratoryController@edit')->middleware('
 
 /**---------------------------------------------- Procedimientos Administrativos ------------------------------------------------**/
 
-Route::post('procedimiento/administrativo/{procedure}/archivos-adjuntos','AnnexedFilesController@uploadFile');
 Route::resource('procedimientos/administrativos','AdministrativeController');
-Route::delete('procedimiento/administrativo/archivos/anexo/{procedure}/{annexedFile}','AnnexedFilesController@deleteAnnexedFile');
-Route::delete('procedimiento/administrativo/archivos/flujograma/{procedure}/{flowChartFile}','AnnexedFilesController@deleteFlowChartFile');
-Route::delete('procedimiento/administrativo/archivos/formato/{procedure}/{formatFile}','AnnexedFilesController@deleteFormatFile');
 
-Route::get('archivos/procedimientos/administrativos/anexos/{procedure}','AnnexedFilesController@getAllAnnexedFiles');
-Route::get('archivos/procedimientos/administrativos/flujograma/{procedure}','AnnexedFilesController@getFlowCharFileFiles');
-Route::get('archivos/procedimientos/administrativos/formatos/{procedure}','AnnexedFilesController@getAllFormatsFiles');
+Route::get('subsecciones/{seccion}',function(Section $seccion){
+    return $seccion->subsections()->get()->pluck('section','id')->toArray();
+});
+/**---------------------------------------------- Procedimientos Tecnicos ------------------------------------------------**/
 
-Route::get('archivos/procedimientos/administrativos/{procedure}','AnnexedFilesController@getAllAnnexedFiles');
+Route::resource('procedimientos/tecnicos','TechnicianController');
+Route::post('pasos/procedimientos/tecnicos/{procedure}','TechnicianController@steps');
+
+/**---------------------------------------------- Manejo de archivos ------------------------------------------------**/
+Route::post('procedimiento/administrativo/{procedure}/archivos-adjuntos','AnnexedFilesController@uploadFile');
+Route::post('procedimiento/tecnico/{procedure}/archivos-adjuntos','AnnexedFilesController@uploadFile');
+
+Route::delete('procedimiento/archivos/anexo/{procedure}/{annexedFile}/{type}','AnnexedFilesController@deleteAnnexedFile');
+Route::delete('procedimiento/archivos/flujograma/{procedure}/{flowChartFile}/{type}','AnnexedFilesController@deleteFlowChartFile');
+Route::delete('procedimiento/archivos/formato/{procedure}/{formatFile}/{type}','AnnexedFilesController@deleteFormatFile');
+
+Route::get('archivos/procedimientos/anexos/{procedure}/{type}','AnnexedFilesController@getAllAnnexedFiles');
+Route::get('archivos/procedimientos/flujograma/{procedure}','AnnexedFilesController@getFlowCharFileFiles');
+Route::get('archivos/procedimientos/formatos/{procedure}/{type}','AnnexedFilesController@getAllFormatsFiles');

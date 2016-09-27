@@ -64,7 +64,7 @@ class Role extends Model
      * @param $slug
      * @return Collection
      */
-    public static function permissionList($slug)
+    public static function getPermissionsSlug($slug)
     {
         $role = new static;
 

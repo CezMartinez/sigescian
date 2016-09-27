@@ -17,14 +17,13 @@ class DatabaseSeeder extends Seeder
         $this->call(RolePermissionsSeeder::class);
         $this->call(CustomerTypesTableSeeder::class);
         $this->call(SectionTableSeeder::class);
-        $this->call(SubSectionL1sTableSeeder::class);
-        $this->call(SubSectionL2sTableSeeder::class);
-        $this->call(SubSectionL3sTableSeeder::class);
+        $this->call(SubSectionsTableSeeder::class);
         $this->call(ClientsTableSeeder::class);
-        $this->call(MaterialsTableSeeder::class);
-      //  $this->call(PlantsTableSeeder::class);
         $this->call(DepartmentsTableSeeder::class);
         $this->call(LaboratoriesTableSeeder::class);
+        $this->call(EquipmentTableSeeder::class);
+        $this->call(MaterialsTableSeeder::class);
         $this->call(AdministrativeProcedureTableSeeder::class);
+        $this->call(TechnicianProcedureTableSeeder::class);
     }
 }

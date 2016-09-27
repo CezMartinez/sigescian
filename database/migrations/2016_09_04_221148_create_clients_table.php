@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateClientsTable extends Migration
 {
@@ -34,6 +34,9 @@ class CreateClientsTable extends Migration
      */
     public function down()
     {
+        Schema::table('clients',function (Blueprint $table){
+            $table->dropForeign('clients_customer_type_foreign');
+        });
         Schema::drop('clients');
         //
     }

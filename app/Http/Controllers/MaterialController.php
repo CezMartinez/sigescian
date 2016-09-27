@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Client;
-use App\Model\CustomerType;
+use App\Http\Requests;
+use App\Model\Laboratory;
 use App\Model\Material;
 use Illuminate\Http\Request;
 use Validator;
-
-use App\Http\Requests;
 
 class MaterialController extends Controller
 {
@@ -31,21 +29,20 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        return view('materials.materials_create');
+        $lab = Laboratory::pluck('name','id');
+        return view('materials.materials_create', compact('lab'));
     }
 
     public function store(Request $request)
     {
         $this->validator($request->all())->validate();
-        if (Material::exists($request->input('name'))) {
+        if(Material::exists($request->input('name'))){
             flash('El material '.$request->input('name').' ya existe', 'danger');
-
             return back()->withInput();
         }
-
-        Material::createMaterial($request->all());
-
-        flash('Material Guardado', 'success');
+        $laboratorio= Laboratory::findOrFail($request->input('laboratory_id'));
+        flash('Material '.$request->input('name').' creado correctamente', 'success');
+        Material::createMaterial($request->all(), $laboratorio);
 
         return redirect('/materiales');
     }
@@ -54,26 +51,28 @@ class MaterialController extends Controller
     public function edit($slug)
     {
         $materials = Material::where('slug',$slug)->first();
-        return view('materials.materials_edit',compact('materials'));
+        $lab = Laboratory::pluck('name','id');
+        return view('materials.materials_edit',compact('materials', 'lab'));
     }
 
     public function update(Request $request, Material $materiale)
     {
         $materiale = $materiale->fill($request->all());
         $this->validator($request->all())->validate();
-
         if($materiale->getOriginal('slug') == $materiale->getAttribute('slug')){
             $materiale->update($request->all());
         }
-        else {
-            if ($materiale->exists($request->input('name'))) {
+        elseif ($materiale->exists($request->input('name'))) {
                 flash('El material '.$request->input('name').' ya existe', 'danger');
 
                 return back()->withInput();
             }
-            flash('Material actualizado', 'success');
-            $materiale->update($request->all());
-        }
+        $laboratorio = Laboratory::findOrFail($request->input('laboratory_id'));
+
+        $materiale->fill($request->all())->laboratory()->dissociate();
+        $materiale->laboratory()->associate($laboratorio);
+        $materiale->save();
+        flash('Material'.$request->input('name').' editado correctamente', 'success');
         return redirect('/materiales');
     }
 
