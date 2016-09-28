@@ -3,7 +3,7 @@
     {{ csrf_field() }}
     <div class="form-group {{$errors->has('date_calibration') ? 'has-error': ''}} ">
         <label for="date_calibration">Fecha Calibracion:</label>
-        <input type="date" name="date_calibration" class="form-control" value="{{old('date_calibration',\Carbon\Carbon::today()->format('Y-m-d'))}}" required autofocus>
+        <input type="date" name="date_calibration" class="form-control" id="datepicker" value="{{old('date_calibration',\Carbon\Carbon::today()->format('Y-m-d'))}}" required autofocus>
         @if ($errors->has('date_calibration'))
             <span class="help-block">
                 <strong>{{ $errors->first('date_calibration') }}</strong>
@@ -30,3 +30,9 @@
     </div>
     <button class="btn btn-primary">Actualizar Calibracion</button>
 </form>
+
+@section('scripts')
+    <script type="text/javascript">
+
+    </script>
+    @endsection

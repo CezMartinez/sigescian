@@ -4,7 +4,7 @@
     <!-- first_name Form Input -->
     <div class="form-group {{$errors->has('first_name') ? 'has-error': ''}} ">
         <label for="first_name" class="control-label">Nombres:</label>
-        <input type="text" name="first_name" class="form-control" value="{{ old('first_name') }}" autofocus >
+        <input type="text" name="first_name" class="form-control" value="{{ old('first_name') }}" autofocus placeholder="Rebeca" required>
         @if ($errors->has('first_name'))
             <span class="help-block">
                 <strong>{{ $errors->first('first_name') }}</strong>
@@ -16,7 +16,7 @@
     <!-- last_name Form Input -->
     <div class="form-group {{$errors->has('last_name') ? 'has-error' : ''}}">
         <label for="last_name" >Apellidos:</label>
-        <input type="text" name="last_name" class="form-control" value="{{old('last_name')}}">
+        <input type="text" name="last_name" class="form-control" value="{{old('last_name')}}" placeholder="Gonzales" required>
         @if ($errors->has('last_name'))
             <span class="help-block">
                 <strong>{{ $errors->first('last_name') }}</strong>
@@ -27,7 +27,7 @@
     <!-- email Form Input -->
     <div class="form-group {{$errors->has('email') ? 'has-error' : ''}}">
         <label for="email">Email:</label>
-        <input type="text" name="email" class="form-control" value="{{old('email')}}">
+        <input type="email" name="email" class="form-control" value="{{old('email')}}" placeholder="rebeca@example.com" required>
         @if ($errors->has('email'))
             <span class="help-block">
                 <strong>{{ $errors->first('email') }}</strong>
@@ -63,3 +63,13 @@
     </button>
     
 </form>
+
+@section('scripts')
+
+    <script>
+        $('#selectRole').select2({
+            placeholder: "Seleccione un rol",
+        })
+    </script>
+
+@endsection

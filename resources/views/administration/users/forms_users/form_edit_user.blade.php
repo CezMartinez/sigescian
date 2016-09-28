@@ -39,7 +39,7 @@
     <!-- roles Form Input -->
     <div class="form-group">
         <label for="roles">Asigne roles:</label>
-        {{Form::select('roles[]',$roleList,$userRoleList,['class'=>'form-control', 'multiple'])}}
+        {{Form::select('roles[]',$roleList,$userRoleList,['id'=>'selectRole','class'=>'form-control', 'multiple'])}}
     </div>
 
 
@@ -48,3 +48,11 @@
     </button>
 
 </form>
+
+@section('scripts')
+
+    <script>
+        $('#selectRole').select2()
+    </script>
+
+@endsection

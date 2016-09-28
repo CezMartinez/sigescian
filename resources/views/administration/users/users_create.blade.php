@@ -13,10 +13,3 @@
     
 @endsection
 
-@section('scripts')
-
-    <script>
-        $('#selectRole').select2()
-    </script>
-
-    @endsection

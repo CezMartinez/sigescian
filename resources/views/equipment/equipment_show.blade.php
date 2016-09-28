@@ -1,7 +1,7 @@
 @extends('app')
 @section('content')
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6 ">
             <div class="panel panel-primary">
                 <div class="panel-heading"><h3> {{$equipo->name}} </h3></div>
                 <div class="panel-body">
@@ -12,9 +12,9 @@
                         @if($equipo->date_calibration!=null)
                             <p>Fecha de Calibracion: {{$equipo->date_calibration->diffForHumans()}}</p>
                             <p>Dias restantes de Calibracion: {{$equipo->date_end_calibration->diffForHumans()}}</p>
-                            <p>Calibrado por: {{$equipo->user()->first()->full_name}}</p>
+                            <p>Calibrado por: {{$equipo->calibrate_company}}</p>
                         @else
-                            <p>¡Necesita Calibración!</p>
+                            <h2 style="color:red">¡Necesita Calibración!</h2>
                         @endif
                         <hr/>
                         <a href="/equipos/{{$equipo->slug}}/calibrar" class="btn btn-sm btn-success"><span class="texto">Calibrar</span></a>
