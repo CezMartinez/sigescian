@@ -113,3 +113,7 @@ ul.list-inline{
 	flex-direction: row;
 	justify-content: center;
 }
+
+#equipmet-text{
+	padding-bottom: 0.5em;
+}

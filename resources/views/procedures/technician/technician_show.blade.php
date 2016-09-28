@@ -1,7 +1,9 @@
 @extends('app')
 
 @section('content')
+	{!! link_to(url('/procedimientos/tecnicos'), '  Atras', ['class' => 'fa fa-2x fa-arrow-circle-left']) !!}
 
+	<hr>
 
 	<div class="row">
 		<div class="col-md-6">

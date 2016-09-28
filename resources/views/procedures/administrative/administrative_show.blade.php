@@ -2,7 +2,10 @@
 
 @section('content')
 
+    {!! link_to(url('/procedimientos/administrativos'), '  Atras', ['class' => 'fa fa-2x fa-arrow-circle-left']) !!}
 
+    <hr>
+	
 	<div class="row">
 		<div class="col-md-6">
 			<div class="panel panel-primary">

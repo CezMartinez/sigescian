@@ -1,5 +1,8 @@
 @extends('app')
 @section('content')
+    {!! link_to(url('/equipos'), '  Atras', ['class' => 'fa fa-2x fa-arrow-circle-left']) !!}
+
+    <hr>
     <div class="row">
         <div class="col-md-6 ">
             <div class="panel panel-primary">
@@ -10,16 +13,15 @@
                     <p>Laboratorio: {{$lab}}</p>
                     @if($equipo->need_calibration==1)
                         @if($equipo->date_calibration!=null)
-                            <p>Fecha de Calibracion: {{$equipo->date_calibration->diffForHumans()}}</p>
-                            <p>Dias restantes de Calibracion: {{$equipo->date_end_calibration->diffForHumans()}}</p>
-                            <p>Calibrado por: {{$equipo->calibrate_company}}</p>
+                            <p>Fecha de Calibracion: <strong>{{$equipo->date_calibration->diffForHumans()}}</strong></p>
+                            <p>Dias restantes de Calibracion: <strong>{{$equipo->date_end_calibration->diffForHumans()}}</strong></p>
+                            <p>Calibrado por: <strong>{{$equipo->calibrate_company}}</strong></p>
                         @else
                             <h2 style="color:red">¡Necesita Calibración!</h2>
                         @endif
-                        <hr/>
+
                         @if($equipo->needCalibrate())
-                                <h2 style="color:red">¡Necesita Calibración!</h2>
-                                <br>
+                            <hr/>
                             @if(Auth::user()->canSeeIf(['calibrar-equipos']))
                                 <a href="/equipos/{{$equipo->slug}}/calibrar" class="btn btn-sm btn-success"><span class="texto">Calibrar</span></a>
                             @endif
