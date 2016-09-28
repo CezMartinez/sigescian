@@ -11,10 +11,16 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
 
     public $prefix = 'Procedimiento De Gestión ';
 
+    public function procedureFile()
+    {
+        return $this->belongsTo(ProcedureDocument::class);
+    }
+
     public function annexedFiles()
     {
         return $this->belongsToMany(AnnexedFile::class,'administrative_procedure_annexed_files');
     }
+
     public function flowChartFile()
     {
         return $this->belongsTo(FlowChartFile::class);
@@ -147,14 +153,14 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             ]);
             if($request->ajax()){
                if($this->flowChartFile()->get()->count()){
-                   return response('Este procedimiento ya tiene un flujograma asociados. Si quiere agregar otro elimine el existente.',500);
+                   return false;
                };
             }
             $this->flowChartFile()->dissociate();
             $this->flowChartFile()->associate($flowchartNew);
             $this->save();
             return $this;
-        }else{//anexo
+        }elseif ($typeFile == 3){//anexo
             $path = $file->storeAs(
                 'archivos/procedimientos/administrativos/anexos', $clientName,'public'
             );
@@ -169,6 +175,32 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             ]);
 
             return $this;
+        }elseif ($typeFile == 4){
+            $path = $file->storeAs(
+                'archivos/procedimientos/administrativos/flujograma', $clientName,'public'
+            );
+            $document = ProcedureDocument::create([
+                'path'                  =>$path,
+                'originalName'          =>$clientName,
+                'nameWithoutExtension'  =>$nameWithoutExtension,
+                'title'                 =>$title,
+                'extension'             =>$extension,
+                'size'                  =>$size,
+                'mime'                  =>$mime,
+            ]);
+
+            if($request->ajax()){
+                if($this->procedureFile()->get()->count() >= 1){
+                    return false;
+                };
+            }
+            $this->procedureFile()->dissociate();
+
+            $this->procedureFile()->associate($document);
+
+            $this->save();
+            
+            return $this;
         }
     }
 
@@ -181,4 +213,10 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     {
         return '/archivos/procedimientos/administrativos/anexos/';
     }
+    
+    public function getProcedureFileDirPath()
+    {
+        return '/archivos/procedimientos/administrativos/procedimiento/';
+    }
+    
 }

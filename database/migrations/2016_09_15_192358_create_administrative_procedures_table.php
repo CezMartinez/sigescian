@@ -24,6 +24,7 @@ class CreateAdministrativeProceduresTable extends Migration
             $table->foreign('flow_chart_file_id')->references('id')->on('flow_chart_files')->onDelete('cascade');
             $table->integer('section_id')->unsigned();
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->integer('procedure_file_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

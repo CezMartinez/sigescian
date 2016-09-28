@@ -15,6 +15,13 @@ class CreateProcedureDocumentsTable extends Migration
     {
         Schema::create('procedure_documents', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('path');
+            $table->string('originalName');
+            $table->string('nameWithoutExtension');
+            $table->string('mime');
+            $table->string('title');
+            $table->string('extension');
+            $table->integer('size');
             $table->timestamps();
         });
     }
