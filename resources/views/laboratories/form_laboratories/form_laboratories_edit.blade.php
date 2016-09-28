@@ -4,11 +4,11 @@
     <!-- name Form Input -->
     <div class="form-group">
         <label for="name">Nombre</label>
-        <input type="text" name="name" class="form-control" value="{{old('name',$laboratory->name)}}" required>
+        <input type="text" name="name" class="form-control" value="{{old('name',$laboratory->name)}}" placeholder="Dosimetria" required autofocus>
     </div>
         <div class="form-group">
             <label for="description">Descripcion:</label>
-            <textarea name="description" class="form-control" required>{{old('description',$laboratory->description)}}</textarea>
+            <textarea name="description" class="form-control" placeholder="Laboratorio de Dosimetria personal externa TLD" required autofocus>{{old('description',$laboratory->description)}}</textarea>
         </div>
 
         <div class="form-group">

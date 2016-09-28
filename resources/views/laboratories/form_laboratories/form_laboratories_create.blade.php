@@ -3,7 +3,7 @@
     <!-- name Form Input -->
     <div class="form-group {{$errors->has('name') ? 'has-error':''}}">         
     <label for="name" class="control-label">Nombre:</label>         
-        <input type="text" name="name" class="form-control">         
+        <input type="text" name="name" class="form-control" placeholder="Dosimetria" required autofocus>
         @if ($errors->has('name'))             
             <span class="help-block">                 
                 <strong>{{ $errors->first('name') }}</strong>             
@@ -13,7 +13,7 @@
 
         <div class="form-group {{$errors->has('description') ? 'has-error':''}}">
             <label class="control-label" for="description">Descripcion:</label>
-            <textarea type="text" name="description" class="form-control"></textarea>
+            <textarea type="text" name="description" class="form-control" placeholder="Laboratorio de Dosimetria personal externa TLD" required autofocus></textarea>
             @if ($errors->has('description'))             
             <span class="help-block">                 
                 <strong>{{ $errors->first('description') }}</strong>             

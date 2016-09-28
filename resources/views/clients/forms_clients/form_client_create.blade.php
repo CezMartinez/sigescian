@@ -7,7 +7,7 @@
 
     <div class="form-group {{$errors->has('name') ? 'has-error': ''}} ">
         <label for="name">Nombre:</label>
-        <input type="text" name="name" class="form-control" value="{{old('name')}}" required autofocus>
+        <input type="text" name="name" class="form-control" value="{{old('name')}}" placeholder="Juan Perez" required autofocus>
         @if ($errors->has('name'))
             <span class="help-block">
                 <strong>{{ $errors->first('name') }}</strong>
@@ -16,7 +16,7 @@
     </div>
     <div class="form-group {{$errors->has('nit') ? 'has-error': ''}} ">
         <label for="nit">NIT:</label>
-        <input type="text" name="nit" class="form-control" value="{{old('nit')}}" required autofocus>
+        <input type="text" name="nit" class="form-control" value="{{old('nit')}}" placeholder="0933-011185-102-6" required autofocus>
         @if ($errors->has('nit'))
             <span class="help-block">
                 <strong>{{ $errors->first('nit') }}</strong>
@@ -25,7 +25,7 @@
     </div>
     <div class="form-group {{$errors->has('address') ? 'has-error': ''}} ">
         <label for="address">Direccion:</label>
-        <textarea name="address" class="form-control">{{old('address')}}</textarea>
+        <textarea name="address" class="form-control" placeholder="Avenida Siempre Viva 742" required autofocus>{{old('address')}}</textarea>
         @if ($errors->has('address'))
             <span class="help-block">
                 <strong>{{ $errors->first('address') }}</strong>

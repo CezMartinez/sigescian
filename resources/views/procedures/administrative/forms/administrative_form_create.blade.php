@@ -14,7 +14,7 @@
     <!-- acronym Form Input -->
     <div class="form-group {{$errors->has('acronym') ? 'has-error': ''}}">
         <label for="acronym" class="control-label">Acrónimo del Procedimiento:</label>
-        <input type="text" name="acronym" class="form-control" value="{{old('acronym')}}" placeholder="CI" required>
+        <input type="text" name="acronym" class="form-control" value="{{old('acronym')}}" placeholder="CI" required autofocus>
         @if ($errors->has('acronym'))
             <span class="help-block">
                     <strong>{{ $errors->first('acronym') }}</strong>
@@ -25,7 +25,7 @@
     {{-- politics --}}
     <div class="form-group {{$errors->has('politic') ? 'has-error': ''}}">
         <label for="politic" class="control-label">Política:</label>
-        <textarea rows="5" name="politic" class="form-control" placeholder="Describa las politicas que definen este procedimiento" required>{{old('politic')}}</textarea>
+        <textarea rows="5" name="politic" class="form-control" placeholder="Describa las politicas que definen este procedimiento" required autofocus>{{old('politic')}}</textarea>
         @if ($errors->has('politic'))
             <span class="help-block">
                 <strong>{{ $errors->first('politic') }}</strong>

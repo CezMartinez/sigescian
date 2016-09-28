@@ -5,7 +5,7 @@
 <!-- name Form Input -->
     <div class="form-group {{$errors->has('name') ? 'has-error': ''}} ">
         <label for="name" class="control-label">Nombre del Procedimiento:</label>
-        <input type="text" name="name" class="form-control" value="{{old('name',str_replace($procedure->prefix,'',$procedure->name))}}">
+        <input type="text" name="name" class="form-control" value="{{old('name',str_replace($procedure->prefix,'',$procedure->name))}}" required>
         @if ($errors->has('name'))
             <span class="help-block">
                 <strong>{{ $errors->first('name') }}</strong>

@@ -4,7 +4,7 @@
     <!-- name Form Input -->
     <div class="form-group">
         <label for="name">Nombre del rol:</label>
-        <input type="text" name="name" class="form-control" value="{{old('name')}}" required>
+        <input type="text" name="name" class="form-control" value="{{old('name')}}" placeholder="Crear usuario" required autofocus>
     </div>
 
     <!-- permission Form Input -->
