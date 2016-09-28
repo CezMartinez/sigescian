@@ -25,12 +25,14 @@
 			<hr>
 			<h2>Seleccione el tipo de archivo que desea subir al sistema:</h2>
 			<div>
+				<input type="radio" name="type" value="4" class="type">
+				<label for="type">Documento del Procedimiento</label>
 				<input type="radio" name="type" value="1" class="type">
 				<label for="type">Formatos </label>
 				<input type="radio" name="type" value="2" class="type">
-				<label for="type"> Flujogramas</label>
+				<label for="type">Flujogramas</label>
 				<input type="radio" name="type" value="3" class="type">
-				<label for="type"> Anexos</label>
+				<label for="type">Anexos</label>
 			</div>
 
 			<form action="/procedimiento/administrativo/{{$administrativo->id}}/archivos-adjuntos" id="uploadFile" method="POST"
@@ -44,6 +46,33 @@
 		</div>
 		<div class="col-md-6">
 
+			<div class="panel panel-primary">
+				<div class="panel-heading"><h3>Procedimiento:</h3></div>
+				<div class="panel-body">
+					<ul class="list-group">
+						<div class="lista-procedimientos">
+							@foreach($administrativo->procedureFile()->get() as $file)
+
+								<li id="file-procedimiento-{{$file->id}}" class="list-group-item list-group-item-info">
+
+									<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
+										{{$file->title}}
+									</a>
+
+									<i class="fa fa-times pull-right"
+									   onclick="deleteFile(
+											   '{{$file->originalName}}',
+											   '{{$administrativo->id}}',
+											   '{{$file->id}}',
+											   'procedimiento',
+											   '/procedimiento/archivos/procedimiento/')"></i>
+								</li>
+							@endforeach
+						</div>
+					</ul>
+				</div>
+			</div>
+			<hr>
 			<div class="panel panel-primary">
 				<div class="panel-heading"><h3>Formatos:</h3></div>
 				<div class="panel-body">
@@ -134,6 +163,7 @@
 		var listaArchivos= [];
 		var listaFlujogramas= [];
 		var listaAnexos= [];
+		var listaProcedimientos= [];
 		var url;
 		var procedureId = '{{$administrativo->id}}';
 		var radioValue;
@@ -155,6 +185,9 @@
 					}
 					if(radioValue==3){
 						url = "/archivos/procedimientos/anexos/"+procedureId+'/1';
+					}
+					if(radioValue==4){
+						url = "/archivos/procedimientos/procedimiento/"+procedureId+'/1';
 					}
 					$('#type_hidden').val(radioValue);
 					// Create the remove button
@@ -182,6 +215,7 @@
 							listaArchivos.push('</div>')
 
 							$('div.lista-formatos').replaceWith(listaArchivos.join(''));
+							swal("Agregado",'El formato fue agregado con exito',"success");
 						}
 						if(radioValue==2){
 							listaFlujogramas=[];
@@ -199,6 +233,7 @@
 							listaFlujogramas.push('</div>')
 
 							$('div.lista-flujogramas').replaceWith(listaFlujogramas.join(''));
+							swal("Agregado",'El Flujograma fue agregado con exito',"success");
 						}
 						if(radioValue==3){
 							listaAnexos=[];
@@ -219,7 +254,31 @@
 							listaAnexos.push('</div>')
 
 							$('div.lista-anexos').replaceWith(listaAnexos.join(''));
+							swal("Agregado",'El Anexo fue agregado con exito',"success");
 						}
+						if(radioValue==4){
+							listaProcedimientos=[];
+							listaProcedimientos.push('<div class="lista-procedimientos">')
+							$.each(data, function(i, item){
+								listaProcedimientos.push(
+									'<li id="file-procedimiento-'+item.id+'" ' +
+										'class="list-group-item list-group-item-info">'+
+									'<a href="/procedimiento/administrativos/' +item.originalName+ '.' +item.extension+ '">'
+										+item.title+
+									'</a>'+
+										'<i class="fa fa-times pull-right" ' +
+											'onclick="deleteFile(\'' +item.originalName+ '\',\'{{$administrativo->id}}\',\'' +item.id+ '\''+
+										',\'procedimiento\',\'/procedimiento/archivos/procedimiento/\')">' +
+										'</i>' +
+									'</li>')
+							});
+							listaProcedimientos.push('</div>')
+
+							$('div.lista-procedimientos').replaceWith(listaProcedimientos.join(''));
+							swal("Agregado",'El Documento del Procedimiento fue agregado con exito',"success");
+						}
+
+
 					})
 					.error(function(data){
 						console.log(data);

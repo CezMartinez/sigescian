@@ -103,8 +103,14 @@ class Role extends Model
         foreach ($permissions as $permission){
             $slug = $permission->slug;
             $slugPieces = explode("-", $slug);
+            /*dd($slugPieces);*/
+            if(count($slugPieces)>2){
+                $p = "ver-{$slugPieces[1]}-{$slugPieces[2]}";
+            }else{
+                $p = "ver-{$slugPieces[1]}";
+            }
             if(str_contains($slugPieces[0],'crear') || str_contains($slugPieces[0],'editar') || str_contains($slugPieces[0],'eliminar')){
-                $seePermission = Permission::where('slug',"ver-{$slugPieces[1]}")->first()->id;
+                $seePermission = Permission::where('slug',$p)->first()->id;
                 array_push($permissionSelectedIds,"{$seePermission}");
             }
         }

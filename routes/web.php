@@ -96,9 +96,9 @@ Route::delete('laboratorios/{laboratorio}','LaboratoryController@destroy')->midd
 Route::get('laboratorios/{slug}/edit','LaboratoryController@edit')->middleware('permission:editar-laboratorios');
 
 /**---------------------------------------------- Procedimientos Administrativos ------------------------------------------------**/
-
-Route::resource('procedimientos/administrativos','AdministrativeController');
-
+Route::group(['middleware' => ['permission:crear-procedimientos-generales,ver-procedimientos-generales,editar-procedimientos-generales']], function () {
+    Route::resource('procedimientos/administrativos', 'AdministrativeController');
+});
 Route::get('subsecciones/{seccion}',function(Section $seccion){
     return $seccion->subsections()->get()->pluck('section','id')->toArray();
 });
@@ -114,7 +114,9 @@ Route::post('procedimiento/tecnico/{procedure}/archivos-adjuntos','AnnexedFilesC
 Route::delete('procedimiento/archivos/anexo/{procedure}/{annexedFile}/{type}','AnnexedFilesController@deleteAnnexedFile');
 Route::delete('procedimiento/archivos/flujograma/{procedure}/{flowChartFile}/{type}','AnnexedFilesController@deleteFlowChartFile');
 Route::delete('procedimiento/archivos/formato/{procedure}/{formatFile}/{type}','AnnexedFilesController@deleteFormatFile');
+Route::delete('procedimiento/archivos/procedimiento/{procedure}/{procedureFile}/{type}','AnnexedFilesController@deleteProcedureFile');
 
 Route::get('archivos/procedimientos/anexos/{procedure}/{type}','AnnexedFilesController@getAllAnnexedFiles');
 Route::get('archivos/procedimientos/flujograma/{procedure}','AnnexedFilesController@getFlowCharFileFiles');
 Route::get('archivos/procedimientos/formatos/{procedure}/{type}','AnnexedFilesController@getAllFormatsFiles');
+Route::get('archivos/procedimientos/procedimiento/{procedure}/{type}','AnnexedFilesController@getProcedureFile');

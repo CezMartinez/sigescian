@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Model\FormatFile;
 use App\Model\AnnexedFile;
 use App\Model\FlowChartFile;
+use App\Model\ProcedureDocument;
 use Illuminate\Http\Request;
 use App\Model\TechnicianProcedure;
 use App\Model\AdministrativeProcedure;
@@ -29,7 +30,11 @@ class AnnexedFilesController extends Controller
 
         $procedure = $this->getProcedureByType($procedureType,$procedure);
 
-        $procedure->attachFiles($request);
+        $attached = $procedure->attachFiles($request);
+
+        if(!$attached){
+            return response('Este procedimiento ya tiene asociado un documento de este tipo. Si quiere agregar otro elimine el existente.',500);
+        }
 
     }
 
@@ -66,36 +71,52 @@ class AnnexedFilesController extends Controller
 
         Storage::delete('/archivos/procedimientos/administrativos/flujograma/'.$flowChartFile->originalName);
     }
-    
-    public function getAllAnnexedFiles($procedure,$type){
 
+    public function deleteProcedureFile($procedure,ProcedureDocument $procedureFile, $type)
+    {
+        $procedure = $this->getProcedureByType($type,$procedure);
+
+        $procedure->procedureFile()->dissociate();
+
+        $procedure->save();
+
+        $procedureFile->delete();
+
+        Storage::delete($procedure->getProcedureFileDirPath().$procedureFile->originalName);
+    }
+    
+    public function getAllAnnexedFiles($procedure,$type)
+    {
         $procedure = $this->getProcedureByType($type,$procedure);
 
         return $procedure->annexedFiles()->get();
 
     }
 
-    public function getAllFormatsFiles($procedure,$type){
-
+    public function getAllFormatsFiles($procedure,$type)
+    {
         $procedure = $this->getProcedureByType($type,$procedure);
 
         return $procedure->formatFiles()->get();
 
     }
 
-    public function getFlowCharFileFiles($procedure){
+    public function getProcedureFile($procedure,$type)
+    {
+        $procedure = $this->getProcedureByType($type,$procedure);
 
+        return $procedure->procedureFile()->get();
+    }
+
+    public function getFlowCharFileFiles(AdministrativeProcedure $procedure)
+    {
         return $procedure->flowChartFile()->get();
-
     }
 
     private function getProcedureByType($type,$id){
         if($type == 1){
-
             return AdministrativeProcedure::findOrFail($id);
-
         }
-
         return TechnicianProcedure::findOrFail($id);
     }
 
