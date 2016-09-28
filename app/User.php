@@ -146,30 +146,30 @@ class User extends Authenticatable
             ->get();
         return $users;
     }
+    
 
-    public function canSeeCatalog(){
-        $roles = $this->roles()->get();
-        foreach ($roles as $role) {
-            $permission = $role->getPermissionsSlug($role->slug);
-            if ($permission->contains('ver-materiales') ||
-                $permission->contains('ver-equipos') ||
-                $permission->contains('ver-departamentos') ||
-                $permission->contains('ver-laboratorios')
-            ){
-                return true;
+    public function canSeeIf($permissionGiven){
+
+        if(is_string($permissionGiven)){
+            $roles = $this->roles()->get();
+            foreach ($roles as $role) {
+                $permission = $role->getPermissionsSlug($role->slug);
+                if ($permission->contains($permissionGiven))
+                {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
-    }
 
-
-    public function canSeeAdmin(){
         $roles = $this->roles()->get();
         foreach ($roles as $role) {
             $permission = $role->getPermissionsSlug($role->slug);
-            if ($permission->contains('ver-usuarios') || $permission->contains('ver-roles'))
-            {
-                return true;
+            foreach ($permissionGiven as $permiss){
+                if ($permission->contains($permiss))
+                {
+                    return true;
+                }
             }
         }
         return false;

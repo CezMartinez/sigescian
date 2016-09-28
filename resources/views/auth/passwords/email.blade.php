@@ -1,7 +1,11 @@
-@extends('app')
-
-<!-- Main Content -->
-@section('content')
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/template.css">
+    <title>Document</title>
+</head>
+<body>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -44,4 +48,7 @@
         </div>
     </div>
 </div>
-@endsection
+
+
+</body>
+</html>
