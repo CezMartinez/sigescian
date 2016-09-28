@@ -16,7 +16,7 @@ class EquipmentTableSeeder extends Seeder
             'name'=>'Rayos X',
             'brand'=>'ABCX',
             'model'=>'YZ015',
-            'slug'=>'rayos-X',
+            'slug'=>'rayos-x',
             'laboratory_id'=>2,
             'need_calibration'=>1,
         ]);

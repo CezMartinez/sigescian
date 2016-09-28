@@ -12,23 +12,16 @@ class MaterialsTableSeeder extends Seeder
     public function run()
     {
         DB::table('materials')->insert([
-            'name' => 'Oxigeno',
-            'description'=>'Da energia a las celulas de la sangre',
-            'slug'=>'oxigeno-1',
+            'name' => 'Tubo de Ensayo',
+            'description'=>'Ocupado para la mezcla de compuestos',
+            'slug'=>'tubo-de-ensayo',
             'laboratory_id'=>1
         ]);
         DB::table('materials')->insert([
-            'name' => 'Hidrogeno',
+            'name' => 'Acido Clorihidrico',
             'description' => 'Reductor de minerales metalicos',
-            'slug'=>'hidrogeno-1',
+            'slug'=>'acido-clorihidrico',
             'laboratory_id'=>2
-
-        ]);
-        DB::table('materials')->insert([
-            'name' => 'Fosforo',
-            'description' => 'Compuestos para fertilizantes',
-            'slug'=>'fosforo-1',
-            'laboratory_id'=>3
 
         ]);
     }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Equipment extends Model
 {
-    protected $fillable=['stock_number','name','brand','model','need_calibration','slug','days_of_calibration','calibration_company','date_calibration','date_end_calibration','laboratory_id'];
+    protected $fillable=['stock_number','name','brand','model','need_calibration','slug','days_of_calibration','calibrate_company','date_calibration','date_end_calibration','laboratory_id'];
 
     protected $dates =['date_calibration','date_end_calibration'];
 
@@ -17,13 +17,20 @@ class Equipment extends Model
     }
 
     public function setDaysOfCalibrationAttribute($days){
+        $this->attributes['days_of_calibration'] = $days;
         $this->attributes['date_end_calibration']= Carbon::parse($this->attributes['date_calibration'])->addDays($days)->toDateTimeString();
+    }
+
+    public function setDateCalibrationAttribute($date){
+        $this->attributes['date_calibration']=
+            Carbon::createFromFormat('Y-m-d H:i:s',$date .' '. Carbon::now()->toTimeString())->toDateTimeString();
     }
 
     public function setNameAttribute($nameEquipment)
     {
         $this->attributes['name']=ucwords($nameEquipment);
-        $this->attributes['slug']=str_slug($nameEquipment);
+        $this->attributes['slug']=str_slug(ucwords($nameEquipment));
+
     }
 
     public static function fetchAll()
@@ -56,9 +63,5 @@ class Equipment extends Model
         }
         return false;
     }
-
-
-
-
-
+    
 }

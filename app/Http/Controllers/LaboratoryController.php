@@ -87,9 +87,10 @@ class LaboratoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param Laboratory $laboratorio
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Laboratory $laboratorio)
     {
@@ -99,10 +100,11 @@ class LaboratoryController extends Controller
         if($laboratorio->getOriginal('slug') == $laboratorio->getAttribute('slug')){
             $laboratorio->update($request->all());
         }
-
-        elseif($laboratorio->exists($request->input('name'))){
-            flash('Laboratorio '.$request->input('name').' ya existe!', 'danger');
-            return back()->withInput();
+        else{
+            if($laboratorio->exists($request->input('name'))){
+                flash('Laboratorio '.$request->input('name').' ya existe!', 'danger');
+                return back()->withInput();
+            }
         }
 
         $departamento = Department::findOrFail($request->input('department'));

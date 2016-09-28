@@ -44,6 +44,7 @@
                 </tbody>
 
             </table>
+            {{$equipos->links()}}
         </div>
     @else
         <p>No hay equipos en el sistema</p>

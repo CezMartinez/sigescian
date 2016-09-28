@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\ProcedureDocument;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,6 +38,11 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     public function formatFiles()
     {
         return $this->belongsToMany(FormatFile::class);
+    }
+
+    public function procedureFile()
+    {
+        return $this->belongsTo(ProcedureDocument::class);
     }
 
     public static function fetchAll()
@@ -172,4 +178,10 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     {
         return '/archivos/procedimientos/tecnicoss/formatos/';
     }
+
+    public function getProcedureFileDirPath()
+    {
+        return '/archivos/procedimientos/tecnicoss/procedimiento/';
+    }
+    
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Model\Equipment;
 use App\Model\Laboratory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -71,7 +72,7 @@ class EquipmentController extends Controller
     {
         $equipo = $equipo->fill($request->all());
         $this->validator($request->all())->validate();
-
+        dd($equipo);
         if ($equipo->getOriginal('slug') == $equipo->getAttribute('slug')) {
             if($request->input('need_calibration')==null){
                 $request['need_calibration']=0;
@@ -80,10 +81,11 @@ class EquipmentController extends Controller
             }
             $equipo->update($request->all());
         }
-        elseif ($equipo->exists($request->input('name'))) {
-            flash('El equipo ' . $request->input('name') . ' ya existe', 'danger');
-
-            return back()->withInput();
+        else{
+            if ($equipo->exists($request->input('name'))) {
+                flash('El equipo ' . $request->input('name') . ' ya existe', 'danger');
+                return back()->withInput();
+            }
         }
         if($request->input('need_calibration')==null){
             $request['need_calibration']=0;
@@ -127,10 +129,15 @@ class EquipmentController extends Controller
 
     }
 
-    protected function validatorCalibrate(array $data,$date)
+    protected function validatorCalibrate(array $data,$date=null)
     {
+        if(is_null($date)){
+            return Validator::make($data, [
+                'date_calibration'  => "required|after:".Carbon::yesterday(),
+            ]);
+        }
         return Validator::make($data, [
-            'date_calibration'  => 'required|after:'.$date,
+            'date_calibration'  => "required|after:{$date}",
         ]);
     }
 
