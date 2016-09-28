@@ -73,7 +73,7 @@ class AdministrativeController extends Controller
     public function show(AdministrativeProcedure $administrativo)
     {
         $subsections = $administrativo->subSections()->get();
-        $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles','section'])->first();
+        $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles','section'])->where('id',$administrativo->id)->first();
         return view('procedures.administrative.administrative_show',compact('administrativo','subsections'));
     }
 
