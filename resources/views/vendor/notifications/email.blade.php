@@ -94,13 +94,9 @@ $style = [
                                                 @endif
                                             @endif
                                         </h1>
-
-                                        <!-- Intro -->
-                                        @foreach ($introLines as $line)
-                                            <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
-                                            </p>
-                                        @endforeach
+                                        <p style="{{ $style['paragraph'] }}">
+                                            Estas recibiendo este correo electrónico porque hemos recibido una solicitud de restablecimiento de contraseña de su cuenta.
+                                        </p>
 
                                         <!-- Action Button -->
                                         @if (isset($actionText))
@@ -123,20 +119,16 @@ $style = [
                                                         <a href="{{ $actionUrl }}"
                                                             style="{{ $fontFamily }} {{ $style['button'] }} {{ $style[$actionColor] }}"
                                                             class="button"
-                                                            target="_blank">
-                                                            {{ $actionText }}
+                                                            target="_blank">Reiniciar Contraseña
                                                         </a>
                                                     </td>
                                                 </tr>
                                             </table>
                                         @endif
 
-                                        <!-- Outro -->
-                                        @foreach ($outroLines as $line)
-                                            <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
-                                            </p>
-                                        @endforeach
+                                        <p style="{{ $style['paragraph'] }}">
+                                            Si no has solicitado un restablecimiento de contraseña. Ignorar este mensaje
+                                        </p>
 
                                         <!-- Salutation -->
                                         <p style="{{ $style['paragraph'] }}">
