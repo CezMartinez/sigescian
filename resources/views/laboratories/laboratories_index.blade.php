@@ -1,10 +1,12 @@
 @extends('app')
 @section('content')
 
-    <div>
+    @if(Auth::user()->canSeeIf(['crear-laboratorios']))
+
+        <div>
         <a href="/laboratorios/create" class="btn btn-primary">Agregar Nuevo Laboratorio</a>
     </div>
-
+        @endif
     <hr>
     @if($laboratories->count() > 0)
         <div class="table-responsive">
@@ -17,7 +19,10 @@
                     Descripcion
                 </th>
                 <th>Departamento</th>
-                <th>Acciones</th>
+                @if(Auth::user()->canSeeIf(['editar-laboratorios','eliminar-laboratorios']))
+
+                    <th>Acciones</th>
+                    @endif
                 </thead>
                 <tbody>
                 @foreach($laboratories as $laboratorio)
@@ -26,8 +31,12 @@
                         <td>{{$laboratorio->name}}</td>
                         <td>{{$laboratorio->description}}</td>
                         <td>{{$laboratorio->department->name}}</td>
+                        @if(Auth::user()->canSeeIf(['editar-laboratorios','eliminar-laboratorios']))
                         <td>
                             <ul class="list-inline">
+                                @if(Auth::user()->canSeeIf(['editar-laboratorios']))
+
+
                                 <li>
                                     <a
                                     href="/laboratorios/{{$laboratorio->slug}}/edit"
@@ -36,7 +45,10 @@
                                     title="Editar!">
                                     </a>
                                 </li>
-                                |
+                                @endif
+                                @if(Auth::user()->canSeeIf(['eliminar-laboratorios']))
+
+                                    |
                                 <li>
                                     <a class="fa fa-lg fa-times"
                                        onclick="deleteConfirm('{{$laboratorio->name}}','{{$laboratorio->id}}','/laboratorios/')"
@@ -44,9 +56,10 @@
                                        title="Eliminar!">
                                     </a>
                                 </li>
-                                </form>
+                                @endif
                             </ul>
                         </td>
+                            @endif
                     </tr>
                 @endforeach
                 </tbody>

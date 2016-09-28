@@ -63,5 +63,15 @@ class Equipment extends Model
         }
         return false;
     }
+
+    public function needCalibrate(){
+        if($this->need_calibration==1){
+            if($this->date_end_calibration<=Carbon::now()){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
     
 }

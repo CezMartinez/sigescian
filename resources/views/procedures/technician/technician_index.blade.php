@@ -2,7 +2,9 @@
 
 @section('content')
 
-	<a href="/procedimientos/tecnicos/create" class="btn btn-lg btn-primary">Agregar Procedimiento</a>
+	@if(Auth::user()->canSeeIf(['crear-procedimientos-generales']))
+		<a href="/procedimientos/tecnicos/create" class="btn btn-lg btn-primary">Agregar Procedimiento</a>
+	@endif
 
 	<hr>
 	@if($techs->count()>0)
@@ -15,7 +17,9 @@
 				<th>Titulo</th>
 				<th>Laboratorio</th>
 				<th>Estado</th>
-				<th>Acciones</th>
+				@if(Auth::user()->canSeeIf(['editar-procedimientos-generales']))
+					<th>Acciones</th>
+				@endif
 				</thead>
 				<tbody>
 				@foreach($techs as $t)
@@ -35,11 +39,13 @@
 						<td>
 							{{$t->status}}
 						</td>
-						<td>
-							<div class="acciones" >
-								<a href="/procedimientos/tecnicos/{{$t->code}}/edit" class="fa fa-lg fa-pencil" data-toggle="tooltip" title="Editar!"></a>
-							</div>
-						</td>
+						@if(Auth::user()->canSeeIf(['editar-procedimientos-generales']))
+							<td>
+								<div class="acciones" >
+									<a href="/procedimientos/tecnicos/{{$t->code}}/edit" class="fa fa-lg fa-pencil" data-toggle="tooltip" title="Editar!"></a>
+								</div>
+							</td>
+						@endif
 					</tr>
 				@endforeach
 				</tbody>

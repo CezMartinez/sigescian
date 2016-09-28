@@ -2,9 +2,11 @@
     
 @section('content')
 
-    <a href="/administracion/usuarios/create" class="btn btn-lg btn-primary">
+    @if(Auth::user()->canSeeIf(['crear-usuarios']))
+        <a href="/administracion/usuarios/create" class="btn btn-lg btn-primary">
         Agregar un nuevo usuario
     </a>
+        @endif
     <hr>
 
     @if($users->count() >= 0)
@@ -14,7 +16,9 @@
                     <th>Nombre Usuario</th>
                     <th>Correo</th>
                     <th>Roles</th>
-                    <th>Acciones</th>
+                    @if(Auth::user()->canSeeIf(['editar-usuarios','eliminar-usuarios']))
+                        <th>Acciones</th>
+                        @endif
                 </thead>
                 <tbody>
                 @foreach($users as $user)
@@ -38,8 +42,10 @@
                                 <p>No tiene roles asignados</p>
                             @endif
                         </td>
+                        @if(Auth::user()->canSeeIf(['editar-usuarios','eliminar-usuarios']))
                         <td>
                             <ul class="list-inline" >
+                                @if(Auth::user()->canSeeIf(['editar-usuarios']))
                                 <li>
                                     <a href="/administracion/usuarios/{{$user->id}}/edit"
                                        class="fa fa-lg fa-pencil"
@@ -47,18 +53,22 @@
                                        title="Editar!">
                                     </a>
                                 </li>
-                                @if(!$user->hasRole('administrador-del-sistema'))
-                                    |
-                                    <li>
-                                        <a onclick="deleteConfirm('{{$user->full_name}}','{{$user->id}}','/administracion/usuarios/')"
-                                           class="fa fa-lg fa-times"
-                                           data-toggle="tooltip"
-                                           title="Eliminar!">
-                                        </a>
-                                    </li>
                                 @endif
+                                    @if(Auth::user()->canSeeIf(['eliminar-usuarios']))
+
+                                        @if(!$user->hasRole('administrador-del-sistema'))
+                                        |
+                                        <li>
+                                            <a onclick="deleteConfirm('{{$user->full_name}}','{{$user->id}}','/administracion/usuarios/')"
+                                                class="fa fa-lg fa-times"
+                                                data-toggle="tooltip"
+                                                title="Eliminar!"></a>
+                                        </li>
+                                        @endif
+                                    @endif
                             </ul>
                         </td>
+                            @endif
                     </tr>
                 @endforeach
                 </tbody>

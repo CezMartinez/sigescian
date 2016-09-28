@@ -1,11 +1,11 @@
 @extends('app')
 
 @section('content')
-
+    @if(Auth::user()->canSeeIf(['crear-clientes']))
     <div>
         <a href="/clientes/create" class="btn btn-primary">Agregar Nuevo Cliente</a>
     </div>
-
+    @endif
     <hr>
     @if($clients->count() > 0)
         <div class="table-responsive">
@@ -23,7 +23,10 @@
                 <th>
                     Representante Legal
                 </th>
-                <th>Acciones</th>
+                @if(Auth::user()->canSeeIf(['editar-clientes','eliminar-clientes']))
+
+                    <th>Acciones</th>
+                    @endif
                 </thead>
                 <tbody>
                 @foreach($clients as $client)
@@ -33,8 +36,10 @@
                         <td>{{$client->address}}</td>
                         <td>{{$client->nit}}</td>
                         <td>{{$client->legal_agent}}</td>
+                        @if(Auth::user()->canSeeIf(['editar-clientes','eliminar-clientes']))
                         <td>
                             <ul class="list-inline" >
+                                @if(Auth::user()->canSeeIf(['editar-clientes']))
                                 <li>
                                     <a  class="fa fa-lg fa-pencil"
                                         href="/clientes/{{$client->slug}}/edit" class="btn btn-sm btn-primary"
@@ -43,7 +48,10 @@
                                     >
                                     </a>
                                 </li>
-                                |
+                                @endif
+                                @if(Auth::user()->canSeeIf(['eliminar-clientes']))
+
+                                    |
                                 <li>
                                     <a class="fa fa-lg fa-times"
                                        onclick="deleteConfirm('{{$client->name}}','{{$client->id}}','/clientes/')"
@@ -52,8 +60,10 @@
                                     >
                                     </a>
                                 </li>
+                                    @endif
                             </ul>
                         </td>
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>

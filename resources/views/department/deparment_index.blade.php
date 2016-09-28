@@ -1,8 +1,10 @@
 @extends('app')
 
 @section('content')
+    @if(Auth::user()->canSeeIf(['crear-departamentos']))
 
     <a href="/departamentos/create" class="btn btn-primary">Agregar Departamento</a>
+    @endif
     <hr>
     <div class="table-responsive">
 
@@ -12,7 +14,9 @@
                     Nombre
                 </th>
                 <th>Descripcion</th>
-                <th>Acciones</th>
+                @if(Auth::user()->canSeeIf(['editar-departamentos','eliminar-departamentos']))
+                    <th>Acciones</th>
+                    @endif
             </thead>
             <tbody>
                 @foreach($departments as $deparment)
@@ -23,8 +27,10 @@
                         <td>
                             {{$deparment->description}}
                         </td>
+                        @if(Auth::user()->canSeeIf(['editar-departamentos','eliminar-departamentos']))
                         <td >
                             <ul class="list-inline"  >
+                                @if(Auth::user()->canSeeIf(['editar-departamentos']))
                                 <li>
                                     <a  class="fa fa-lg fa-pencil"
                                         href="/departamentos/{{$deparment->slug}}/edit"
@@ -32,12 +38,18 @@
                                         title="Editar!">
                                     </a>
                                 </li>
-                                |
+                                @endif
+                                @if(Auth::user()->canSeeIf(['eliminar-departamentos']))
+
+                                    |
                                 <li>
                                     <a class="fa fa-lg fa-times" data-toggle="tooltip" title="Eliminar!" data-container="body"
                                    onclick="deleteConfirm('{{$deparment->name}}','{{$deparment->id}}','/departamentos/')"></a></li>
+                                    @endif
                             </ul>
                         </td>
+                        @endif
+
                     </tr>
                 @endforeach
             </tbody>

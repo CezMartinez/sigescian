@@ -17,7 +17,13 @@
                             <h2 style="color:red">¡Necesita Calibración!</h2>
                         @endif
                         <hr/>
-                        <a href="/equipos/{{$equipo->slug}}/calibrar" class="btn btn-sm btn-success"><span class="texto">Calibrar</span></a>
+                        @if($equipo->needCalibrate())
+                                <h2 style="color:red">¡Necesita Calibración!</h2>
+                                <br>
+                            @if(Auth::user()->canSeeIf(['calibrar-equipos']))
+                                <a href="/equipos/{{$equipo->slug}}/calibrar" class="btn btn-sm btn-success"><span class="texto">Calibrar</span></a>
+                            @endif
+                         @endif
                     @endif
                 </div>
             </div>

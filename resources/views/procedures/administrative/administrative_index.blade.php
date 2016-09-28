@@ -2,8 +2,9 @@
 
 @section('content')
 
+	@if(Auth::user()->canSeeIf(['crear-procedimientos-generales']))
 	<a href="/procedimientos/administrativos/create" class="btn btn-lg btn-primary">Agregar Procedimiento</a>
-
+	@endif
 	<hr>
 	@if($admins->count()>0)
 		<div class="table-responsive">
@@ -15,7 +16,9 @@
 				<th>Titulo</th>
 				<th>Politicas</th>
 				<th>Estado</th>
-				<th>Acciones</th>
+				@if(Auth::user()->canSeeIf(['editar-procedimientos-generales']))
+					<th>Acciones</th>
+				@endif
 				</thead>
 				<tbody>
 				@foreach($admins as $admin)
@@ -35,14 +38,16 @@
 						<td>
 							{{$admin->status}}
 						</td>
-						<td>
-							<div style="display: flex; justify-content: center;">
-								<a href="/procedimientos/administrativos/{{$admin->code}}/edit"
-								   class="fa fa-lg fa-pencil"
-								   data-toggle="tooltip"
-								   title="Editar!"></a>
-							</div>
-						</td>
+						@if(Auth::user()->canSeeIf(['editar-procedimientos-generales']))
+							<td>
+								<div style="display: flex; justify-content: center;">
+									<a href="/procedimientos/administrativos/{{$admin->code}}/edit"
+									   class="fa fa-lg fa-pencil"
+									   data-toggle="tooltip"
+									   title="Editar!"></a>
+								</div>
+							</td>
+						@endif
 					</tr>
 				@endforeach
 				</tbody>

@@ -11,6 +11,12 @@
 .fa-pencil:hover{
 	color: green;
 }
+.fa-brief-case{
+	color:limegreen;
+}
+.fa-brief-case:hover{
+	color: green;
+}
 .header-main{
 	padding: 0 0 0 1em;
 }
