@@ -50,7 +50,7 @@
                                     @if($equipo->needCalibrate())
                                         |
                                             <li>
-                                                <a  class="fa fa-lg fa-brief-case"
+                                                <a  class="fa fa-lg fa-briefcase"
                                                     href="/equipos/{{$equipo->slug}}/calibrar"
                                                     data-toggle="tooltip"
                                                     title="Calibrar!">
