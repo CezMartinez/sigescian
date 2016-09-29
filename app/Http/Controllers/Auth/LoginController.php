@@ -80,6 +80,15 @@ class LoginController extends Controller
 
                 return '/laboratorios';
 
+            }elseif ($permission->contains('ver-procedimientos-tecnicos')){
+
+                return '/procedimientos/tecnicos';
+            }elseif ($permission->contains('ver-procedimientos-generales')){
+
+                return '/procedimientos/administrativos';
+            }elseif ($permission->contains('calibrar-equipos')){
+
+                return '/equipos';
             }
         }
     }

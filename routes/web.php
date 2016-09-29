@@ -65,7 +65,7 @@ Route::get('materiales/{slug}/edit','MaterialController@edit')->middleware('perm
 
 /**---------------------------------------------- Equipos ------------------------------------------------**/
 
-Route::group(['middleware' => ['permission:crear-equipos,ver-equipos']], function () {
+Route::group(['middleware' => ['permission:crear-equipos,ver-equipos,calibrar-equipos']], function () {
     Route::resource('equipos','EquipmentController',['except'=> [
         'edit','destroy'
     ]]);
@@ -104,7 +104,9 @@ Route::get('subsecciones/{seccion}',function(Section $seccion){
 });
 /**---------------------------------------------- Procedimientos Tecnicos ------------------------------------------------**/
 
-Route::resource('procedimientos/tecnicos','TechnicianController');
+Route::group(['middleware' => ['permission:crear-procedimientos-tecnicos,ver-procedimientos-tecnicos,editar-procedimientos-tecnicos']], function () {
+    Route::resource('procedimientos/tecnicos','TechnicianController');
+});
 Route::post('pasos/procedimientos/tecnicos/{procedure}','TechnicianController@steps');
 
 /**---------------------------------------------- Manejo de archivos ------------------------------------------------**/

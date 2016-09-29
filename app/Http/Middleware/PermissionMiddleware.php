@@ -21,6 +21,7 @@ class PermissionMiddleware
      */
     public function handle($request, Closure $next,...$permissions)
     {
+
         $permissions = collect($permissions);
 
         $this->permissionsNeeded = $permissions;
@@ -32,11 +33,13 @@ class PermissionMiddleware
             $userRoles = Auth::user()->roles()->get();
 
             if($this->findPermissionsInUserRoles($permissions,$userRoles)){
+
                 return $next($request);
             }
 
             if($request->ajax())
             {
+
                 return response('Error no tiene permiso para realizar la accion deseada contacte al administrador de sistema.',404);
             }
 
@@ -48,6 +51,8 @@ class PermissionMiddleware
         {
             return response('Debes estar logeado',404);
         }
+
+
     }
 
     /**
@@ -59,6 +64,7 @@ class PermissionMiddleware
      */
     private function findPermissionsInUserRoles($permissions,$userRoles)
     {
+
         foreach ($userRoles as $role) {
 
             $rolePermissions = Role::getPermissionsSlug($role->slug);
@@ -84,7 +90,6 @@ class PermissionMiddleware
      */
     private function redirectWhereBelongsByUserRoles($userRoles)
     {
-
         if(! $this->hasRole()){
 
             return $this->logoutUserWithErrors();
@@ -160,7 +165,18 @@ class PermissionMiddleware
             }elseif ($permission->contains('ver-laboratorios')){
 
                 return redirect('/laboratorios');
+            }elseif ($permission->contains('ver-procedimientos-tecnicos')){
+
+                return redirect('/procedimientos/tecnicos');
+            }elseif ($permission->contains('ver-procedimientos-generales')){
+
+                return redirect('/procedimientos/administrativos');
             }
+            elseif ($permission->contains('calibrar-equipos')){
+
+                return redirect('/equipos');
+            }
+
         }
     }
 
