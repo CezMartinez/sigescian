@@ -39,10 +39,11 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         return $this->belongsToMany(SubSection::class);
     }
 
-    public static function fetchAll()
+    public static function fetchAllProceduresByState($state)
     {
         $administrativeProcedure = new static;
-        return $administrativeProcedure->paginate(5);
+        
+        return $administrativeProcedure->where('state',$state)->paginate(5);
     }
 
     protected function setNameAttribute($name){

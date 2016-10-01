@@ -52,7 +52,9 @@
 @section('scripts')
 
     <script>
-        $('#selectRole').select2()
+        $('#selectRole').select2({
+           placeholder: "Seleccione los roles a asignar"
+        });
     </script>
 
 @endsection

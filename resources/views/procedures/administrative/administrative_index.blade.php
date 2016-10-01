@@ -6,6 +6,14 @@
 	<a href="/procedimientos/administrativos/create" class="btn btn-lg btn-primary">Agregar Procedimiento</a>
 	@endif
 	<hr>
+	<ul class="nav nav-tabs">
+		<li class="{{request()->exists('inactivos') ? '' : 'active'}}">
+			<a href="/procedimientos/administrativos/">Activos</a>
+		</li>
+		<li class="{{request()->exists('inactivos') ? 'active' : ''}}">
+			<a href="?inactivos">Inactivos</a>
+		</li>
+	</ul>
 	@if($admins->count()>0)
 		<div class="table-responsive">
 
@@ -56,7 +64,7 @@
 			{{$admins->links()}}
 		</div>
 	@else
-		<h2>No hay procedimientos adminsitrativos registrados.</h2>
+		<h2 style="padding-top: 1em">No hay procedimientos adminsitrativos registrados.</h2>
 	@endif
 
 @endsection

@@ -25,7 +25,9 @@ class AdministrativeController extends Controller
      */
     public function index()
     {
-        $admins = AdministrativeProcedure::fetchAll();
+        $status = request()->exists('inactivos') ? '0' : '1';
+        
+        $admins = AdministrativeProcedure::fetchAllProceduresByState($status);
 
         return view('procedures.administrative.administrative_index',compact('admins'));
     }
