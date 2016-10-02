@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 interface ProcedureInterface
 {
-    public function attachFiles(Request $request);
+    public function addFilesToProcedure(Request $request);
     public function annexedFiles();
     public function formatFiles();
     public function procedureFile();

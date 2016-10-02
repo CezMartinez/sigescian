@@ -40,6 +40,7 @@ class AdministrativeController extends Controller
     public function create()
     {
         $sections = Section::pluck('section','id');
+        
         return view('procedures.administrative.administrative_create',compact('sections'));
     }
 
@@ -53,12 +54,10 @@ class AdministrativeController extends Controller
     {
         $this->validateCreateProcedure($request->all())->validate();
 
-        $section = Section::find($request->input('section'));
-
-        $procedure = AdministrativeProcedure::createAdministrative($request->all(),$section);
+        $procedure = AdministrativeProcedure::createNewProcedure($request);
         
         if($request->has('subsection')){
-            $procedure->subSections()->attach($request->input('subsection'));
+            $procedure->addSubSections($request->input('subsection'));
         }
 
         flash('Procedimiento Guardado', 'success');
@@ -74,9 +73,9 @@ class AdministrativeController extends Controller
      */
     public function show(AdministrativeProcedure $administrativo)
     {
-        $subsections = $administrativo->subSections()->get();
-        $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles','section'])->where('id',$administrativo->id)->first();
-        return view('procedures.administrative.administrative_show',compact('administrativo','subsections'));
+        $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles','section','subSections'])->where('id',$administrativo->id)->first();
+
+        return view('procedures.administrative.administrative_show',compact('administrativo'));
     }
 
     /**
@@ -100,34 +99,19 @@ class AdministrativeController extends Controller
      */
     public function update(Request $request,AdministrativeProcedure $administrativo)
     {
-        $administrativo = $administrativo->fill($request->all());
-
-        $newAcronym = $request->input('acronym');
-
-        if (!$request->has('state')) {
-
-            $administrativo->state='0';
-        }
-        else{
-
-            $administrativo->state='1';
-        }
-
         $this->validateUpdateProcedure($request->all(),$administrativo)->validate();
 
-
-        if ($administrativo->exists($request->input('name'))) {
-
-            flash('El procedimiento '.$request->input('name').' ya existe', 'danger');
+        $result = $administrativo->updateProcedure($request);
+        
+        if($result['hasError']) {
+            
+            flash($result['message'], 'danger');
 
             return back()->withInput();
         }
-
-        flash('Procedimiento Actualizado', 'success');
-
-        $administrativo->code = $administrativo->updateCodeWithAcronym($newAcronym,$administrativo);
-
-        $administrativo->save();
+        
+        
+        flash($result['message'], 'success');
 
 
         return redirect('/procedimientos/administrativos');
@@ -149,6 +133,7 @@ class AdministrativeController extends Controller
         return Validator::make($data,[
             'name' =>'required',
             'acronym' => 'required|unique:administrative_procedures',
+            'politic' => 'required'
         ]);
     }
 
@@ -156,6 +141,9 @@ class AdministrativeController extends Controller
         return Validator::make($data,[
             'name' => 'required',
             'acronym' => 'unique:administrative_procedures,acronym,'.$procedure->id,
+            'politic' => 'required'
         ]);
     }
+    
+
 }

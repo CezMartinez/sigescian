@@ -117,7 +117,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         return (str_replace($originalAcronym,strtoupper(trim($acronym)),$originalCode));
     }
 
-    public function attachFiles(Request $request)
+    public function addFilesToProcedure(Request $request)
     {
         $typeFile = $request->input('type');
         $file = $request->file('file');

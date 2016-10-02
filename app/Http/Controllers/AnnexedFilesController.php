@@ -30,7 +30,7 @@ class AnnexedFilesController extends Controller
 
         $procedure = $this->getProcedureByType($procedureType,$procedure);
 
-        $attached = $procedure->attachFiles($request);
+        $attached = $procedure->addFilesToProcedure($request);
 
         if(!$attached){
             return response('Este procedimiento ya tiene asociado un documento de este tipo. Si quiere agregar otro elimine el existente.',500);
@@ -62,14 +62,13 @@ class AnnexedFilesController extends Controller
 
     public function deleteFlowChartFile(AdministrativeProcedure $procedure,FlowChartFile $flowChartFile)
     {
-
         $procedure->flowChartFile()->dissociate();
 
         $procedure->save();
 
-        $flowChartFile->delete();
+        /*$flowChartFile->delete();*/
 
-        Storage::delete('/archivos/procedimientos/administrativos/flujograma/'.$flowChartFile->originalName);
+        /*Storage::delete('/archivos/procedimientos/administrativos/flujograma/'.$flowChartFile->originalName);*/
     }
 
     public function deleteProcedureFile($procedure,ProcedureDocument $procedureFile, $type)

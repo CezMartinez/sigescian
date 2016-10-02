@@ -32,7 +32,7 @@ class PermissionMiddleware
 
             $userRoles = Auth::user()->roles()->get();
 
-            if($this->findPermissionsInUserRoles($permissions,$userRoles)){
+            if($this->findPermissionsInTheRolesOffTheUser($permissions,$userRoles)){
 
                 return $next($request);
             }
@@ -43,7 +43,7 @@ class PermissionMiddleware
                 return response('Error no tiene permiso para realizar la accion deseada contacte al administrador de sistema.',404);
             }
 
-            return $this->redirectWhereBelongsByUserRoles($userRoles);
+            return $this->redirectWhereBelongsByRolePermission($userRoles);
 
         }
 
@@ -56,13 +56,13 @@ class PermissionMiddleware
     }
 
     /**
-     * Find the in the roles of the users the necessary permission to get access
+     * Find the in the roles of the authenticated user the necessary permission to get access.
      *
      * @param $permissions
      * @param $userRoles
      * @return bool
      */
-    private function findPermissionsInUserRoles($permissions,$userRoles)
+    private function findPermissionsInTheRolesOffTheUser($permissions, $userRoles)
     {
 
         foreach ($userRoles as $role) {
@@ -83,12 +83,12 @@ class PermissionMiddleware
     }
 
     /**
-     * Redirect base upon the roles of the authenticated user
+     * Redirect base upon the permission of the authenticated user
      *
      * @param $userRoles
      * @return mixed
      */
-    private function redirectWhereBelongsByUserRoles($userRoles)
+    private function redirectWhereBelongsByRolePermission($userRoles)
     {
         if(! $this->hasRole()){
 
@@ -113,7 +113,7 @@ class PermissionMiddleware
     }
 
     /**
-     * Logout the user for any errors
+     * Logout the user with any errors
      *
      * @return mixed
      */
@@ -127,7 +127,7 @@ class PermissionMiddleware
     }
 
     /**
-     * Redirect the users to the place his has permission
+     * Redirect the users to some place his has permission to access
      *
      * @param $roles
      * @return mixed
@@ -180,6 +180,11 @@ class PermissionMiddleware
         }
     }
 
+    /**
+     * retrieve message if the user don have permission to access
+     *
+     * @return mixed
+     */
     public function permissionsNeeded()
     {
         return ucwords(str_replace('-',' ',$this->permissionsNeeded->implode(', ')));

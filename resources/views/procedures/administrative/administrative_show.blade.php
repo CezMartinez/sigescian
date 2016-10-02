@@ -11,13 +11,13 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading"><h3> {{$administrativo->name}} </h3></div>
 				<div class="panel-body">
-					<p>Codigo: {{$administrativo->code}}</p>
-					<p>Estado: {{$administrativo->status}}</p>
-					<p>Seccion: {{$administrativo->section->section}}</p>
-					@if($subsections->count() > 0)
-					<p>Subsecciones: </p>
+					<p><strong>Codigo: </strong>{{$administrativo->code}}</p>
+					<p><strong>Estado: </strong>{{$administrativo->status}}</p>
+					<p><strong>Seccion: </strong>{{$administrativo->section->section}}</p>
+					@if($administrativo->subSections()->count() > 0)
+					<p><strong>Subsecciones: </strong></p>
 						<ul>
-							@foreach($subsections as $subsection)
+							@foreach($administrativo->subSections as $subsection)
 									<li>{{$subsection->section}}</li>
 							@endforeach
 						</ul>
@@ -54,23 +54,27 @@
 				<div class="panel-body">
 					<ul class="list-group">
 						<div class="lista-procedimientos">
-							@foreach($administrativo->procedureFile()->get() as $file)
+							@if($administrativo->procedureFile()->count() > 0 )
+								@foreach($administrativo->procedureFile()->get() as $file)
 
-								<li id="file-procedimiento-{{$file->id}}" class="list-group-item list-group-item-info">
+									<li id="file-procedimiento-{{$file->id}}" class="list-group-item list-group-item-info">
 
-									<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
-										{{$file->title}}
-									</a>
+										<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
+											{{$file->title}}
+										</a>
 
-									<i class="fa fa-times pull-right"
-									   onclick="deleteFile(
-											   '{{$file->originalName}}',
-											   '{{$administrativo->id}}',
-											   '{{$file->id}}',
-											   'procedimiento',
-											   '/procedimiento/archivos/procedimiento/')"></i>
-								</li>
-							@endforeach
+										<i class="fa fa-times pull-right"
+										   onclick="deleteFile(
+												   '{{$file->originalName}}',
+												   '{{$administrativo->id}}',
+												   '{{$file->id}}',
+												   'procedimiento',
+												   '/procedimiento/archivos/procedimiento/')"></i>
+									</li>
+								@endforeach
+							@else
+								<p>No hay un documento oficial asociado con este procedimiento</p>
+							@endif
 						</div>
 					</ul>
 				</div>
@@ -81,23 +85,27 @@
 				<div class="panel-body">
 					<ul class="list-group">
 						<div class="lista-formatos">
-							@foreach($administrativo->formatFiles()->get() as $file)
+							@if($administrativo->formatFiles()->count() > 0 )
+								@foreach($administrativo->formatFiles()->get() as $file)
 
-								<li id="file-formato-{{$file->id}}" class="list-group-item list-group-item-info">
+									<li id="file-formato-{{$file->id}}" class="list-group-item list-group-item-info">
 
-									<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
-										{{$file->title}}
-									</a>
+										<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
+											{{$file->title}}
+										</a>
 
-									<i class="fa fa-times pull-right"
-									   onclick="deleteFile(
-											   '{{$file->originalName}}',
-											   '{{$administrativo->id}}',
-											   '{{$file->id}}',
-											   'formato',
-											   '/procedimiento/archivos/formato/')"></i>
-								</li>
-							@endforeach
+										<i class="fa fa-times pull-right"
+										   onclick="deleteFile(
+												   '{{$file->originalName}}',
+												   '{{$administrativo->id}}',
+												   '{{$file->id}}',
+												   'formato',
+												   '/procedimiento/archivos/formato/')"></i>
+									</li>
+								@endforeach
+							@else
+								No hay formatos asociados con este procedimiento
+							@endif
 						</div>
 					</ul>
 				</div>
@@ -108,23 +116,27 @@
 				<div class="panel-body">
 					<ul class="list-group">
 						<div class="lista-flujogramas">
-							@foreach($administrativo->flowChartFile()->get() as $file)
+							@if($administrativo->flowChartFile()->count() > 0 )
+								@foreach($administrativo->flowChartFile()->get() as $file)
 
-								<li id="file-flujograma-{{$file->id}}" class="list-group-item list-group-item-info">
+									<li id="file-flujograma-{{$file->id}}" class="list-group-item list-group-item-info">
 
-									<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
-										{{$file->title}}
-									</a>
+										<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
+											{{$file->title}}
+										</a>
 
-									<i class="fa fa-times pull-right"
-									   onclick="deleteFile(
-											   '{{$file->originalName}}',
-											   '{{$administrativo->id}}',
-											   '{{$file->id}}',
-											   'flujograma',
-											   '/procedimiento/archivos/flujograma/')"></i>
-								</li>
-							@endforeach
+										<i class="fa fa-times pull-right"
+										   onclick="deleteFile(
+												   '{{$file->originalName}}',
+												   '{{$administrativo->id}}',
+												   '{{$file->id}}',
+												   'flujograma',
+												   '/procedimiento/archivos/flujograma/')"></i>
+									</li>
+								@endforeach
+							@else
+								No ha asociado un flujograma con este procedimiento
+							@endif
 						</div>
 					</ul>
 				</div>
@@ -135,23 +147,27 @@
 				<div class="panel-body">
 					<ul class="list-group">
 						<div class="lista-anexos">
-							@foreach($administrativo->annexedFiles()->get() as $file)
+							@if($administrativo->annexedFiles()->count() > 0 )
+								@foreach($administrativo->annexedFiles()->get() as $file)
 
-								<li id="file-anexo-{{$file->id}}" class="list-group-item list-group-item-info">
+									<li id="file-anexo-{{$file->id}}" class="list-group-item list-group-item-info">
 
-									<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
-										{{$file->title}}
-									</a>
+										<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
+											{{$file->title}}
+										</a>
 
-									<i class="fa fa-times pull-right"
-									   onclick="deleteFile(
-											   '{{$file->originalName}}',
-											   '{{$administrativo->id}}',
-											   '{{$file->id}}',
-											   'anexo',
-											   '/procedimiento/archivos/anexo/')"></i>
-								</li>
-							@endforeach
+										<i class="fa fa-times pull-right"
+										   onclick="deleteFile(
+												   '{{$file->originalName}}',
+												   '{{$administrativo->id}}',
+												   '{{$file->id}}',
+												   'anexo',
+												   '/procedimiento/archivos/anexo/')"></i>
+									</li>
+								@endforeach
+							@else
+								No hay archivos anexos con este procedimiento
+							@endif
 						</div>
 					</ul>
 				</div>
