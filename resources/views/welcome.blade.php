@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SIGESCIAN</title>
-        <link rel="stylesheet" href="/css/template.css">
+        <link rel="stylesheet" href="/css/welcome.css">
 
     </head>
     <body style="background-image: url('{{ asset('/images/intro-bg.jpg')}}');">
