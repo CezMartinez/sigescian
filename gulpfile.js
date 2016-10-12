@@ -28,8 +28,14 @@ elixir(function(mix) {
                 'sweetalert.css',
                 'style_cesar.css',
                 'select2.css',
-                'welcome.css',
                 'normalize.css'],'./public/css/template.css')
+        .styles([
+                'bootstrap.css',
+                'style.css',
+                'font-awesome.css',
+                'style_cesar.css',
+                'welcome.css',
+                'normalize.css'],'./public/css/welcome.css')
         .scripts([
             'template/jquery-2.1.1.min.js',
             'template/jquery.nicescroll.js',

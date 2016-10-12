@@ -7,12 +7,8 @@
         <title>SIGESCIAN</title>
         <link rel="stylesheet" href="/css/template.css">
 
-
-
     </head>
-    <body>
-
-    <div class="intro-header" style="background-image: url('{{ asset('/images/intro-bg.jpg')}}'); height: auto">
+    <body style="background-image: url('{{ asset('/images/intro-bg.jpg')}}');">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -43,10 +39,12 @@
             </div>
         </div>
         <!-- /.container -->
-        <p>© 2016 Grupo 18 DSI 215. Derechos Reservados</p>
-
-    </div>
-
+        <div class="copyrights">
+            <div>
+                <img src="/images/Logo_UES.png" alt="Universidad de El Salvador">
+                <p>© 2016 Universidad de El Salvador, Facultad de Ingenieria de Sistemas Informativos Grupo 18 DSI 215. Derechos Reservados</p>
+            </div>
+        </div>
 
     <script src="/js/template.js"></script>
 
