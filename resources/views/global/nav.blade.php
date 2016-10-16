@@ -4,7 +4,7 @@
         </a> </div>
     <div class="menu">
         <ul id="menu" >
-<!--            <li id="menu-home" ><a href="#"><i class="fa fa-home nav_icon" ></i><span>Inicio</span></a></li> -->
+            <li id="menu-home" ><a href="/listaMaestra"><i class="fa fa-home nav_icon" ></i><span>Lista Maestra</span></a></li>
             @if($user->canSeeIf(['ver-procedimientos-generales','ver-procedimientos-tecnicos']))
             <li id="menu-comunicacao" ><a href="#"><i class="fa fa-list nav_icon"></i><span>Procedimientos</span><span class="fa fa-angle-right" style="float: right"></span></a>
                 <ul id="menu-comunicacao-sub" >

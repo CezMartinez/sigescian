@@ -21,6 +21,10 @@ Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout');
 
+Route::get('/listaMaestra', function (){
+    return view('mainlist/main_list');
+});
+
 /**---------------------------------------------- Roles ------------------------------------------------**/
 
 Route::group(['middleware' => ['permission:crear-roles,ver-roles']], function () {
