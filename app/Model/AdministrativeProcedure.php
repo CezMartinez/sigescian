@@ -82,6 +82,11 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         return $administrativeProcedure->where('state',$state)->paginate(5);
     }
 
+    public static function fetchAll()
+    {
+        $adminProcedure = new static;
+        return $adminProcedure->paginate(5);
+    }
     /**
      * Set the name attribute
      * 

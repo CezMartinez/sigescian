@@ -21,9 +21,6 @@ Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout');
 
-Route::get('/listaMaestra', function (){
-    return view('mainlist/main_list');
-});
 
 /**---------------------------------------------- Roles ------------------------------------------------**/
 
@@ -126,3 +123,7 @@ Route::get('archivos/procedimientos/anexos/{procedure}/{type}','AnnexedFilesCont
 Route::get('archivos/procedimientos/flujograma/{procedure}','AnnexedFilesController@getFlowCharFileFiles');
 Route::get('archivos/procedimientos/formatos/{procedure}/{type}','AnnexedFilesController@getAllFormatsFiles');
 Route::get('archivos/procedimientos/procedimiento/{procedure}/{type}','AnnexedFilesController@getProcedureFile');
+
+/**---------------------------------------------- Lista Maestra ------------------------------------------------**/
+
+Route::get('listaMaestra', 'MainListController@showAll');
