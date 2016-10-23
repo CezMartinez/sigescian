@@ -52,7 +52,8 @@ class AdministrativeController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateCreateProcedure($request->all())->validate();
+        
+        $this->validateCreateProcedure($request->all());
 
         $procedure = AdministrativeProcedure::createNewProcedure($request);
         
@@ -99,7 +100,7 @@ class AdministrativeController extends Controller
      */
     public function update(Request $request,AdministrativeProcedure $administrativo)
     {
-        $this->validateUpdateProcedure($request->all(),$administrativo)->validate();
+        $this->validateUpdateProcedure($request->all(),$administrativo);
 
         $result = $administrativo->updateProcedure($request);
         
@@ -132,9 +133,9 @@ class AdministrativeController extends Controller
     {
         return Validator::make($data,[
             'name' =>'required',
-            'acronym' => 'required|unique:administrative_procedures',
+            'acronym' => 'required|unique:administrative_procedures,acronym',
             'politic' => 'required'
-        ]);
+        ])->validate();
     }
 
     private function validateUpdateProcedure($data,$procedure){
@@ -142,7 +143,7 @@ class AdministrativeController extends Controller
             'name' => 'required',
             'acronym' => 'unique:administrative_procedures,acronym,'.$procedure->id,
             'politic' => 'required'
-        ]);
+        ])->validate();
     }
     
 

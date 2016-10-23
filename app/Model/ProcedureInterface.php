@@ -14,4 +14,5 @@ interface ProcedureInterface
     public function getFormatFilesDirPath();
     public function getAnnexedFilesDirPath();
     public function getProcedureFileDirPath();
+    public function countAllProcedures();
 }

@@ -148,10 +148,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
 
     private function generateCodeAtCreateProcedure()
     {
-
-        $ultimo = $this->latest();
-
-        return $this->attributes['code'] = 'PG-'.$this->attributes['acronym'].'-CIAN'.($ultimo->id+1);
+        return $this->attributes['code'] = 'PG-'.$this->attributes['acronym'].'-CIAN'.($this->countAllProcedures()+1);
     }
 
     public function updateCodeWithAcronym($acronym,$procedure)
@@ -357,5 +354,10 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     {
         return '/archivos/procedimientos/administrativos/procedimiento/';
     }
-    
+
+    public function countAllProcedures()
+    {
+        return $proceduresCount = count(AdministrativeProcedure::all()) + count(TechnicianProcedure::all());
+    }
+
 }

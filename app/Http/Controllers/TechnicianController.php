@@ -50,7 +50,7 @@ class TechnicianController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateCreateProcedure($request->all())->validate();
+        $this->validateCreateProcedure($request->all());
 
         $section = Section::find($request->input('section'));
         $laboratory = Laboratory::find($request->input('laboratory_id'));
@@ -120,7 +120,7 @@ class TechnicianController extends Controller
             $tecnico->state='1';
         }
 
-        $this->validateUpdateProcedure($request->all(),$tecnico)->validate();
+        $this->validateUpdateProcedure($request->all(),$tecnico);
 
 
         if ($tecnico->exists($request->input('name'))) {
@@ -167,14 +167,14 @@ class TechnicianController extends Controller
     {
         return Validator::make($data,[
             'name' =>'required',
-            'acronym' => 'required|unique:administrative_procedures',
-        ]);
+            'acronym' => 'required|unique:technician_procedures,acronym',
+        ])->validate();
     }
 
     private function validateUpdateProcedure($data,$procedure){
         return Validator::make($data,[
             'name' => 'required',
-            'acronym' => 'unique:administrative_procedures,acronym,'.$procedure->id,
-        ]);
+            'acronym' => 'unique:technician_procedures,acronym,'.$procedure->id,
+        ])->validate();
     }
 }

@@ -61,9 +61,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
 
     private function generateCodeAtCreate()
     {
-        $ultimo = $this->latest();
-
-        return $this->attributes['code'] = 'PT-'.$this->attributes['acronym'].'-CIAN'.($ultimo->id+1);
+        return $this->attributes['code'] = 'PT-'.$this->attributes['acronym'].'-CIAN'.($this->countAllProcedures()+1);
     }
 
     public function getStateAttribute(){
@@ -183,5 +181,9 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     {
         return '/archivos/procedimientos/tecnicoss/procedimiento/';
     }
-    
+
+    public function countAllProcedures()
+    {
+        return $proceduresCount = count(AdministrativeProcedure::all()) + count(TechnicianProcedure::all());
+    }
 }

@@ -23,7 +23,12 @@ class DatabaseSeeder extends Seeder
         $this->call(LaboratoriesTableSeeder::class);
         $this->call(EquipmentTableSeeder::class);
         $this->call(MaterialsTableSeeder::class);
-        $this->call(AdministrativeProcedureTableSeeder::class);
-        $this->call(TechnicianProcedureTableSeeder::class);
+        /*$this->call(AdministrativeProcedureTableSeeder::class);*/
+        /*$this->call(TechnicianProcedureTableSeeder::class);*/
     }
 }
+
+//F-SD-PG2.1
+//SD -> Formulario de seguridad dual
+Formulario de seguridad dual
+de al el del  
