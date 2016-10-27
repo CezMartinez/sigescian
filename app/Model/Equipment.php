@@ -2,29 +2,20 @@
 
 namespace App\Model;
 
+use Auth;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Equipment extends Model
 {
-    protected $fillable=['stock_number','name','brand','model','need_calibration','slug','days_of_calibration','calibrate_company','date_calibration','date_end_calibration','laboratory_id'];
-
-    protected $dates =['date_calibration','date_end_calibration'];
-
+    protected $fillable=['stock_number','name','brand','model','need_calibration','slug','laboratory_id'];
 
     public function laboratory(){
         return $this->belongsTo(Laboratory::class);
     }
 
-    public function setDaysOfCalibrationAttribute($days){
-        $this->attributes['days_of_calibration'] = $days;
-        $this->attributes['date_end_calibration']= Carbon::parse($this->attributes['date_calibration'])->addDays($days)->toDateTimeString();
-    }
-
-    public function setDateCalibrationAttribute($date){
-        $this->attributes['date_calibration']=
-            Carbon::createFromFormat('Y-m-d H:i:s',$date .' '. Carbon::now()->toTimeString())->toDateTimeString();
-    }
 
     public function setNameAttribute($nameEquipment)
     {
@@ -64,14 +55,21 @@ class Equipment extends Model
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function needCalibrate(){
         if($this->need_calibration==1){
-            if($this->date_end_calibration<=Carbon::now()){
-                return true;
+            $latest = Calibration::where('equipment_id',$this->id)->get()->last();
+            if($latest!=null){
+                if($latest->date_end_calibration<=Carbon::now()){
+                    return true;
+                }
+                return false;
             }
-            return false;
+            return true;
         }
         return false;
     }
-    
+
 }

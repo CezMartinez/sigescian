@@ -23,4 +23,9 @@ class MainListController extends Controller
 
         return view('mainlist.main_list', compact('adminproceds','techproceds'));
     }
+
+    public function solicitudes(){
+
+        return view('applications.index');
+    }
 }
