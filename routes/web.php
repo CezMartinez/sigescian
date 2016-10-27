@@ -127,3 +127,8 @@ Route::get('archivos/procedimientos/procedimiento/{procedure}/{type}','AnnexedFi
 /**---------------------------------------------- Lista Maestra ------------------------------------------------**/
 
 Route::get('listaMaestra', 'MainListController@showAll');
+
+/**---------------------------------------------- Solicitudes ------------------------------------------------**/
+Route::get('servicios','MainListController@solicitudes');
+Route::resource('servicios/radio-agua-226','ApplicationRadio226Controller');
+Route::resource('servicios/frotis-radiacion','ApplicationFrotisController');
