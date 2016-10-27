@@ -106,6 +106,7 @@ return [
 
     'attributes' => [
         'acronym' => 'acronimo de procedimiento',
+        'date_calibration' => 'Fecha Calibración',
     ],
 
 ];

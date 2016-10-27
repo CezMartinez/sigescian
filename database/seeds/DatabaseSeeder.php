@@ -27,8 +27,3 @@ class DatabaseSeeder extends Seeder
         /*$this->call(TechnicianProcedureTableSeeder::class);*/
     }
 }
-
-//F-SD-PG2.1
-//SD -> Formulario de seguridad dual
-Formulario de seguridad dual
-de al el del  

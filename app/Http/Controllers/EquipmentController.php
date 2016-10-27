@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Model\Calibration;
 use App\Model\Equipment;
 use App\Model\Laboratory;
 use Carbon\Carbon;
@@ -39,7 +40,10 @@ class EquipmentController extends Controller
     public function show($id){
         $equipo=Equipment::findOrFail($id);
         $lab = Laboratory::findOrFail($equipo->laboratory_id)->name;
-        return view('equipment.equipment_show',compact('equipo','lab'));
+        $calibre= Calibration::where('equipment_id',$id)->get();
+        $ultimo = $calibre->last();
+        $calibre =  Calibration::where('equipment_id',$id)->paginate(5);
+        return view('equipment.equipment_show',compact('equipo','lab','ultimo','calibre'));
     }
 
     public function store(Request $request)
@@ -108,9 +112,14 @@ class EquipmentController extends Controller
 
     public function calibrate(Request $request, $id){
         $equipo=Equipment::findOrFail($id);
-        $this->validatorCalibrate($request->all(), $equipo->fill($request->all())->getOriginal('date_calibration'))->validate();
-        flash('Equipo ' . $equipo->fill($request->all())->name . ' editado correctamente', 'success');
-        $equipo->fill($request->all())->update($request->all());
+        $latest= Calibration::where('equipment_id',$id)->get()->last();
+        if($latest!=null){
+            $this->validatorCalibrate($request->all(), $latest->getOriginal('date_end_calibration'))->validate();
+        }else{
+            $this->validatorCalibrate($request->all(), null)->validate();
+        }
+        flash('Equipo ' . $equipo->name . ' calibrado correctamente', 'success');
+        Calibration::addCalibration($request->all(),$equipo);
         return redirect('/equipos');
     }
 
