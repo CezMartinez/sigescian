@@ -235,10 +235,12 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     {
         $typeFile = $request->input('type');
         $file = $request->file('file');
+
         $extension = $file->getClientOriginalExtension();
         $clientName = time().$file->getClientOriginalName();
         $nameWithoutExtension = preg_replace('(.\w+$)','',$file->getClientOriginalName()); //quita la extension de nombre [.jpe,.pdf, etc]
         $title = ucwords(preg_replace('([^A-Za-z0-9])',' ',$nameWithoutExtension)); //quita cualquier caracter raro para formar un nombre mas formal
+        $code = $this->generateCodeFormatFile($title,$this);
         $mime = $file->getClientMimeType();
         $size = $file->getClientSize();
         
@@ -247,6 +249,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
                 'archivos/procedimientos/administrativos/formatos', $clientName,'public'
             );
             return $this->formatFiles()->create([
+                'code'                  =>$code,
                 'path'                  =>$path,
                 'originalName'          =>$clientName,
                 'nameWithoutExtension'  =>$nameWithoutExtension,
@@ -358,6 +361,19 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     public function countAllProcedures()
     {
         return $proceduresCount = count(AdministrativeProcedure::all()) + count(TechnicianProcedure::all());
+    }
+
+    public function generateCodeFormatFile($title,$procedure)
+    {
+        $numberOfFiles = count($procedure->formatFiles()->get())+1;
+        $exclude = "/ ?en | ?el | ?para | ?(F|f)?ormulario | ?(F|f)ormato | ?se | ?que | ?con | ?la | ?del | ?no | ?les | ?a | ?y |/i";
+        $textCode = trim(preg_replace($exclude," ",$title));
+        $acronym = "";
+        foreach (explode(' ',$textCode) as $word){
+            $acronym .= $word[0];
+        }
+        $code = "F-{$acronym}-PG{$procedure->id}.{$numberOfFiles}";
+        dd($code);
     }
 
 }

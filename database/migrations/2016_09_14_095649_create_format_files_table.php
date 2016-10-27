@@ -15,6 +15,7 @@ class CreateFormatFilesTable extends Migration
     {
         Schema::create('format_files', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('code')->unique();
             $table->string('path');
             $table->string('originalName');
             $table->string('nameWithoutExtension');
