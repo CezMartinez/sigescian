@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\AdministrativeProcedure;
 use App\Model\Section;
 use Illuminate\Http\Request;
+use JavaScript;
 use Validator;
 use App\Http\Requests;
 
@@ -25,9 +26,9 @@ class AdministrativeController extends Controller
      */
     public function index()
     {
-        $status = request()->exists('inactivos') ? '0' : '1';
+        $state = request()->exists('inactivos') ? '0' : '1';
         
-        $admins = AdministrativeProcedure::fetchAllProceduresByState($status);
+        $admins = AdministrativeProcedure::fetchAllProceduresByState($state);
 
         return view('procedures.administrative.administrative_index',compact('admins'));
     }
@@ -75,7 +76,9 @@ class AdministrativeController extends Controller
     public function show(AdministrativeProcedure $administrativo)
     {
         $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles','section','subSections'])->where('id',$administrativo->id)->first();
-
+        JavaScript::put([
+            'id_administrative' => $administrativo->id,
+        ]);
         return view('procedures.administrative.administrative_show',compact('administrativo'));
     }
 

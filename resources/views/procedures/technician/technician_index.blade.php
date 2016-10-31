@@ -62,7 +62,9 @@
 			{{$techs->links()}}
 		</div>
 	@else
-		<h2>No hay procedimientos técnicos registrados.</h2>
+		<div style="padding-top: 1em">
+			<h2>No hay procedimientos técnicos registrados.</h2>
+		</div>
 	@endif
 
 

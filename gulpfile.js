@@ -47,7 +47,13 @@ elixir(function(mix) {
             'template/flash-message.js',
             'template/dropzone.js',
             'template/select2.js',
-            'template/bootstrap.js',],'./public/js/template.js');
+            'template/bootstrap.js',],'./public/js/template.js')
+        .scripts([
+            'AdministrativeScript.js'
+        ],'./public/js/administrative.js')
+        .scripts([
+            'TechnicianScript.js'
+        ],'./public/js/technician.js');
 });
 
 

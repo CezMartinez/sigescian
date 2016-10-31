@@ -64,7 +64,9 @@
 			{{$admins->links()}}
 		</div>
 	@else
-		<h2 style="padding-top: 1em">No hay procedimientos adminsitrativos registrados.</h2>
+		<div style="padding-top: 1em">
+			<h2>No hay procedimientos adminsitrativos registrados.</h2>
+		</div>
 	@endif
 
 @endsection
