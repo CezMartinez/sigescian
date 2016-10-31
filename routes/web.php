@@ -123,6 +123,7 @@ Route::get('archivos/procedimientos/anexos/{procedure}/{type}','AnnexedFilesCont
 Route::get('archivos/procedimientos/flujograma/{procedure}','AnnexedFilesController@getFlowCharFileFiles');
 Route::get('archivos/procedimientos/formatos/{procedure}/{type}','AnnexedFilesController@getAllFormatsFiles');
 Route::get('archivos/procedimientos/procedimiento/{procedure}/{type}','AnnexedFilesController@getProcedureFile');
+Route::get('archivos/procedimientos/administrativos/{file_type}/{procedure_type}/{file_name}','AnnexedFilesController@getFile');
 
 /**---------------------------------------------- Lista Maestra ------------------------------------------------**/
 
