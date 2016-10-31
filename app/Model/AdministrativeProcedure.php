@@ -319,8 +319,8 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             $this->procedureFile()->associate($document);
 
             $this->save();
-            
-            return $this;
+
+            return $this->answer("El documentos de procedimiento fue agregado correctamente","200");
         }
     }
 
@@ -408,7 +408,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     {
         $formato = FormatFile::where('title',$title)->get();
 
-        return ! is_null($formato);
+        return (count($formato) == 1) ? true : false;
     }
 
 }

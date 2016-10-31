@@ -34,7 +34,7 @@ class AnnexedFilesController extends Controller
         $procedure = $this->getProcedureByType($procedureType,$procedure);
 
         $answer = $procedure->addFilesToProcedure($request);
-        
+
         return response($answer['message'],$answer['status']);
 
     }
@@ -128,23 +128,26 @@ class AnnexedFilesController extends Controller
             case 1:
                 $file_path = "storage/archivos/procedimientos/{$this->isAdministrative($procedure_type)}/formatos/{$file_name}";
                 break;
-            case 2:
+            case 3:
                 $file_path = "storage/archivos/procedimientos/{$this->isAdministrative($procedure_type)}/anexos/{$file_name}";
                 break;
-            case 3:
+            case 2:
                 $file_path = "storage/archivos/procedimientos/{$this->isAdministrative($procedure_type)}/flujograma/{$file_name}";
                 break;
             case 4:
-                $file_path = "storage/archivos/procedimientos/{$this->isAdministrative($procedure_type)}/procedimintos/{$file_name}";
+                $file_path = "storage/archivos/procedimientos/{$this->isAdministrative($procedure_type)}/procedimientos/{$file_name}";
                 break;
         }
+        
         $exists = File::exists($file_path);
         if($exists){
             $file = File::get($file_path);
             $mimeTyoe = File::mimeType($file_path);
+
             if($mimeTyoe != "application/pdf"){
                 return Response::download($file_path, $file_name);
             }
+
             $response = Response::make($file, 200);
             $response->header('Content-Type', 'application/pdf');
 
