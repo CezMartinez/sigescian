@@ -172,7 +172,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     public function updateProcedure(Request $request)
     {
         $this->fill($request->all());
-        
+
         if (!$request->has('state')) {
 
             $this->state = '0';
@@ -181,12 +181,10 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
 
             $this->state = '1';
         }
-
         if($this->nameChanged()){
-            if ($this->exists($request->input('name'))) {
-
-                return ['hasError' => true , 'message' => "El nombre {$request->input('name')} ya existe"];
-            }
+                if ($this->exists($request->input('name'))) {
+                    return ['hasError' => true , 'message' => "El nombre {$request->input('name')} ya existe"];
+                }
         }
 
         $this->code = $this->updateCodeWithAcronym($request->input('acronym'),$this);
@@ -203,7 +201,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
      */
     public function nameChanged()
     {
-       return (count($this->getDirty())>0 && array_key_exists('name',$this->getDirty())) ? true : false;
+        return (count($this->getDirty()) > 0 && array_key_exists('name',$this->getDirty())) ? true : false;
     }
 
     /**
@@ -247,25 +245,18 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         $extension = $file->getClientOriginalExtension();
         $clientName = time().$file->getClientOriginalName();
         $nameWithoutExtension = preg_replace('(.\w+$)','',$file->getClientOriginalName()); //quita la extension de nombre [.jpe,.pdf, etc]
-        $title = ucwords(preg_replace('([^A-Za-z0-9])',' ',$nameWithoutExtension)); //quita cualquier caracter raro para formar un nombre mas formal
-        $code = $this->generateCodeFormatFile($title,$this);
+        $title = ucwords(preg_replace('([^A-Za-z0-9ñóáéíú́́́])',' ',$nameWithoutExtension)); //quita cualquier caracter raro para formar un nombre mas formal
         $mime = $file->getClientMimeType();
         $size = $file->getClientSize();
-        
-        if($typeFile == 1){//Formatos
+
+        if($typeFile == 1){ //Formatos
+            $code = $this->generateCodeFormatFile($title,$this);
             $path = $file->storeAs(
                 'archivos/procedimientos/administrativos/formatos', $clientName,'public'
             );
-            return $this->formatFiles()->create([
-                'code'                  =>$code,
-                'path'                  =>$path,
-                'originalName'          =>$clientName,
-                'nameWithoutExtension'  =>$nameWithoutExtension,
-                'title'                 =>$title,
-                'extension'             =>$extension,
-                'size'                  =>$size,
-                'mime'                  =>$mime,
-            ]);
+
+            return $this->addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime);
+
         }elseif ($typeFile == 2){//Flujograma
             $path = $file->storeAs(
                 'archivos/procedimientos/administrativos/flujograma', $clientName,'public'
@@ -281,12 +272,14 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             ]);
             if($request->ajax()){
                if($this->onlyOne('flowChartFile')){
-                   return false;
+                   return $this->answer("Error, los procedimientos solo aceptan 1 archivo del tipo seleccionado","500");
                };
             }
             $this->flowChartFile()->associate($flowchartNew);
             $this->save();
-            return $this;
+
+            return $this->answer("Flujograma agregado con exito","200");
+
         }elseif ($typeFile == 3){//anexo
             $path = $file->storeAs(
                 'archivos/procedimientos/administrativos/anexos', $clientName,'public'
@@ -301,10 +294,10 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
                 'mime'                  =>$mime,
             ]);
 
-            return $this;
+            return $this->answer("Anexo agregado con exito","200");
         }elseif ($typeFile == 4){
             $path = $file->storeAs(
-                'archivos/procedimientos/administrativos/flujograma', $clientName,'public'
+                'archivos/procedimientos/administrativos/procedimientos', $clientName,'public'
             );
             $document = ProcedureDocument::create([
                 'path'                  =>$path,
@@ -318,7 +311,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
 
             if($request->ajax()){
                 if($this->onlyOne('procedureFile')){
-                        return false;
+                    return $this->answer("Error los procedimientos solo aceptan 1 archivo del tipo seleccionado","500");
                 };
             }
             $this->procedureFile()->dissociate();
@@ -374,14 +367,48 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     public function generateCodeFormatFile($title,$procedure)
     {
         $numberOfFiles = count($procedure->formatFiles()->get())+1;
-        $exclude = "/ ?en | ?el | ?para | ?(F|f)?ormulario | ?(F|f)ormato | ?se | ?que | ?con | ?la | ?del | ?no | ?les | ?a | ?y |/i";
+        $exclude = "/ ?en | ?el | ?para | ?(F|f)?ormulario | ?(F|f)ormato | ?se | ?que | ?con | ?la | ?del | ?de | ?no | ?les | a | ?y |[0-9] /i";
         $textCode = trim(preg_replace($exclude," ",$title));
         $acronym = "";
         foreach (explode(' ',$textCode) as $word){
             $acronym .= $word[0];
         }
-        $code = "F-{$acronym}-PG{$procedure->id}.{$numberOfFiles}";
-        dd($code);
+        return $code = "F-{$acronym}-PG{$procedure->id}.{$numberOfFiles}";
+
+    }
+
+    private function addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime)
+    {
+
+        if($this->itHasAlreadyAdded($title)){
+            return $this->answer('Este Formato ya existe no puede ser agregado, revise los archivos obsoletos',"501");
+        }
+
+
+        $this->formatFiles()->create([
+            'code'                  =>$code,
+            'path'                  =>$path,
+            'originalName'          =>$clientName,
+            'nameWithoutExtension'  =>$nameWithoutExtension,
+            'title'                 =>$title,
+            'extension'             =>$extension,
+            'size'                  =>$size,
+            'mime'                  =>$mime,
+        ]);
+
+        return $this->answer('Formato agregado y asociado correctamente',"200");
+    }
+
+    private function answer($message, $status)
+    {
+        return [ "message" => $message ,"status" => $status];
+    }
+
+    private function itHasAlreadyAdded($title)
+    {
+        $formato = FormatFile::where('title',$title)->get();
+
+        return ! is_null($formato);
     }
 
 }

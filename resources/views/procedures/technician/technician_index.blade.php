@@ -7,6 +7,14 @@
 	@endif
 
 	<hr>
+	<ul class="nav nav-tabs">
+		<li class="{{request()->exists('inactivos') ? '' : 'active'}}">
+			<a href="/procedimientos/tecnicos/">Activos</a>
+		</li>
+		<li class="{{request()->exists('inactivos') ? 'active' : ''}}">
+			<a href="?inactivos">Inactivos</a>
+		</li>
+	</ul>
 	@if($techs->count()>0)
 		<div class="table-responsive">
 

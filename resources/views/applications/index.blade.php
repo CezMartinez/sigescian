@@ -8,16 +8,16 @@
         <table class="table table-bordered table-hover">
             <thead>
             <th>
-                Codigo
+                Servicio
             </th>
             <th>
-                Servicio
+                Acciones
             </th>
             </thead>
             <tbody>
             <tr>
-                <td><a href="/servicios/radio-agua-226/create">F-SS-PG9.2R</a></td>
-                <td>Analisis de Radio-226 en Agua Envasada</td>
+                <td><a >Analisis de Radio-226 en Agua Envasada</a></td>
+                <td><a href="/servicios/radio-agua-226/create" class="btn btn-primary">Registrar</a></td>
             </tr>
             <tr>
                 <td><a href="/servicios/frotis-radiacion/create">F-SS-PG9.2F</a></td>

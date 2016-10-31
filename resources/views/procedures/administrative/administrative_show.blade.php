@@ -59,7 +59,7 @@
 
 									<li id="file-procedimiento-{{$file->id}}" class="list-group-item list-group-item-info">
 
-										<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
+										<a  target="_blank" href="/archivos/procedimientos/administrativos/4/1/{{$file->originalName}}">
 											{{$file->title}}
 										</a>
 
@@ -90,7 +90,7 @@
 
 									<li id="file-formato-{{$file->id}}" class="list-group-item list-group-item-info">
 
-										<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
+										<a  target="_blank" href="/archivos/procedimientos/administrativos/1/1/{{$file->originalName}}">
 											{{$file->title}}
 										</a>
 
@@ -121,7 +121,7 @@
 
 									<li id="file-flujograma-{{$file->id}}" class="list-group-item list-group-item-info">
 
-										<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
+										<a target="_blank" href="/archivos/procedimientos/administrativos/2/1/{{$file->originalName}}">
 											{{$file->title}}
 										</a>
 
@@ -152,7 +152,7 @@
 
 									<li id="file-anexo-{{$file->id}}" class="list-group-item list-group-item-info">
 
-										<a href="/archivos/procedimientos/administrativos/{{$file->originalName}}.{{$file->extension}}">
+										<a target="_blank" href="/archivos/procedimientos/administrativos/3/1/{{$file->originalName}}">
 											{{$file->title}}
 										</a>
 
@@ -186,7 +186,8 @@
 		var procedureId = '{{$administrativo->id}}';
 		var radioValue;
 		Dropzone.options.uploadFile= {
-			maxFilesize: 20, // MB
+			maxFilesize: 2, // MB
+			parallelUploads: 1,
 			acceptedFiles: ".pdf,.docx",
 			init: function(){
 				this.on("addedfile", function() {
@@ -224,7 +225,7 @@
 							listaArchivos.push('<div class="lista-formatos">')
 							$.each(data, function(i, item){
 								listaArchivos.push('<li id="file-formato-'+item.id+'" class="list-group-item list-group-item-info">'+
-										'<a href="/procedimiento/administrativos/'+item.originalName+'.'+item.extension+'">'+
+										'<a target="_blank" href="/procedimiento/administrativos/1/1/'+item.originalName+'">'+
 										item.title+'</a>'+
 										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
 										item.originalName+'\',\'{{$administrativo->id}}\',\''+item.id+'\''+
@@ -242,7 +243,7 @@
 							$.each(data, function(i, item){
 								listaFlujogramas.push('' +
 										'<li id="file-flujograma-'+item.id+'" class="list-group-item list-group-item-info">'+
-										'<a href="/procedimiento/administrativos/'+item.originalName+'.'+item.extension+'">'+
+										'<a target="_blank" href="/procedimiento/administrativos/2/1/'+item.originalName+'">'+
 										item.title+'</a>'+
 										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
 										item.originalName+'\',\'{{$administrativo->id}}\',\''+item.id+'\''+
@@ -260,7 +261,7 @@
 								listaAnexos.push(
 									'<li id="file-anexo-'+item.id+'" ' +
 										'class="list-group-item list-group-item-info">'+
-									'<a href="/procedimiento/administrativos/' +item.originalName+ '.' +item.extension+ '">'
+									'<a target="_blank" href="/procedimiento/administrativos/3/1/' +item.originalName+ '">'
 										+item.title+
 									'</a>'+
 										'<i class="fa fa-times pull-right" ' +
@@ -281,7 +282,7 @@
 								listaProcedimientos.push(
 									'<li id="file-procedimiento-'+item.id+'" ' +
 										'class="list-group-item list-group-item-info">'+
-									'<a href="/procedimiento/administrativos/' +item.originalName+ '.' +item.extension+ '">'
+									'<a target="_blank" href="/procedimiento/administrativos/4/1/' +item.originalName+ '">'
 										+item.title+
 									'</a>'+
 										'<i class="fa fa-times pull-right" ' +

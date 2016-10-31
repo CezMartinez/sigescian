@@ -7,10 +7,12 @@ use App\Model\FormatFile;
 use App\Model\AnnexedFile;
 use App\Model\FlowChartFile;
 use App\Model\ProcedureDocument;
+use File;
 use Illuminate\Http\Request;
 use App\Model\TechnicianProcedure;
 use App\Model\AdministrativeProcedure;
 use Illuminate\Support\Facades\Storage;
+use Response;
 
 
 class AnnexedFilesController extends Controller
@@ -23,6 +25,7 @@ class AnnexedFilesController extends Controller
      *
      * @param Request $request
      * @param $procedure
+     * @return Response
      */
     public function uploadFile(Request $request, $procedure)
     {
@@ -30,11 +33,9 @@ class AnnexedFilesController extends Controller
 
         $procedure = $this->getProcedureByType($procedureType,$procedure);
 
-        $attached = $procedure->addFilesToProcedure($request);
-
-        if(!$attached){
-            return response('Este procedimiento ya tiene asociado un documento de este tipo. Si quiere agregar otro elimine el existente.',500);
-        }
+        $answer = $procedure->addFilesToProcedure($request);
+        
+        return response($answer['message'],$answer['status']);
 
     }
 
@@ -117,6 +118,44 @@ class AnnexedFilesController extends Controller
             return AdministrativeProcedure::findOrFail($id);
         }
         return TechnicianProcedure::findOrFail($id);
+    }
+
+    public function getFile($file_type,$procedure_type,$file_name)
+    {
+        $file_path = "";
+        /*$file_path = "storage/archivos/procedimientos/administrativos/formatos/{$file_name}";*/
+        switch ($file_type) {
+            case 1:
+                $file_path = "storage/archivos/procedimientos/{$this->isAdministrative($procedure_type)}/formatos/{$file_name}";
+                break;
+            case 2:
+                $file_path = "storage/archivos/procedimientos/{$this->isAdministrative($procedure_type)}/anexos/{$file_name}";
+                break;
+            case 3:
+                $file_path = "storage/archivos/procedimientos/{$this->isAdministrative($procedure_type)}/flujograma/{$file_name}";
+                break;
+            case 4:
+                $file_path = "storage/archivos/procedimientos/{$this->isAdministrative($procedure_type)}/procedimintos/{$file_name}";
+                break;
+        }
+        $exists = File::exists($file_path);
+        if($exists){
+            $file = File::get($file_path);
+            $mimeTyoe = File::mimeType($file_path);
+            if($mimeTyoe != "application/pdf"){
+                return Response::download($file_path, $file_name);
+            }
+            $response = Response::make($file, 200);
+            $response->header('Content-Type', 'application/pdf');
+
+            return $response;
+
+        }
+    }
+
+    private function isAdministrative($procedure_type)
+    {
+        return ($procedure_type == "1") ? "administrativos" : "tecnicos";
     }
 
 }
