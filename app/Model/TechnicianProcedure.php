@@ -61,7 +61,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     public static function fetchAllProcedures($state){
         $technicianProcedure = new static;
 
-        return $technicianProcedure->with(['laboratory','formatFiles'])->where('state',$state)->paginate(5);
+        return $technicianProcedure->with(['laboratory','formatFiles'])->where('state',$state)->get();
     }
 
     protected function setNameAttribute($name){

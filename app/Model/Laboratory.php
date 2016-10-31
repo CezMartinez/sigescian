@@ -15,6 +15,10 @@ class Laboratory extends Model
  		return $this->belongsTo(Department::class);
  	}
 
+ 	public function procedures(){
+ 	    return $this->hasMany(TechnicianProcedure::class);
+    }
+
     /**
      * @return mixed
      */
@@ -24,6 +28,15 @@ class Laboratory extends Model
 
  		return $laboratory->with('department')->paginate(5);
  	}
+
+    public static function fetchAllWithProcedures()
+    {
+        $laboratory = new static;
+
+        return $laboratory->with('procedures')->get();
+    }
+
+
 
  	protected function setNameAttribute($name)
  	{

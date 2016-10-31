@@ -24,21 +24,19 @@ class MainListController extends Controller
 
         $adminproceds = AdministrativeProcedure::fetchAllProcedures($status);
 
-        $labs = Laboratory::fetchAll();
-        //dd($formats);
+        //$labs = Laboratory::fetchAll();
 
-        foreach ($techproceds as $lab)
-        {
-            foreach ($lab->laboratory as $l){
-                echo $l;
-            }
-
-        }
-        //dd($labs);
+        $laboratory = new Laboratory();
 
 
 
-        return view('mainlist.main_list', compact('adminproceds','techproceds','labs'));
+        $techproceds = $techproceds->groupBy('laboratory_id')->toarray();
+        //dd($techproceds);
+        //dd($techproceds,count($techproceds));
+
+
+
+        return view('mainlist.main_list', compact('adminproceds','techproceds','laboratory'));
     }
 
 }
