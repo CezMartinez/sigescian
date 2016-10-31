@@ -311,8 +311,8 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             $this->procedureFile()->associate($document);
 
             $this->save();
-            
-            return $this;
+
+            return $this->answer("El documentos de procedimiento fue agregado correctamente","200");
         }
     }
 

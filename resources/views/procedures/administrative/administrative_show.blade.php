@@ -225,7 +225,7 @@
 							listaArchivos.push('<div class="lista-formatos">')
 							$.each(data, function(i, item){
 								listaArchivos.push('<li id="file-formato-'+item.id+'" class="list-group-item list-group-item-info">'+
-										'<a target="_blank" href="/procedimiento/administrativos/1/1/'+item.originalName+'">'+
+										'<a target="_blank" href="/archivos/procedimientos/administrativos/1/1/'+item.originalName+'">'+
 										item.title+'</a>'+
 										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
 										item.originalName+'\',\'{{$administrativo->id}}\',\''+item.id+'\''+
@@ -243,7 +243,7 @@
 							$.each(data, function(i, item){
 								listaFlujogramas.push('' +
 										'<li id="file-flujograma-'+item.id+'" class="list-group-item list-group-item-info">'+
-										'<a target="_blank" href="/procedimiento/administrativos/2/1/'+item.originalName+'">'+
+										'<a target="_blank" href="/archivos/procedimientos/administrativos/2/1/'+item.originalName+'">'+
 										item.title+'</a>'+
 										'<i class="fa fa-times pull-right" onclick="deleteFile(\''+
 										item.originalName+'\',\'{{$administrativo->id}}\',\''+item.id+'\''+
@@ -261,7 +261,7 @@
 								listaAnexos.push(
 									'<li id="file-anexo-'+item.id+'" ' +
 										'class="list-group-item list-group-item-info">'+
-									'<a target="_blank" href="/procedimiento/administrativos/3/1/' +item.originalName+ '">'
+									'<a target="_blank" href="/archivos/procedimientos/administrativos/3/1/' +item.originalName+ '">'
 										+item.title+
 									'</a>'+
 										'<i class="fa fa-times pull-right" ' +
@@ -282,7 +282,7 @@
 								listaProcedimientos.push(
 									'<li id="file-procedimiento-'+item.id+'" ' +
 										'class="list-group-item list-group-item-info">'+
-									'<a target="_blank" href="/procedimiento/administrativos/4/1/' +item.originalName+ '">'
+									'<a target="_blank" href="/archivos/procedimientos/administrativos/4/1/' +item.originalName+ '">'
 										+item.title+
 									'</a>'+
 										'<i class="fa fa-times pull-right" ' +
