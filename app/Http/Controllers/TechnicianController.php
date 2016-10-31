@@ -29,6 +29,8 @@ class TechnicianController extends Controller
         return view('procedures.technician.technician_index',compact('techs'));
     }
 
+
+
     /**
      * Show the form for creating a new resource.
      *

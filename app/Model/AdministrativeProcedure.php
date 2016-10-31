@@ -87,6 +87,14 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         $adminProcedure = new static;
         return $adminProcedure->paginate(5);
     }
+
+    public static function fetchAllProcedures($state)
+    {
+        $administrativeProcedure = new static;
+        $administrativeProcedure->formatFiles()->get();
+
+        return $administrativeProcedure->where('state',$state)->paginate(5);
+    }
     /**
      * Set the name attribute
      * 
