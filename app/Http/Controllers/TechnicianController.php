@@ -53,6 +53,7 @@ class TechnicianController extends Controller
         $this->validateCreateProcedure($request->all());
 
         $section = Section::find($request->input('section'));
+        
         $laboratory = Laboratory::find($request->input('laboratory_id'));
 
         $procedure = TechnicianProcedure::createTechnician($request->all(),$section, $laboratory);
@@ -153,13 +154,16 @@ class TechnicianController extends Controller
     }
 
     public function steps(Request $request, $procedure){
+        dd($request->all());
         $tecnico = TechnicianProcedure::findOrFail($procedure);
+
         foreach($request->input('steps') as $s){
             $paso =Step::create([
                'step'=>$s,
             ]);
             $tecnico->steps()->attach($paso);
         }
+
         return redirect("/procedimientos/tecnicos/{$procedure}");
     }
 

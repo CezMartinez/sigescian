@@ -400,7 +400,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     {
         $formato = FormatFile::where('title',$title)->get();
 
-        return ! is_null($formato);
+        return (count($formato) == 1) ? true : false;
     }
 
 }
