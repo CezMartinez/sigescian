@@ -8,6 +8,7 @@ use App\Model\Section;
 use App\Model\Step;
 use App\Model\TechnicianProcedure;
 use Illuminate\Http\Request;
+use JavaScript;
 use Validator;
 
 
@@ -24,7 +25,9 @@ class TechnicianController extends Controller
      */
     public function index()
     {
-        $techs = TechnicianProcedure::fetchAll();
+        $state = request()->exists('inactivos') ? '0' : '1';
+        
+        $techs = TechnicianProcedure::fetchAllProcedureByState($state);
 
         return view('procedures.technician.technician_index',compact('techs'));
     }
@@ -79,6 +82,11 @@ class TechnicianController extends Controller
     {
         $subsections = $tecnico->subSections()->get();
         $tecnico = $tecnico->with(['annexedFiles','section'])->where('id',$tecnico->id)->first();
+        
+        JavaScript::put([
+            'id_tecnico' => $tecnico->id,
+        ]);
+        
         return view('procedures.technician.technician_show',compact('tecnico','subsections'));
     }
 
@@ -110,35 +118,18 @@ class TechnicianController extends Controller
      */
     public function update(Request $request,TechnicianProcedure $tecnico)
     {
-        $tecnico = $tecnico->fill($request->all());
-
-        $newAcronym = $request->input('acronym');
-
-        if (!$request->has('state')) {
-
-            $tecnico->state='0';
-        }
-        else{
-
-            $tecnico->state='1';
-        }
-
         $this->validateUpdateProcedure($request->all(),$tecnico);
 
+        $result = $tecnico->updateProcedure($request);
 
-        if ($tecnico->exists($request->input('name'))) {
+        if($result['hasError']) {
 
-            flash('El procedimiento '.$request->input('name').' ya existe', 'danger');
+            flash($result['message'], 'danger');
 
             return back()->withInput();
         }
 
-        flash('Procedimiento Actualizado', 'success');
-
-        $tecnico->code = $tecnico->updateCodeWithAcronym($newAcronym,$tecnico);
-
-        $tecnico->save();
-
+        flash($result['message'], 'success');
 
         return redirect('/procedimientos/tecnicos');
     }
@@ -156,7 +147,7 @@ class TechnicianController extends Controller
     }
 
     public function steps(Request $request, $procedure){
-        dd($request->all());
+        
         $tecnico = TechnicianProcedure::findOrFail($procedure);
 
         foreach($request->input('steps') as $s){
@@ -183,4 +174,5 @@ class TechnicianController extends Controller
             'acronym' => 'unique:technician_procedures,acronym,'.$procedure->id,
         ])->validate();
     }
+    
 }

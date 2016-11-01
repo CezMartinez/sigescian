@@ -101,7 +101,8 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
      * @param $name
      */
     protected function setNameAttribute($name){
-        $this->attributes['name'] = ucwords($this->prefix.trim($name));
+        $name = $this->prefix.trim($name) ;
+        $this->attributes['name'] = ucwords($name);
     }
 
     /**
@@ -142,7 +143,9 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
 
     public static function exists($name)
     {
+        dd($name);
         $administrativeProcedure = new static;
+        
         $administrativeProcedure = $administrativeProcedure->where('name','like',"%{$name}")->first();
 
         if($administrativeProcedure != null){
@@ -191,7 +194,10 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
 
         $this->save();
 
-        return ['hasError' => false , 'message' => "El procedimiento fue actualizado correctamente"];;
+        return [
+            'hasError' => false , 
+            'message' => "El procedimiento fue actualizado correctamente"
+        ];
     }
 
     /**
@@ -255,7 +261,10 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
                 'archivos/procedimientos/administrativos/formatos', $clientName,'public'
             );
 
-            return $this->addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime);
+
+            $answer = $this->addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime);
+
+            return $answer;
 
         }elseif ($typeFile == 2){//Flujograma
             $path = $file->storeAs(
@@ -321,6 +330,8 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             $this->save();
 
             return $this->answer("El documentos de procedimiento fue agregado correctamente","200");
+        }else{
+            return $this->answer("No ha seleccionado el tipo de archivo que desea subir","404");
         }
     }
 
@@ -370,7 +381,8 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         $exclude = "/ ?en | ?el | ?para | ?(F|f)?ormulario | ?(F|f)ormato | ?se | ?que | ?con | ?la | ?del | ?de | ?no | ?les | a | ?y |[0-9] /i";
         $textCode = trim(preg_replace($exclude," ",$title));
         $acronym = "";
-        foreach (explode(' ',$textCode) as $word){
+        $words = preg_split("/\s+/", $textCode);
+        foreach ($words as $word){
             $acronym .= $word[0];
         }
         return $code = "F-{$acronym}-PG{$procedure->id}.{$numberOfFiles}";
