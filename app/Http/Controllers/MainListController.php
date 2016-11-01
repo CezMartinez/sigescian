@@ -8,24 +8,27 @@ use App\Http\Requests;
 
 use App\Model\AdministrativeProcedure;
 use App\Model\TechnicianProcedure;
+use App\Model\Laboratory;
+
 
 
 
 class MainListController extends Controller
 {
-    public function showAll(){
+    public function showAll()
+    {
 
         $status = request()->exists('inactivos') ? '0' : '1';
 
-        $techproceds = TechnicianProcedure::fetchAll();
-        $adminproceds = AdministrativeProcedure::fetchAllProceduresByState($status);
+        $techproceds = TechnicianProcedure::fetchAllProcedures($status);
 
+        $adminproceds = AdministrativeProcedure::fetchAllProcedures($status);
 
-        return view('mainlist.main_list', compact('adminproceds','techproceds'));
+        $laboratory = new Laboratory();
+
+        $techproceds = $techproceds->groupBy('laboratory_id')->toarray();
+
+        return view('mainlist.main_list', compact('adminproceds','techproceds','laboratory'));
     }
 
-    public function solicitudes(){
-
-        return view('applications.index');
-    }
 }

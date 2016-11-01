@@ -11,6 +11,9 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
 
     public $prefix = 'Procedimiento De Gestión ';
 
+
+    /*******************        Relaciones         *******************/
+
     /**
      * A procedure may have one official document
      *
@@ -69,6 +72,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         return $this->belongsToMany(SubSection::class);
     }
 
+    /*******************        Queries         *******************/
     /**
      * Fetch all procedures by the state "Activo" or "Inactivo"
      * 
@@ -82,11 +86,17 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         return $administrativeProcedure->where('state',$state)->paginate(5);
     }
 
-    public static function fetchAll()
+    public static function fetchAllProcedures($state)
     {
-        $adminProcedure = new static;
-        return $adminProcedure->paginate(5);
+        $administrativeProcedure = new static;
+
+        $administrativeProcedure->formatFiles()->get();
+
+        return $administrativeProcedure->where('state',$state)->get();
     }
+
+    /*******************        Setters         *******************/
+
     /**
      * Set the name attribute
      * 
@@ -106,6 +116,8 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         $this->attributes['acronym'] = strtoupper(trim($acronym));
     }
 
+    /*******************        Logic         *******************/
+
     /**
      * Create a new Procedure with the data and the section given
      *
@@ -123,47 +135,12 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         return $administrativeProcedure;
     }
 
-    public function addSection($section)
-    {
-        return $this->section()->associate($section);
-    }
-
-    public function addSubSections($subsectionIds)
-    {
-        return $this->subSections()->attach($subsectionIds);
-    }
-
-    public static function exists($name)
-    {
-        dd($name);
-        $administrativeProcedure = new static;
-        
-        $administrativeProcedure = $administrativeProcedure->where('name','like',"%{$name}")->first();
-
-        if($administrativeProcedure != null){
-
-            return true;
-
-        }
-
-        return false;
-    }
-
-    private function generateCodeAtCreateProcedure()
-    {
-        return $this->attributes['code'] = 'PG-'.$this->attributes['acronym'].'-CIAN'.($this->countAllProcedures()+1);
-    }
-
-    public function updateCodeWithAcronym($acronym,$procedure)
-    {
-
-        $originalCode = $procedure->code;
-
-        $originalAcronym = $procedure->getOriginal('acronym');
-
-        return (str_replace($originalAcronym,strtoupper(trim($acronym)),$originalCode));
-    }
-
+    /**
+     * Update the data of the procedure
+     *
+     * @param Request $request
+     * @return array
+     */
     public function updateProcedure(Request $request)
     {
         $this->fill($request->all());
@@ -177,9 +154,9 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             $this->state = '1';
         }
         if($this->nameChanged()){
-                if ($this->exists($request->input('name'))) {
-                    return ['hasError' => true , 'message' => "El nombre {$request->input('name')} ya existe"];
-                }
+            if ($this->exists($request->input('name'))) {
+                return ['hasError' => true , 'message' => "El nombre {$request->input('name')} ya existe"];
+            }
         }
 
         $this->code = $this->updateCodeWithAcronym($request->input('acronym'),$this);
@@ -187,47 +164,9 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         $this->save();
 
         return [
-            'hasError' => false , 
+            'hasError' => false ,
             'message' => "El procedimiento fue actualizado correctamente"
         ];
-    }
-
-    /**
-     * Verify if the given name has change from the original name
-     *
-     * @return bool
-     */
-    public function nameChanged()
-    {
-        return (count($this->getDirty()) > 0 && array_key_exists('name',$this->getDirty())) ? true : false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getStateAttribute(){
-
-        return $this->attributes['state'] == 1 ? true : false;
-
-    }
-
-    /**
-     * @return string
-     */
-    public function getStatusAttribute(){
-
-        return $this->attributes['state'] == 1 ? 'Activo' : 'Inactivo';
-
-    }
-
-    /**
-     * return the las procedure in the DB
-     *
-     * @return mixed
-     */
-    private function latest()
-    {
-        return $this->orderBy('created_at', 'desc')->first();
     }
 
     /**
@@ -272,9 +211,9 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
                 'mime'                  =>$mime,
             ]);
             if($request->ajax()){
-               if($this->onlyOne('flowChartFile')){
-                   return $this->answer("Error, los procedimientos solo aceptan 1 archivo del tipo seleccionado","500");
-               };
+                if($this->onlyOne('flowChartFile')){
+                    return $this->answer("Error, los procedimientos solo aceptan 1 archivo del tipo seleccionado","500");
+                };
             }
             $this->flowChartFile()->associate($flowchartNew);
             $this->save();
@@ -326,6 +265,102 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             return $this->answer("No ha seleccionado el tipo de archivo que desea subir","404");
         }
     }
+
+    /**
+     * associate a section to the procedure
+     *
+     * @param $section
+     * @return Model
+     */
+    public function addSection($section)
+    {
+        return $this->section()->associate($section);
+    }
+
+    /**
+     * Attach a several subsection to the procedure
+     *
+     * @param $subsectionIds
+     */
+    public function addSubSections($subsectionIds)
+    {
+        return $this->subSections()->attach($subsectionIds);
+    }
+
+    /**
+     * Verifies if the procedure exists
+     *
+     * @param $name
+     * @return bool
+     */
+    public static function exists($name)
+    {
+        $administrativeProcedure = new static;
+        $administrativeProcedure = $administrativeProcedure->where('name','like',"%{$name}")->first();
+        if($administrativeProcedure != null){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Generate The code of the procedure when its created
+     *
+     * @return string
+     */
+    private function generateCodeAtCreateProcedure()
+    {
+        return $this->attributes['code'] = 'PG-'.$this->attributes['acronym'].'-CIAN'.($this->countAllProcedures()+1);
+    }
+
+    /**
+     * upadate the code of the procedure
+     *
+     * @param $acronym
+     * @param $procedure
+     * @return mixed
+     */
+    public function updateCodeWithAcronym($acronym,$procedure)
+    {
+
+        $originalCode = $procedure->code;
+
+        $originalAcronym = $procedure->getOriginal('acronym');
+
+        return (str_replace($originalAcronym,strtoupper(trim($acronym)),$originalCode));
+    }
+
+
+
+    /**
+     * Verify if the given name has change from the original name
+     *
+     * @return bool
+     */
+    public function nameChanged()
+    {
+        return (count($this->getDirty()) > 0 && array_key_exists('name',$this->getDirty())) ? true : false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getStateAttribute(){
+
+        return $this->attributes['state'] == 1 ? true : false;
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusAttribute(){
+
+        return $this->attributes['state'] == 1 ? 'Activo' : 'Inactivo';
+
+    }
+
+
 
     protected function onlyOne($fileType)
     {
@@ -408,11 +443,27 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         return [ "message" => $message ,"status" => $status];
     }
 
+    /**
+     * Check if the format exist 
+     * @param $title
+     * @return bool
+     */
     private function itHasAlreadyAdded($title)
     {
         $formato = FormatFile::where('title',$title)->get();
 
         return (count($formato) == 1) ? true : false;
     }
+
+    public function documentProcedure()
+    {
+        return $this->procedureFile()->get();
+    }
+
+    public function hasDocumentProcedure(){
+        return ($this->procedureFile()->get()->count() > 0) ? true : false;
+    }
+
+    
 
 }

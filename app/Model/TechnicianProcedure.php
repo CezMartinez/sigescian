@@ -52,6 +52,19 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         return $technicianProcedure->where('state',$state)->paginate(5);
     }
 
+    public static function fetchAllProceduresByState($state)
+    {
+        $technicianProcedure = new static;
+
+        return $technicianProcedure->where('state',$state)->paginate(5);
+    }
+
+    public static function fetchAllProcedures($state){
+        $technicianProcedure = new static;
+
+        return $technicianProcedure->with(['laboratory','formatFiles'])->where('state',$state)->get();
+    }
+
     protected function setNameAttribute($name){
         $this->attributes['name'] = ucwords($this->prefix.trim($name));
     }
