@@ -21,7 +21,12 @@
 							@endforeach
 						</ul>
 					@endif
-
+					<p>Instrucciones Tecnicas</p>
+					<ol>
+						@foreach($tecnico->steps()->get() as $step)
+							<li>{{$step->step}}</li>
+						@endforeach
+					</ol>
 				</div>
 			</div>
 			<hr>
@@ -149,7 +154,6 @@
 						success: function(data){
 							$.each(data, function(i, item){
 								num = num + 1
-								console.log(item.step);
 								$('#pasos').append('<li class="esk">'+
 									'<div class="input-group">'+
 									'<input placeholder="Descripcion del paso" id='+item.id+' name="step[]" value="'+item.step+'" class="form-control step"/>'+

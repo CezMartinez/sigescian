@@ -148,6 +148,7 @@ class TechnicianController extends Controller
 
 
         $instrucciones = $request->input("steps");
+
         $id_instrucciones = $request->input("id_instrucciones");
         $tecnico = TechnicianProcedure::findOrFail($procedure);
 
@@ -155,11 +156,19 @@ class TechnicianController extends Controller
 
         if($numero_de_instrucciones == 0){
             foreach($instrucciones as $instruccion){
-                
-                $paso =Step::create([
+                $paso = Step::create([
                     'step'=>$instruccion,
                 ]);
                 $tecnico->steps()->attach($paso);
+            }
+        }
+
+        foreach($instrucciones as $instruccion){
+            $instruccion_step = Step::where('step',$instruccion)->first();
+            if(is_null($instruccion_step)){
+                Step::create([
+                    'step'=>$instruccion,
+                ]);
             }
         }
 
