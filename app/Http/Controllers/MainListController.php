@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Service;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -29,6 +30,11 @@ class MainListController extends Controller
         $techproceds = $techproceds->groupBy('laboratory_id')->toarray();
 
         return view('mainlist.main_list', compact('adminproceds','techproceds','laboratory'));
+    }
+
+    public function solicitudes(){
+        $solicitudes = Service::all();
+        return view('applications.index', compact('solicitudes'));
     }
 
 }

@@ -49,24 +49,6 @@ class PermissionsTableSeeder extends Seeder
             'slug' => 'eliminar-usuarios',
         ]);
 
-        /**---------Clientes--------**/
-
-        DB::table('permissions')->insert([
-            'name' => 'Crear Clientes',
-            'slug' => 'crear-clientes',
-        ]);
-        DB::table('permissions')->insert([
-            'name' => 'Editar Clientes',
-            'slug' => 'editar-clientes',
-        ]);
-        DB::table('permissions')->insert([
-            'name' => 'Eliminar Clientes',
-            'slug' => 'eliminar-clientes',
-        ]);
-        DB::table('permissions')->insert([
-            'name' => 'Ver Clientes',
-            'slug' => 'ver-clientes',
-        ]);
         /**---------Materiales--------**/
 
         DB::table('permissions')->insert([

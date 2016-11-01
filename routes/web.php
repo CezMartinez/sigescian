@@ -44,16 +44,6 @@ Route::group(['middleware' => ['permission:crear-usuarios,ver-usuarios']], funct
 Route::delete('administracion/usuarios/{user}','UserController@destroy')->middleware('permission:eliminar-usuarios');
 Route::get('administracion/usuarios/{user}/edit','UserController@edit')->middleware('permission:editar-usuarios');
 
-/**---------------------------------------------- Clientes ------------------------------------------------**/
-
-Route::group(['middleware' => ['permission:crear-clientes,ver-clientes']], function () {
-    Route::resource('clientes','ClientsController',['except'=> [
-        'edit','destroy'
-    ]]);
-});
-Route::delete('clientes/{cliente}','ClientsController@destroy')->middleware('permission:eliminar-clientes');
-Route::get('clientes/{slug}/edit','ClientsController@edit')->middleware('permission:editar-clientes');
-
 /**---------------------------------------------- Materiales ------------------------------------------------**/
 
 Route::group(['middleware' => ['permission:crear-materiales,ver-materiales']], function () {
@@ -135,3 +125,4 @@ Route::get('listaMaestra', 'MainListController@showAll');
 Route::get('servicios','MainListController@solicitudes');
 Route::resource('servicios/radio-agua-226','ApplicationRadio226Controller');
 Route::resource('servicios/frotis-radiacion','ApplicationFrotisController');
+Route::resource('servicios/control-de-calidad','ApplicationCCController');

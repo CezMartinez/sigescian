@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
-class ApplicationRadio226Controller extends Controller
+class ApplicationCCController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +13,7 @@ class ApplicationRadio226Controller extends Controller
      */
     public function index()
     {
-      return "Todas las solicitudes historicas";
+        return "Todas las solicitudes historicas";
     }
 
     /**
@@ -25,7 +23,7 @@ class ApplicationRadio226Controller extends Controller
      */
     public function create()
     {
-        return view('applications.radio226.create_radio');
+        return view('applications.controlc.create_controlc');
     }
 
     /**
@@ -36,7 +34,7 @@ class ApplicationRadio226Controller extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        //
     }
 
     /**

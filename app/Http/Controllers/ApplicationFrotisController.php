@@ -25,7 +25,7 @@ class ApplicationFrotisController extends Controller
      */
     public function create()
     {
-        return view('applications.frotis_radiacion.create');
+        return view('applications.frotis_radiacion.create_frotis');
     }
 
     /**

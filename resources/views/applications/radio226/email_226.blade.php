@@ -5,9 +5,9 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12">
-                    @include('applications.frotis_radiacion.header')
+                    @include('applications.radio226.header')
                     <hr>
-                    @include('applications.frotis_radiacion.forms.form_create_frotis')
+                    @include('applications.radio226.forms.form_email_226')
                 </div>
             </div>
 

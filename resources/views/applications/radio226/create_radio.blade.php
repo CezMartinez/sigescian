@@ -5,9 +5,9 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12">
-                    @include('applications.radio226.header')
+                   <h1>Solicitud de Servicio de Analisis de Radio-226 en agua envasada</h1>
                     <hr>
-                    @include('applications.radio226.forms.form_create_226')
+                    @include('applications.radio226.forms.form_create_radio')
                 </div>
             </div>
 

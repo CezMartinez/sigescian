@@ -25,9 +25,7 @@
                     <li id="menu-academico-avaliacoes" ><a href="#">Formatos</a></li>
                 </ul>
             </li>
--->         @if($user->canSeeIf(['ver-clientes']))
-            <li><a href="/clientes"><i class="fa fa-users"></i><span>Clientes</span></a></li>
-            @endif
+-->
             <li><a href="/servicios"><i class="fa fa-inbox"></i><span>Solicitudes</span></a></li>
             @if($user->canSeeIf(['ver-departamentos','ver-laboratorios','ver-equipos','ver-materiales']))
             <li><a href="#"><i class="fa fa-files-o"></i><span>Catalogos</span><span class="fa fa-angle-right" style="float: right"></span></a>

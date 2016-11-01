@@ -6,23 +6,9 @@
         <p align="center"><strong>CENTRO DE INVESTIGACIONES Y APLICACIONES NUCLEARES </strong></p>
         <p align="center"><strong>FACULTAD DE INGENIERIA Y ARQUITECTURA </strong></p>
         <p align="center"><strong>UNIVERSIDAD DE EL SALVADOR </strong></p>
-        <div class="row">
-            <div class="col-md-3">
-                <br>
-            </div>
-            <div class="col-md-3">
-                <p style="color: #0000FF;font-size: 11px;" align="center"><strong>F-SS-PG9.2F</strong></p>
-            </div>
-            <div class="col-md-3">
-                <p style="color: #0000FF;font-size: 11px;" align="center"><strong>Versión 1</strong></p>
-            </div>
-            <div class="col-md-3">
-                <br>
-            </div>
-        </div>
         <p align="center"><strong>SOLICITUD DE SERVICIO DE PRUEBA DE FUGA (FROTIS) Y NIVEL DE RADIACION</strong></p>
     </div>
     <div class="col-md-2">
-        <img id="encabezado" src="/images/Logo_UES.png" alt="Logo" width="55%" height="45%"/>
+        <img id="encabezado" src="/images/Logo_UES.png" alt="Logo" width="25%" height="15%"/>
     </div>
 </div>

@@ -15,14 +15,12 @@
             </th>
             </thead>
             <tbody>
+            @foreach($solicitudes as $s)
             <tr>
-                <td><a >Analisis de Radio-226 en Agua Envasada</a></td>
-                <td><a href="/servicios/radio-agua-226/create" class="btn btn-primary">Registrar</a></td>
+                <td><a href="/servicios/{{$s->slug}}">{{$s->name}}</a></td>
+                <td><a href="/servicios/{{$s->slug}}/create" class="btn btn-primary">Registrar</a></td>
             </tr>
-            <tr>
-                <td><a href="/servicios/frotis-radiacion/create">F-SS-PG9.2F</a></td>
-                <td>Prueba de fuga(frotis) y Nivel de Radiacion</td>
-            </tr>
+            @endforeach
             </tbody>
         </table>
     </div>
