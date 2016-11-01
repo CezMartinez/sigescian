@@ -18,11 +18,15 @@
             @foreach($adminproceds as $admin)
                 <tr id="row-{{$admin->id}}" class="{{($admin->state) ? '':'info'}}">
                     <td>
-                        @foreach($admin->procedureFile()->get() as $file)
-                        <a  target="_blank" href="/archivos/procedimientos/4/1/{{$file->originalName}}">
-                            {{$admin->code}}
-                        </a>
+                        @if($admin->hasDocumentProcedure())
+                            @foreach($admin->documentProcedure() as $file)
+                                <a target="_blank" href="/archivos/procedimientos/4/1/{{$file->originalName}}">
+                                    {{$admin->code}}
+                                </a>
                             @endforeach
+                        @else
+                            {{$admin->code}}
+                        @endif
                     </td>
                     <td>
                         {{$admin->name}}
