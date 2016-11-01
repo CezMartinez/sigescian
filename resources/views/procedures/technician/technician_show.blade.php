@@ -141,6 +141,7 @@
 		);
 		var listaInstrucciones = [];
 		var num = 1;
+		var texto = "kamsd aksdmaksd"
 		function bringStepsOfProcedure(id_procedure){
 			$.ajax({
 						type:'GET',
@@ -148,9 +149,10 @@
 						success: function(data){
 							$.each(data, function(i, item){
 								num = num + 1
+								console.log(item.step);
 								$('#pasos').append('<li class="esk">'+
 									'<div class="input-group">'+
-									'<input placeholder="Descripcion del paso" id='+item.id+' name="step[]" value='+item.step+' class="form-control step"/>'+
+									'<input placeholder="Descripcion del paso" id='+item.id+' name="step[]" value="'+item.step+'" class="form-control step"/>'+
 									'<span class="input-group-btn step'+num+'"><a class="btn btn-danger" onclick="eliminar('+num+')" >'+
 									'<span class="glyphicon glyphicon-remove"></span>Eliminar</a></span>'+
 									'</div></li>')
