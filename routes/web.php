@@ -109,6 +109,7 @@ Route::group(['middleware' => ['permission:crear-procedimientos-tecnicos,ver-pro
     Route::resource('procedimientos/tecnicos','TechnicianController');
 });
 Route::post('pasos/procedimientos/tecnicos/{procedure}','TechnicianController@steps');
+Route::get('procedimiento/instrucciones/{procedure}','TechnicianController@instructions');
 
 /**---------------------------------------------- Manejo de archivos ------------------------------------------------**/
 Route::post('procedimiento/administrativo/{procedure}/archivos-adjuntos','AnnexedFilesController@uploadFile');

@@ -123,14 +123,14 @@ Dropzone.options.uploadFile= {
 
     <!-- Script de Pasos -->
 
-var num=0;
+var num = 0;
 var csrf = $("meta[name='csrf_token']").attr('content');
 
 function agregar() {
     num+=1;
     $('#pasos').append('<li class="esk">'+
         '<div class="input-group">'+
-        '<input placeholder="Descripcion del paso" name="step[]" class="form-control step"/>'+
+        '<input placeholder="Descripcion del paso" id='+num+' name="step[]" class="form-control step"/>'+
         '<span class="input-group-btn step'+num+'"><a class="btn btn-danger" onclick="eliminar('+num+')" >'+
         '<span class="glyphicon glyphicon-remove"></span>Eliminar</a></span>'+
         '</div></li>')
@@ -157,8 +157,10 @@ function validar(){
 function enviar(procedureId){
     var i=0;
     var pasos = [];
+    var id_instrucciones = [];
     $('input.step').each(function(){
         pasos[i]= $(this).val();
+        id_instrucciones[i] = $(this).attr('id');
         i+=1;
     });
     if (validar()) {
@@ -179,7 +181,8 @@ function enviar(procedureId){
                         'X-CSRF-Token': csrf,
                     },
                     data:{
-                        steps: pasos
+                        steps: pasos,
+                        id_instrucciones: id_instrucciones,
                     },
                     success: function(data){
                         console.log(data);

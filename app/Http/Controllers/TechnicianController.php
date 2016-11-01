@@ -145,17 +145,34 @@ class TechnicianController extends Controller
     }
 
     public function steps(Request $request, $procedure){
-        
+
+
+        $instrucciones = $request->input("steps");
+        $id_instrucciones = $request->input("id_instrucciones");
         $tecnico = TechnicianProcedure::findOrFail($procedure);
 
-        foreach($request->input('steps') as $s){
-            $paso =Step::create([
-               'step'=>$s,
-            ]);
-            $tecnico->steps()->attach($paso);
+        $numero_de_instrucciones = count($tecnico->steps()->get());
+
+        if($numero_de_instrucciones == 0){
+            foreach($instrucciones as $instruccion){
+                
+                $paso =Step::create([
+                    'step'=>$instruccion,
+                ]);
+                $tecnico->steps()->attach($paso);
+            }
         }
 
+        $tecnico->steps()->sync($id_instrucciones);
+
         return redirect("/procedimientos/tecnicos/{$procedure}");
+    }
+
+    public function instructions(TechnicianProcedure $procedure)
+    {
+        $data = $procedure->steps()->get();
+
+        return response($data,200);
     }
 
     private function validateCreateProcedure($data)

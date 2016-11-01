@@ -44,11 +44,12 @@
 		<div class="col-md-6">
 			<div class="panel panel-default" style="height: 475px;overflow-y: scroll;">
 				<div class="panel-body">
-					<h4>Lista de pasos</h4>
+					<h4>Lista de instrucciones tecnicas</h4>
 					<hr>
 					<div class="row">
 						<div class="col-md-12">
 							<ol id="pasos">
+
 							</ol>
 						</div>
 					</div>
@@ -134,6 +135,30 @@
 @endsection
 
 @section('scripts')
+	<script !src="">
+		$(document).ready(
+			bringStepsOfProcedure(id_tecnico)
+		);
+		var listaInstrucciones = [];
+		var num = 1;
+		function bringStepsOfProcedure(id_procedure){
+			$.ajax({
+						type:'GET',
+						url:"/procedimiento/instrucciones/"+id_procedure,
+						success: function(data){
+							$.each(data, function(i, item){
+								num = num + 1
+								$('#pasos').append('<li class="esk">'+
+									'<div class="input-group">'+
+									'<input placeholder="Descripcion del paso" id='+item.id+' name="step[]" value='+item.step+' class="form-control step"/>'+
+									'<span class="input-group-btn step'+num+'"><a class="btn btn-danger" onclick="eliminar('+num+')" >'+
+									'<span class="glyphicon glyphicon-remove"></span>Eliminar</a></span>'+
+									'</div></li>')
+							});
+						},
+					})
+		}
+	</script>
 	<script src="/js/technician.js"></script>
 @endsection
 
