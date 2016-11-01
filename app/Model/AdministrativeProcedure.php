@@ -93,7 +93,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         $administrativeProcedure = new static;
         $administrativeProcedure->formatFiles()->get();
 
-        return $administrativeProcedure->where('state',$state)->paginate(5);
+        return $administrativeProcedure->where('state',$state)->get();
     }
     /**
      * Set the name attribute

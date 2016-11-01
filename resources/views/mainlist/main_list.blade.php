@@ -14,42 +14,42 @@
 
             </thead>
             <tbody>
+
             @foreach($adminproceds as $admin)
                 <tr id="row-{{$admin->id}}" class="{{($admin->state) ? '':'info'}}">
                     <td>
-                        <a href="/procedimientos/administrativos/{{$admin->id}}">{{$admin->code}}</a>
+                        @foreach($admin->procedureFile()->get() as $file)
+                        <a  target="_blank" href="/archivos/procedimientos/4/1/{{$file->originalName}}">
+                            {{$admin->code}}
+                        </a>
+                            @endforeach
                     </td>
                     <td>
                         {{$admin->name}}
                     </td>
-                    <td>
-                        1
-                    </td>
-                    <td>
-                    </td>
+                    <td></td>
+                    <td></td>
 
                 </tr>
                 @foreach($admin->formatFiles as $formatAdm)
-                        <tr>
+                        <tr class="info">
                             <td>
-                                {{$formatAdm->code}}
+                                <a  target="_blank" href="/archivos/procedimientos/1/1/{{$formatAdm->originalName}}">
+                                    {{$formatAdm->code}}
+                                </a>
                             </td>
                             <td>
                                 {{$formatAdm->title}}
                             </td>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                            </td>
+                            <td></td>
+                            <td></td>
                         </tr>
                 @endforeach
-
-
             @endforeach
 
-            @foreach($techproceds as $key => $value)
 
+
+            @foreach($techproceds as $key => $value)
                 <tr>
                     <th colspan="6" style="text-align: center">{{$laboratory->where('id',$key)->get(['name'])->toarray()[0]['name']}}</th>
                 </tr>
@@ -61,7 +61,20 @@
                         <td></td>
                         <td></td>
                     </tr>
-
+                    @foreach($tech['format_files'] as $formatTech)
+                        <tr class="info">
+                            <td>
+                                <a  target="_blank" href="/archivos/procedimientos/1/2/{{$formatTech['originalName']}}">
+                                    {{$formatTech['code']}}
+                                </a>
+                            </td>
+                            <td>
+                                {{$formatTech['title']}}
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    @endforeach
                 @endforeach
             @endforeach
 
