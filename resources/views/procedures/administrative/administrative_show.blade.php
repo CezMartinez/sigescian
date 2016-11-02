@@ -47,6 +47,51 @@
 			</form>
 
 			<div class="panel panel-primary">
+				<div class="panel-heading"><h3>Archivos Anexos</h3></div>
+				<div class="panel-body">
+					<ul class="list-group">
+						<div class="lista-anexos">
+							@if($administrativo->annexedFiles()->count() > 0 )
+								@foreach($administrativo->annexedFiles()->get() as $file)
+
+									<li id="file-anexo-{{$file->id}}" class="list-group-item list-group-item-info">
+
+										<a target="_blank" href="/archivos/procedimientos/3/1/{{$file->originalName}}">
+											{{$file->title}}
+										</a>
+
+										<i class="fa fa-times pull-right"
+										   onclick="deleteFile(
+												   '{{$file->originalName}}',
+												   '{{$administrativo->id}}',
+												   '{{$file->id}}',
+												   'anexo',
+												   '/procedimiento/archivos/anexo/')"></i>
+									</li>
+								@endforeach
+							@else
+								No hay archivos anexos con este procedimiento
+							@endif
+							<div class="form-group">
+								<hr>
+								<select name="procedimiento" id="procedimientos" class="form-control">
+									<option value="1">Procedimiento Comunicacion Interna</option>
+									<option value="1">Procedimiento Comunicacion externa</option>
+								</select>
+								<hr>
+								<select name="procedimiento" class="formatos form-control" multiple>
+									<option value="1">Formato tal</option>
+									<option value="1">Formato tal 2</option>
+								</select>
+								<hr>
+								<Button class="form-control btn-primary btn" >Asociar</Button>
+							</div>
+						</div>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<div class="panel panel-primary">
 				<div class="panel-heading"><h3>Flujograma:</h3></div>
 				<div class="panel-body">
 					<ul class="list-group">
@@ -74,53 +119,10 @@
 							@endif
 						</div>
 					</ul>
-					<div class="form-group">
-						<hr>
-						<select name="procedimiento" id="procedimientos" class="form-control">
-							<option value="1">Procedimiento Comunicacion Interna</option>
-							<option value="1">Procedimiento Comunicacion externa</option>
-						</select>
-						<hr>
-						<select name="procedimiento" class="formatos form-control" multiple>
-							<option value="1">Formato tal</option>
-							<option value="1">Formato tal 2</option>
-						</select>
-						<hr>
-						<Button class="form-control btn-primary btn" >Asociar</Button>
-					</div>
+
 				</div>
 			</div>
-			<hr>
-			<div class="panel panel-primary">
-				<div class="panel-heading"><h3>Archivos Anexos</h3></div>
-				<div class="panel-body">
-					<ul class="list-group">
-						<div class="lista-anexos">
-							@if($administrativo->annexedFiles()->count() > 0 )
-								@foreach($administrativo->annexedFiles()->get() as $file)
 
-									<li id="file-anexo-{{$file->id}}" class="list-group-item list-group-item-info">
-
-										<a target="_blank" href="/archivos/procedimientos/3/1/{{$file->originalName}}">
-											{{$file->title}}
-										</a>
-
-										<i class="fa fa-times pull-right"
-										   onclick="deleteFile(
-												   '{{$file->originalName}}',
-												   '{{$administrativo->id}}',
-												   '{{$file->id}}',
-												   'anexo',
-												   '/procedimiento/archivos/anexo/')"></i>
-									</li>
-								@endforeach
-							@else
-								No hay archivos anexos con este procedimiento
-							@endif
-						</div>
-					</ul>
-				</div>
-			</div>
 
 		</div>
 		<div class="col-md-6">
@@ -153,20 +155,6 @@
 							@endif
 						</div>
 					</ul>
-					<div class="form-group">
-						<hr>
-						<select name="procedimiento" id="procedimientos" class="form-control">
-							<option value="1">Procedimiento Comunicacion Interna</option>
-							<option value="1">Procedimiento Comunicacion externa</option>
-						</select>
-						<hr>
-						<select name="procedimiento" class="formatos form-control" multiple>
-							<option value="1">Formato tal</option>
-							<option value="1">Formato tal 2</option>
-						</select>
-						<hr>
-						<Button class="form-control btn-primary btn" >Asociar</Button>
-					</div>
 				</div>
 			</div>
 			<hr>

@@ -127,6 +127,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     public static function createNewProcedure(Request $data){
         $administrativeProcedure = new static;
         $administrativeProcedure->fill($data->all());
+        $administrativeProcedure->correlative = $administrativeProcedure->generateCorrelativeOfProcedure();
         $section = Section::find($data->input('section'));
         $administrativeProcedure->code = $administrativeProcedure->generateCodeAtCreateProcedure();
         $administrativeProcedure->addSection($section);
@@ -313,6 +314,11 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         return $this->attributes['code'] = 'PG-'.$this->attributes['acronym'].'-CIAN'.($this->countAllProcedures()+1);
     }
 
+    private function generateCorrelativeOfProcedure()
+    {
+        return $this->attributes['correlative'] = ($this->countAllProcedures() + 1);
+    }
+
     /**
      * upadate the code of the procedure
      *
@@ -412,7 +418,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         foreach ($words as $word){
             $acronym .= $word[0];
         }
-        return $code = "F-{$acronym}-PG{$procedure->id}.{$numberOfFiles}";
+        return $code = "F-{$acronym}-PG{$procedure->correlative}.{$numberOfFiles}";
 
     }
 

@@ -16,6 +16,7 @@ class CreateTechnicianProceduresTable extends Migration
         Schema::create('technician_procedures', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code')->unique();
+            $table->integer('correlative')->unsigned();
             $table->string('name');
             $table->string('acronym')->unique();
             $table->boolean('state')->default(true);

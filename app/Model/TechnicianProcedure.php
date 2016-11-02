@@ -77,6 +77,11 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         return $this->attributes['code'] = 'PT-'.$this->attributes['acronym'].'-CIAN'.($this->countAllProcedures()+1);
     }
 
+    private function generateCorrelativeOfProcedure()
+    {
+        return $this->attributes['correlative'] = ($this->countAllProcedures() + 1);
+    }
+
     public function getStateAttribute(){
 
         return $this->attributes['state'] == 1 ? true : false;
@@ -90,6 +95,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     public static function createTechnician($data,$section, $laboratory){
         $technicianProcedure = new static;
         $technicianProcedure->fill($data);
+        $technicianProcedure->correlative = $technicianProcedure->generateCorrelativeOfProcedure();
         $technicianProcedure->code = $technicianProcedure->generateCodeAtCreate();
         $technicianProcedure->section()->associate($section);
         $technicianProcedure->laboratory()->associate($laboratory);
@@ -272,7 +278,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         foreach ($words as $word){
             $acronym .= $word[0];
         }
-        return $code = "F-{$acronym}-PG{$procedure->id}.{$numberOfFiles}";
+        return $code = "F-{$acronym}-PG{$procedure->correlative}.{$numberOfFiles}";
     }
 
     private function addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime)
