@@ -81,7 +81,7 @@ class TechnicianController extends Controller
     public function show(TechnicianProcedure $tecnico)
     {
         $subsections = $tecnico->subSections()->get();
-        $tecnico = $tecnico->with(['annexedFiles','section'])->where('id',$tecnico->id)->first();
+        $tecnico = $tecnico->with(['procedureDocument','annexedFiles','section'])->where('id',$tecnico->id)->first();
         
         JavaScript::put([
             'id_tecnico' => $tecnico->id,

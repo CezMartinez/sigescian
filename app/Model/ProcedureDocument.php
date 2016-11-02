@@ -15,4 +15,14 @@ class ProcedureDocument extends Model
         'mime',
         'extension'
     ];
+
+    public function administrativeProcedure()
+    {
+        return $this->hasOne(AdministrativeProcedure::class);
+    }
+
+    public function technicianProcedure()
+    {
+        return $this->hasOne(TechnicianProcedure::class);
+    }
 }

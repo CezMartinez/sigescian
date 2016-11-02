@@ -52,6 +52,7 @@ class AnnexedFilesController extends Controller
 
     public function deleteFormatFile($procedure,FormatFile $formatFile,$type)
     {
+
         $procedure = $this->getProcedureByType($type,$procedure);
 
         $procedure->formatFiles()->detach($formatFile->id);
@@ -72,17 +73,19 @@ class AnnexedFilesController extends Controller
         /*Storage::delete('/archivos/procedimientos/administrativos/flujograma/'.$flowChartFile->originalName);*/
     }
 
-    public function deleteProcedureFile($procedure,ProcedureDocument $procedureFile, $type)
+    public function deleteProcedureFile($procedure,ProcedureDocument $procedureDocument, $type)
     {
+        //dd($procedure,$procedureDocument,$type);
+
         $procedure = $this->getProcedureByType($type,$procedure);
 
-        $procedure->procedureFile()->dissociate();
+        $procedure->procedureDocument()->dissociate();
 
         $procedure->save();
 
-        $procedureFile->delete();
+        $procedureDocument->delete();
 
-        Storage::delete($procedure->getProcedureFileDirPath().$procedureFile->originalName);
+        Storage::delete($procedure->getProcedureFileDirPath().$procedureDocument->originalName);
     }
     
     public function getAllAnnexedFiles($procedure,$type)
@@ -105,7 +108,7 @@ class AnnexedFilesController extends Controller
     {
         $procedure = $this->getProcedureByType($type,$procedure);
 
-        return $procedure->procedureFile()->get();
+        return $procedure->procedureDocument()->get();
     }
 
     public function getFlowCharFileFiles(AdministrativeProcedure $procedure)

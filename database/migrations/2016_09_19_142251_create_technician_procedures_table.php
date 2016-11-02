@@ -23,6 +23,8 @@ class CreateTechnicianProceduresTable extends Migration
             $table->foreign('laboratory_id')->references('id')->on('laboratories')->onDelete('cascade');
             $table->integer('section_id')->unsigned();
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->integer('procedure_document_id')->unsigned()->nullable();
+            $table->foreign('procedure_document_id')->references('id')->on('procedure_documents')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -36,6 +38,8 @@ class CreateTechnicianProceduresTable extends Migration
     {
         Schema::table('technician_procedures',function (Blueprint $table){
             $table->dropForeign('technician_procedures_laboratory_id_foreign');
+            $table->dropForeign('technician_procedures_section_id_foreign');
+            $table->dropForeign('technician_procedures_procedure_document_id_foreign');
         });
         Schema::dropIfExists('technician_procedures');
     }

@@ -44,6 +44,16 @@ Route::group(['middleware' => ['permission:crear-usuarios,ver-usuarios']], funct
 Route::delete('administracion/usuarios/{user}','UserController@destroy')->middleware('permission:eliminar-usuarios');
 Route::get('administracion/usuarios/{user}/edit','UserController@edit')->middleware('permission:editar-usuarios');
 
+/**---------------------------------------------- Clientes ------------------------------------------------**/
+
+Route::group(['middleware' => ['permission:crear-clientes,ver-clientes']], function () {
+    Route::resource('clientes','ClientsController',['except'=> [
+        'edit','destroy'
+    ]]);
+});
+Route::delete('clientes/{cliente}','ClientsController@destroy')->middleware('permission:eliminar-clientes');
+Route::get('clientes/{slug}/edit','ClientsController@edit')->middleware('permission:editar-clientes');
+
 /**---------------------------------------------- Materiales ------------------------------------------------**/
 
 Route::group(['middleware' => ['permission:crear-materiales,ver-materiales']], function () {
@@ -108,7 +118,7 @@ Route::post('procedimiento/tecnico/{procedure}/archivos-adjuntos','AnnexedFilesC
 Route::delete('procedimiento/archivos/anexo/{procedure}/{annexedFile}/{type}','AnnexedFilesController@deleteAnnexedFile');
 Route::delete('procedimiento/archivos/flujograma/{procedure}/{flowChartFile}/{type}','AnnexedFilesController@deleteFlowChartFile');
 Route::delete('procedimiento/archivos/formato/{procedure}/{formatFile}/{type}','AnnexedFilesController@deleteFormatFile');
-Route::delete('procedimiento/archivos/procedimiento/{procedure}/{procedureFile}/{type}','AnnexedFilesController@deleteProcedureFile');
+Route::delete('procedimiento/archivos/procedimiento/{procedure}/{procedureDocument}/{type}','AnnexedFilesController@deleteProcedureFile');
 
 Route::get('archivos/procedimientos/anexos/{procedure}/{type}','AnnexedFilesController@getAllAnnexedFiles');
 Route::get('archivos/procedimientos/flujograma/{procedure}','AnnexedFilesController@getFlowCharFileFiles');
@@ -125,4 +135,5 @@ Route::get('listaMaestra', 'MainListController@showAll');
 Route::get('servicios','MainListController@solicitudes');
 Route::resource('servicios/radio-agua-226','ApplicationRadio226Controller');
 Route::resource('servicios/frotis-radiacion','ApplicationFrotisController');
-Route::resource('servicios/control-de-calidad','ApplicationCCController');
+/**---------------------------------------------- Documentos ------------------------------------------------**/
+Route::get('documentos/{type}','DocumentsViewController@show');

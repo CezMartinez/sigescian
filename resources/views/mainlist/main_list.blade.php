@@ -8,7 +8,7 @@
             <thead>
             <th>Codigo</th>
             <th>Titulo</th>
-            <th>Seccion</th>
+            <th>Seccion Norma</th>
             <th>Version</th>
             <th>Fecha Revision</th>
 
@@ -32,7 +32,11 @@
                     <td>
                         {{$admin->name}}
                     </td>
-                    <td></td>
+                    <td>
+                        <a target="_blank" href="/CIAN_files/ISO-IEC-17025.pdf#{{$admin->section->route}}" >
+                        {{$admin->section->section}}
+                        </a>
+                    </td>
                     <td></td>
                     <td></td>
 
@@ -74,7 +78,12 @@
 
                         </td>
                         <td>{{$tech['name']}}</td>
-                        <td></td>
+                        <td>
+                            <a target="_blank" href="/CIAN_files/ISO-IEC-17025.pdf#{{$tech['section']['route']}}" >
+                                {{$tech['section']['section']}}
+                            </a>
+
+                        </td>
                         <td></td>
                         <td></td>
                     </tr>

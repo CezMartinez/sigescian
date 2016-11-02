@@ -17,15 +17,19 @@
                 </ul>
             </li>
             @endif
-<!--
-            <li id="menu-academico" ><a href="#"><i class="fa fa-file-text"></i><span>Documentos</span><span class="fa fa-angle-right" style="float: right"></span></a>
+
+            <li id="menu-academico" >
+                <a href="#"><i class="fa fa-file-text"></i><span>Documentos</span><span class="fa fa-angle-right" style="float: right"></span></a>
                 <ul id="menu-academico-sub" >
-                    <li id="menu-academico-boletim" ><a href="#">Anexos</a></li>
-                    <li id="menu-academico-avaliacoes" ><a href="#">Flujogramas</a></li>
-                    <li id="menu-academico-avaliacoes" ><a href="#">Formatos</a></li>
+                    <li id="menu-academico-procedimientos" ><a href="/documentos/procedimiento">Procedimientos</a></li>
+                    <li id="menu-academico-boletim" ><a href="/documentos/anexos">Anexos</a></li>
+                    <li id="menu-academico-avaliacoes" ><a href="/documentos/flujograma">Flujogramas</a></li>
+                    <li id="menu-academico-avaliacoes" ><a href="/documentos/formatos">Formatos</a></li>
                 </ul>
             </li>
--->
+            @if($user->canSeeIf(['ver-clientes']))
+            <li><a href="/clientes"><i class="fa fa-users"></i><span>Clientes</span></a></li>
+            @endif
             <li><a href="/servicios"><i class="fa fa-inbox"></i><span>Solicitudes</span></a></li>
             @if($user->canSeeIf(['ver-departamentos','ver-laboratorios','ver-equipos','ver-materiales']))
             <li><a href="#"><i class="fa fa-files-o"></i><span>Catalogos</span><span class="fa fa-angle-right" style="float: right"></span></a>

@@ -32,6 +32,8 @@
 			<hr>
 			<h2>Seleccione el tipo de archivo que desea subir al sistema:</h2>
 			<div>
+				<input type="radio" name="type" value="4" class="type">
+				<label for="type">Documento del Procedimiento</label>
 				<input type="radio" name="type" value="1" class="type">
 				<label for="type">Formatos </label>
 				<input type="radio" name="type" value="3" class="type">
@@ -66,7 +68,7 @@
 							<a class="btn btn-md btn-success" onclick="agregar()"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
 						</div>
 						<div class="col-md-4">
-							<a class="btn btn-md btn-info" onclick="enviar({{$tecnico->id}})"><span class="glyphicon glyphicon-plus"></span> Enviar</a>
+							<a class="btn btn-md btn-info" onclick="enviar({{$tecnico->id}})"><span class="glyphicon glyphicon-save"></span> Guardar</a>
 						</div>
 						<div class="col-md-2">
 						</div>
@@ -78,7 +80,7 @@
 	</div>
 	<hr/>
 	<div class="row">
-		<div class="col-md-6">
+        <div class="col-md-6">
 			<div class="panel panel-primary">
 				<div class="panel-heading"><h3>Formatos</h3></div>
 				<div class="panel-body">
@@ -135,6 +137,39 @@
 			</div>
 		</div>
 	</div>
+    <br>
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h3>Procedimiento:</h3></div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <div class="lista-procedimientos">
+                        @if($tecnico->procedureDocument()->count() > 0 )
+                            @foreach($tecnico->procedureDocument()->get() as $file)
+
+                                <li id="file-procedimiento-{{$file->id}}" class="list-group-item list-group-item-info">
+
+                                    <a  target="_blank" href="/archivos/procedimientos/4/2/{{$file->originalName}}">
+                                        {{$file->title}}
+                                    </a>
+
+                                    <i class="fa fa-times pull-right"
+                                       onclick="deleteFile(
+                                               '{{$file->originalName}}',
+                                               '{{$tecnico->id}}',
+                                               '{{$file->id}}',
+                                               'procedimiento',
+                                               '/procedimiento/archivos/procedimiento/')"></i>
+                                </li>
+                            @endforeach
+                        @else
+                            <p>No hay un documento oficial asociado con este procedimiento</p>
+                        @endif
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
 
 
 @endsection
