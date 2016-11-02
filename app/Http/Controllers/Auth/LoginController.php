@@ -60,10 +60,6 @@ class LoginController extends Controller
 
                 return '/administracion/roles';
 
-            }elseif ($permission->contains('ver-clientes')){
-
-                return '/clientes';
-
             }elseif ($permission->contains('ver-equipos')){
 
                 return '/equipos';

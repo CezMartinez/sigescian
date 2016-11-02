@@ -146,10 +146,6 @@ class PermissionMiddleware
 
                 return redirect('/administracion/roles');
 
-            }elseif ($permission->contains('ver-clientes')){
-
-                return redirect('/clientes');
-
             }elseif ($permission->contains('ver-equipos')){
 
                 return redirect('/equipos');

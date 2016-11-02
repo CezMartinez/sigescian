@@ -60,8 +60,6 @@
                 @endforeach
             @endforeach
 
-
-
             @foreach($techproceds as $key => $value)
 
                 <tr>
