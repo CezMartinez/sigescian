@@ -8,6 +8,7 @@
             <thead>
             <th>Codigo</th>
             <th>Titulo</th>
+            <th>Seccion</th>
             <th>Version</th>
             <th>Fecha Revision</th>
 
@@ -33,6 +34,7 @@
                     </td>
                     <td></td>
                     <td></td>
+                    <td></td>
 
                 </tr>
                 @foreach($admin->formatFiles as $formatAdm)
@@ -45,6 +47,7 @@
                             <td>
                                 {{$formatAdm->title}}
                             </td>
+                            <td></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -60,8 +63,18 @@
 
                 @foreach($value as $tech)
                     <tr>
-                        <td>{{$tech['code']}}</td>
+                        <td>
+                            @if($tech['procedure_document'])
+
+                                <a target="_blank" href="/archivos/procedimientos/4/2/{{$tech['procedure_document']['originalName']}}">
+                                    {{$tech['code']}}
+                                </a>
+                                @else {{$tech['code']}}
+                            @endif
+
+                        </td>
                         <td>{{$tech['name']}}</td>
+                        <td></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -75,6 +88,7 @@
                             <td>
                                 {{$formatTech['title']}}
                             </td>
+                            <td></td>
                             <td></td>
                             <td></td>
                         </tr>
