@@ -7,15 +7,6 @@ use Illuminate\Filesystem\Filesystem;
 
 class AnnexedFile extends Model
 {
-    public static function boot() {
-        parent::boot();
-
-        // Delete the image from the filesystem after deleting our database entry.
-        static::deleted(function($model){
-            (new Filesystem)->delete($model->path);
-        });
-    }
-
     protected $fillable = [
         'path',
         'originalName',
@@ -25,4 +16,14 @@ class AnnexedFile extends Model
         'mime',
         'extension'
     ];
+
+    public function administrativeProcedure()
+    {
+        return $this->belongsToMany(AdministrativeProcedure::class);
+    }
+
+    public function technicianProcedure()
+    {
+        return $this->belongsToMany(TechnicianProcedure::class);
+    }
 }

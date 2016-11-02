@@ -15,4 +15,9 @@ class FlowChartFile extends Model
         'mime',
         'extension'
     ];
+
+    public function administrativeProcedure()
+    {
+        return $this->hasOne(AdministrativeProcedure::class);
+    }
 }

@@ -5,8 +5,8 @@
     @if(Auth::user()->canSeeIf(['crear-usuarios']))
         <a href="/administracion/usuarios/create" class="btn btn-lg btn-primary">
         Agregar un nuevo usuario
-    </a>
-        @endif
+        </a>
+    @endif
     <hr>
 
     @if($users->count() >= 0)

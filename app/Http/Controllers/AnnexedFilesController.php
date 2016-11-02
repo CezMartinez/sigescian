@@ -52,6 +52,7 @@ class AnnexedFilesController extends Controller
 
     public function deleteFormatFile($procedure,FormatFile $formatFile,$type)
     {
+
         $procedure = $this->getProcedureByType($type,$procedure);
 
         $procedure->formatFiles()->detach($formatFile->id);
@@ -74,9 +75,10 @@ class AnnexedFilesController extends Controller
 
     public function deleteProcedureFile($procedure,ProcedureDocument $procedureFile, $type)
     {
+
         $procedure = $this->getProcedureByType($type,$procedure);
 
-        $procedure->procedureFile()->dissociate();
+        $procedure->procedureDocument()->dissociate();
 
         $procedure->save();
 
@@ -105,7 +107,7 @@ class AnnexedFilesController extends Controller
     {
         $procedure = $this->getProcedureByType($type,$procedure);
 
-        return $procedure->procedureFile()->get();
+        return $procedure->procedureDocument()->get();
     }
 
     public function getFlowCharFileFiles(AdministrativeProcedure $procedure)

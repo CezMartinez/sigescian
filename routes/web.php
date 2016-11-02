@@ -118,7 +118,7 @@ Route::post('procedimiento/tecnico/{procedure}/archivos-adjuntos','AnnexedFilesC
 Route::delete('procedimiento/archivos/anexo/{procedure}/{annexedFile}/{type}','AnnexedFilesController@deleteAnnexedFile');
 Route::delete('procedimiento/archivos/flujograma/{procedure}/{flowChartFile}/{type}','AnnexedFilesController@deleteFlowChartFile');
 Route::delete('procedimiento/archivos/formato/{procedure}/{formatFile}/{type}','AnnexedFilesController@deleteFormatFile');
-Route::delete('procedimiento/archivos/procedimiento/{procedure}/{procedureFile}/{type}','AnnexedFilesController@deleteProcedureFile');
+Route::delete('procedimiento/archivos/procedimiento/{procedure}/{procedureDocument}/{type}','AnnexedFilesController@deleteProcedureFile');
 
 Route::get('archivos/procedimientos/anexos/{procedure}/{type}','AnnexedFilesController@getAllAnnexedFiles');
 Route::get('archivos/procedimientos/flujograma/{procedure}','AnnexedFilesController@getFlowCharFileFiles');
@@ -135,3 +135,5 @@ Route::get('listaMaestra', 'MainListController@showAll');
 Route::get('servicios','MainListController@solicitudes');
 Route::resource('servicios/radio-agua-226','ApplicationRadio226Controller');
 Route::resource('servicios/frotis-radiacion','ApplicationFrotisController');
+/**---------------------------------------------- Documentos ------------------------------------------------**/
+Route::get('documentos/{type}','DocumentsViewController@show');

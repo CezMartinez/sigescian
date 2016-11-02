@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use App\ProcedureDocument;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,7 +39,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         return $this->belongsToMany(FormatFile::class);
     }
 
-    public function procedureFile()
+    public function procedureDocument()
     {
         return $this->belongsTo(ProcedureDocument::class);
     }

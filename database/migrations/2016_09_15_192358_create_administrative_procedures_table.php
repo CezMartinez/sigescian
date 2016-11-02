@@ -24,7 +24,8 @@ class CreateAdministrativeProceduresTable extends Migration
             $table->foreign('flow_chart_file_id')->references('id')->on('flow_chart_files')->onDelete('cascade');
             $table->integer('section_id')->unsigned();
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
-            $table->integer('procedure_file_id')->unsigned()->nullable();
+            $table->integer('procedure_document_id')->unsigned()->nullable();
+            $table->foreign('procedure_document_id')->references('id')->on('procedure_documents')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -39,6 +40,7 @@ class CreateAdministrativeProceduresTable extends Migration
         Schema::table('administrative_procedures', function (Blueprint $table) {
             $table->dropForeign('administrative_procedures_flow_chart_file_id_foreign');
             $table->dropForeign('administrative_procedures_section_id_foreign');
+            $table->dropForeign('administrative_procedures_procedure_document_id_foreign');
         });
         Schema::dropIfExists('administrative_procedures');
     }

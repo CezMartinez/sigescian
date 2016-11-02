@@ -16,4 +16,14 @@ class FormatFile extends Model
         'mime',
         'extension'
     ];
+
+    public function administrativeProcedure()
+    {
+        return $this->belongsToMany(AdministrativeProcedure::class);
+    }
+
+    public function technicianProcedure()
+    {
+        return $this->belongsToMany(TechnicianProcedure::class);
+    }
 }

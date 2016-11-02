@@ -19,7 +19,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function procedureFile()
+    public function procedureDocument()
     {
         return $this->belongsTo(ProcedureDocument::class);
     }
@@ -31,7 +31,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
      */
     public function annexedFiles()
     {
-        return $this->belongsToMany(AnnexedFile::class,'administrative_procedure_annexed_files');
+        return $this->belongsToMany(AnnexedFile::class);
     }
 
     /**
@@ -250,13 +250,13 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             ]);
 
             if($request->ajax()){
-                if($this->onlyOne('procedureFile')){
+                if($this->onlyOne('procedureDocument')){
                     return $this->answer("Error los procedimientos solo aceptan 1 archivo del tipo seleccionado","500");
                 };
             }
-            $this->procedureFile()->dissociate();
+            $this->procedureDocument()->dissociate();
 
-            $this->procedureFile()->associate($document);
+            $this->procedureDocument()->associate($document);
 
             $this->save();
 
@@ -457,11 +457,11 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
 
     public function documentProcedure()
     {
-        return $this->procedureFile()->get();
+        return $this->procedureDocument()->get();
     }
 
     public function hasDocumentProcedure(){
-        return ($this->procedureFile()->get()->count() > 0) ? true : false;
+        return ($this->procedureDocument()->get()->count() > 0) ? true : false;
     }
 
     
