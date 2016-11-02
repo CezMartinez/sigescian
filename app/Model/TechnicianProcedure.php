@@ -61,7 +61,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     public static function fetchAllProcedures($state){
         $technicianProcedure = new static;
 
-        return $technicianProcedure->with(['laboratory','formatFiles'])->where('state',$state)->get();
+        return $technicianProcedure->with(['procedureDocument','laboratory','formatFiles'])->where('state',$state)->get();
     }
 
     protected function setNameAttribute($name){
@@ -171,9 +171,9 @@ class TechnicianProcedure extends Model implements ProcedureInterface
             $answer = $this->addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime);
 
             return $answer;
-        }else{//anexo
+        }elseif($typeFile == 3){//anexo
             $path = $file->storeAs(
-                'archivos/procedimientos/tecnicoss/anexos', $clientName,'public'
+                'archivos/procedimientos/tecnicos/anexos', $clientName,'public'
             );
             $this->annexedFiles()->create([
                 'path'                  =>$path,
@@ -186,7 +186,40 @@ class TechnicianProcedure extends Model implements ProcedureInterface
             ]);
 
             return $this->answer("Anexo agregado con exito","200");
+        }elseif ($typeFile == 4){
+            $path = $file->storeAs(
+                'archivos/procedimientos/tecnicos/procedimientos', $clientName,'public'
+            );
+            $document = ProcedureDocument::create([
+                'path'                  =>$path,
+                'originalName'          =>$clientName,
+                'nameWithoutExtension'  =>$nameWithoutExtension,
+                'title'                 =>$title,
+                'extension'             =>$extension,
+                'size'                  =>$size,
+                'mime'                  =>$mime,
+            ]);
+
+            if($request->ajax()){
+                if($this->onlyOne('procedureDocument')){
+                    return $this->answer("Error los procedimientos solo aceptan 1 archivo del tipo seleccionado","500");
+                };
+            }
+            $this->procedureDocument()->dissociate();
+
+            $this->procedureDocument()->associate($document);
+
+            $this->save();
+
+            return $this->answer("El documentos de procedimiento fue agregado correctamente","200");
+        }else{
+            return $this->answer("No ha seleccionado el tipo de archivo que desea subir","404");
         }
+    }
+
+    protected function onlyOne($fileType)
+    {
+        return $this->$fileType()->get()->count() >= 1 ? true : false;
     }
 
     /**
@@ -196,7 +229,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
      */
     public function getFormatFilesDirPath()
     {
-        return '/archivos/procedimientos/tecnicoss/formatos/';
+        return '/archivos/procedimientos/tecnicos/formatos/';
     }
 
     /**
@@ -206,12 +239,12 @@ class TechnicianProcedure extends Model implements ProcedureInterface
      */
     public function getAnnexedFilesDirPath()
     {
-        return '/archivos/procedimientos/tecnicoss/formatos/';
+        return '/archivos/procedimientos/tecnicos/formatos/';
     }
 
     public function getProcedureFileDirPath()
     {
-        return '/archivos/procedimientos/tecnicoss/procedimiento/';
+        return '/archivos/procedimientos/tecnicos/procedimiento/';
     }
 
     public function countAllProcedures()
@@ -275,4 +308,13 @@ class TechnicianProcedure extends Model implements ProcedureInterface
 
         return (count($formato) == 1) ? true : false;
     }
+    public function documentProcedure()
+    {
+        return $this->procedureFile()->get();
+    }
+
+    public function hasDocumentProcedure(){
+        return ($this->procedureFile()->get()->count() > 0) ? true : false;
+    }
+
 }

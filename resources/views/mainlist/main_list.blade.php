@@ -60,7 +60,10 @@
 
                 @foreach($value as $tech)
                     <tr>
-                        <td>{{$tech['code']}}</td>
+                        <td>
+
+                            {{$tech['code']}}
+                        </td>
                         <td>{{$tech['name']}}</td>
                         <td></td>
                         <td></td>

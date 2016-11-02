@@ -73,8 +73,9 @@ class AnnexedFilesController extends Controller
         /*Storage::delete('/archivos/procedimientos/administrativos/flujograma/'.$flowChartFile->originalName);*/
     }
 
-    public function deleteProcedureFile($procedure,ProcedureDocument $procedureFile, $type)
+    public function deleteProcedureFile($procedure,ProcedureDocument $procedureDocument, $type)
     {
+        //dd($procedure,$procedureDocument,$type);
 
         $procedure = $this->getProcedureByType($type,$procedure);
 
@@ -82,9 +83,9 @@ class AnnexedFilesController extends Controller
 
         $procedure->save();
 
-        $procedureFile->delete();
+        $procedureDocument->delete();
 
-        Storage::delete($procedure->getProcedureFileDirPath().$procedureFile->originalName);
+        Storage::delete($procedure->getProcedureFileDirPath().$procedureDocument->originalName);
     }
     
     public function getAllAnnexedFiles($procedure,$type)
