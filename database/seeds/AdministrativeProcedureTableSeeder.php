@@ -12,12 +12,12 @@ class AdministrativeProcedureTableSeeder extends Seeder
     public function run()
     {
         DB::table('administrative_procedures')->insert([
-            'code'          =>'PG-MC-CIAN1',
+            'code'          =>'MC-CIAN1',
             'name'          =>'Manual De Calidad',
             'acronym'       =>'MC',
             'correlative'   => 1,
             'state'         => true,
-            'politic'       =>'Descripcion',
+            'politic'       => ' ',
             'section_id'    => 1,
         ]);
     }

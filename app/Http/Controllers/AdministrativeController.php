@@ -91,7 +91,8 @@ class AdministrativeController extends Controller
     public function edit($code)
     {
         $procedure = AdministrativeProcedure::where('code',$code)->first();
-        return view('procedures.administrative.administrative_edit',compact('procedure'));
+        $sections = Section::pluck('section','id');
+        return view('procedures.administrative.administrative_edit',compact('procedure','sections'));
     }
 
     /**

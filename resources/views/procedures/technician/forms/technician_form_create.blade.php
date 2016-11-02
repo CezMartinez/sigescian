@@ -3,7 +3,7 @@
 <!-- name Form Input -->
     <div class="form-group {{$errors->has('name') ? 'has-error': ''}} ">
         <label for="name" class="control-label">Nombre del procedimiento:</label>
-        <input type="text" name="name" class="form-control" value="{{old('name')}}" placeholder="Seguridad en laboratorio" required>
+        <input type="text" name="name" class="form-control" value="{{old('name')}}" placeholder="Seguridad en laboratorio" required autofocus>
         @if ($errors->has('name'))
             <span class="help-block">
                 <strong>{{ $errors->first('name') }}</strong>
@@ -44,7 +44,7 @@
     {{-- subsection --}}
     <div class="form-group {{$errors->has('subsection') ? 'has-error': ''}}">
         <label for="subsection" class="control-label">Subseccion:</label>
-        {{Form::select('subsection[]',['selecciones seccion'],null,['id'=>'subsection','class'=>'form-control','disabled','readonly','multiple'])}}
+        {{Form::select('subsection[]',['Seleccione una Seccion'],null,['id'=>'subsection','class'=>'form-control','disabled','readonly','multiple'])}}
         @if ($errors->has('subsection'))
             <span class="help-block">
                 <strong>{{ $errors->first('subsection') }}</strong>
@@ -58,7 +58,7 @@
 @section('scripts')
     <script>
         $('#subsection').select2();
-        $("#subsection").select2({placeholder:"Seleccione subsecciones"});
+        $("#subsection").select2({placeholder:"Seleccione Subsecciones de norma"});
     </script>
     <script>
         function changedata() {

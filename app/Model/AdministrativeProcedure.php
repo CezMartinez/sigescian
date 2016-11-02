@@ -162,6 +162,17 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
 
         $this->code = $this->updateCodeWithAcronym($request->input('acronym'),$this);
 
+        //Agregar Seccion
+
+        $section = Section::find($request->input('section'));
+
+        $this->addSection($section);
+
+        if($request->has('subsection')){
+
+            $this->addSubSections($request->input('subsection'));
+        }
+
         $this->save();
 
         return [
@@ -287,6 +298,9 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     {
         return $this->subSections()->attach($subsectionIds);
     }
+    public function deleteSubSections($subsectionIds){
+        return $this->subSections()->dettach($subsectionIds);
+    }
 
     /**
      * Verifies if the procedure exists
@@ -347,6 +361,8 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     {
         return (count($this->getDirty()) > 0 && array_key_exists('name',$this->getDirty())) ? true : false;
     }
+
+
 
     /**
      * @return bool
