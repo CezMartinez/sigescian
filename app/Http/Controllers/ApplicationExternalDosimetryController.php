@@ -6,7 +6,7 @@ use App\Model\Activity;
 use App\Model\CustomerType;
 use Illuminate\Http\Request;
 
-class ApplicationCCController extends Controller
+class ApplicationExternalDosimetryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class ApplicationCCController extends Controller
     {
         $types = CustomerType::orderBy('id','asc')->pluck('name', 'id');
         $actividad = Activity::pluck('name','id');
-        return view('applications.controlc.create_controlc',compact('types','actividad'));
+        return view('applications.dosimetry.create_dosimetry',compact('types','actividad'));
     }
 
     /**

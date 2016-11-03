@@ -12,10 +12,13 @@ class CustomerTypesTableSeeder extends Seeder
     public function run()
     {
         DB::table('customer_types')->insert([
-            'name' => 'Empresa',
+            'name' => 'Pública',
         ]);
         DB::table('customer_types')->insert([
-            'name' => 'Persona Natural',
+            'name' => 'Privada',
+        ]);
+        DB::table('customer_types')->insert([
+            'name' => 'Otra',
         ]);
     }
 }

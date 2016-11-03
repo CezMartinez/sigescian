@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         $this->call(RolePermissionsSeeder::class);
         $this->call(CustomerTypesTableSeeder::class);
+        $this->call(ActivityTableSeeder::class);
+        $this->call(ServiceTableSeeder::class);
         $this->call(SectionTableSeeder::class);
         $this->call(SubSectionsTableSeeder::class);
         $this->call(DepartmentsTableSeeder::class);
@@ -23,6 +25,5 @@ class DatabaseSeeder extends Seeder
         $this->call(EquipmentTableSeeder::class);
         $this->call(MaterialsTableSeeder::class);
         $this->call(AdministrativeProcedureTableSeeder::class);
-        $this->call(ServiceTableSeeder::class);
     }
 }

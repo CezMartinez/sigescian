@@ -125,5 +125,7 @@ Route::get('listaMaestra', 'MainListController@showAll');
 Route::get('servicios','MainListController@solicitudes');
 Route::resource('servicios/radio-agua-226','ApplicationRadio226Controller');
 Route::resource('servicios/frotis-radiacion','ApplicationFrotisController');
+Route::resource('servicios/control-de-calidad','ApplicationCCController');
+Route::resource('servicios/dosimetria-personal-externa','ApplicationExternalDosimetryController');
 /**---------------------------------------------- Documentos ------------------------------------------------**/
 Route::get('documentos/{type}','DocumentsViewController@show');
