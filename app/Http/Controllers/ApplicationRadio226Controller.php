@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\ApplicationRadio226;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,7 +16,7 @@ class ApplicationRadio226Controller extends Controller
      */
     public function index()
     {
-      return "Todas las solicitudes historicas";
+        dd(ApplicationRadio226::fetchAll());
     }
 
     /**
@@ -36,7 +37,19 @@ class ApplicationRadio226Controller extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request['state']=false;
+        if($request->input('samples')==null){
+            $request['samples']=null;
+        }
+        if($request->input('liters')==null){
+            $request['liters']=null;
+        }
+        if($request->input('gallons')==null){
+            $request['gallons']=null;
+        }
+        flash('Solicitud Registrada', 'success');
+        ApplicationRadio226::createSolicitude($request->all());
+        return redirect("/servicios/radio-agua-226/");
     }
 
     /**
@@ -46,29 +59,6 @@ class ApplicationRadio226Controller extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
     {
         //
     }

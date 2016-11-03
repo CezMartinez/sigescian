@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\ApplicationFrotis;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,7 +16,7 @@ class ApplicationFrotisController extends Controller
      */
     public function index()
     {
-        return "Todas las solicitudes historicas";
+        dd(ApplicationFrotis::fetchAll());
     }
 
     /**
@@ -36,7 +37,20 @@ class ApplicationFrotisController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request['state']=false;
+        if($request->input('frotis')==null){
+            $request['frotis']=false;
+        }else{
+            $request['frotis']=true;
+        }
+        if($request->input('radiation')==null){
+            $request['radiation']=false;
+        }else{
+            $request['radiation']=true;
+        }
+        flash('Solicitud Registrada', 'success');
+        ApplicationFrotis::createSolicitude($request->all());
+        return redirect("/servicios/frotis-radiacion/");
     }
 
     /**
@@ -46,29 +60,6 @@ class ApplicationFrotisController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
     {
         //
     }
