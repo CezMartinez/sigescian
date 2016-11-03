@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Activity;
 use App\Model\CustomerType;
+use App\Model\ExternalDosimetry;
 use Illuminate\Http\Request;
 
 class ApplicationExternalDosimetryController extends Controller
@@ -15,7 +16,8 @@ class ApplicationExternalDosimetryController extends Controller
      */
     public function index()
     {
-        return "Todas las solicitudes historicas";
+        $applications = ExternalDosimetry::fetchAll();
+        return $applications;//view('applications.controlc.index',compact($applications));
     }
 
     /**
@@ -38,51 +40,19 @@ class ApplicationExternalDosimetryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request['state']=false;
+        $tipo = CustomerType::findOrFail($request->input('customer_id'));
+        $activi = Activity::findOrFail($request->input('activity_id'));
+
+        if(!$request->has('pd')){
+            $request['pd_number']=null;
+        }
+        if(!$request->has('anillo')){
+            $request['anillo_number']=null;
+        }
+        flash('Solicitud Registrada', 'success');
+        ExternalDosimetry::createSolicitude($request->all(),$tipo, $activi);
+        return redirect("/servicios/dosimetria-personal-externa/");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

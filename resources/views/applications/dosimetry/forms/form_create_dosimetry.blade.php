@@ -193,7 +193,7 @@
                 <div class="col-md-6">
                     <div class="form-group {{$errors->has('pd') ? 'has-error': ''}} ">
                         <label for="pd" class="checkbox-inline"><input type="checkbox" name="pd" value="1">PD1</label>
-                        <input type="number" name="pd_number" class="form-control" value="{{old('pd_number')}}" min="1" placeholder="1" required autofocus>
+                        <input type="number" name="pd_number" class="form-control" value="{{old('pd_number')}}" min="1" placeholder="1"  autofocus>
                         @if ($errors->has('pd'))
                             <span class="help-block"><strong>{{ $errors->first('pd') }}</strong></span>
                         @endif
@@ -202,7 +202,7 @@
                 <div class="col-md-6">
                     <div class="form-group {{$errors->has('pd') ? 'has-error': ''}} ">
                         <label for="anillo" class="checkbox-inline"><input type="checkbox" name="anillo" value="1">Anillos</label>
-                        <input type="number" name="anillo_number" class="form-control" value="{{old('anillo_number')}}" min="1" placeholder="1" required autofocus>
+                        <input type="number" name="anillo_number" class="form-control" value="{{old('anillo_number')}}" min="1" placeholder="1"  autofocus>
                         @if ($errors->has('pd'))
                             <span class="help-block"><strong>{{ $errors->first('pd') }}</strong></span>
                         @endif
