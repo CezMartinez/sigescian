@@ -36,8 +36,6 @@ class CreateApplicationControlsTable extends Migration
             $table->string('name_admin');
             $table->string('position_admin');
             $table->string('phone_admin');
-            $table->integer('pd_number')->nullable();
-            $table->integer('anillo_number')->nullable();
             $table->timestamps();
         });
     }

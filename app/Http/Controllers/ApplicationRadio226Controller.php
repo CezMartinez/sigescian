@@ -16,7 +16,8 @@ class ApplicationRadio226Controller extends Controller
      */
     public function index()
     {
-        dd(ApplicationRadio226::fetchAll());
+        $applications = ApplicationRadio226::fetchAll();
+        return view('applications.radio226.index',compact($applications));
     }
 
     /**
@@ -50,17 +51,6 @@ class ApplicationRadio226Controller extends Controller
         flash('Solicitud Registrada', 'success');
         ApplicationRadio226::createSolicitude($request->all());
         return redirect("/servicios/radio-agua-226/");
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
 }

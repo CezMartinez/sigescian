@@ -16,7 +16,8 @@ class ApplicationFrotisController extends Controller
      */
     public function index()
     {
-        dd(ApplicationFrotis::fetchAll());
+        $applications = ApplicationFrotis::fetchAll();
+        return view('applications.frotis.index',compact($applications));
     }
 
     /**
@@ -51,17 +52,6 @@ class ApplicationFrotisController extends Controller
         flash('Solicitud Registrada', 'success');
         ApplicationFrotis::createSolicitude($request->all());
         return redirect("/servicios/frotis-radiacion/");
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
 }

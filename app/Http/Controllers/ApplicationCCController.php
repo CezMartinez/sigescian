@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Activity;
+use App\Model\ApplicationControl;
 use App\Model\CustomerType;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class ApplicationCCController extends Controller
      */
     public function index()
     {
-        return "Todas las solicitudes historicas";
+        $applications = ApplicationControl::fetchAll();
+        return $applications;//view('applications.controlc.index',compact($applications));
     }
 
     /**
@@ -38,51 +40,12 @@ class ApplicationCCController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request['state']=false;
+        $tipo = CustomerType::findOrFail($request->input('customer_id'));
+        $activi = Activity::findOrFail($request->input('activity_id'));
+        flash('Solicitud Registrada', 'success');
+        ApplicationControl::createSolicitude($request->all(),$tipo, $activi);
+        return redirect("/servicios/control-de-calidad/");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

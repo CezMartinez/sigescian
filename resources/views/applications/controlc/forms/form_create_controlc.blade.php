@@ -1,4 +1,4 @@
-<form action="/servicios/control-calidad" method="post">
+<form action="/servicios/control-de-calidad" method="post">
     {{csrf_field()}}
     <div class="panel panel-primary">
         <div class="panel-heading"><h3> Informacion del Cliente</h3></div>
