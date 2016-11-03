@@ -27,7 +27,7 @@ class TechnicianController extends Controller
     {
         $state = request()->exists('inactivos') ? '0' : '1';
         
-        $techs = TechnicianProcedure::fetchAllProcedureByState($state);
+        $techs = TechnicianProcedure::fetchAllProceduresByState($state);
 
         return view('procedures.technician.technician_index',compact('techs'));
     }
@@ -99,7 +99,8 @@ class TechnicianController extends Controller
     public function edit($code)
     {
         $procedure = TechnicianProcedure::where('code',$code)->first();
-        return view('procedures.technician.technician_edit',compact('procedure'));
+        $sections = Section::pluck('section','id');
+        return view('procedures.technician.technician_edit',compact('procedure','sections'));
     }
 
     /**

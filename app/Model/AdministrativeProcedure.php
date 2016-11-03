@@ -169,7 +169,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         $this->addSection($section);
 
         if($request->has('subsection')){
-
+            $this->subSections()->detach();
             $this->addSubSections($request->input('subsection'));
         }
 
