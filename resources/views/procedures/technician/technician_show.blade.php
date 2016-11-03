@@ -49,32 +49,8 @@
 		</div>
 
 		<div class="col-md-6">
-			<div class="panel panel-default" style="height: 475px;overflow-y: scroll;">
-				<div class="panel-body">
-					<h4>Lista de instrucciones tecnicas</h4>
-					<hr>
-					<div class="row">
-						<div class="col-md-12">
-							<ol id="pasos">
 
-							</ol>
-						</div>
-					</div>
-					<hr>
-					<div class="row">
-						<div class="col-md-2">
-						</div>
-						<div class="col-md-4">
-							<a class="btn btn-md btn-success" onclick="agregar()"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
-						</div>
-						<div class="col-md-4">
-							<a class="btn btn-md btn-info" onclick="enviar({{$tecnico->id}})"><span class="glyphicon glyphicon-save"></span> Guardar</a>
-						</div>
-						<div class="col-md-2">
-						</div>
-					</div>
-				</div>
-			</div>
+			<h1>hay que ordenar esto</h1>
 
 		</div>
 	</div>

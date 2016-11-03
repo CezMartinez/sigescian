@@ -135,3 +135,28 @@ ul.list-inline{
 #equipmet-text{
 	padding-bottom: 0.5em;
 }
+
+.esk{
+	margin-top: 1em;
+}
+
+.instruction-div{
+	display: flex;
+}
+
+.instruction-lable{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	margin: 0.5em;
+}
+
+.instruction-input{
+	margin-right: 0.5em;
+}
+
+.instruction-button {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
