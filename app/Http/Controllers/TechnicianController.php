@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Model\Laboratory;
 use App\Model\Section;
-use App\Model\Step;
 use App\Model\TechnicianProcedure;
 use Illuminate\Http\Request;
 use JavaScript;
@@ -88,11 +87,11 @@ class TechnicianController extends Controller
     {
         $subsections = $tecnico->subSections()->get();
         $tecnico = $tecnico->with(['procedureDocument','annexedFiles','section'])->where('id',$tecnico->id)->first();
-        
+
         JavaScript::put([
             'id_tecnico' => $tecnico->id,
         ]);
-        
+
         return view('procedures.technician.technician_show',compact('tecnico','subsections'));
     }
 
@@ -105,6 +104,11 @@ class TechnicianController extends Controller
     public function edit($code)
     {
         $procedure = TechnicianProcedure::where('code',$code)->first();
+
+        JavaScript::put([
+            'id_tecnico' => $procedure->id,
+        ]);
+
         return view('procedures.technician.technician_edit',compact('procedure'));
     }
 
@@ -124,9 +128,12 @@ class TechnicianController extends Controller
      */
     public function update(Request $request,TechnicianProcedure $tecnico)
     {
-        $this->validateUpdateProcedure($request->all(),$tecnico);
+        $instructions = $request->input('instructions');
 
-        $result = $tecnico->updateProcedure($request);
+        $this->validateUpdateProcedure($request->all(),$tecnico);
+        /*dd($request->input('instructions'));*/
+
+        $result = $tecnico->updateProcedure($request,$instructions);
 
         if($result['hasError']) {
 
@@ -173,6 +180,7 @@ class TechnicianController extends Controller
     private function validateUpdateProcedure($data,$procedure){
         return Validator::make($data,[
             'name' => 'required',
+            'instructions' => 'required',
             'acronym' => 'unique:technician_procedures,acronym,'.$procedure->id,
         ])->validate();
     }

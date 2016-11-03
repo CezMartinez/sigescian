@@ -50,7 +50,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     {
         $technicianProcedure = new static;
 
-        return $technicianProcedure->where('state', $state)->paginate(5);
+        return $technicianProcedure->with('laboratory')->where('state', $state)->paginate(5);
     }
 
     public static function fetchAllProceduresByState($state)
@@ -109,11 +109,11 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         $technicianProcedure->section()->associate($section);
         $technicianProcedure->laboratory()->associate($laboratory);
         $technicianProcedure->save();
-        
+
         return $technicianProcedure;
     }
 
-    public function updateProcedure($request)
+    public function updateProcedure($request, $instructions)
     {
         $this->fill($request->all());
 
@@ -135,28 +135,52 @@ class TechnicianProcedure extends Model implements ProcedureInterface
 
         $this->save();
 
+        $this->updateInstructions($instructions);
+
+
         return [
             'hasError' => false,
             'message' => "El procedimiento fue actualizado correctamente"
         ];
     }
 
-    public function generateInstructions($instructions)
+    public function generateInstructions($instructions, $id_instructions = null)
     {
-        $id_instructions = [];
+        if (is_array($instructions)) {
+            foreach ($instructions as $instruction) {
+                Step::create([
+                    'step' => $instruction
+                ]);
+            }
 
-        foreach ($instructions as $instruction) {
-            Step::create([
-                'step' => $instruction
-            ]);
+            foreach ($instructions as $instruction) {
+                $id = Step::where('step', $instruction)->first()->id;
+                if (is_null($id_instructions)) {
+                    $id_instructions = [];
+                    array_push($id_instructions, $id);
+                } else {
+                    array_push($id_instructions, $id);
+                }
+            }
+
+            return $id_instructions;
         }
 
-        foreach ($instructions as $instruction){
-            $id = Step::where('step',$instruction)->first()->id;
-            array_push($id_instructions,$id);
+        Step::create([
+            'step' => $instructions
+        ]);
+
+        $id = Step::where('step', $instructions)->first()->id;
+
+        if (is_null($id_instructions)) {
+            $id_instructions = [];
+            array_push($id_instructions, $id);
+        } else {
+            array_push($id_instructions, $id);
         }
-        
+
         return $id_instructions;
+
     }
 
     public function addInstructions($ids)
@@ -354,6 +378,23 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     public function hasDocumentProcedure()
     {
         return ($this->procedureFile()->get()->count() > 0) ? true : false;
+    }
+
+    private function updateInstructions($instructions)
+    {
+        $ids = [];
+        foreach ($instructions as $name) {
+            $instruction = Step::where('step', $name)->first();
+            if (is_null($instruction)) {
+                $instruction = Step::create([
+                    'step' => $name,
+                ]);
+            }
+            array_push($ids, $instruction->id);
+
+        }
+
+        $this->steps()->sync($ids);
     }
 
 }

@@ -1,6 +1,6 @@
 <div class="panel panel-default " id="instructions" style="max-height: 420px;overflow-y: scroll;">
 
-    <div class="panel-body ">
+    <div class="panel-body">
         <h4>Instrucciones tecnicas</h4>
         <div class="form-group {{$errors->has('instructions') ? 'has-error': ''}}">
             @if ($errors->has('instructions'))
