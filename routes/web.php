@@ -116,6 +116,11 @@ Route::get('archivos/procedimientos/formatos/{procedure}/{type}','AnnexedFilesCo
 Route::get('archivos/procedimientos/procedimiento/{procedure}/{type}','AnnexedFilesController@getProcedureFile');
 Route::get('archivos/procedimientos/{file_type}/{procedure_type}/{file_name}','AnnexedFilesController@getFile');
 
+/**-------------------------------- Asociacion de formatos anexos a procedimientos ------------------------------**/
+
+Route::get('informacion/{file_type}/{procedure_type}/{procedure_id}','AssociateFilesController@getFilesByType');
+Route::post('associar/{procedure_id}/{procedure_type}/{files_type}','AssociateFilesController@associate');
+
 
 /**---------------------------------------------- Lista Maestra ------------------------------------------------**/
 

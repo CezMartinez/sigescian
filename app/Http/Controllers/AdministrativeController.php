@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\AdministrativeProcedure;
+use App\Model\AnnexedFile;
 use App\Model\Section;
 use Illuminate\Http\Request;
 use JavaScript;
@@ -75,11 +76,14 @@ class AdministrativeController extends Controller
      */
     public function show(AdministrativeProcedure $administrativo)
     {
-        $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles','section','subSections'])->where('id',$administrativo->id)->first();
+        $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles','section','subSections'])
+                                            ->where('id',$administrativo->id)->first();
         JavaScript::put([
             'id_administrative' => $administrativo->id,
         ]);
-        return view('procedures.administrative.administrative_show',compact('administrativo'));
+        $procedures = AdministrativeProcedure::where('id','<>',$administrativo->id)->pluck('name','id');
+
+        return view('procedures.administrative.administrative_show',compact('administrativo','procedures'));
     }
 
     /**
