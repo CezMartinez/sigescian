@@ -36,6 +36,7 @@ class MainListController extends Controller
 
     public function searchProcedure(){
         $search = request()->get('search');
+
         if ($search!=''){
 /*
             $adminproceds = AdministrativeProcedure::where('name','like','%'.$search.'%')->get();
@@ -45,24 +46,27 @@ class MainListController extends Controller
             return view('mainlist.search_list', compact('adminproceds','techproceds'));
 */
 
+                $administrativo = AdministrativeProcedure::with(['flowChartFile','annexedFiles','formatFiles','section','subSections'])
+                    ->where('name','like','%'.$search.'%')
+                    ->orWhere('code','like','%'.$search.'%')->first();
+                $tecnico = TechnicianProcedure::with(['procedureDocument','annexedFiles','section'])
+                    ->where('name','like','Procedimiento Técnico De '.$search.'%')
+                    ->orWhere('code','like','%'.$search.'%')->first();
 
-            $administrativo = AdministrativeProcedure::with(['flowChartFile','annexedFiles','formatFiles','section','subSections'])->where('name','like','%'.$search.'%')->first();
-            $tecnico = TechnicianProcedure::with(['procedureDocument','annexedFiles','section'])->where('name','like','%'.$search.'%')->first();
-
-            if($tecnico){
+                if($tecnico){
                     JavaScript::put([
                         'name_tecnico' => $tecnico->name,
                     ]);
                     return view('procedures.technician.technician_show',compact('tecnico'));
-            }
-            elseif($administrativo){
-                JavaScript::put([
-                    'name_administrative' => $administrativo->name,
-                ]);
-                return view('procedures.administrative.administrative_show',compact('administrativo'));
-            }else{
-                return redirect('listaMaestra')->with('status','No se encontro el procedimiento');
-            }
+                }
+                elseif($administrativo){
+                    JavaScript::put([
+                        'name_administrative' => $administrativo->name,
+                    ]);
+                    return view('procedures.administrative.administrative_show',compact('administrativo'));
+                }else{
+                    return redirect('listaMaestra')->with('status','No se encontro el procedimiento');
+                }
         }
         else{
                 echo 'NO HAY NADA!';
