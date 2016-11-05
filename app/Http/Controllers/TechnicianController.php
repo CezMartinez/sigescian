@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Model\Laboratory;
 use App\Model\Section;
-use App\Model\Step;
 use App\Model\TechnicianProcedure;
 use Illuminate\Http\Request;
 use JavaScript;
@@ -55,6 +54,8 @@ class TechnicianController extends Controller
      */
     public function store(Request $request)
     {
+        $instructions = $request->input('instructions');
+        
         $this->validateCreateProcedure($request->all());
 
         $section = Section::find($request->input('section'));
@@ -66,6 +67,10 @@ class TechnicianController extends Controller
         if($request->has('subsection')){
             $procedure->subSections()->attach($request->input('subsection'));
         }
+        
+        $ids = $procedure->generateInstructions($instructions);
+
+        $procedure->addInstructions($ids);
 
         flash('Procedimiento Guardado', 'success');
 
@@ -82,11 +87,11 @@ class TechnicianController extends Controller
     {
         $subsections = $tecnico->subSections()->get();
         $tecnico = $tecnico->with(['procedureDocument','annexedFiles','section'])->where('id',$tecnico->id)->first();
-        
+
         JavaScript::put([
             'id_tecnico' => $tecnico->id,
         ]);
-        
+
         return view('procedures.technician.technician_show',compact('tecnico','subsections'));
     }
 
@@ -99,6 +104,11 @@ class TechnicianController extends Controller
     public function edit($code)
     {
         $procedure = TechnicianProcedure::where('code',$code)->first();
+
+        JavaScript::put([
+            'id_tecnico' => $procedure->id,
+        ]);
+
         return view('procedures.technician.technician_edit',compact('procedure'));
     }
 
@@ -118,9 +128,12 @@ class TechnicianController extends Controller
      */
     public function update(Request $request,TechnicianProcedure $tecnico)
     {
-        $this->validateUpdateProcedure($request->all(),$tecnico);
+        $instructions = $request->input('instructions');
 
-        $result = $tecnico->updateProcedure($request);
+        $this->validateUpdateProcedure($request->all(),$tecnico);
+        /*dd($request->input('instructions'));*/
+
+        $result = $tecnico->updateProcedure($request,$instructions);
 
         if($result['hasError']) {
 
@@ -146,38 +159,6 @@ class TechnicianController extends Controller
         //
     }
 
-    public function steps(Request $request, $procedure){
-
-
-        $instrucciones = $request->input("steps");
-
-        $id_instrucciones = $request->input("id_instrucciones");
-        $tecnico = TechnicianProcedure::findOrFail($procedure);
-
-        $numero_de_instrucciones = count($tecnico->steps()->get());
-
-        if($numero_de_instrucciones == 0){
-            foreach($instrucciones as $instruccion){
-                $paso = Step::create([
-                    'step'=>$instruccion,
-                ]);
-                $tecnico->steps()->attach($paso);
-            }
-        }
-
-        foreach($instrucciones as $instruccion){
-            $instruccion_step = Step::where('step',$instruccion)->first();
-            if(is_null($instruccion_step)){
-                Step::create([
-                    'step'=>$instruccion,
-                ]);
-            }
-        }
-
-        $tecnico->steps()->sync($id_instrucciones);
-
-        return redirect("/procedimientos/tecnicos/{$procedure}");
-    }
 
     public function instructions(TechnicianProcedure $procedure)
     {
@@ -188,8 +169,10 @@ class TechnicianController extends Controller
 
     private function validateCreateProcedure($data)
     {
-        return Validator::make($data,[
+
+        Validator::make($data,[
             'name' =>'required',
+            'instructions' => 'required',
             'acronym' => 'required|unique:technician_procedures,acronym',
         ])->validate();
     }
@@ -197,6 +180,7 @@ class TechnicianController extends Controller
     private function validateUpdateProcedure($data,$procedure){
         return Validator::make($data,[
             'name' => 'required',
+            'instructions' => 'required',
             'acronym' => 'unique:technician_procedures,acronym,'.$procedure->id,
         ])->validate();
     }

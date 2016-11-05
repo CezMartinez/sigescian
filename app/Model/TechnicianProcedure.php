@@ -7,15 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class TechnicianProcedure extends Model implements ProcedureInterface
 {
-    protected $fillable = ['code','name','acronym','state'];
+    protected $fillable = ['code', 'name', 'acronym', 'state'];
 
     public $prefix = 'Procedimiento Técnico De ';
 
-    public function section(){
+    public function section()
+    {
         return $this->belongsTo(Section::class);
     }
 
-    public function laboratory(){
+    public function laboratory()
+    {
         return $this->belongsTo(Laboratory::class);
     }
 
@@ -48,33 +50,36 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     {
         $technicianProcedure = new static;
 
-        return $technicianProcedure->where('state',$state)->paginate(5);
+        return $technicianProcedure->with('laboratory')->where('state', $state)->paginate(5);
     }
 
     public static function fetchAllProceduresByState($state)
     {
         $technicianProcedure = new static;
 
-        return $technicianProcedure->where('state',$state)->paginate(5);
+        return $technicianProcedure->where('state', $state)->paginate(5);
     }
 
-    public static function fetchAllProcedures($state){
+    public static function fetchAllProcedures($state)
+    {
         $technicianProcedure = new static;
 
-        return $technicianProcedure->with(['procedureDocument','laboratory','formatFiles','section'])->where('state',$state)->get();
+        return $technicianProcedure->with(['procedureDocument', 'laboratory', 'formatFiles', 'section'])->where('state', $state)->get();
     }
 
-    protected function setNameAttribute($name){
-        $this->attributes['name'] = ucwords($this->prefix.trim($name));
+    protected function setNameAttribute($name)
+    {
+        $this->attributes['name'] = ucwords($this->prefix . trim($name));
     }
 
-    protected function setAcronymAttribute($acronym){
+    protected function setAcronymAttribute($acronym)
+    {
         $this->attributes['acronym'] = strtoupper(trim($acronym));
     }
 
     private function generateCodeAtCreate()
     {
-        return $this->attributes['code'] = 'PT-'.$this->attributes['acronym'].'-CIAN'.($this->countAllProcedures()+1);
+        return $this->attributes['code'] = 'PT-' . $this->attributes['acronym'] . '-CIAN' . ($this->countAllProcedures() + 1);
     }
 
     private function generateCorrelativeOfProcedure()
@@ -82,17 +87,21 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         return $this->attributes['correlative'] = ($this->countAllProcedures() + 1);
     }
 
-    public function getStateAttribute(){
+    public function getStateAttribute()
+    {
 
         return $this->attributes['state'] == 1 ? true : false;
 
     }
-    public function getStatusAttribute(){
+
+    public function getStatusAttribute()
+    {
 
         return $this->attributes['state'] == 1 ? 'Activo' : 'Inactivo';
     }
 
-    public static function createTechnician($data,$section, $laboratory){
+    public static function createTechnician($data, $section, $laboratory)
+    {
         $technicianProcedure = new static;
         $technicianProcedure->fill($data);
         $technicianProcedure->correlative = $technicianProcedure->generateCorrelativeOfProcedure();
@@ -104,28 +113,30 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         return $technicianProcedure;
     }
 
-    public function updateProcedure($request)
+    public function updateProcedure($request, $instructions)
     {
         $this->fill($request->all());
 
         $newAcronym = $request->input('acronym');
 
         if (!$request->has('state')) {
-            $this->state= '0';
-        }
-        else{
-            $this->state= '1';
+            $this->state = '0';
+        } else {
+            $this->state = '1';
         }
 
-        if($this->nameChanged()){
+        if ($this->nameChanged()) {
             if ($this->exists($request->input('name'))) {
-                return ['hasError' => true , 'message' => "El nombre {$request->input('name')} ya existe"];
+                return ['hasError' => true, 'message' => "El nombre {$request->input('name')} ya existe"];
             }
         }
 
-        $this->code = $this->updateCodeWithAcronym($newAcronym,$this);
+        $this->code = $this->updateCodeWithAcronym($newAcronym, $this);
 
         $this->save();
+
+        $this->updateInstructions($instructions);
+
 
         return [
             'hasError' => false,
@@ -133,13 +144,57 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         ];
     }
 
+    public function generateInstructions($instructions, $id_instructions = null)
+    {
+        if (is_array($instructions)) {
+            foreach ($instructions as $instruction) {
+                Step::create([
+                    'step' => $instruction
+                ]);
+            }
+
+            foreach ($instructions as $instruction) {
+                $id = Step::where('step', $instruction)->first()->id;
+                if (is_null($id_instructions)) {
+                    $id_instructions = [];
+                    array_push($id_instructions, $id);
+                } else {
+                    array_push($id_instructions, $id);
+                }
+            }
+
+            return $id_instructions;
+        }
+
+        Step::create([
+            'step' => $instructions
+        ]);
+
+        $id = Step::where('step', $instructions)->first()->id;
+
+        if (is_null($id_instructions)) {
+            $id_instructions = [];
+            array_push($id_instructions, $id);
+        } else {
+            array_push($id_instructions, $id);
+        }
+
+        return $id_instructions;
+
+    }
+
+    public function addInstructions($ids)
+    {
+        $this->steps()->attach($ids);
+    }
+
     public static function exists($name)
     {
         $technicianProcedure = new static;
 
-        $technicianProcedure = $technicianProcedure->where('name',$name)->first();
+        $technicianProcedure = $technicianProcedure->where('name', $name)->first();
 
-        if($technicianProcedure != null){
+        if ($technicianProcedure != null) {
 
             return true;
 
@@ -148,14 +203,14 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         return false;
     }
 
-    public function updateCodeWithAcronym($acronym,$procedure)
+    public function updateCodeWithAcronym($acronym, $procedure)
     {
 
         $originalCode = $procedure->code;
 
         $originalAcronym = $procedure->getOriginal('acronym');
 
-        return (str_replace($originalAcronym,strtoupper(trim($acronym)),$originalCode));
+        return (str_replace($originalAcronym, strtoupper(trim($acronym)), $originalCode));
     }
 
     public function addFilesToProcedure(Request $request)
@@ -163,52 +218,52 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         $typeFile = $request->input('type');
         $file = $request->file('file');
         $extension = $file->getClientOriginalExtension();
-        $clientName = time().$file->getClientOriginalName();
-        $nameWithoutExtension = preg_replace('(.\w+$)','',$file->getClientOriginalName());
-        $title = ucwords(preg_replace('([^A-Za-z0-9])',' ',$nameWithoutExtension));
+        $clientName = time() . $file->getClientOriginalName();
+        $nameWithoutExtension = preg_replace('(.\w+$)', '', $file->getClientOriginalName());
+        $title = ucwords(preg_replace('([^A-Za-z0-9])', ' ', $nameWithoutExtension));
         $mime = $file->getClientMimeType();
         $size = $file->getClientSize();
-        
-        if($typeFile == 1){//Formatos
-            $code = $this->generateCodeFormatFile($title,$this);
+
+        if ($typeFile == 1) {//Formatos
+            $code = $this->generateCodeFormatFile($title, $this);
             $path = $file->storeAs(
-                'archivos/procedimientos/tecnicos/formatos', $clientName,'public'
+                'archivos/procedimientos/tecnicos/formatos', $clientName, 'public'
             );
             $answer = $this->addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime);
 
             return $answer;
-        }elseif($typeFile == 3){//anexo
+        } elseif ($typeFile == 3) {//anexo
             $path = $file->storeAs(
-                'archivos/procedimientos/tecnicos/anexos', $clientName,'public'
+                'archivos/procedimientos/tecnicos/anexos', $clientName, 'public'
             );
             $this->annexedFiles()->create([
-                'path'                  =>$path,
-                'originalName'          =>$clientName,
-                'nameWithoutExtension'  =>$nameWithoutExtension,
-                'title'                 =>$title,
-                'extension'             =>$extension,
-                'size'                  =>$size,
-                'mime'                  =>$mime,
+                'path' => $path,
+                'originalName' => $clientName,
+                'nameWithoutExtension' => $nameWithoutExtension,
+                'title' => $title,
+                'extension' => $extension,
+                'size' => $size,
+                'mime' => $mime,
             ]);
 
-            return $this->answer("Anexo agregado con exito","200");
-        }elseif ($typeFile == 4){
+            return $this->answer("Anexo agregado con exito", "200");
+        } elseif ($typeFile == 4) {
             $path = $file->storeAs(
-                'archivos/procedimientos/tecnicos/procedimientos', $clientName,'public'
+                'archivos/procedimientos/tecnicos/procedimientos', $clientName, 'public'
             );
             $document = ProcedureDocument::create([
-                'path'                  =>$path,
-                'originalName'          =>$clientName,
-                'nameWithoutExtension'  =>$nameWithoutExtension,
-                'title'                 =>$title,
-                'extension'             =>$extension,
-                'size'                  =>$size,
-                'mime'                  =>$mime,
+                'path' => $path,
+                'originalName' => $clientName,
+                'nameWithoutExtension' => $nameWithoutExtension,
+                'title' => $title,
+                'extension' => $extension,
+                'size' => $size,
+                'mime' => $mime,
             ]);
 
-            if($request->ajax()){
-                if($this->onlyOne('procedureDocument')){
-                    return $this->answer("Error los procedimientos solo aceptan 1 archivo del tipo seleccionado","500");
+            if ($request->ajax()) {
+                if ($this->onlyOne('procedureDocument')) {
+                    return $this->answer("Error los procedimientos solo aceptan 1 archivo del tipo seleccionado", "500");
                 };
             }
             $this->procedureDocument()->dissociate();
@@ -217,9 +272,9 @@ class TechnicianProcedure extends Model implements ProcedureInterface
 
             $this->save();
 
-            return $this->answer("El documentos de procedimiento fue agregado correctamente","200");
-        }else{
-            return $this->answer("No ha seleccionado el tipo de archivo que desea subir","404");
+            return $this->answer("El documentos de procedimiento fue agregado correctamente", "200");
+        } else {
+            return $this->answer("No ha seleccionado el tipo de archivo que desea subir", "404");
         }
     }
 
@@ -265,17 +320,17 @@ class TechnicianProcedure extends Model implements ProcedureInterface
      */
     public function nameChanged()
     {
-        return (count($this->getDirty()) > 0 && array_key_exists('name',$this->getDirty())) ? true : false;
+        return (count($this->getDirty()) > 0 && array_key_exists('name', $this->getDirty())) ? true : false;
     }
 
     private function generateCodeFormatFile($title, $procedure)
     {
-        $numberOfFiles = count($procedure->formatFiles()->get())+1;
+        $numberOfFiles = count($procedure->formatFiles()->get()) + 1;
         $exclude = "/ ?en | ?el | ?para | ?(F|f)?ormulario | ?(F|f)ormato | ?se | ?que | ?con | ?la | ?del | ?de | ?no | ?les | a | ?y |[0-9] /i";
-        $textCode = trim(preg_replace($exclude," ",$title));
+        $textCode = trim(preg_replace($exclude, " ", $title));
         $acronym = "";
         $words = preg_split("/\s+/", $textCode);
-        foreach ($words as $word){
+        foreach ($words as $word) {
             $acronym .= $word[0];
         }
         return $code = "F-{$acronym}-PG{$procedure->correlative}.{$numberOfFiles}";
@@ -284,43 +339,62 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     private function addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime)
     {
 
-        if($this->itHasAlreadyAdded($title)){
-            return $this->answer('Este Formato ya existe no puede ser agregado, revise los archivos obsoletos',"501");
+        if ($this->itHasAlreadyAdded($title)) {
+            return $this->answer('Este Formato ya existe no puede ser agregado, revise los archivos obsoletos', "501");
         }
 
 
         $this->formatFiles()->create([
-            'code'                  =>$code,
-            'path'                  =>$path,
-            'originalName'          =>$clientName,
-            'nameWithoutExtension'  =>$nameWithoutExtension,
-            'title'                 =>$title,
-            'extension'             =>$extension,
-            'size'                  =>$size,
-            'mime'                  =>$mime,
+            'code' => $code,
+            'path' => $path,
+            'originalName' => $clientName,
+            'nameWithoutExtension' => $nameWithoutExtension,
+            'title' => $title,
+            'extension' => $extension,
+            'size' => $size,
+            'mime' => $mime,
         ]);
 
-        return $this->answer('Formato agregado y asociado correctamente',"200");
+        return $this->answer('Formato agregado y asociado correctamente', "200");
     }
 
     private function answer($message, $status)
     {
-        return [ "message" => $message ,"status" => $status];
+        return ["message" => $message, "status" => $status];
     }
 
     private function itHasAlreadyAdded($title)
     {
-        $formato = FormatFile::where('title',$title)->get();
+        $formato = FormatFile::where('title', $title)->get();
 
         return (count($formato) == 1) ? true : false;
     }
+
     public function documentProcedure()
     {
         return $this->procedureFile()->get();
     }
 
-    public function hasDocumentProcedure(){
+    public function hasDocumentProcedure()
+    {
         return ($this->procedureFile()->get()->count() > 0) ? true : false;
+    }
+
+    private function updateInstructions($instructions)
+    {
+        $ids = [];
+        foreach ($instructions as $name) {
+            $instruction = Step::where('step', $name)->first();
+            if (is_null($instruction)) {
+                $instruction = Step::create([
+                    'step' => $name,
+                ]);
+            }
+            array_push($ids, $instruction->id);
+
+        }
+
+        $this->steps()->sync($ids);
     }
 
 }

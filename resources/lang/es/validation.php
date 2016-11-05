@@ -88,8 +88,11 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'instructions' => [
+            'required' => 'Registre instrucciones tecnicas para guardar',
+        ],
+        'instructions.name' => [
+            'required' => 'Cada instruccion tiene que estar llenado para guardar',
         ],
     ],
 

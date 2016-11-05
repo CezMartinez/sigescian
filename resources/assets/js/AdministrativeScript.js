@@ -9,6 +9,7 @@ var radioValue;
 Dropzone.options.uploadFile= {
     maxFilesize: 2, // MB
     parallelUploads: 1,
+    dictDefaultMessage: "Seleccione un tipo de archivo y seleccione o arrestrelo aqui",
     acceptedFiles: ".pdf,.docx",
     init: function(){
         this.on("addedfile", function() {

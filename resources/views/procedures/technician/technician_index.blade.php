@@ -42,7 +42,7 @@
 							{{$t->name}}
 						</td>
 						<td>
-							{{$t->laboratory_id}}
+							{{$t->laboratory->name}}
 						</td>
 						<td>
 							{{$t->status}}

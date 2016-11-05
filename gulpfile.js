@@ -56,8 +56,10 @@ elixir(function(mix) {
         ],'./public/js/asociar-archivos.js')
         .scripts([
             'TechnicianScript.js'
-        ],'./public/js/technician.js');
-
+        ],'./public/js/technician.js')
+        .scripts([
+            'technical_instructions.js'
+        ],'./public/js/technical_instructions.js');
 });
 
 
