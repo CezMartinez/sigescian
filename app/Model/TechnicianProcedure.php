@@ -58,6 +58,10 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         return $technicianProcedure->with(['procedureDocument','laboratory','formatFiles','section'])->where('state',$state)->get();
     }
 
+    public static function getSubsections(){
+
+    }
+
     protected function setNameAttribute($name){
         $this->attributes['name'] = ucwords($this->prefix.trim($name));
     }
@@ -347,11 +351,11 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     }
     public function documentProcedure()
     {
-        return $this->procedureFile()->get();
+        return $this->procedureDocument()->get();
     }
 
     public function hasDocumentProcedure(){
-        return ($this->procedureFile()->get()->count() > 0) ? true : false;
+        return ($this->procedureDocument()->get()->count() > 0) ? true : false;
     }
 
 }

@@ -2,6 +2,12 @@
 
 @section('content')
 
+    @if (session('status'))
+        <div class="alert alert-danger">
+            {{ session('status') }}
+        </div>
+    @endif
+
     <div class="table-responsive">
 
         <table class="table table-bordered">
@@ -46,7 +52,7 @@
                             <td></td>
                             <td>
                                 <a  target="_blank" href="/archivos/procedimientos/1/1/{{$formatAdm->originalName}}">
-                                    &#8211 {{$formatAdm->code}}
+                                    &#8226 {{$formatAdm->code}}
                                 </a>
                             </td>
                             <td>
@@ -95,7 +101,7 @@
                             <td></td>
                             <td>
                                 <a  target="_blank" href="/archivos/procedimientos/1/2/{{$formatTech['originalName']}}">
-                                    {{$formatTech['code']}}
+                                    &#8226 {{$formatTech['code']}}
                                 </a>
                             </td>
                             <td>

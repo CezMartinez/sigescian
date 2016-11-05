@@ -120,6 +120,7 @@ Route::get('archivos/procedimientos/{file_type}/{procedure_type}/{file_name}','A
 /**---------------------------------------------- Lista Maestra ------------------------------------------------**/
 
 Route::get('listaMaestra', 'MainListController@showAll');
+Route::get('procedimiento/buscar','MainListController@searchProcedure');
 
 /**---------------------------------------------- Solicitudes ------------------------------------------------**/
 Route::get('servicios','MainListController@solicitudes');
