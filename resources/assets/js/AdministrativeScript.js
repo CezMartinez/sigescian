@@ -5,6 +5,7 @@ var listaProcedimientos= [];
 var url;
 var procedureId = id_administrative;
 var radioValue;
+
 Dropzone.options.uploadFile= {
     maxFilesize: 2, // MB
     parallelUploads: 1,
@@ -29,7 +30,6 @@ Dropzone.options.uploadFile= {
                 url = "/archivos/procedimientos/procedimiento/"+procedureId+'/1';
             }
             $('#type_hidden').val(radioValue);
-            // Create the remove button
         }).ontimeout;
         this.on("success", function(file, responseText){
             $.ajax({
@@ -41,80 +41,16 @@ Dropzone.options.uploadFile= {
                 .done(function(data){
                     var radioValue = $("input[name='type']:checked"). val();
                     if(radioValue==1){
-                        listaArchivos=[];
-                        listaArchivos.push('<div class="lista-formatos">')
-                        $.each(data, function(i, item){
-                            listaArchivos.push('<li id="file-formato-'+item.id+'" class="list-group-item list-group-item-info">'+
-                                '<a target="_blank" href="/archivos/procedimientos/1/1/'+item.originalName+'">'+
-                                item.title+'</a>'+
-                                '<i class="fa fa-times pull-right" onclick="deleteFile(\''+
-                                item.originalName+'\',\''+id_administrative+'\',\''+item.id+'\''+
-                                ',\'formato\',\'/procedimiento/archivos/formato/\')"></i></li>')
-                        });
-                        listaArchivos.push('</div>')
-
-                        $('div.lista-formatos').replaceWith(listaArchivos.join(''));
-                        swal("Agregado",'El formato fue agregado con exito',"success");
+                        agregarFormato(listaArchivos,data);
                     }
                     if(radioValue==2){
-                        listaFlujogramas=[];
-                        listaFlujogramas.pop();
-                        listaFlujogramas.push('<div class="lista-flujogramas">')
-                        $.each(data, function(i, item){
-                            listaFlujogramas.push('' +
-                                '<li id="file-flujograma-'+item.id+'" class="list-group-item list-group-item-info">'+
-                                '<a target="_blank" href="/archivos/procedimientos/2/1/'+item.originalName+'">'+
-                                item.title+'</a>'+
-                                '<i class="fa fa-times pull-right" onclick="deleteFile(\''+
-                                item.originalName+'\',\''+id_administrative+'\',\''+item.id+'\''+
-                                ',\'flujograma\',\'/procedimiento/archivos/flujograma/\')"></i></li>')
-                        });
-                        listaFlujogramas.push('</div>')
-
-                        $('div.lista-flujogramas').replaceWith(listaFlujogramas.join(''));
-                        swal("Agregado",'El Flujograma fue agregado con exito',"success");
+                        agergarFlujograma(listaFlujogramas,data);
                     }
                     if(radioValue==3){
-                        listaAnexos=[];
-                        listaAnexos.push('<div class="lista-anexos">')
-                        $.each(data, function(i, item){
-                            listaAnexos.push(
-                                '<li id="file-anexo-'+item.id+'" ' +
-                                'class="list-group-item list-group-item-info">'+
-                                '<a target="_blank" href="/archivos/procedimientos/3/1/' +item.originalName+ '">'
-                                +item.title+
-                                '</a>'+
-                                '<i class="fa fa-times pull-right" ' +
-                                'onclick="deleteFile(\'' +item.originalName+ '\',\''+id_administrative+'\',\'' +item.id+ '\''+
-                                ',\'anexo\',\'/procedimiento/archivos/anexo/\')">' +
-                                '</i>' +
-                                '</li>')
-                        });
-                        listaAnexos.push('</div>')
-
-                        $('div.lista-anexos').replaceWith(listaAnexos.join(''));
-                        swal("Agregado",'El Anexo fue agregado con exito',"success");
+                        agregarAnexos(listaAnexos,data);
                     }
                     if(radioValue==4){
-                        listaProcedimientos=[];
-                        listaProcedimientos.push('<div class="lista-procedimientos">')
-                        $.each(data, function(i, item){
-                            listaProcedimientos.push(
-                                '<li id="file-procedimiento-'+item.id+'" ' +
-                                'class="list-group-item list-group-item-info">'+
-                                '<a target="_blank" href="/archivos/procedimientos/4/1/' +item.originalName+ '">'
-                                +item.title+
-                                '</a>'+
-                                '<i class="fa fa-times pull-right" ' +
-                                'onclick="deleteFile(\'' +item.originalName+ '\',\''+id_administrative+'\',\'' +item.id+ '\''+
-                                ',\'procedimiento\',\'/procedimiento/archivos/procedimiento/\')">' +
-                                '</i>' +
-                                '</li>')
-                        });
-                        listaProcedimientos.push('</div>')
-
-                        $('div.lista-procedimientos').replaceWith(listaProcedimientos.join(''));
-                        swal("Agregado",'El Documento del Procedimiento fue agregado con exito',"success");
+                        agregarProcedimientos(listaProcedimientos,data);
                     }
 
 
@@ -168,4 +104,91 @@ function deleteFile(nameFile,idProcedure,idAnnexedFile,tipo, url){
                 swal("Cancelado","El registro no ha sido modificado.","error");
             }
         });
+}
+function agregarFormato(listaArchivos,data)
+{
+    listaArchivos = [];
+    listaArchivos.push('<div class="lista-formatos">')
+    $.each(data, function(i, item){
+        listaArchivos.push('<li id="file-formato-'+item.id+'" class="list-group-item list-group-item-'+owner(item.pivot.owner)+'">'+
+            '<a target="_blank" href="/archivos/procedimientos/1/1/'+item.originalName+'">'+
+            item.title+'</a>'+
+            '<i class="fa fa-times pull-right" onclick="deleteFile(\''+
+            item.originalName+'\',\''+id_administrative+'\',\''+item.id+'\''+
+            ',\'formato\',\'/procedimiento/archivos/formato/\')"></i></li>')
+    });
+    listaArchivos.push('</div>')
+
+    $('div.lista-formatos').replaceWith(listaArchivos.join(''));
+    swal("Agregado",'El formato fue agregado con exito',"success");
+}
+
+function agergarFlujograma(listaFlujogramas,data)
+{
+    listaFlujogramas = [];
+    listaFlujogramas.pop();
+    listaFlujogramas.push('<div class="lista-flujogramas">')
+    $.each(data, function (i, item)
+    {
+        listaFlujogramas.push('' +
+            '<li id="file-flujograma-' + item.id + '" class="list-group-item list-group-item-info">' +
+            '<a target="_blank" href="/archivos/procedimientos/2/1/' + item.originalName + '">' +
+            item.title + '</a>' +
+            '<i class="fa fa-times pull-right" onclick="deleteFile(\'' +
+            item.originalName + '\',\'' + id_administrative + '\',\'' + item.id + '\'' +
+            ',\'flujograma\',\'/procedimiento/archivos/flujograma/\')"></i></li>')
+    });
+    listaFlujogramas.push('</div>')
+
+    $('div.lista-flujogramas').replaceWith(listaFlujogramas.join(''));
+    swal("Agregado", 'El Flujograma fue agregado con exito', "success");
+}
+function agregarAnexos(listaAnexos,data)
+{
+    listaAnexos = [];
+    listaAnexos.push('<div class="lista-anexos">')
+    $.each(data, function (i, item)
+    {
+        listaAnexos.push(
+            '<li id="file-anexo-' + item.id + '" ' +
+            'class="list-group-item list-group-item-info">' +
+            '<a target="_blank" href="/archivos/procedimientos/3/1/' + item.originalName + '">'
+            + item.title +
+            '</a>' +
+            '<i class="fa fa-times pull-right" ' +
+            'onclick="deleteFile(\'' + item.originalName + '\',\'' + id_administrative + '\',\'' + item.id + '\'' +
+            ',\'anexo\',\'/procedimiento/archivos/anexo/\')">' +
+            '</i>' +
+            '</li>')
+    });
+    listaAnexos.push('</div>')
+
+    $('div.lista-anexos').replaceWith(listaAnexos.join(''));
+    swal("Agregado", 'El Anexo fue agregado con exito', "success");
+}
+function agregarProcedimientos(listaProcedimientos,data)
+{
+    listaProcedimientos = [];
+    listaProcedimientos.push('<div class="lista-procedimientos">')
+    $.each(data, function (i, item)
+    {
+        listaProcedimientos.push(
+            '<li id="file-procedimiento-' + item.id + '" ' +
+            'class="list-group-item list-group-item-info">' +
+            '<a target="_blank" href="/archivos/procedimientos/4/1/' + item.originalName + '">'
+            + item.title +
+            '</a>' +
+            '<i class="fa fa-times pull-right" ' +
+            'onclick="deleteFile(\'' + item.originalName + '\',\'' + id_administrative + '\',\'' + item.id + '\'' +
+            ',\'procedimiento\',\'/procedimiento/archivos/procedimiento/\')">' +
+            '</i>' +
+            '</li>')
+    });
+    listaProcedimientos.push('</div>')
+
+    $('div.lista-procedimientos').replaceWith(listaProcedimientos.join(''));
+    swal("Agregado", 'El Documento del Procedimiento fue agregado con exito', "success");
+}
+function owner(data){
+    return (data == null) ? 'info':'success';
 }

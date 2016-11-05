@@ -26,4 +26,6 @@ class FormatFile extends Model
     {
         return $this->belongsToMany(TechnicianProcedure::class);
     }
+    
+    
 }

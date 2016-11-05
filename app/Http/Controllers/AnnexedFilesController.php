@@ -45,9 +45,9 @@ class AnnexedFilesController extends Controller
 
         $procedure->annexedFiles()->detach($annexedFile);
 
-        $annexedFile->delete();
+        /*$annexedFile->delete();
 
-        Storage::delete($procedure->getAnnexedFilesDirPath() . $annexedFile->originalName);
+        Storage::delete($procedure->getAnnexedFilesDirPath() . $annexedFile->originalName);*/
     }
 
     public function deleteFormatFile($procedure, FormatFile $formatFile, $type)
@@ -57,9 +57,9 @@ class AnnexedFilesController extends Controller
 
         $procedure->formatFiles()->detach($formatFile->id);
 
-        $formatFile->delete();
+        /*$formatFile->delete();*/
 
-        Storage::delete($procedure->getFormatFilesDirPath() . $formatFile->originalName);
+        /*Storage::delete($procedure->getFormatFilesDirPath() . $formatFile->originalName);*/
     }
 
     public function deleteFlowChartFile(AdministrativeProcedure $procedure, FlowChartFile $flowChartFile)
@@ -83,9 +83,9 @@ class AnnexedFilesController extends Controller
 
         $procedure->save();
 
-        $procedureDocument->delete();
+        /*$procedureDocument->delete();*/
 
-        Storage::delete($procedure->getProcedureFileDirPath() . $procedureDocument->originalName);
+        /*Storage::delete($procedure->getProcedureFileDirPath() . $procedureDocument->originalName);*/
     }
 
     public function getAllAnnexedFiles($procedure, $type)
@@ -100,7 +100,7 @@ class AnnexedFilesController extends Controller
     {
         $procedure = $this->getProcedureByType($type, $procedure);
 
-        return $procedure->formatFiles()->get();
+        return $procedure->formatFiles()->orderBy('owner','desc')->get();
 
     }
 

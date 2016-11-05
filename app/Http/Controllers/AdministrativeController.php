@@ -76,12 +76,15 @@ class AdministrativeController extends Controller
      */
     public function show(AdministrativeProcedure $administrativo)
     {
-        $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles','section','subSections'])
+        $administrativo = $administrativo->with(['flowChartFile','annexedFiles','formatFiles'=>function ($query){
+            $query->orderBy('owner','desc');
+        },'section','subSections'])
                                             ->where('id',$administrativo->id)->first();
         JavaScript::put([
             'id_administrative' => $administrativo->id,
         ]);
         $procedures = AdministrativeProcedure::where('id','<>',$administrativo->id)->pluck('name','id');
+        
 
         return view('procedures.administrative.administrative_show',compact('administrativo','procedures'));
     }

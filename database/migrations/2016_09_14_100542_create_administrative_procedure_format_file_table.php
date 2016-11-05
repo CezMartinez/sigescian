@@ -17,6 +17,7 @@ class CreateAdministrativeProcedureFormatFileTable extends Migration
             $table->increments('id');
             $table->integer('administrative_procedure_id')->unsigned();
             $table->integer('format_file_id')->unsigned();
+            $table->boolean('owner')->nullable();
             $table->timestamps();
         });
     }

@@ -7,6 +7,7 @@ use App\Model\AnnexedFile;
 use App\Model\FormatFile;
 use App\Model\TechnicianProcedure;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
 
 class AssociateFilesController extends Controller
 {
@@ -24,34 +25,39 @@ class AssociateFilesController extends Controller
         $identificados = [];
         $filesToAssociate = $request->input('files');
         $procedure = $this->findProcedure($procedure_type,$procedure_id);
-        foreach ($filesToAssociate as $file_name){
-            array_push($ids,$this->findIdOfFiles($files_type,$file_name));
+        if(!is_null($filesToAssociate)){
+            foreach ($filesToAssociate as $file_name){
+                array_push($ids,$this->findIdOfFiles($files_type,$file_name));
+            }
+
+            if($files_type=="formato"){
+                $count = $procedure->formatFiles()->where('format_files.id',$ids)->get()->count();
+                if($count != count($ids)){
+                    $guardados = $procedure->formatFiles()->get(['format_files.id']);
+                    foreach ($guardados as $guardado){
+                        array_push($identificados,$guardado->id);
+                    }
+                    $los_nuevos =  array_diff($ids,$identificados);
+                    $procedure->formatFiles()->attach($los_nuevos);
+
+                }
+            }else{
+                $count = $procedure->annexedFiles()->where('annexed_files.id',$ids)->get()->count();
+                if($count != count($ids)){
+                    $guardados = $procedure->annexedFiles()->get(['annexed_files.id']);
+                    foreach ($guardados as $guardado){
+                        array_push($identificados,$guardado->id);
+                    }
+                    $los_nuevos =  array_diff($ids,$identificados);
+                    $procedure->annexedFiles()->attach($los_nuevos);
+
+                }
+            }
+
+            return response ("Los pasos fueron asociados correctamente",200);
         }
 
-        if($files_type=="formato"){
-            $count = $procedure->formatFiles()->where('format_files.id',$ids)->get()->count();
-            if($count != count($ids)){
-                $guardados = $procedure->formatFiles()->get(['format_files.id']);
-                foreach ($guardados as $guardado){
-                    array_push($identificados,$guardado->id);
-                }
-                $los_nuevos =  array_diff($ids,$identificados);
-                $procedure->formatFiles()->attach($los_nuevos);
-
-            }
-        }else{
-            $count = $procedure->annexedFiles()->where('annexed_files.id',$ids)->get()->count();
-            if($count != count($ids)){
-                $guardados = $procedure->annexedFiles()->get(['annexed_files.id']);
-                foreach ($guardados as $guardado){
-                    array_push($identificados,$guardado->id);
-                }
-                $los_nuevos =  array_diff($ids,$identificados);
-                $procedure->annexedFiles()->attach($los_nuevos);
-
-            }
-        }
-
+        return response ("Tienes que seleccionar por lo menos un formato",401);
     }
 
     public function findProcedure($procedure_type, $procedure_id)
@@ -66,8 +72,9 @@ class AssociateFilesController extends Controller
 
     public function findFiles($file_type,$procedure)
     {
+
         if ($file_type == "formato") {
-            return $procedure->formatFiles()->get()->pluck("title", 'id');
+            return $procedure->formatFiles()->where('owner',true)->get()->pluck("title", 'id');
         }
 
         return $procedure->annexedFiles()->get()->pluck("title", 'id');
@@ -81,5 +88,12 @@ class AssociateFilesController extends Controller
 
         return $file = AnnexedFile::where('title',$file_name)->first()->id;
 
+    }
+
+    public function validateFiles($data)
+    {
+        return Validator::make($data,[
+            'files' => 'required',
+        ])->validate();
     }
 }

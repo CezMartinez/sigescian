@@ -51,7 +51,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
      */
     public function formatFiles()
     {
-        return $this->belongsToMany(FormatFile::class);
+        return $this->belongsToMany(FormatFile::class)->withPivot('owner');
     }
 
     /**
@@ -429,8 +429,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             return $this->answer('Este Formato ya existe no puede ser agregado, revise los archivos obsoletos',"501");
         }
 
-
-        $this->formatFiles()->create([
+        $formatFile = FormatFile::create([
             'code'                  =>$code,
             'path'                  =>$path,
             'originalName'          =>$clientName,
@@ -440,6 +439,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             'size'                  =>$size,
             'mime'                  =>$mime,
         ]);
+        $this->formatFiles()->attach($formatFile,['owner'=>true]);
 
         return $this->answer('Formato agregado y asociado correctamente',"200");
     }
