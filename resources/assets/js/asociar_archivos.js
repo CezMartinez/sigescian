@@ -51,16 +51,15 @@ function asociar(url, second_el)
             data: {
                 files: files,
             },
-            success: function (data)
+            success: function ()
             {
-
+                refreshlist(second_el)
             },
             error: function (data)
             {
-
+                swal("Error", "data", "error");
             }
         })
-        refreshlist(second_el)
     }
 }
 
@@ -84,20 +83,23 @@ function refreshlist(elemento){
         success: function (json)
         {
             if(elemento.includes("formato-administrativo")){
-                $("#" + elemento).empty()
+                $("#" + elemento).select2("val",null);
                 agregarFormato(listaArchivos,json)
             }else if(elemento.includes("anexo-administrativo"))
             {
-                $("#" + elemento).empty()
+                $("#" + elemento).select2("val",null);
                 agregarAnexos(listaAnexos,json)
             }else if(elemento.includes("formato-tecnico"))
             {
-                $("#" + elemento).empty()
+                $("#" + elemento).select2("val",null);
                 agregarFormato(listaArchivos,json)
             }else if(elemento.includes("anexo-tecnico")){
-                $("#" + elemento).empty()
-                agregarFormato(listaArchivos,json)
+                $("#" + elemento).select2("val",null);
+                agregarAnexos(listaAnexos,json)
             }
+        },
+        error: function (json){
+            swal("Error", json, "error");
         },
     })
 }
