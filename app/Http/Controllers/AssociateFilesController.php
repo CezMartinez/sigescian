@@ -49,7 +49,7 @@ class AssociateFilesController extends Controller
                         array_push($identificados,$guardado->id);
                     }
                     $los_nuevos =  array_diff($ids,$identificados);
-                    $procedure->annexedFiles()->attach($los_nuevos);
+                    $procedure->annexedFiles()->attach($los_nuevos,['owner'=>false]);
 
                 }
             }

@@ -112,7 +112,7 @@ function agregarAnexos(listaAnexos,data)
     {
         listaAnexos.push(
             '<li id="file-anexo-' + item.id + '" ' +
-            'class="list-group-item list-group-item-info">' +
+            'class="list-group-item list-group-item-'+owner(item.pivot.owner)+'">' +
             '<a target="_blank" href="/archivos/procedimientos/3/2/' + item.originalName + '">'
             + item.title +
             '</a>' +
@@ -170,6 +170,6 @@ function agregarProcedimiento(listaProcedimientos,data)
 }
 
 function owner(data){
-    return (data == 0) ? 'info':'success';
+    return (data == 1) ? 'info':'success';
 }
 

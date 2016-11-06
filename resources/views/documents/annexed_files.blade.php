@@ -28,7 +28,12 @@
                                         <li>{{$procedure->name}}</li>
                                     @endforeach
                                 </ul>
-                             @elseif($file->technicianprocedure()->get()->count()>0)
+                             @elseif($file->technicianProcedure()->get()->count()>0)
+                                 <ul>
+                                     @foreach($file->technicianProcedure()->get() as $procedure)
+                                         <li>{{$procedure->name}}</li>
+                                     @endforeach
+                                 </ul>
                             @endif
                         </td>
                     </tr>

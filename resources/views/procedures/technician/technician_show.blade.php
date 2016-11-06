@@ -57,7 +57,8 @@
                             @if($tecnico->annexedFiles()->count() > 0 )
                                 @foreach($tecnico->annexedFiles()->get() as $file)
 
-                                    <li id="file-anexo-{{$file->id}}" class="list-group-item list-group-item-info">
+                                    <li id="file-anexo-{{$file->id}}"
+                                        class="list-group-item list-group-item-{{($file->pivot->owner == 1) ? 'info':'success'}}">
 
                                         <a target="_blank" href="/archivos/procedimientos/3/2/{{$file->originalName}}">
                                             {{$file->title}}
@@ -131,7 +132,7 @@
                             @if($tecnico->formatFiles()->count() > 0 )
                             @foreach($tecnico->formatFiles as $file)
 
-                                <li id="file-formato-{{$file->id}}" class="list-group-item list-group-item-{{($file->pivot->owner == null) ? 'info':'success'}}">
+                                <li id="file-formato-{{$file->id}}" class="list-group-item list-group-item-{{($file->pivot->owner == 1) ? 'info':'success'}}">
 
                                     <a target="_blank" href="/archivos/procedimientos/1/2/{{$file->originalName}}">
                                         {{$file->title}}

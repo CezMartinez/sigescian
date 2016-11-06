@@ -92,6 +92,7 @@ class TechnicianController extends Controller
 
         JavaScript::put([
             'id_tecnico' => $tecnico->id,
+            'url_type' => 'tecnico',
         ]);
         $procedures = TechnicianProcedure::where('id','<>',$tecnico->id)->pluck('name','id');
         

@@ -19,7 +19,7 @@ class CreateAnnexedFilesTable extends Migration
             $table->string('originalName');
             $table->string('nameWithoutExtension');
             $table->string('mime');
-            $table->string('title');
+            $table->string('title')->unique();
             $table->string('extension');
             $table->integer('size');
             $table->timestamps();

@@ -55,7 +55,8 @@
                             @if($administrativo->annexedFiles()->count() > 0 )
                                 @foreach($administrativo->annexedFiles()->get() as $file)
 
-                                    <li id="file-anexo-{{$file->id}}" class="list-group-item list-group-item-info">
+                                    <li id="file-anexo-{{$file->id}}"
+                                        class="list-group-item list-group-item-{{($file->pivot->owner == 1) ? 'info':'success'}}">
 
                                         <a target="_blank" href="/archivos/procedimientos/3/1/{{$file->originalName}}">
                                             {{$file->title}}
@@ -156,7 +157,8 @@
                         <div class="lista-formatos">
                             @if($administrativo->formatFiles()->count() > 0 )
                                 @foreach($administrativo->formatFiles as $file)
-                                    <li id="file-formato-{{$file->id}}" class="list-group-item list-group-item-{{($file->pivot->owner == null) ? 'info':'success'}}">
+                                    <li id="file-formato-{{$file->id}}"
+                                        class="list-group-item list-group-item-{{($file->pivot->owner == 1) ? 'info':'success'}}">
 
                                         <a target="_blank" href="/archivos/procedimientos/1/1/{{$file->originalName}}">
                                             {{$file->title}}

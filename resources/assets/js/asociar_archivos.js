@@ -140,6 +140,7 @@ function initData()
         url: url_formato,
         success: function (json)
         {
+            console.log(json);
             var obj = json;
             var arr = [];
             for (elem in obj) {
@@ -152,14 +153,15 @@ function initData()
         type: 'GET',
         dataType: 'json',
         url: url_anexo,
-        success: function (json)
+        success: function (data)
         {
-            var obj = json;
+            console.log(data);
+            var obj = data;
             var arr = [];
             for (elem in obj) {
                 arr.push(obj[elem]);
             }
-            $("#archivo-formato-"+procedureType()+"").select2({placeholder: "Seleccione uno o varios formatos", data: arr});
+            $("#archivo-anexo-"+procedureType()+"").select2({placeholder: "Seleccione uno o varios formatos", data: arr});
         },
     })
 }
