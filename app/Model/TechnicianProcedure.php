@@ -54,12 +54,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         return $technicianProcedure->with('laboratory')->where('state', $state)->paginate(5);
     }
 
-    public static function fetchAllProceduresByState($state)
-    {
-        $technicianProcedure = new static;
-
-        return $technicianProcedure->where('state', $state)->paginate(5);
-    }
+    
 
     public static function fetchAllProcedures($state)
     {
@@ -133,6 +128,18 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         }
 
         $this->code = $this->updateCodeWithAcronym($newAcronym, $this);
+
+        //Agregar Seccion
+
+        $section = Section::find($request->input('section'));
+
+        $this->addSection($section);
+
+        if($request->has('subsection')){
+            $this->subSections()->detach();
+            $this->addSubSections($request->input('subsection'));
+        }
+
 
         $this->save();
 
@@ -282,6 +289,31 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         }
     }
 
+    /**
+     * associate a section to the procedure
+     *
+     * @param $section
+     * @return Model
+     */
+    public function addSection($section)
+    {
+        return $this->section()->associate($section);
+    }
+
+    /**
+     * Attach a several subsection to the procedure
+     *
+     * @param $subsectionIds
+     */
+    public function addSubSections($subsectionIds)
+    {
+        return $this->subSections()->attach($subsectionIds);
+    }
+    public function deleteSubSections($subsectionIds)
+    {
+        return $this->subSections()->detach($subsectionIds);
+    }
+
     protected function onlyOne($fileType)
     {
         return $this->$fileType()->get()->count() >= 1 ? true : false;
@@ -389,7 +421,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
 
     public function documentProcedure()
     {
-        return $this->procedureFile()->get();
+        return $this->procedureDocument()->get();
     }
 
     public function hasDocumentProcedure()

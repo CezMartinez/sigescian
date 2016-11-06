@@ -31,6 +31,31 @@
                 <label for="state" class="control-label">Estado: </label>
                 {{Form::checkbox('state',null,$procedure->state)}}
             </div>
+    {{-- section --}}
+    <div class="form-group {{$errors->has('section') ? 'has-error': ''}}">
+        <label for="section" class="control-label">Seccion:</label>
+        {{Form::select('section',$sections,null,['id'=>'section','class'=>'form-control','onchange'=>'changedata()'])}}
+        @if ($errors->has('section'))
+            <span class="help-block">
+                <strong>{{ $errors->first('section') }}</strong>
+            </span>
+        @endif
+    </div>
+    {{-- subsection --}}
+    <div class="form-group {{$errors->has('subsection') ? 'has-error': ''}}">
+        <label for="subsection" class="control-label">Subseccion:</label>
+        {{Form::select('subsection[]',['Seleccione una Seccion'],null,['id'=>'subsection','class'=>'form-control','disabled','readonly','multiple'])}}
+        @if ($errors->has('subsection'))
+            <span class="help-block">
+                <strong>{{ $errors->first('subsection') }}</strong>
+            </span>
+        @endif
+    </div>
+
+    <div class="form-group {{$errors->has('state') ? 'has-error': ''}} ">
+        <label for="state" class="control-label">Estado: </label>
+        {{Form::checkbox('state',null,$procedure->state)}}
+    </div>
 
 
             <button class="btn btn-primary">Editar Procedimiento</button>
@@ -41,3 +66,36 @@
     </form>
 </div>
 
+
+    <button class="btn btn-primary">Editar Procedimiento</button>
+</form>
+
+@section('scripts')
+    <script>
+        $('#subsection').select2();
+        $("#subsection").select2({placeholder:"Seleccione Subsecciones de norma"});
+    </script>
+    <script>
+        function changedata() {
+            var section = $('#section').val();
+            var subsection = $('#subsection');
+            var option = $('#subsection').children().attr('class','optionsubseccion');
+            if (section == 4 || section == 5)
+            {
+                subsection.removeAttr('disabled',false)
+                subsection.removeAttr('readonly',false)
+                $.getJSON("/subsecciones/"+section, function(result) {
+                    $('#subsection').find('option').remove().end()
+                    $.each(result, function(key,value) {
+                        $('#subsection').append($('<option>').text(value).attr('value', key));
+                    });
+                });
+            }else{
+                $('#subsection').find('option').remove().end()
+                subsection.attr('disabled',true)
+                subsection.attr('readonly',true)
+            }
+        }
+    </script>
+
+@endsection

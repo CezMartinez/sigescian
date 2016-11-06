@@ -26,7 +26,7 @@ class TechnicianController extends Controller
     {
         $state = request()->exists('inactivos') ? '0' : '1';
         
-        $techs = TechnicianProcedure::fetchAllProcedureByState($state);
+        $techs = TechnicianProcedure::fetchAllProceduresByState($state);
 
         return view('procedures.technician.technician_index',compact('techs'));
     }
@@ -107,12 +107,13 @@ class TechnicianController extends Controller
     public function edit($code)
     {
         $procedure = TechnicianProcedure::where('code',$code)->first();
+        $sections = Section::pluck('section','id');
 
         JavaScript::put([
             'id_tecnico' => $procedure->id,
         ]);
-
-        return view('procedures.technician.technician_edit',compact('procedure'));
+        
+        return view('procedures.technician.technician_edit',compact('procedure','sections'));
     }
 
     /**
@@ -134,7 +135,6 @@ class TechnicianController extends Controller
         $instructions = $request->input('instructions');
 
         $this->validateUpdateProcedure($request->all(),$tecnico);
-        /*dd($request->input('instructions'));*/
 
         $result = $tecnico->updateProcedure($request,$instructions);
 
@@ -172,8 +172,7 @@ class TechnicianController extends Controller
 
     private function validateCreateProcedure($data)
     {
-
-        Validator::make($data,[
+        return Validator::make($data,[
             'name' =>'required',
             'instructions' => 'required',
             'acronym' => 'required|unique:technician_procedures,acronym',

@@ -125,6 +125,7 @@ Route::post('associar/{procedure_id}/{procedure_type}/{files_type}','AssociateFi
 /**---------------------------------------------- Lista Maestra ------------------------------------------------**/
 
 Route::get('listaMaestra', 'MainListController@showAll');
+Route::get('procedimiento/buscar','MainListController@searchProcedure');
 
 /**---------------------------------------------- Solicitudes ------------------------------------------------**/
 Route::get('servicios','MainListController@solicitudes');

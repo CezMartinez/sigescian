@@ -9,6 +9,19 @@
     </div>
     @if($signedIn)
         <div class="header-right">
+
+            {!! Form::open(['method'=>'GET','url'=>'/procedimiento/buscar','class'=>'navbar-form navbar-right','role'=>'search'])  !!}
+
+            <div class="input-group custom-search-form">
+                <input type="text" class="form-control" name="search" style="height: 35px" placeholder="Buscar Procedimiento..." required>
+                <span class="input-group-btn">
+                <button class="btn btn-primary" type="submit" style="height: 35px">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+            </div>
+        {!! Form::close() !!}
+
             <!-- <div class="profile_details_left"><!--notifications of menu start -->
             <!--    <ul class="nofitications-dropdown">
                     <li class="dropdown head-dpdn">
