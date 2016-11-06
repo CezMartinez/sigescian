@@ -48,6 +48,46 @@
                 <input type="hidden" name="procedure" value="2">
                 {{csrf_field()}}
             </form>
+            <hr>
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h3>Archivos Anexos</h3></div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <div class="lista-anexos">
+                            @if($tecnico->annexedFiles()->count() > 0 )
+                                @foreach($tecnico->annexedFiles()->get() as $file)
+
+                                    <li id="file-anexo-{{$file->id}}" class="list-group-item list-group-item-info">
+
+                                        <a target="_blank" href="/archivos/procedimientos/3/2/{{$file->originalName}}">
+                                            {{$file->title}}
+                                        </a>
+
+                                        <i class="fa fa-times pull-right"
+                                           onclick="deleteFile(
+                                                   '{{$file->originalName}}',
+                                                   '{{$tecnico->id}}',
+                                                   '{{$file->id}}',
+                                                   'anexo',
+                                                   '/procedimiento/archivos/anexo/')"></i>
+                                    </li>
+                                @endforeach
+                            @else
+                                No hay anexos asociados con este procedimiento
+                            @endif
+                        </div>
+                    </ul>
+                    @include("procedures.partials.asociar-archivos",
+                             array(
+                                    'url'=>'/informacion/anexo/tecnico/',
+                                    'procedure'=>$tecnico,
+                                    'file_type'=>'anexo',
+                                    'procedures'=> $procedures,
+                                    'procedure_type' => "tecnico",
+                                    'storeUrl' => "/associar/$tecnico->id/tecnico/anexo",
+                            ))
+                </div>
+            </div>
         </div>
 
         <div class="col-md-6">
@@ -89,9 +129,9 @@
                     <ul class="list-group">
                         <div class="lista-formatos">
                             @if($tecnico->formatFiles()->count() > 0 )
-                            @foreach($tecnico->formatFiles()->get() as $file)
+                            @foreach($tecnico->formatFiles as $file)
 
-                                <li id="file-formato-{{$file->id}}" class="list-group-item list-group-item-info">
+                                <li id="file-formato-{{$file->id}}" class="list-group-item list-group-item-{{($file->pivot->owner == null) ? 'info':'success'}}">
 
                                     <a target="_blank" href="/archivos/procedimientos/1/2/{{$file->originalName}}">
                                         {{$file->title}}
@@ -111,37 +151,15 @@
                             @endif
                         </div>
                     </ul>
-                </div>
-            </div>
-            <hr>
-            <div class="panel panel-primary">
-                <div class="panel-heading"><h3>Archivos Anexos</h3></div>
-                <div class="panel-body">
-                    <ul class="list-group">
-                        <div class="lista-anexos">
-                            @if($tecnico->annexedFiles()->count() > 0 )
-                            @foreach($tecnico->annexedFiles()->get() as $file)
-
-                                <li id="file-anexo-{{$file->id}}" class="list-group-item list-group-item-info">
-
-                                    <a target="_blank" href="/archivos/procedimientos/3/2/{{$file->originalName}}">
-                                        {{$file->title}}
-                                    </a>
-
-                                    <i class="fa fa-times pull-right"
-                                       onclick="deleteFile(
-                                               '{{$file->originalName}}',
-                                               '{{$tecnico->id}}',
-                                               '{{$file->id}}',
-                                               'anexo',
-                                               '/procedimiento/archivos/anexo/')"></i>
-                                </li>
-                            @endforeach
-                                @else
-                                No hay anexos asociados con este procedimiento
-                            @endif
-                        </div>
-                    </ul>
+                    @include("procedures.partials.asociar-archivos",
+                             array(
+                                    'url'=>'/informacion/formato/tecnico/',
+                                    'procedure'=>$tecnico,
+                                    'file_type'=>'formato',
+                                    'procedures'=> $procedures,
+                                    'procedure_type'=> 'tecnico',
+                                    'storeUrl' => "/associar/$tecnico->id/tecnico/formato",
+                                ))
                 </div>
             </div>
         </div>
@@ -153,5 +171,6 @@
 
 @section('scripts')
     <script src="/js/technician.js"></script>
+    <script src="/js/asociar-archivos.js"></script>
 @endsection
 

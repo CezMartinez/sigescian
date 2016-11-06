@@ -18,7 +18,8 @@
 	color: green;
 }
 .header-main{
-	padding: 0 0 0 1em;
+	border-bottom: 1px solid gray;
+	padding: 0 0 0.5em 1em;
 }
 
 .header-right{
@@ -58,6 +59,7 @@ body{
 	height:100vh;
 }
 .copyrights{
+	border-top: 1px solid gray;
 	margin-top: auto;
 	font-size: 15px;
 	padding: 1px 1px;

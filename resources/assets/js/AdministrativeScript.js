@@ -65,6 +65,12 @@ Dropzone.options.uploadFile= {
                 self.removeFile(file);
             },3500);
         });
+        this.on("error", function(file){
+            var self = this;
+            setTimeout(function(){
+                self.removeFile(file);
+            },5500);
+        })
     }
 }
 
@@ -191,5 +197,5 @@ function agregarProcedimientos(listaProcedimientos,data)
     swal("Agregado", 'El Documento del Procedimiento fue agregado con exito', "success");
 }
 function owner(data){
-    return (data == null) ? 'info':'success';
+    return (data == 0) ? 'info':'success';
 }

@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Storage;
 
 class TechnicianProcedure extends Model implements ProcedureInterface
 {
@@ -38,7 +39,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
 
     public function formatFiles()
     {
-        return $this->belongsToMany(FormatFile::class);
+        return $this->belongsToMany(FormatFile::class)->withPivot('owner');
     }
 
     public function procedureDocument()
@@ -231,6 +232,9 @@ class TechnicianProcedure extends Model implements ProcedureInterface
             );
             $answer = $this->addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime);
 
+            if($answer["status"] != "200"){
+                Storage::delete("archivos/procedimientos/tecnicos/formatos/$clientName");
+            }
             return $answer;
         } elseif ($typeFile == 3) {//anexo
             $path = $file->storeAs(
@@ -338,13 +342,22 @@ class TechnicianProcedure extends Model implements ProcedureInterface
 
     private function addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime)
     {
-
-        if ($this->itHasAlreadyAdded($title)) {
-            return $this->answer('Este Formato ya existe no puede ser agregado, revise los archivos obsoletos', "501");
+        if ($formato = $this->itHasAlreadyAdded($title)) {
+            if(count($formato->administrativeProcedure)==1){
+                foreach ($formato->administrativeProcedure as $fomato){
+                    return $this->answer("Este Formato ya existe y esta asociado con  "."\"".$fomato->name."\""."", "501");
+                }
+            }elseif(count($formato->technicianProcedure)==1){
+                foreach ($formato->technicianProcedure as $fomato){
+                    return $this->answer("Este Formato ya existe y esta asociado con  "."\"".$fomato->name."\""."", "501");
+                }
+            }else{
+                return $this->answer("Este Formato ya existe y puede que este obsoleto", "501");
+            }
         }
 
 
-        $this->formatFiles()->create([
+        $formatFile = FormatFile::create([
             'code' => $code,
             'path' => $path,
             'originalName' => $clientName,
@@ -354,6 +367,7 @@ class TechnicianProcedure extends Model implements ProcedureInterface
             'size' => $size,
             'mime' => $mime,
         ]);
+        $this->formatFiles()->attach($formatFile, ['owner' => true]);
 
         return $this->answer('Formato agregado y asociado correctamente', "200");
     }
@@ -365,9 +379,12 @@ class TechnicianProcedure extends Model implements ProcedureInterface
 
     private function itHasAlreadyAdded($title)
     {
-        $formato = FormatFile::where('title', $title)->get();
-
-        return (count($formato) == 1) ? true : false;
+        $formato = FormatFile::with(['technicianProcedure' => function ($query) {
+            $query->where('owner', true);
+        }, 'administrativeProcedure' => function ($query) {
+            $query->where('owner', true);
+        }])->where('title', $title)->first();
+        return $formato;
     }
 
     public function documentProcedure()

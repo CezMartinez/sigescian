@@ -104,16 +104,31 @@ function refreshlist(elemento){
     })
 }
 
+function procedureType()
+{
+    return document.URL.includes('administrativos') ? 'administrativo':'tecnico';
+}
 function initData()
 {
-    var url_formato = "/informacion/formato/administrativo/"
-    var url_anexo = "/informacion/anexo/administrativo/"
-    $("#archivo-formato-administrativo").removeAttr('disabled', false)
-    $("#archivo-formato-administrativo").empty()
-    $("#archivo-anexo-administrativo").removeAttr('disabled', false)
-    $("#archivo-anexo-administrativo").empty()
-    var id_procedure_formato = $("#procedimiento-administrativo-formato").val()
-    var id_procedure_anexo = $("#procedimiento-administrativo-anexo").val()
+    $('#procedimiento-'+procedureType()+'-formato').select2({
+        placeholder: "Seleccione un procedimiento"
+    });
+    $('#archivo-formato-'+procedureType()+'').select2({
+        placeholder: "Seleccione Un formato",
+    })
+
+    $('#procedimiento-'+procedureType()+'-anexo').select2({
+        placeholder: "Seleccione un procedimiento"
+    });
+    $('#archivo-anexo-'+procedureType()+'').select2({
+        placeholder: "Seleccione un anexo",
+    })
+    var url_formato = "/informacion/formato/"+procedureType()+"/"
+    var url_anexo = "/informacion/anexo/"+procedureType()+"/"
+    $("#archivo-formato-"+procedureType()+"").empty()
+    $("#archivo-anexo-"+procedureType()+"").empty()
+    var id_procedure_formato = $("#procedimiento-"+procedureType()+"-formato").val()
+    var id_procedure_anexo = $("#procedimiento-"+procedureType()+"-anexo").val()
     url_formato = url_formato + id_procedure_formato;
     url_anexo = url_anexo + id_procedure_anexo;
     $.ajax({
@@ -127,7 +142,7 @@ function initData()
             for (elem in obj) {
                 arr.push(obj[elem]);
             }
-            $("#archivo-formato-administrativo").select2({placeholder: "Seleccione uno o varios formatos", data: arr});
+            $("#archivo-formato-"+procedureType()+"").select2({placeholder: "Seleccione uno o varios formatos", data: arr});
         },
     })
     $.ajax({
@@ -141,7 +156,7 @@ function initData()
             for (elem in obj) {
                 arr.push(obj[elem]);
             }
-            $("#archivo-anexo-administrativo").select2({placeholder: "Seleccione uno o varios formatos", data: arr});
+            $("#archivo-formato-"+procedureType()+"").select2({placeholder: "Seleccione uno o varios formatos", data: arr});
         },
     })
 }

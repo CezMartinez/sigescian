@@ -194,22 +194,6 @@
 
 @section('scripts')
     <script src="/js/administrative.js"></script>
-    <script>
-        $('#procedimiento-administrativo-formato').select2({
-            placeholder: "Seleccione un procedimiento"
-        });
-        $('#archivo-formato-administrativo').select2({
-            placeholder: "Seleccione Un formato",
-        })
-
-        $('#procedimiento-administrativo-anexo').select2({
-            placeholder: "Seleccione un procedimiento"
-        });
-        $('#archivo-anexo-administrativo').select2({
-            placeholder: "Seleccione un anexo",
-        })
-    </script>
-
     <script src="/js/asociar-archivos.js"></script>
 
 

@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Storage;
 
 class AdministrativeProcedure extends Model implements ProcedureInterface
 {
@@ -195,6 +196,10 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
 
 
             $answer = $this->addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime);
+
+            if($answer["status"]!="200"){
+                Storage::delete("archivos/procedimientos/administrativos/formatos/$clientName");
+            }
 
             return $answer;
 
@@ -425,8 +430,18 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     private function addFormatFile($code, $path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime)
     {
 
-        if($this->itHasAlreadyAdded($title)){
-            return $this->answer('Este Formato ya existe no puede ser agregado, revise los archivos obsoletos',"501");
+        if($formato  = $this->itHasAlreadyAdded($title)){
+            if(count($formato->administrativeProcedure)==1){
+                foreach ($formato->administrativeProcedure as $fomato){
+                    return $this->answer("Este Formato ya existe y esta asociado con  "."\"".$fomato->name."\""."", "501");
+                }
+            }elseif(count($formato->technicianProcedure)==1){
+                foreach ($formato->technicianProcedure as $fomato){
+                    return $this->answer("Este Formato ya existe y esta asociado con  "."\"".$fomato->name."\""."", "501");
+                }
+            }else{
+                return $this->answer("Este Formato ya existe y puede que este obsoleto", "501");
+            }
         }
 
         $formatFile = FormatFile::create([
@@ -456,9 +471,13 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
      */
     private function itHasAlreadyAdded($title)
     {
-        $formato = FormatFile::where('title',$title)->get();
+    $formato = FormatFile::with(['technicianProcedure'=>function            ($query) {
+            $query->where('owner',true);
+        },'administrativeProcedure'=>function($query){
+            $query->where('owner',true);
+        }])->where('title', $title)->first();
 
-        return (count($formato) == 1) ? true : false;
+        return $formato;
     }
 
     public function documentProcedure()

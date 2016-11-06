@@ -17,6 +17,7 @@ class CreateAnnexedFileTechnicianProcedureTable extends Migration
             $table->increments('id');
             $table->integer('annexed_file_id')->unsigned();
             $table->integer('technician_procedure_id')->unsigned();
+            $table->boolean('owner')->nullable();
             $table->timestamps();
         });
     }
