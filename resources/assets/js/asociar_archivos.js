@@ -106,6 +106,9 @@ function refreshlist(elemento){
 
 function procedureType()
 {
+    if(!document.URL.includes('administrativos'||'tecnicos')){
+        return url_type;
+    }
     return document.URL.includes('administrativos') ? 'administrativo':'tecnico';
 }
 function initData()

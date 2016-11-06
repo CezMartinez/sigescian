@@ -22,6 +22,13 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         return $this->belongsTo(Laboratory::class);
     }
 
+    public static function fetchAllProceduresByState($state)
+    {
+        $technicianProcedure = new static;
+
+        return $technicianProcedure->with('laboratory')->where('state', $state)->paginate(5);
+    }
+
     public function subSections()
     {
         return $this->belongsToMany(SubSection::class);

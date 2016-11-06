@@ -56,14 +56,20 @@ class MainListController extends Controller
                 if($tecnico){
                     JavaScript::put([
                         'name_tecnico' => $tecnico->name,
+                        'id_tecnico' => $tecnico->id,
+                        'url_type' => 'tecnico'
                     ]);
-                    return view('procedures.technician.technician_show',compact('tecnico'));
+                    $procedures = TechnicianProcedure::where('id','<>',$tecnico->id)->pluck('name','id');
+                    return view('procedures.technician.technician_show',compact('tecnico','procedures'));
                 }
                 elseif($administrativo){
                     JavaScript::put([
                         'name_administrative' => $administrativo->name,
+                        'id_administrative' => $administrativo->id,
+                        'url_type' => 'administrativo'
                     ]);
-                    return view('procedures.administrative.administrative_show',compact('administrativo'));
+                    $procedures = AdministrativeProcedure::where('id','<>',$administrativo->id)->pluck('name','id');
+                    return view('procedures.administrative.administrative_show',compact('administrativo','procedures'));
                 }else{
                     return redirect('listaMaestra')->with('status','No se encontro el procedimiento');
                 }

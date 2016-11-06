@@ -13,10 +13,10 @@
                     <p>Codigo: {{$tecnico->code}}</p>
                     <p>Estado: {{$tecnico->status}}</p>
                     <p>Seccion: {{$tecnico->section->section}}</p>
-                    @if($subsections->count() > 0)
+                    @if($tecnico->subSections()->get()->count() > 0)
                         <p>Subsecciones: </p>
                         <ul>
-                            @foreach($subsections as $subsection)
+                            @foreach($tecnico->subSections()->get() as $subsection)
                                 <li>{{$subsection->section}}</li>
                             @endforeach
                         </ul>

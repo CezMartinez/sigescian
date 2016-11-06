@@ -9,28 +9,7 @@
             @include('procedures.technician.forms.technical_instructions')
         </div>
     </div>
-    {{-- section --}}
-    <div class="form-group {{$errors->has('section') ? 'has-error': ''}}">
-        <label for="section" class="control-label">Seccion:</label>
-        {{Form::select('section',$sections,null,['id'=>'section','class'=>'form-control','onchange'=>'changedata()'])}}
-        @if ($errors->has('section'))
-            <span class="help-block">
-                <strong>{{ $errors->first('section') }}</strong>
-            </span>
-        @endif
-    </div>
-    {{-- subsection --}}
-    <div class="form-group {{$errors->has('subsection') ? 'has-error': ''}}">
-        <label for="subsection" class="control-label">Subseccion:</label>
-        {{Form::select('subsection[]',['Seleccione una Seccion'],null,['id'=>'subsection','class'=>'form-control','disabled','readonly','multiple'])}}
-        @if ($errors->has('subsection'))
-            <span class="help-block">
-                <strong>{{ $errors->first('subsection') }}</strong>
-            </span>
-        @endif
-    </div>
 
-    <button class="btn btn-primary">Guardar Procedimiento</button>
 </form>
 
 @section('scripts')
