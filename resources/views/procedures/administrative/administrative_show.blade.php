@@ -32,8 +32,6 @@
                 <label for="type">Documento del Procedimiento</label>
                 <input type="radio" name="type" value="1" class="type">
                 <label for="type">Formatos </label>
-                <input type="radio" name="type" value="2" class="type">
-                <label for="type">Flujogramas</label>
                 <input type="radio" name="type" value="3" class="type">
                 <label for="type">Anexos</label>
             </div>
@@ -87,37 +85,6 @@
                             ))
                 </div>
             </div>
-            <hr>
-            <div class="panel panel-primary">
-                <div class="panel-heading"><h3>Flujograma:</h3></div>
-                <div class="panel-body">
-                    <ul class="list-group">
-                        <div class="lista-flujogramas">
-                            @if($administrativo->flowChartFile()->count() > 0 )
-                                    <li id="file-flujograma-{{$administrativo->flowChartFile->id}}" class="list-group-item list-group-item-info">
-
-                                        <a target="_blank" href="/archivos/procedimientos/2/1/{{$administrativo->flowChartFile->originalName}}">
-                                            {{$administrativo->flowChartFile->title}}
-                                        </a>
-
-                                        <i class="fa fa-times pull-right"
-                                           onclick="deleteFile(
-                                                   '{{$administrativo->flowChartFile->originalName}}',
-                                                   '{{$administrativo->id}}',
-                                                   '{{$administrativo->flowChartFile->id}}',
-                                                   'flujograma',
-                                                   '/procedimiento/archivos/flujograma/')"></i>
-                                    </li>
-                            @else
-                                No ha asociado un flujograma con este procedimiento
-                            @endif
-                        </div>
-                    </ul>
-
-                </div>
-            </div>
-
-
         </div>
         <div class="col-md-6">
 

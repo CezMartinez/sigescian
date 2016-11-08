@@ -44,37 +44,12 @@ class AnnexedFilesController extends Controller
 
     public function deleteAnnexedFile($procedure, AnnexedFile $annexedFile, $type)
     {
-        $procedure = $this->getProcedureByType($type, $procedure);
-
-        $procedure->annexedFiles()->detach($annexedFile);
-
+        return $this->deleteFile($type,$annexedFile,$procedure,"AnnexedFile");
     }
 
     public function deleteFormatFile($procedure, FormatFile $formatFile, $type)
     {
-
-        $method = $this->procedureMethod($type);
-
-        $procedureOwner = $this->procedureOwnerOfFile($type,$formatFile->title,"FormatFile");
-
-        $procedure = $this->getProcedureByType($type, $procedure);
-
-        if($procedureOwner->$method->first()->id == $procedure->id){
-            $proceduresToDetach = $formatFile->$method()->get();
-            foreach ($proceduresToDetach as $procedure){
-                $formatFile->$method()->detach($procedure->id);
-            }
-            $procedureNames = "";
-            foreach ($proceduresToDetach as $procedure){
-                $procedureNames .= "\"$procedure->name\"\n ";
-            }
-
-            return "El formato fue eliminaro y desasociado de los siguientes procedimientos:\n $procedureNames";
-        }else{
-            $procedure->formatFiles()->detach($formatFile->id);
-
-            return "El formato fue desasociado";
-        }
+        return $this->deleteFile($type,$formatFile,$procedure,"FormatFile");
     }
 
     public function deleteFlowChartFile(AdministrativeProcedure $procedure, FlowChartFile $flowChartFile)
@@ -187,7 +162,9 @@ class AnnexedFilesController extends Controller
                 }])->where('title',$name_of_file)->first();
                 break;
             case "AnnexedFile":
-                return AnnexedFile::with($method)->where('title',$name_of_file)->first();
+                return AnnexedFile::with([$method=>function($query){
+                    $query->where('owner',true);
+                }])->where('title',$name_of_file)->first();
                 break;
             default:
                 return null;
@@ -197,6 +174,35 @@ class AnnexedFilesController extends Controller
     private function procedureMethod($type)
     {
         return ($type == 1) ? "administrativeProcedure":"technicianProcedure";
+    }
+
+    private function deleteFile($type,$file,$procedure,$class)
+    {
+        $method = $this->procedureMethod($type);
+
+        $procedureOwner = $this->procedureOwnerOfFile($type,$file->title,$class);
+
+        $procedure = $this->getProcedureByType($type, $procedure);
+
+        if($procedureOwner->$method->first()->id == $procedure->id){
+            $proceduresToDetach = $file->$method()->get();
+            foreach ($proceduresToDetach as $procedure){
+                $file->$method()->detach($procedure->id);
+            }
+            $procedureNames = "";
+            foreach ($proceduresToDetach as $procedure){
+                $procedureNames .= "\"$procedure->name\"\n ";
+            }
+
+            return "El archivo fue eliminado y se ha elimado toda relacion con los siguientes procedimientos:\n $procedureNames";
+        }else{
+            if($class == "FormatFile"){
+                $procedure->formatFiles()->detach($file->id);
+            }elseif($class == "AnnexedFile"){
+                $procedure->annexedFiles()->detach($file->id);
+            }
+            return "El archivo fue desasociado";
+        }
     }
 
 

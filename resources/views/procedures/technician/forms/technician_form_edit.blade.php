@@ -26,11 +26,6 @@
                 </span>
                 @endif
             </div>
-
-            <div class="form-group {{$errors->has('state') ? 'has-error': ''}} ">
-                <label for="state" class="control-label">Estado: </label>
-                {{Form::checkbox('state',null,$procedure->state)}}
-            </div>
         {{-- section --}}
         <div class="form-group {{$errors->has('section') ? 'has-error': ''}}">
             <label for="section" class="control-label">Seccion:</label>
