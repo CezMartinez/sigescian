@@ -4,14 +4,11 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ApplicationControl extends Model
+class ExternalDosimetry extends Model
 {
-
     protected $fillable=['name','customer_id','address','municipality','department','country',
         'phone','fax','email', 'responsable','position','activity_id','date_reception','name_visit',
-        'position_visit','phone_visit','name_admin', 'position_admin', 'phone_admin'];
-
-    protected $dates =['date_reception'];
+        'position_visit','phone_visit','name_admin', 'position_admin', 'phone_admin','pd_number','anillo_number'];
 
     public function customer(){
         return $this->belongsTo(CustomerType::class);
@@ -23,23 +20,23 @@ class ApplicationControl extends Model
 
     public static function createSolicitude($request,CustomerType $customerType,Activity $activity)
     {
-        $applicationcontrol = new static;
+        $externaldosimetry = new static;
 
-        $applicationcontrol->fill($request);
+        $externaldosimetry->fill($request);
 
-        $applicationcontrol->customer()->associate($customerType);
+        $externaldosimetry->customer()->associate($customerType);
 
-        $applicationcontrol->activity()->associate($activity);
+        $externaldosimetry->activity()->associate($activity);
 
-        $applicationcontrol->save();
+        $externaldosimetry->save();
 
-        return $applicationcontrol;
+        return $externaldosimetry;
     }
 
     public static function fetchAll()
     {
-        $applicationcontrol = new static;
+        $externaldosimetry = new static;
 
-        return $applicationcontrol->paginate(10);
+        return $externaldosimetry->paginate(10);
     }
 }

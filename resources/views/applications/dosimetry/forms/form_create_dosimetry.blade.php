@@ -1,4 +1,4 @@
-<form action="/servicios/control-de-calidad" method="post">
+<form action="/servicios/dosimetria-personal-externa" method="post">
     {{csrf_field()}}
     <div class="panel panel-primary">
         <div class="panel-heading"><h3> Informacion del Cliente</h3></div>
@@ -121,18 +121,8 @@
     </div>
     <hr>
     <div class="panel panel-primary">
-        <div class="panel-heading"><h3>Información Adicional</h3></div>
+        <div class="panel-heading"><h3>Personal de contacto para:</h3></div>
         <div class="panel-body">
-            <div class="form-group {{$errors->has('date_reception') ? 'has-error': ''}} ">
-                <label for="date_reception">Fecha de vencimiento del permiso de operacion:</label>
-                <input type="date" name="date_reception" class="form-control" value="{{old('date_reception',\Carbon\Carbon::today()->format('Y-m-d'))}}" placeholder="01-02-16" required autofocus>
-                @if ($errors->has('date_reception'))
-                    <span class="help-block">
-                <strong>{{ $errors->first('date_reception') }}</strong>
-            </span>
-                @endif
-            </div>
-            <label>Personal de contacto para:</label>
             <p style="font-style: italic;"><strong>Confirmar Visita</strong></p>
             <div class="row">
                 <div class="col-md-6">
@@ -195,6 +185,32 @@
             </div>
         </div>
     </div>
+    <hr>
+    <div class="panel panel-primary">
+        <div class="panel-heading"><h3>Total de Dosimetros Solicitados</h3></div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {{$errors->has('pd') ? 'has-error': ''}} ">
+                        <label for="pd" class="checkbox-inline"><input type="checkbox" name="pd" value="1">PD1</label>
+                        <input type="number" name="pd_number" class="form-control" value="{{old('pd_number')}}" min="1" placeholder="1"  autofocus>
+                        @if ($errors->has('pd'))
+                            <span class="help-block"><strong>{{ $errors->first('pd') }}</strong></span>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group {{$errors->has('pd') ? 'has-error': ''}} ">
+                        <label for="anillo" class="checkbox-inline"><input type="checkbox" name="anillo" value="1">Anillos</label>
+                        <input type="number" name="anillo_number" class="form-control" value="{{old('anillo_number')}}" min="1" placeholder="1"  autofocus>
+                        @if ($errors->has('pd'))
+                            <span class="help-block"><strong>{{ $errors->first('pd') }}</strong></span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
     <br>
     <button class="btn btn-primary">Guardar Solicitud</button>
 </form>

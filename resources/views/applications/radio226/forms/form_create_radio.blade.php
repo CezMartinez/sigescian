@@ -3,22 +3,11 @@
     <div class="panel panel-primary">
         <div class="panel-heading"><h3> Informacion del Cliente</h3></div>
         <div class="panel-body">
-            <div class="form-group {{$errors->has('date_application') ? 'has-error': ''}} ">
-                <label for="date_application">Fecha de Solicitud:</label>
-                <input type="date" name="date_application" class="form-control" value="{{old('date_application',\Carbon\Carbon::today()->format('Y-m-d'))}}" placeholder="01-02-16" required autofocus>
-                @if ($errors->has('date_application'))
-                    <span class="help-block">
-                <strong>{{ $errors->first('date_application') }}</strong>
-            </span>
-                @endif
-            </div>
-            <div class="form-group {{$errors->has('name') ? 'has-error': ''}} ">
+            <div class="form-group {{$errors->has('petitioner') ? 'has-error': ''}} ">
                 <label for="name">Solicitante:</label>
-                <input type="text" name="name" class="form-control" value="{{old('name')}}" placeholder="Juan Perez" required autofocus>
-                @if ($errors->has('name'))
-                    <span class="help-block">
-                <strong>{{ $errors->first('name') }}</strong>
-            </span>
+                <input type="text" name="petitioner" class="form-control" value="{{old('petitioner')}}" placeholder="Juan Perez" required autofocus>
+                @if ($errors->has('petitioner'))
+                    <span class="help-block"><strong>{{ $errors->first('petitioner') }}</strong></span>
                 @endif
             </div>
             <div class="form-group {{$errors->has('address') ? 'has-error': ''}} ">
@@ -30,25 +19,26 @@
             </span>
                 @endif
             </div>
-            <div class="form-group {{$errors->has('phone') ? 'has-error': ''}} ">
-                <label for="phone">Telefono:</label>
-                <input type="text" name="phone" class="form-control" value="{{old('phone')}}" placeholder="2222-2222" required autofocus>
-                @if ($errors->has('phone'))
-                    <span class="help-block">
-                <strong>{{ $errors->first('phone') }}</strong>
-            </span>
-                @endif
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {{$errors->has('phone') ? 'has-error': ''}} ">
+                        <label for="phone">Telefono:</label>
+                        <input type="text" name="phone" class="form-control" value="{{old('phone')}}" placeholder="2222-2222" required autofocus>
+                        @if ($errors->has('phone'))
+                            <span class="help-block"><strong>{{ $errors->first('phone') }}</strong></span>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group {{$errors->has('email') ? 'has-error': ''}} ">
+                        <label for="email">Correo Electronico:</label>
+                        <input type="email" name="email" class="form-control" value="{{old('email')}}" placeholder="cliente@cliente.com" required autofocus>
+                        @if ($errors->has('email'))
+                            <span class="help-block"><strong>{{ $errors->first('email') }}</strong></span>
+                        @endif
+                    </div>
+                </div>
             </div>
-            <div class="form-group {{$errors->has('email') ? 'has-error': ''}} ">
-                <label for="email">Correo Electronico:</label>
-                <input type="email" name="email" class="form-control" value="{{old('email')}}" placeholder="cliente@cliente.com" required autofocus>
-                @if ($errors->has('email'))
-                    <span class="help-block">
-                <strong>{{ $errors->first('email') }}</strong>
-            </span>
-                @endif
-            </div>
-
         </div>
     </div>
     <hr>
@@ -57,7 +47,7 @@
         <div class="panel-body">
             <div class="form-group {{$errors->has('date_reception') ? 'has-error': ''}} ">
                 <label for="date_reception">Fecha de Recepcion:</label>
-                <input type="date" name="date_reception" class="form-control" value="{{old('date_reception',\Carbon\Carbon::today()->format('Y-m-d'))}}" placeholder="01-02-16" required autofocus>
+                <input type="date" name="date_reception" class="form-control" value="{{old('date_reception',\Carbon\Carbon::today()->format('Y-m-d'))}}" placeholder="01-02-16" autofocus>
                 @if ($errors->has('date_reception'))
                     <span class="help-block">
                 <strong>{{ $errors->first('date_reception') }}</strong>
@@ -69,12 +59,12 @@
                     <label><br></label>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group {{$errors->has('number_samples') ? 'has-error': ''}} ">
-                                <label for="number_samples">Numero de muestras:</label>
-                                <input type="number" min="0" name="number_samples" class="form-control" value="{{old('number_samples')}}" placeholder="5" required autofocus>
-                                @if ($errors->has('number_samples'))
+                            <div class="form-group {{$errors->has('samples') ? 'has-error': ''}} ">
+                                <label for="samples">Numero de muestras:</label>
+                                <input type="number" min="0" name="samples" class="form-control" value="{{old('samples')}}" placeholder="5" autofocus>
+                                @if ($errors->has('samples'))
                                     <span class="help-block">
-                                <strong>{{ $errors->first('number_samples') }}</strong>
+                                <strong>{{ $errors->first('samples') }}</strong>
                             </span>
                                 @endif
                             </div>

@@ -15,7 +15,6 @@ class CreateApplicationFrotisTable extends Migration
     {
         Schema::create('application_frotis', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamp('date_solicitude')->nullable();
             $table->string('petitioner');
             $table->string('address',2048);
             $table->string('phone');

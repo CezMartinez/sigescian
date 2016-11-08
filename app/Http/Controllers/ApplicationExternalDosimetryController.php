@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Model\Activity;
-use App\Model\ApplicationControl;
 use App\Model\CustomerType;
+use App\Model\ExternalDosimetry;
 use Illuminate\Http\Request;
 
-class ApplicationCCController extends Controller
+class ApplicationExternalDosimetryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class ApplicationCCController extends Controller
      */
     public function index()
     {
-        $applications = ApplicationControl::fetchAll();
+        $applications = ExternalDosimetry::fetchAll();
         return $applications;//view('applications.controlc.index',compact($applications));
     }
 
@@ -29,7 +29,7 @@ class ApplicationCCController extends Controller
     {
         $types = CustomerType::orderBy('id','asc')->pluck('name', 'id');
         $actividad = Activity::pluck('name','id');
-        return view('applications.controlc.create_controlc',compact('types','actividad'));
+        return view('applications.dosimetry.create_dosimetry',compact('types','actividad'));
     }
 
     /**
@@ -43,9 +43,16 @@ class ApplicationCCController extends Controller
         $request['state']=false;
         $tipo = CustomerType::findOrFail($request->input('customer_id'));
         $activi = Activity::findOrFail($request->input('activity_id'));
+
+        if(!$request->has('pd')){
+            $request['pd_number']=null;
+        }
+        if(!$request->has('anillo')){
+            $request['anillo_number']=null;
+        }
         flash('Solicitud Registrada', 'success');
-        ApplicationControl::createSolicitude($request->all(),$tipo, $activi);
-        return redirect("/servicios/control-de-calidad/");
+        ExternalDosimetry::createSolicitude($request->all(),$tipo, $activi);
+        return redirect("/servicios/dosimetria-personal-externa/");
     }
 
 }

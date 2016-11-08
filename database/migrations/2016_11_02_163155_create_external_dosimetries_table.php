@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateApplicationControlsTable extends Migration
+class CreateExternalDosimetriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateApplicationControlsTable extends Migration
      */
     public function up()
     {
-        Schema::create('application_controls', function (Blueprint $table) {
+        Schema::create('external_dosimetries', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->integer('customer_id')->unsigned()->index();
@@ -29,13 +29,14 @@ class CreateApplicationControlsTable extends Migration
             $table->string('position');
             $table->integer('activity_id')->unsigned()->index();
             $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
-            $table->timestamp('date_reception')->nullable();
             $table->string('name_visit');
             $table->string('position_visit');
             $table->string('phone_visit');
             $table->string('name_admin');
             $table->string('position_admin');
             $table->string('phone_admin');
+            $table->integer('pd_number')->nullable();
+            $table->integer('anillo_number')->nullable();
             $table->timestamps();
         });
     }
@@ -47,6 +48,6 @@ class CreateApplicationControlsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('application_controls');
+        Schema::dropIfExists('external_dosimetries');
     }
 }
