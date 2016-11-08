@@ -64,7 +64,7 @@
 
                                         <i class="fa fa-times pull-right"
                                            onclick="deleteFile(
-                                                   '{{$file->originalName}}',
+                                                   '{{$file->title}}',
                                                    '{{$administrativo->id}}',
                                                    '{{$file->id}}',
                                                    'anexo',
@@ -166,7 +166,7 @@
 
                                         <i class="fa fa-times pull-right"
                                            onclick="deleteFile(
-                                                   '{{$file->originalName}}',
+                                                   '{{$file->title}}',
                                                    '{{$administrativo->id}}',
                                                    '{{$file->id}}',
                                                    'formato',

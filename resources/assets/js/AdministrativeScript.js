@@ -78,8 +78,8 @@ function deleteFile(nameFile,idProcedure,idAnnexedFile,tipo, url){
     var csrf = $("meta[name='csrf_token']").attr('content');
 
     swal({
-            title: "¿Esta seguro de eliminar "+nameFile+"?",
-            text: "Esta accion no puede ser revertida",
+            title: "!¿Esta seguro de eliminar "+nameFile+"?",
+            text: "Esta accion eliminara toda relacion con otros procedimientos si la existe, y no sera revertida, desea continuar",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3c3cf2",

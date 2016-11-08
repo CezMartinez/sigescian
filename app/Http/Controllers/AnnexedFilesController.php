@@ -7,11 +7,14 @@ use App\Model\FormatFile;
 use App\Model\AnnexedFile;
 use App\Model\FlowChartFile;
 use App\Model\ProcedureDocument;
+use DB;
 use File;
+
 use Illuminate\Http\Request;
 use App\Model\TechnicianProcedure;
 use App\Model\AdministrativeProcedure;
 use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\Types\This;
 use Response;
 
 
@@ -45,21 +48,33 @@ class AnnexedFilesController extends Controller
 
         $procedure->annexedFiles()->detach($annexedFile);
 
-        /*$annexedFile->delete();
-
-        Storage::delete($procedure->getAnnexedFilesDirPath() . $annexedFile->originalName);*/
     }
 
     public function deleteFormatFile($procedure, FormatFile $formatFile, $type)
     {
 
+        $method = $this->procedureMethod($type);
+
+        $procedureOwner = $this->procedureOwnerOfFile($type,$formatFile->title,"FormatFile");
+
         $procedure = $this->getProcedureByType($type, $procedure);
 
-        $procedure->formatFiles()->detach($formatFile->id);
+        if($procedureOwner->$method->first()->id == $procedure->id){
+            $proceduresToDetach = $formatFile->$method()->get();
+            foreach ($proceduresToDetach as $procedure){
+                $formatFile->$method()->detach($procedure->id);
+            }
+            $procedureNames = "";
+            foreach ($proceduresToDetach as $procedure){
+                $procedureNames .= "\"$procedure->name\"\n ";
+            }
 
-        /*$formatFile->delete();*/
+            return "El formato fue eliminaro y desasociado de los siguientes procedimientos:\n $procedureNames";
+        }else{
+            $procedure->formatFiles()->detach($formatFile->id);
 
-        /*Storage::delete($procedure->getFormatFilesDirPath() . $formatFile->originalName);*/
+            return "El formato fue desasociado";
+        }
     }
 
     public function deleteFlowChartFile(AdministrativeProcedure $procedure, FlowChartFile $flowChartFile)
@@ -68,14 +83,11 @@ class AnnexedFilesController extends Controller
 
         $procedure->save();
 
-        /*$flowChartFile->delete();*/
 
-        /*Storage::delete('/archivos/procedimientos/administrativos/flujograma/'.$flowChartFile->originalName);*/
     }
 
     public function deleteProcedureFile($procedure, ProcedureDocument $procedureDocument, $type)
     {
-        //dd($procedure,$procedureDocument,$type);
 
         $procedure = $this->getProcedureByType($type, $procedure);
 
@@ -83,9 +95,7 @@ class AnnexedFilesController extends Controller
 
         $procedure->save();
 
-        /*$procedureDocument->delete();*/
 
-        /*Storage::delete($procedure->getProcedureFileDirPath() . $procedureDocument->originalName);*/
     }
 
     public function getAllAnnexedFiles($procedure, $type)
@@ -119,9 +129,9 @@ class AnnexedFilesController extends Controller
     private function getProcedureByType($type, $id)
     {
         if ($type == 1) {
-            return AdministrativeProcedure::findOrFail($id);
+            return AdministrativeProcedure::where('id',$id)->first();
         }
-        return TechnicianProcedure::findOrFail($id);
+        return TechnicianProcedure::where('id',$id)->first();
     }
 
     public function getFile($file_type, $procedure_type, $file_name)
@@ -165,6 +175,29 @@ class AnnexedFilesController extends Controller
         return ($procedure_type == "1") ? "administrativos" : "tecnicos";
     }
 
-    
+    private function procedureOwnerOfFile($type_of_procedure,$name_of_file,$type_of_file)
+    {
+
+        $method = $this->procedureMethod($type_of_procedure);
+
+        switch ($type_of_file){
+            case "FormatFile":
+                return FormatFile::with([$method=>function($query){
+                    $query->where('owner',true);
+                }])->where('title',$name_of_file)->first();
+                break;
+            case "AnnexedFile":
+                return AnnexedFile::with($method)->where('title',$name_of_file)->first();
+                break;
+            default:
+                return null;
+        }
+    }
+
+    private function procedureMethod($type)
+    {
+        return ($type == 1) ? "administrativeProcedure":"technicianProcedure";
+    }
+
 
 }

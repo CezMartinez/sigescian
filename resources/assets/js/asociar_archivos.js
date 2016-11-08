@@ -140,7 +140,6 @@ function initData()
         url: url_formato,
         success: function (json)
         {
-            console.log(json);
             var obj = json;
             var arr = [];
             for (elem in obj) {
@@ -155,7 +154,6 @@ function initData()
         url: url_anexo,
         success: function (data)
         {
-            console.log(data);
             var obj = data;
             var arr = [];
             for (elem in obj) {

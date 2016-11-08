@@ -19,11 +19,11 @@ class AnnexedFile extends Model
 
     public function administrativeProcedure()
     {
-        return $this->belongsToMany(AdministrativeProcedure::class);
+        return $this->belongsToMany(AdministrativeProcedure::class)->withPivot('owner');
     }
 
     public function technicianProcedure()
     {
-        return $this->belongsToMany(TechnicianProcedure::class);
+        return $this->belongsToMany(TechnicianProcedure::class)->withPivot('owner');
     }
 }
