@@ -58,7 +58,6 @@ class AnnexedFilesController extends Controller
 
         $procedure->save();
 
-
     }
 
     public function deleteProcedureFile($procedure, ProcedureDocument $procedureDocument, $type)
