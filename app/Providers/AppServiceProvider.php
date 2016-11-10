@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Http\Validators\HashValidator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,8 +24,10 @@ class AppServiceProvider extends ServiceProvider
             $view->with('user', Auth::user());
             $view->with('signedIn',Auth::check());
         });
+        Validator::resolver(function($translator, $data, $rules, $messages) {
+            return new HashValidator($translator, $data, $rules, $messages);
+        });
     }
-
     /**
      * Register any application services.
      *

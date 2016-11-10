@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests;
 use App\Model\Role;
 use App\User;
+use Hash;
 use Illuminate\Http\Request;
 use Validator;
-
-use App\Http\Requests;
 
 class UserController extends Controller
 {
@@ -177,6 +177,31 @@ class UserController extends Controller
             'email' => 'required|email|max:255|unique:users,email,'.$user->id
         ]);
 
+    }
+
+    public function profile(){
+        $user = User::profile();
+        return view('administration.users.users_change',compact('user'));
+    }
+
+    public function change(Request $request,$id){
+        $user = User::findOrFail($id);
+        $validation = Validator::make($request->all(), [
+            'password' => 'hash:' . $user->password,
+            'password_new' => 'required|different:password',
+            'password_confirmation'=>'required|same:password_new'
+        ]);
+
+        if ($validation->fails()) {
+            return redirect()->back()->withErrors($validation->errors());
+        }
+
+        $user->password = Hash::make($request->input('password_new'));
+        $user->save();
+
+        return redirect()->back()
+            ->with('success-message', 'La contraseña ha sido modificada');
+        dd($request->all());
     }
 
 
