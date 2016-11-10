@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests;
 use App\Model\ApplicationRadio226;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class ApplicationRadio226Controller extends Controller
 {
@@ -17,7 +16,7 @@ class ApplicationRadio226Controller extends Controller
     public function index()
     {
         $applications = ApplicationRadio226::fetchAll();
-        return view('applications.radio226.index',compact($applications));
+        return view('applications.radio226.index',compact('applications'));
     }
 
     /**

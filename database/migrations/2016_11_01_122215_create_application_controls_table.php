@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateApplicationControlsTable extends Migration
 {
@@ -36,6 +36,7 @@ class CreateApplicationControlsTable extends Migration
             $table->string('name_admin');
             $table->string('position_admin');
             $table->string('phone_admin');
+            $table->boolean('state')->default(false);
             $table->timestamps();
         });
     }

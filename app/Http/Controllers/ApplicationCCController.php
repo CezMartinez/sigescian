@@ -17,7 +17,7 @@ class ApplicationCCController extends Controller
     public function index()
     {
         $applications = ApplicationControl::fetchAll();
-        return $applications;//view('applications.controlc.index',compact($applications));
+        return  view('applications.controlc.index',compact('applications'));
     }
 
     /**
