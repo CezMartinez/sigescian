@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateApplicationFrotisTable extends Migration
 {
@@ -21,7 +21,7 @@ class CreateApplicationFrotisTable extends Migration
             $table->string('email');
             $table->boolean('frotis')->default(false);
             $table->boolean('radiation')->default(false);
-            $table->boolean('state')->default(false);
+            $table->integer('state')->default(0);
             $table->timestamps();
         });
     }

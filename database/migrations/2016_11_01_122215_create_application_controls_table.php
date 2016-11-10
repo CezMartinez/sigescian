@@ -36,7 +36,7 @@ class CreateApplicationControlsTable extends Migration
             $table->string('name_admin');
             $table->string('position_admin');
             $table->string('phone_admin');
-            $table->boolean('state')->default(false);
+            $table->integer('state')->default(0);
             $table->timestamps();
         });
     }

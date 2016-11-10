@@ -37,7 +37,8 @@ class CreateExternalDosimetriesTable extends Migration
             $table->string('phone_admin');
             $table->integer('pd_number')->nullable();
             $table->integer('anillo_number')->nullable();
-            $table->boolean('state')->default(false);
+            $table->integer('state')->default(0);
+
             $table->timestamps();
         });
     }
