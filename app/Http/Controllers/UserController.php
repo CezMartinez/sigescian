@@ -198,10 +198,9 @@ class UserController extends Controller
 
         $user->password = Hash::make($request->input('password_new'));
         $user->save();
+        flash('La contraseña ha sido modificada','success');
 
-        return redirect()->back()
-            ->with('success-message', 'La contraseña ha sido modificada');
-        dd($request->all());
+        return redirect()->back();
     }
 
 
