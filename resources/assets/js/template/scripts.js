@@ -43,6 +43,5 @@ function removerElemento(){
 
 //parte de mascaras
 $( document ).ready(function() {
-    $(".tipofecha").mask('00/00/0000');
-    $(".otro").mask('AAA 000-S0S');
+    console.log(ready);
 });

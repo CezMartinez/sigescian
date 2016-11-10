@@ -47,7 +47,7 @@ elixir(function(mix) {
             'template/flash-message.js',
             'template/dropzone.js',
             'template/select2.js',
-            'template/jquery.mask.js',
+
             'template/bootstrap.js',],'./public/js/template.js')
         .scripts([
             'AdministrativeScript.js'
