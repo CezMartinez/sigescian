@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 trait AddFilesTrait
 {
 
+    public function versionate(){
+        return $this->belongsToMany(ProcedureDocument::class,'procedure_document_version','procedure_id','document_id')
+                    ->withPivot(['version','user_id']);
+    }
+
     public function documentProcedure()
     {
         return $this->procedureDocument()->get();
@@ -120,11 +125,14 @@ trait AddFilesTrait
         return (str_replace($originalAcronym, strtoupper(trim($acronym)), $originalCode));
     }
 
-    public function addFilesToProcedure(Request $request)
+    public function addFilesToProcedure(Request $request,$typeFile=null)
     {
         $procedure_type = $this->procedureType($request->url());
-        $typeFile = $request->input('type');
+        if($typeFile == null){
+            $typeFile = $request->input('type');
+        }
         $file = $request->file('file');
+
 
         $extension = $file->getClientOriginalExtension();
         $clientName = time() . $file->getClientOriginalName();
@@ -148,29 +156,6 @@ trait AddFilesTrait
 
             return $answer;
 
-        } elseif ($typeFile == 2) {//Flujograma
-            $path = $file->storeAs(
-                "archivos/procedimientos/$procedure_type/flujograma", $clientName, 'public'
-            );
-            $flowchartNew = FlowChartFile::create([
-                'path' => $path,
-                'originalName' => $clientName,
-                'nameWithoutExtension' => $nameWithoutExtension,
-                'title' => $title,
-                'extension' => $extension,
-                'size' => $size,
-                'mime' => $mime,
-            ]);
-            if ($request->ajax()) {
-                if ($this->onlyOne('flowChartFile')) {
-                    return $this->answer("Error, los procedimientos solo aceptan 1 archivo del tipo seleccionado", "500");
-                };
-            }
-            $this->flowChartFile()->associate($flowchartNew);
-            $this->save();
-
-            return $this->answer("Flujograma agregado con exito", "200");
-
         } elseif ($typeFile == 3) {//anexo
             $path = $file->storeAs(
                 "archivos/procedimientos/$procedure_type/anexos", $clientName, 'public'
@@ -188,28 +173,16 @@ trait AddFilesTrait
             $path = $file->storeAs(
                 "archivos/procedimientos/$procedure_type/procedimientos", $clientName, 'public'
             );
-            $document = ProcedureDocument::create([
-                'path' => $path,
-                'originalName' => $clientName,
-                'nameWithoutExtension' => $nameWithoutExtension,
-                'title' => $title,
-                'extension' => $extension,
-                'size' => $size,
-                'mime' => $mime,
-            ]);
 
-            if ($request->ajax()) {
-                if ($this->onlyOne('procedureDocument')) {
-                    return $this->answer("Error los procedimientos solo aceptan 1 archivo del tipo seleccionado", "500");
-                };
+            $answer = $this->addProcedureDocument($path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime);
+
+
+            if ($answer["status"] != "200") {
+                Storage::delete("archivos/procedimientos/$procedure_type/procedimientos/$clientName");
+                return $answer;
             }
-            $this->procedureDocument()->dissociate();
 
-            $this->procedureDocument()->associate($document);
-
-            $this->save();
-
-            return $this->answer("El documentos de procedimiento fue agregado correctamente", "200");
+            return $answer;
         } else {
             return $this->answer("No ha seleccionado el tipo de archivo que desea subir", "404");
         }
@@ -275,13 +248,50 @@ trait AddFilesTrait
             $query->where('owner', true);
         }])->where('title', $title)->first();
 
+        $procedure = ProcedureDocument::with('technicianProcedure','administrativeProcedure')->where('title',$title)->first();
+
         if (!is_null($formato)) {
             return $formato;
         } elseif ($anexo) {
             return $anexo;
+        }elseif ($procedure){
+            return $procedure;
+        }
+    }
+
+    public function addProcedureDocument($path, $clientName, $nameWithoutExtension, $title, $extension, $size, $mime){
+
+        $answer = $this->verifyForDuplicatedFile($title, 'archivo de procedimiento');
+
+        if($answer){
+            return $answer;
         }
 
-        return null;
+        if ($this->onlyOne('procedureDocument')) {
+            return $this->answer("Error los procedimientos solo aceptan 1 archivo del tipo seleccionado", "500");
+        };
+
+        $document = ProcedureDocument::create([
+            'path' => $path,
+            'originalName' => $clientName,
+            'nameWithoutExtension' => $nameWithoutExtension,
+            'title' => $title,
+            'extension' => $extension,
+            'size' => $size,
+            'mime' => $mime,
+        ]);
+
+
+
+        $this->procedureDocument()->dissociate();
+
+        $this->procedureDocument()->associate($document);
+
+        $this->save();
+
+
+        return $this->answer("El procedimiento se creo correctamente", "200");
+
     }
 
 
@@ -332,19 +342,30 @@ trait AddFilesTrait
     {
         if ($archivo = $this->searchForExistingFiles($title)) {
             if (count($archivo->administrativeProcedure) == 1) {
-                foreach ($archivo->administrativeProcedure as $procedure) {
-                    return $this->answer("Este $file_type ya existe y esta asociado con  " . "\"" . $procedure->name . "\"" . "", "501", $archivo->first());
+                if(is_a( $archivo->administrativeProcedure, "Illuminate\\Database\\Eloquent\\Collection")){
+                    foreach ($archivo->administrativeProcedure as $procedure) {
+                        return $this->answer("Este $file_type ya existe y esta asociado con  " . "\"" . $procedure->name . "\"" . "", "501",$archivo->first());
+                    }
+                }else{
+                    return $this->answer("Este $file_type ya existe y esta asociado con  " . "\"" . $archivo->administrativeProcedure->name . "\"" . "", "501",$archivo->first());
                 }
             } elseif (count($archivo->technicianProcedure) == 1) {
-                foreach ($archivo->technicianProcedure as $procedure) {
-                    return $this->answer("Este $file_type ya existe y esta asociado con  " . "\"" . $procedure->name . "\"" . "", "501", $archivo->first());
+                if(is_a($archivo->technicianProcedure, "Illuminate\\Database\\Eloquent\\Collection")){
+                    foreach ($archivo->technicianProcedure as $procedure) {
+                        return $this->answer("Este $file_type ya existe y esta asociado con  " . "\"" . $archivo->technicianProcedure->name . "\"" . "", "501",$archivo->first());
+                    }
+                }else{
+                    return $this->answer("Este $file_type ya existe y esta asociado con  " . "\"" . $archivo->technicianProcedure->name . "\"" . "", "501",$archivo->first());
                 }
-            } else {
+            }
+            else {
                 return $this->answer("Este $file_type ya existe y puede que este obsoleto", "501");
             }
         }
         return null;
     }
+
+
 }
 
 use Illuminate\Database\Eloquent\Model;

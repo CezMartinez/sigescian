@@ -54,16 +54,22 @@ class AdministrativeController extends Controller
      */
     public function store(Request $request)
     {
-        
         $this->validateCreateProcedure($request->all());
 
         $procedure = AdministrativeProcedure::createNewProcedure($request);
-        
+
         if($request->has('subsection')){
             $procedure->addSubSections($request->input('subsection'));
         }
 
-        flash('Procedimiento Guardado', 'success');
+        $response = $procedure->addFilesToProcedure($request,4);
+
+
+        if ($response["status"] != "200") {
+            flash($response['message'], 'danger')->important();
+            $procedure->delete();
+            return back()->withInput();
+        }
 
         return redirect("/procedimientos/administrativos/{$procedure->id}");
     }
@@ -148,6 +154,7 @@ class AdministrativeController extends Controller
         return Validator::make($data,[
             'name' =>'required',
             'acronym' => 'required|unique:administrative_procedures,acronym',
+            'file'=> 'required|mimes:doc,docx,pdf',
             'politic' => 'required'
         ])->validate();
     }

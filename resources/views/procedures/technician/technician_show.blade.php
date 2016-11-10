@@ -32,10 +32,8 @@
                 </div>
             </div>
             <hr>
-            <h2>Seleccione el tipo de archivo que desea subir al sistema:</h2>
+            <h4>Seleccione el tipo de archivo que desea subir al sistema:</h4>
             <div>
-                <input type="radio" name="type" value="4" class="type">
-                <label for="type">Documento del Procedimiento</label>
                 <input type="radio" name="type" value="1" class="type">
                 <label for="type">Formatos </label>
                 <input type="radio" name="type" value="3" class="type">
@@ -107,13 +105,13 @@
                                             {{$file->title}}
                                         </a>
 
-                                        <i class="fa fa-times pull-right"
+                                       {{-- <i class="fa fa-times pull-right"
                                            onclick="deleteFile(
                                                    '{{$file->title}}',
                                                    '{{$tecnico->id}}',
                                                    '{{$file->id}}',
                                                    'procedimiento',
-                                                   '/procedimiento/archivos/procedimiento/')"></i>
+                                                   '/procedimiento/archivos/procedimiento/')"></i>--}}
                                     </li>
                                 @endforeach
                             @else

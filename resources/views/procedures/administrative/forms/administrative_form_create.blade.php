@@ -1,4 +1,4 @@
-<form action="/procedimientos/administrativos" method="POST">
+<form action="/procedimientos/administrativos" method="POST" enctype="multipart/form-data">
 {{csrf_field()}}
 <!-- name Form Input -->
     <div class="form-group {{$errors->has('name') ? 'has-error': ''}} ">
@@ -25,7 +25,7 @@
     {{-- politics --}}
     <div class="form-group {{$errors->has('politic') ? 'has-error': ''}}">
         <label for="politic" class="control-label">Política:</label>
-        <textarea rows="5" name="politic" class="form-control" placeholder="Describa las politicas que definen este procedimiento" required autofocus>{{old('politic')}}</textarea>
+        <textarea rows="2" name="politic" class="form-control" placeholder="Describa las politicas que definen este procedimiento" required autofocus>{{old('politic')}}</textarea>
         @if ($errors->has('politic'))
             <span class="help-block">
                 <strong>{{ $errors->first('politic') }}</strong>
@@ -52,6 +52,17 @@
             <span class="help-block">
                 <strong>{{ $errors->first('subsection') }}</strong>
             </span>
+        @endif
+    </div>
+
+    <!-- file Form Input -->
+    <div class="form-group {{$errors->has('file') ? 'has-error': ''}}">
+        <label for="file" class="control-label">Archivo del Procedimiento:</label>
+        <input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" value="{{old('file')}}" required>
+        @if ($errors->has('file'))
+            <span class="help-block">
+                    <strong>{{ $errors->first('file') }}</strong>
+                </span>
         @endif
     </div>
 

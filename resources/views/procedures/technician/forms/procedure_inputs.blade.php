@@ -1,5 +1,5 @@
 {{csrf_field()}}
-        <!-- name Form Input -->
+<!-- name Form Input -->
 <div class="form-group {{$errors->has('name') ? 'has-error': ''}} ">
     <label for="name" class="control-label">Nombre del procedimiento:</label>
     <input type="text" name="name" class="form-control" value="{{old('name')}} " autofocus
@@ -49,5 +49,16 @@
         <span class="help-block">
                 <strong>{{ $errors->first('subsection') }}</strong>
             </span>
+    @endif
+</div>
+
+<!-- acronym Form Input -->
+<div class="form-group {{$errors->has('file') ? 'has-error': ''}}">
+    <label for="file" class="control-label">Archivo del Procedimiento:</label>
+    <input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" value="{{old('file')}}" required>
+    @if ($errors->has('file'))
+        <span class="help-block">
+                    <strong>{{ $errors->first('file') }}</strong>
+                </span>
     @endif
 </div>
