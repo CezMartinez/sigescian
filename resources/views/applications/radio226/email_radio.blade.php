@@ -15818,9 +15818,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-12">
-                        @include('applications.controlc.header')
-                        <hr>
-                        @include('applications.controlc.forms.form_email_controlc')
+                        @include('applications.radio226.header')
+                        <br>
+                        @include('applications.radio226.forms.form_email_226')
                     </div>
                 </div>
 

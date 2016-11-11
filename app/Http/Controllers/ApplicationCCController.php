@@ -6,9 +6,16 @@ use App\Model\Activity;
 use App\Model\ApplicationControl;
 use App\Model\CustomerType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicationCCController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +24,7 @@ class ApplicationCCController extends Controller
     public function index()
     {
         $applications = ApplicationControl::fetchAll();
-        return $applications;//view('applications.controlc.index',compact($applications));
+        return  view('applications.controlc.index',compact('applications'));
     }
 
     /**
@@ -40,12 +47,36 @@ class ApplicationCCController extends Controller
      */
     public function store(Request $request)
     {
-        $request['state']=false;
+        $request['state']=0;
         $tipo = CustomerType::findOrFail($request->input('customer_id'));
         $activi = Activity::findOrFail($request->input('activity_id'));
         flash('Solicitud Registrada', 'success');
-        ApplicationControl::createSolicitude($request->all(),$tipo, $activi);
+        $apply = ApplicationControl::createSolicitude($request->all(),$tipo, $activi);
+        Mail::queue('applications.controlc.email_controlc', ['apply'=>$apply,'tipo'=>$tipo,'activi'=>$activi], function ($mail) use ($apply) {
+            $mail->to($apply->email)
+                ->from('servicioscianfia@gmail.com', 'Solicitud de Servicio de Control de Calidad')
+                ->subject('Servicio de Control de Calidad');
+        });
         return redirect("/servicios/control-de-calidad/");
+    }
+
+    public function confirmar($id){
+        $apply = ApplicationControl::findOrFail($id);
+        $cadena="Servicio de Control de Calidad";
+        return view('applications.confirm',compact('apply','cadena'));
+    }
+
+    public function aceptar($id){
+        $apply = ApplicationControl::findOrFail($id);
+        $apply['state']=1;
+        $apply->update();
+        return view('applications.response');
+    }
+    public function rechazar($id){
+        $apply = ApplicationControl::findOrFail($id);
+        $apply['state']=2;
+        $apply->update();
+        return view('applications.response');
     }
 
 }

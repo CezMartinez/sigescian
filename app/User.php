@@ -5,6 +5,7 @@ namespace App;
 use App\Model\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
@@ -173,6 +174,13 @@ class User extends Authenticatable
             }
         }
         return false;
+    }
+
+    public static function profile()
+    {
+        $id = Auth::user()->id;
+
+        return User::with('roles')->where('id',$id)->first();
     }
 
 

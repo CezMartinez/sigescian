@@ -159,5 +159,16 @@ class PermissionsTableSeeder extends Seeder
             'slug' => 'ver-procedimientos-tecnicos',
         ]);
 
+        /**---------Solicitudes--------**/
+
+        DB::table('permissions')->insert([
+            'name' => 'Crear Solicitudes',
+            'slug' => 'crear-solicitudes',
+        ]);
+        DB::table('permissions')->insert([
+            'name' => 'Ver Solicitudes',
+            'slug' => 'ver-solicitudes',
+        ]);
+
     }
 }

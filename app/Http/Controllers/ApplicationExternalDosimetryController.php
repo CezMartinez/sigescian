@@ -6,9 +6,16 @@ use App\Model\Activity;
 use App\Model\CustomerType;
 use App\Model\ExternalDosimetry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicationExternalDosimetryController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +24,7 @@ class ApplicationExternalDosimetryController extends Controller
     public function index()
     {
         $applications = ExternalDosimetry::fetchAll();
-        return $applications;//view('applications.controlc.index',compact($applications));
+        return view('applications.dosimetry.index',compact('applications'));
     }
 
     /**
@@ -40,7 +47,7 @@ class ApplicationExternalDosimetryController extends Controller
      */
     public function store(Request $request)
     {
-        $request['state']=false;
+        $request['state']=0;
         $tipo = CustomerType::findOrFail($request->input('customer_id'));
         $activi = Activity::findOrFail($request->input('activity_id'));
 
@@ -50,9 +57,35 @@ class ApplicationExternalDosimetryController extends Controller
         if(!$request->has('anillo')){
             $request['anillo_number']=null;
         }
+        $request['state']=false;
         flash('Solicitud Registrada', 'success');
-        ExternalDosimetry::createSolicitude($request->all(),$tipo, $activi);
-        return redirect("/servicios/dosimetria-personal-externa/");
+        $apply = ExternalDosimetry::createSolicitude($request->all(),$tipo, $activi);
+        Mail::queue('applications.dosimetry.email_dosimetry', ['apply'=>$apply,'tipo'=>$tipo,'activi'=>$activi], function ($mail) use ($apply) {
+            $mail->to($apply->email)
+                ->from('servicioscianfia@gmail.com', 'Solicitud de Dosimetria Personal Externa')
+                ->subject('Servicio de Dosimetria Personal Externa');
+        });
+        return redirect("/servicios/control-de-calidad/");
+        //return redirect("/servicios/dosimetria-personal-externa/");
+    }
+
+    public function confirmar($id){
+        $apply = ExternalDosimetry::findOrFail($id);
+        $cadena="Servicio de Dosimetria Personal Externa";
+        return view('applications.confirm',compact('cadena','apply'));
+    }
+
+    public function aceptar($id){
+        $apply = ExternalDosimetry::findOrFail($id);
+        $apply['state']=1;
+        $apply->update();
+        return view('applications.response');
+    }
+    public function rechazar($id){
+        $apply = ExternalDosimetry::findOrFail($id);
+        $apply['state']=2;
+        $apply->update();
+        return view('applications.response');
     }
 
 }

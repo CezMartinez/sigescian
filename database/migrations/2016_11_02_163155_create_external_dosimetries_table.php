@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateExternalDosimetriesTable extends Migration
 {
@@ -27,6 +27,7 @@ class CreateExternalDosimetriesTable extends Migration
             $table->string('email');
             $table->string('responsable');
             $table->string('position');
+            $table->string('dui');
             $table->integer('activity_id')->unsigned()->index();
             $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
             $table->string('name_visit');
@@ -37,6 +38,8 @@ class CreateExternalDosimetriesTable extends Migration
             $table->string('phone_admin');
             $table->integer('pd_number')->nullable();
             $table->integer('anillo_number')->nullable();
+            $table->integer('state')->default(0);
+
             $table->timestamps();
         });
     }

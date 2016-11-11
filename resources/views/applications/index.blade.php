@@ -10,15 +10,20 @@
             <th>
                 Servicio
             </th>
-            <th>
-                Acciones
-            </th>
+            @if(Auth::user()->canSeeIf(['crear-solicitudes']))
+                <th>
+                    Acciones
+                </th>
+            @endif
+
             </thead>
             <tbody>
             @foreach($solicitudes as $s)
             <tr>
                 <td><a href="/servicios/{{$s->slug}}">{{$s->name}}</a></td>
-                <td><a href="/servicios/{{$s->slug}}/create" class="btn btn-primary">Registrar</a></td>
+                @if(Auth::user()->canSeeIf(['crear-solicitudes']))
+                    <td><a href="/servicios/{{$s->slug}}/create" class="btn btn-primary">Registrar Solicitud</a></td>
+                @endif
             </tr>
             @endforeach
             </tbody>
