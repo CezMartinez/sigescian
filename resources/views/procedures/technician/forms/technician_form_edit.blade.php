@@ -1,5 +1,5 @@
 <div class="row">
-    <form action="/procedimientos/tecnicos/{{$procedure->id}}" method="POST">
+    <form action="/procedimientos/tecnicos/{{$procedure->id}}" method="POST" enctype="multipart/form-data">
         <div class="col-md-6">
             {{method_field('PUT')}}
             {{csrf_field()}}
@@ -47,16 +47,42 @@
             @endif
         </div>
 
-                <!-- file Form Input -->
-                <div class="form-group {{$errors->has('file') ? 'has-error': ''}}">
-                    <label for="file" class="control-label">Archivo del Procedimiento:</label>
-                    <input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" value="{{old('file')}}" required>
-                    @if ($errors->has('file'))
-                        <span class="help-block">
-                    <strong>{{ $errors->first('file') }}</strong>
-                </span>
+        <div class="document-file">
+            <ul class="list-group" id="lista_procedimiento">
+                <label for="file" class="control-label">Archivo del Procedimiento:</label>
+                <div class="lista-procedimientos">
+                    @if($procedure->procedureDocument()->count() > 0 )
+                        @foreach($procedure->procedureDocument()->get() as $file)
+
+                            <li id="file-procedimiento-{{$file->id}}"
+                                class="list-group-item list-group-item-info">
+
+                                <a target="_blank" href="/archivos/procedimientos/4/2/{{$file->originalName}}">
+                                    {{$file->title}}
+                                </a>
+
+                                <i class="fa fa-times pull-right"
+                                        onclick="deleteFile(
+                                                '{{$file->title}}',
+                                                '{{$procedure->id}}',
+                                                '{{$file->id}}',
+                                                'procedimiento',
+                                                '/procedimiento/archivos/procedimiento/')"></i>
+                            </li>
+                        @endforeach
+                    @else
+                        <div class="form-group {{$errors->has('file') ? 'has-error': ''}}">
+                            <input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" value="{{old('file')}}" required>
+                            @if ($errors->has('file'))
+                                <span class="help-block">
+                                <strong>{{ $errors->first('file') }}</strong>
+                            </span>
+                            @endif
+                        </div>
                     @endif
                 </div>
+            </ul>
+        </div>
 
         <div class="form-group {{$errors->has('state') ? 'has-error': ''}} ">
             <label for="state" class="control-label">Estado: </label>

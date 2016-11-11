@@ -19,6 +19,7 @@ class CreateProcedureDocumentVersionTable extends Migration
             $table->integer('document_id');
             $table->integer('user_id');
             $table->integer('version');
+            $table->string('procedure_type');
             $table->timestamps();
         });
     }

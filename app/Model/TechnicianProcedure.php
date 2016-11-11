@@ -74,9 +74,9 @@ class TechnicianProcedure extends Model implements ProcedureInterface
             $this->state = '1';
         }
 
-        if ($this->nameChanged()) {
+        if($this->nameChanged()){
             if ($this->exists($request->input('name'))) {
-                return ['hasError' => true, 'message' => "El nombre {$request->input('name')} ya existe"];
+                return $this->answer('Ya existe un procedimiento con este nombre',404);
             }
         }
 
@@ -94,15 +94,21 @@ class TechnicianProcedure extends Model implements ProcedureInterface
         }
 
 
-        $this->save();
+        $saved = $this->save();
 
         $this->updateInstructions($instructions);
 
+        if($saved){
+            if($request->exists('file')){
+                $answer = $this->addFilesToProcedure($request,4);
+                return $answer;
+            }
 
-        return [
-            'hasError' => false,
-            'message' => "El procedimiento fue actualizado correctamente"
-        ];
+            return $this->answer("El procedimiento se actualizo correctamente",200);
+
+        }else{
+            return $this->answer("El procedimiento no se actualizo correctamente",200);
+        }
     }
 
     public function generateInstructions($instructions, $id_instructions = null)
