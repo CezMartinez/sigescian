@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="csrf_token" content="{{ csrf_token() }}">
     <title>SIGESCIAN</title>
+    <link rel="icon" type="image/png" href="/images/icon.png" />
     <link rel="stylesheet" href="/css/template.css">
 
     <script type="application/x-javascript">
