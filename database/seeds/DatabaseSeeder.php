@@ -20,10 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ServiceTableSeeder::class);
         $this->call(SectionTableSeeder::class);
         $this->call(SubSectionsTableSeeder::class);
-        $this->call(DepartmentsTableSeeder::class);
-        $this->call(LaboratoriesTableSeeder::class);
-        $this->call(EquipmentTableSeeder::class);
-        $this->call(MaterialsTableSeeder::class);
         $this->call(AdministrativeProcedureTableSeeder::class);
     }
 }

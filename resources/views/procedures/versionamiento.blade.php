@@ -9,9 +9,9 @@
         <table class="table table-bordered table-hover">
             <thead>
             <th>Nombre del documento</th>
-            <th>realizado por</th>
-            <th>version</th>
-            <th>Fecha de eliminacion</th>
+            <th>Realizado por</th>
+            <th>Versión</th>
+            <th>Fecha de versionamiento</th>
             </thead>
             <tbody>
                 @foreach($procedures as $procedure)
