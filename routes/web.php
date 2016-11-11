@@ -90,6 +90,7 @@ Route::get('laboratorios/{slug}/edit','LaboratoryController@edit')->middleware('
 Route::group(['middleware' => ['permission:crear-procedimientos-generales,ver-procedimientos-generales,editar-procedimientos-generales']], function () {
     Route::resource('procedimientos/administrativos', 'AdministrativeController');
 });
+Route::get('/procedimientos/{procedure_type}/{procedure_id}/versionamiento',"AdministrativeController@versionamiento");
 Route::get('subsecciones/{seccion}',function(Section $seccion){
     return $seccion->subsections()->get()->pluck('section','id')->toArray();
 });

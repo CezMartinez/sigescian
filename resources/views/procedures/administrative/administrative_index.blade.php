@@ -53,6 +53,11 @@
 									   class="fa fa-lg fa-pencil"
 									   data-toggle="tooltip"
 									   title="Editar!"></a>
+									<a href="/procedimientos/administrativos/{{$admin->id}}/versionamiento"
+									   class="fa fa-lg fa-book"
+									   data-toggle="tooltip"
+									   style="margin-left: 0.5em"
+									   title="Versionamiento!"></a>
 								</div>
 							</td>
 						@endif

@@ -1,4 +1,4 @@
-<form action="/procedimientos/administrativos/{{$procedure->id}}" method="POST">
+<form action="/procedimientos/administrativos/{{$procedure->id}}" method="POST" id="update_proceodure" enctype="multipart/form-data">
 {{method_field('PUT')}}
 {{csrf_field()}}
 
@@ -57,11 +57,45 @@
         @endif
     </div>
 
+        <div class="document-file">
+            <ul class="list-group" id="lista_procedimiento">
+                <label for="file" class="control-label">Archivo del Procedimiento:</label>
+                <div class="lista-procedimientos">
+                    @if($procedure->procedureDocument()->count() > 0 )
+                        @foreach($procedure->procedureDocument()->get() as $file)
+
+                            <li id="file-procedimiento-{{$file->id}}"
+                                class="list-group-item list-group-item-info">
+
+                                <a target="_blank" href="/archivos/procedimientos/4/2/{{$file->originalName}}">
+                                    {{$file->title}}
+                                </a>
+
+                                <i class="fa fa-times pull-right"
+                                   onclick="deleteFile  (
+                                           '{{$file->title}}',
+                                           '{{$procedure->id}}',
+                                           '{{$file->id}}',
+                                           'procedimiento',
+                                           '/procedimiento/archivos/procedimiento/')"></i>
+                            </li>
+                        @endforeach
+                    @else
+                        <div class="form-group {{$errors->has('file') ? 'has-error': ''}}">
+                            <input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" value="{{old('file')}}" required>
+                            @if ($errors->has('file'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('file') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+            </ul>
+        </div>
 
 
-
-
-    <div class="form-group {{$errors->has('state') ? 'has-error': ''}} ">
+        <div class="form-group {{$errors->has('state') ? 'has-error': ''}} ">
         <label for="state" class="control-label">Estado: </label>
         {{Form::checkbox('state',null,$procedure->state)}}
     </div>
@@ -96,6 +130,55 @@
                 subsection.attr('readonly',true)
             }
         }
+
+        function deleteFile(nameFile,idProcedure,idAnnexedFile,tipo, url){
+            var csrf = $("meta[name='csrf_token']").attr('content');
+
+            swal({
+                        title: "¿Esta seguro de eliminar "+nameFile+"?",
+                        text: "Si elimina este documento también será eliminada la relación con el procedimiento dejando el documento como obsoleto sin que esto pueda ser revertido ¿Desea continuar?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3c3cf2",
+                        confirmButtonText: "Eliminar",
+                        cancelButtonText: "Cancelar",
+                        closeOnConfirm:true,
+                        closeOnCancel:true,
+                    },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            $.ajax({
+                                type:'DELETE',
+                                url:url+idProcedure+'/'+idAnnexedFile+'/1',
+                                headers: {
+                                    'X-CSRF-Token': csrf,
+                                },
+                                success: function(data){
+
+                                },
+                            })
+                            .done(function(data){
+                                $("#lista_procedimiento").remove();
+                                var document_element = $(".document-file");
+                                document_element.append(
+                                    '<div class="form-group">' +
+                                    '<input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" required>'+
+                                    '</div>'
+                                )
+                            })
+                            .error(function(data){
+                                swal("Error",data.responseText,"error");
+                            });
+                        }else {
+                            swal("Cancelado","El registro no ha sido modificado.","error");
+                        }
+                    });
+        }
+
+
+
+
+
     </script>
 
 @endsection

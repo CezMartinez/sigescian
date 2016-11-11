@@ -19,6 +19,7 @@ class CreateTechnicianProceduresTable extends Migration
             $table->integer('correlative')->unsigned();
             $table->string('name');
             $table->string('acronym')->unique();
+            $table->integer('version')->unsigned();
             $table->boolean('state')->default(true);
             $table->integer('laboratory_id')->unsigned();
             $table->foreign('laboratory_id')->references('id')->on('laboratories')->onDelete('cascade');
