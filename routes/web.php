@@ -32,6 +32,9 @@ Route::group(['middleware' => ['permission:crear-roles,ver-roles']], function ()
 Route::delete('administracion/roles/{role}','RolesController@destroy')->middleware('permission:eliminar-roles');
 Route::get('administracion/roles/{slug}/edit','RolesController@edit')->middleware('permission:editar-roles');
 
+/**------------------------------------------- Perfil -----------------------------------------------------**/
+Route::get('profile', 'UserController@profile');
+Route::post('profile/{id}/change','UserController@change');
 
 
 /**---------------------------------------------- Usuarios ------------------------------------------------**/

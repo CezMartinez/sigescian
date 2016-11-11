@@ -17,7 +17,7 @@ class ApplicationExternalDosimetryController extends Controller
     public function index()
     {
         $applications = ExternalDosimetry::fetchAll();
-        return $applications;//view('applications.controlc.index',compact($applications));
+        return view('applications.dosimetry.index',compact('applications'));
     }
 
     /**
@@ -50,6 +50,7 @@ class ApplicationExternalDosimetryController extends Controller
         if(!$request->has('anillo')){
             $request['anillo_number']=null;
         }
+        $request['state']=false;
         flash('Solicitud Registrada', 'success');
         ExternalDosimetry::createSolicitude($request->all(),$tipo, $activi);
         return redirect("/servicios/dosimetria-personal-externa/");

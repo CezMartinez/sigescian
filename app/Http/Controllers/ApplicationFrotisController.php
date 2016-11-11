@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests;
 use App\Model\ApplicationFrotis;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class ApplicationFrotisController extends Controller
 {
@@ -17,7 +16,7 @@ class ApplicationFrotisController extends Controller
     public function index()
     {
         $applications = ApplicationFrotis::fetchAll();
-        return view('applications.frotis.index',compact($applications));
+        return view('applications.frotis_radiacion.index',compact('applications'));
     }
 
     /**

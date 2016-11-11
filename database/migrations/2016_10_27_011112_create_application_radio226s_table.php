@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateApplicationRadio226sTable extends Migration
 {
@@ -23,7 +23,7 @@ class CreateApplicationRadio226sTable extends Migration
             $table->integer('samples')->nullable();
             $table->float('liters')->nullable();
             $table->float('gallons')->nullable();
-            $table->boolean('state')->default(false);
+            $table->integer('state')->default(0);
             $table->timestamps();
         });
     }
