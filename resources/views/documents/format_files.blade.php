@@ -5,16 +5,18 @@
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead>
-            <th>Titulo</th>
+            <th>Título</th>
             <th>Formato</th>
             <th>Peso</th>
-            <th>Procedimiento Asociados</th>
+            <th>Procedimientos Asociados</th>
             </thead>
             <tbody>
             @foreach($files as $file)
                 <tr>
                     <td>
-                        <p>{{$file->title}}</p>
+                        <a  target="_blank" href="/archivos/procedimientos/1/1/{{$file->originalName}}">
+                            {{$file->title}}
+                        </a>
                     </td>
                     <td>
                         <p>{{$file->extension}}</p>

@@ -13,6 +13,11 @@ use App\Model\Laboratory;
 
 class MainListController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function showAll()
     {
 
@@ -38,13 +43,6 @@ class MainListController extends Controller
         $search = request()->get('search');
 
         if ($search!=''){
-/*
-            $adminproceds = AdministrativeProcedure::where('name','like','%'.$search.'%')->get();
-
-            $techproceds = TechnicianProcedure::where('name','like','%'.$search.'%')->get();
-
-            return view('mainlist.search_list', compact('adminproceds','techproceds'));
-*/
 
                 $administrativo = AdministrativeProcedure::with(['flowChartFile','annexedFiles','formatFiles','section','subSections'])
                     ->where('name','like','%'.$search.'%')

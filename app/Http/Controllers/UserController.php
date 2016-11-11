@@ -63,7 +63,7 @@ class UserController extends Controller
             $user->roles()->sync($rolesIds);
         }
 
-        flash('usuario creado exitosamente','success');
+        flash('Usuario creado exitosamente','success');
 
         return redirect('administracion/usuarios');
 

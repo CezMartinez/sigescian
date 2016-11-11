@@ -121,13 +121,12 @@ class AdministrativeController extends Controller
      */
     public function update(Request $request,AdministrativeProcedure $administrativo)
     {
-
         $this->validateUpdateProcedure($request->all(),$administrativo);
 
         $answer = $administrativo->updateProcedure($request);
 
         if($answer['status'] != "200") {
-            
+
             flash($answer['message'], 'danger')->important();
 
             return back()->withInput();

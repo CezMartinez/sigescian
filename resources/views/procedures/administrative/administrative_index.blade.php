@@ -57,7 +57,7 @@
 									   class="fa fa-lg fa-book"
 									   data-toggle="tooltip"
 									   style="margin-left: 0.5em"
-									   title="Versionamiento!"></a>
+									   title="Consultar Versiones"></a>
 								</div>
 							</td>
 						@endif

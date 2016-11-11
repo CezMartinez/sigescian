@@ -23,7 +23,6 @@
                 <ul id="menu-academico-sub" >
                     <li id="menu-academico-procedimientos" ><a href="/documentos/procedimiento">Procedimientos</a></li>
                     <li id="menu-academico-boletim" ><a href="/documentos/anexos">Anexos</a></li>
-                    <li id="menu-academico-avaliacoes" ><a href="/documentos/flujograma">Flujogramas</a></li>
                     <li id="menu-academico-avaliacoes" ><a href="/documentos/formatos">Formatos</a></li>
                 </ul>
             </li>

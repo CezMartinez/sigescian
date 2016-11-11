@@ -25,12 +25,9 @@
             }else{
                 swal("Error","Todos los campos son requeridos","error");
             }
-
-
-
         }
 
-
+        $('input[type=number]').numeric();
 
         function mostrarMensaje(fecha,dias,compania){
 
@@ -45,7 +42,6 @@
                         confirmButtonText: "Calibrar",
                         cancelButtonText: "Cancelar",
                         closeOnConfirm:true,
-                        closeOnCancel:true,
                     },
                     function(isConfirm){
                         if (isConfirm) {
