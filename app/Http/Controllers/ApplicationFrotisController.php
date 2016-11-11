@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class ApplicationFrotisController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -49,8 +56,16 @@ class ApplicationFrotisController extends Controller
             $request['radiation']=true;
         }
         flash('Solicitud Registrada', 'success');
-        ApplicationFrotis::createSolicitude($request->all());
-        return redirect("/servicios/frotis-radiacion/");
+        $apply=ApplicationFrotis::createSolicitude($request->all());
+        return view('applications.frotis_radiacion.email_frotis',compact('apply'));
+
+      //  return redirect("/servicios/frotis-radiacion/");
+    }
+
+    public function confirmar($id){
+        $apply = ApplicationFrotis::findOrFail($id);
+        $cadena="Servicio de Prueba de Frotis y Radiacion";
+        return view('applications.confirm_other',compact('apply','cadena'));
     }
 
 }

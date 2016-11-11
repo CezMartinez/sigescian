@@ -89,7 +89,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group {{$errors->has('responsable') ? 'has-error': ''}} ">
                         <label for="responsable">Responsable:</label>
                         <input type="text" name="responsable" class="form-control" value="{{old('responsable')}}" placeholder="Juan Perez" required autofocus>
@@ -98,7 +98,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group {{$errors->has('position') ? 'has-error': ''}} ">
                         <label for="position">Cargo:</label>
                         <input type="position" name="position" class="form-control" value="{{old('position')}}" placeholder="Tecnico de Rayos X" required autofocus>
@@ -107,7 +107,16 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <div class="form-group {{$errors->has('dui') ? 'has-error': ''}} ">
+                        <label for="dui">DUI:</label>
+                        <input type="dui" name="dui" class="form-control" value="{{old('dui')}}" placeholder="03774811-2" required autofocus>
+                        @if ($errors->has('dui'))
+                            <span class="help-block"><strong>{{ $errors->first('dui') }}</strong></span>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-md-3">
                     <div class="form-group {{$errors->has('activity_id') ? 'has-error': ''}} ">
                         <label for="activity_id">Actividad:</label>
                         {!! Form::select('activity_id',$actividad,null,['class' => 'form-control']) !!}

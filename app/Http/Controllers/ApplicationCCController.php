@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class ApplicationCCController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,12 +46,19 @@ class ApplicationCCController extends Controller
      */
     public function store(Request $request)
     {
-        $request['state']=false;
+        $request['state']=0;
         $tipo = CustomerType::findOrFail($request->input('customer_id'));
         $activi = Activity::findOrFail($request->input('activity_id'));
         flash('Solicitud Registrada', 'success');
-        ApplicationControl::createSolicitude($request->all(),$tipo, $activi);
-        return redirect("/servicios/control-de-calidad/");
+        $apply = ApplicationControl::createSolicitude($request->all(),$tipo, $activi);
+        return view('applications.controlc.email_controlc',compact('apply','tipo','activi'));
+        //return redirect("/servicios/control-de-calidad/");
+    }
+
+    public function confirmar($id){
+        $apply = ApplicationControl::findOrFail($id);
+        $cadena="Servicio de Control de Calidad";
+        return view('applications.confirm',compact('apply','cadena'));
     }
 
 }

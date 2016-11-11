@@ -178,9 +178,9 @@ class User extends Authenticatable
 
     public static function profile()
     {
-        $user = Auth::user();
+        $id = Auth::user()->id;
 
-        return $user->with('roles')->first();
+        return User::with('roles')->where('id',$id)->first();
     }
 
 

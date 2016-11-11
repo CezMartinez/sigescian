@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class ApplicationExternalDosimetryController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +46,7 @@ class ApplicationExternalDosimetryController extends Controller
      */
     public function store(Request $request)
     {
-        $request['state']=false;
+        $request['state']=0;
         $tipo = CustomerType::findOrFail($request->input('customer_id'));
         $activi = Activity::findOrFail($request->input('activity_id'));
 
@@ -52,8 +58,15 @@ class ApplicationExternalDosimetryController extends Controller
         }
         $request['state']=false;
         flash('Solicitud Registrada', 'success');
-        ExternalDosimetry::createSolicitude($request->all(),$tipo, $activi);
-        return redirect("/servicios/dosimetria-personal-externa/");
+        $apply = ExternalDosimetry::createSolicitude($request->all(),$tipo, $activi);
+        return view('applications.dosimetry.email_dosimetry',compact('apply','tipo','activi'));
+        //return redirect("/servicios/dosimetria-personal-externa/");
+    }
+
+    public function confirmar($id){
+        $apply = ExternalDosimetry::findOrFail($id);
+        $cadena="Servicio de Dosimetria Personal Externa";
+        return view('applications.confirm',compact('cadena','apply'));
     }
 
 }

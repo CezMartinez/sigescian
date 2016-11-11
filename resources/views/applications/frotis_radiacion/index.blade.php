@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    <h1>Solicitudes de Prueba de Frotis y Radiacion.</h1>
+    <h1>Solicitudes de Servicio de Prueba de Frotis y Radiacion.</h1>
 
     <hr>
     @if($applications->count()>0)
