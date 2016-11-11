@@ -58,6 +58,9 @@ class RedirectIfAuthenticated
             }elseif ($permission->contains('ver-laboratorios')){
 
                 return redirect('/laboratorios');
+            }elseif ($permission->contains('ver-solicitudes')){
+
+                return redirect('/servicios');
             }
         }
     }
