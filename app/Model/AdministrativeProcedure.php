@@ -61,6 +61,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     public static function createNewProcedure(Request $data){
         $administrativeProcedure = new static;
         $administrativeProcedure->fill($data->all());
+        $administrativeProcedure->version = 1;
         $administrativeProcedure->correlative = $administrativeProcedure->generateCorrelativeOfProcedure();
         $section = Section::find($data->input('section'));
         $administrativeProcedure->code = $administrativeProcedure->generateCodeAtCreateProcedure();
@@ -74,6 +75,8 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     public function updateProcedure(Request $request)
     {
         $this->fill($request->all());
+        $version = $this->getOriginal('version');
+
 
         if (!$request->has('state')) {
 
@@ -85,7 +88,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         }
         if($this->nameChanged()){
             if ($this->exists($request->input('name'))) {
-                return ['hasError' => true , 'message' => "El nombre {$request->input('name')} ya existe"];
+                return $this->answer('Ya existe un procedimiento con este nombre',404);
             }
         }
 
@@ -102,12 +105,20 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             $this->addSubSections($request->input('subsection'));
         }
 
+        if($request->exists('file')){
+            $answer = $this->addFilesToProcedure($request,4);
+            if($answer['status'] != "200"){
+                $this->version = $version+1;
+            }
+        }
+
         $this->save();
 
-        return [
-            'hasError' => false ,
-            'message' => "El procedimiento fue actualizado correctamente"
-        ];
+        if(is_null($answer)){
+            return $answer = $this->answer("Se guardo el procedimiento correctamente",200);
+        }
+
+        return $answer;
     }
 
     

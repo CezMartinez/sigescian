@@ -180,18 +180,19 @@ class TechnicianController extends Controller
     private function validateCreateProcedure($data)
     {
         return Validator::make($data,[
-            'name' =>'required',
-            'instructions' => 'required',
-            'file'=> 'required|mimes:doc,docx,pdf',
-            'acronym' => 'required|unique:technician_procedures,acronym',
+            'name'          =>'required',
+            'instructions'  => 'required',
+            'file'          => 'required|mimes:pdf,doc,docx',
+            'acronym'       => 'required|unique:technician_procedures,acronym',
         ])->validate();
     }
 
     private function validateUpdateProcedure($data,$procedure){
         return Validator::make($data,[
-            'name' => 'required',
-            'instructions' => 'required',
-            'acronym' => 'unique:technician_procedures,acronym,'.$procedure->id,
+            'name'          => 'required',
+            'instructions'  => 'required',
+            'file'          => 'mimes:pdf,doc,docx',
+            'acronym'       => 'unique:technician_procedures,acronym,'.$procedure->id,
         ])->validate();
     }
     

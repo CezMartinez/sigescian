@@ -290,6 +290,10 @@ trait AddFilesTrait
         $this->save();
 
 
+
+        $this->versionate()->attach($document,['user_id'=> auth()->id(),'version'=>1]);
+
+
         return $this->answer("El procedimiento se creo correctamente", "200");
 
     }
