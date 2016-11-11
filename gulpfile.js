@@ -38,6 +38,7 @@ elixir(function(mix) {
                 'normalize.css'],'./public/css/welcome.css')
         .scripts([
             'template/jquery-2.1.1.min.js',
+            'template/jquery.maskedinput.min.js',
             'template/jquery.nicescroll.js',
             'template/nicescroll_script.js',
             'template/scripts.js',
@@ -47,7 +48,6 @@ elixir(function(mix) {
             'template/flash-message.js',
             'template/dropzone.js',
             'template/select2.js',
-
             'template/bootstrap.js',],'./public/js/template.js')
         .scripts([
             'AdministrativeScript.js'
