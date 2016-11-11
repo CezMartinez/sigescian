@@ -9,6 +9,6 @@
         <p align="center"><strong>SOLICITUD DE SERVICIO DE PRUEBA DE FUGA (FROTIS) Y NIVEL DE RADIACION</strong></p>
     </div>
     <div class="col-md-2">
-        <img id="encabezado" src="/images/Logo_UES.png" alt="Logo" width="25%" height="15%"/>
+        <img id="encabezado" src="/images/Logo_UES.png" alt="Logo" width="40%" height="30%"/>
     </div>
 </div>
