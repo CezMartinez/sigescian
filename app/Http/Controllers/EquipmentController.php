@@ -76,7 +76,6 @@ class EquipmentController extends Controller
     {
         $equipo = $equipo->fill($request->all());
         $this->validator($request->all())->validate();
-        dd($equipo);
         if ($equipo->getOriginal('slug') == $equipo->getAttribute('slug')) {
             if($request->input('need_calibration')==null){
                 $request['need_calibration']=0;
