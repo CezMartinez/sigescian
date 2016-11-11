@@ -140,13 +140,13 @@ Route::get('servicios/radio-agua-226/{id}/confirmar','ApplicationRadio226Control
 Route::get('servicios/frotis-radiacion/{id}/confirmar','ApplicationFrotisController@confirmar');
 Route::get('servicios/control-de-calidad/{id}/confirmar','ApplicationCCController@confirmar');
 Route::get('servicios/dosimetria-personal-externa/{id}/confirmar','ApplicationExternalDosimetryController@confirmar');
-Route::post('servicios/radio-agua-226/{id}/aceptar','ApplicationRadio226Controller@aceptar');
-Route::post('servicios/frotis-radiacion/{id}/aceptar','ApplicationFrotisController@aceptar');
-Route::post('servicios/control-de-calidad/{id}/aceptar','ApplicationCCController@aceptar');
-Route::post('servicios/dosimetria-personal-externa/{id}/aceptar','ApplicationExternalDosimetryController@aceptar');
-Route::post('servicios/radio-agua-226/{id}/rechazar','ApplicationRadio226Controller@rechazar');
-Route::post('servicios/frotis-radiacion/{id}/rechazar','ApplicationFrotisController@rechazar');
-Route::post('servicios/control-de-calidad/{id}/rechazar','ApplicationCCController@rechazar');
-Route::post('servicios/dosimetria-personal-externa/{id}/rechazar','ApplicationExternalDosimetryController@rechazar');
+Route::get('servicios/radio-agua-226/{id}/aceptar','ApplicationRadio226Controller@aceptar');
+Route::get('servicios/frotis-radiacion/{id}/aceptar','ApplicationFrotisController@aceptar');
+Route::get('servicios/control-de-calidad/{id}/aceptar','ApplicationCCController@aceptar');
+Route::get('servicios/dosimetria-personal-externa/{id}/aceptar','ApplicationExternalDosimetryController@aceptar');
+Route::get('servicios/radio-agua-226/{id}/rechazar','ApplicationRadio226Controller@rechazar');
+Route::get('servicios/frotis-radiacion/{id}/rechazar','ApplicationFrotisController@rechazar');
+Route::get('servicios/control-de-calidad/{id}/rechazar','ApplicationCCController@rechazar');
+Route::get('servicios/dosimetria-personal-externa/{id}/rechazar','ApplicationExternalDosimetryController@rechazar');
 /**---------------------------------------------- Documentos ------------------------------------------------**/
 Route::get('documentos/{type}','DocumentsViewController@show');
