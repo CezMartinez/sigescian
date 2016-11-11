@@ -70,7 +70,6 @@
         }
 
         function deleteFile(nameFile,idProcedure,idAnnexedFile,tipo, url){
-            alert('carga');
             var csrf = $("meta[name='csrf_token']").attr('content');
 
             swal({
@@ -86,7 +85,6 @@
                     },
                     function(isConfirm){
                         if (isConfirm) {
-                            alert(url);
                             $.ajax({
                                         type:'DELETE',
                                         url:url+idProcedure+'/'+idAnnexedFile+'/2',
