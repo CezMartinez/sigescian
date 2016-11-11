@@ -1,4 +1,4 @@
-@extends('email')
+@extends('guest')
 
 @section('content')
     <div class="row">
