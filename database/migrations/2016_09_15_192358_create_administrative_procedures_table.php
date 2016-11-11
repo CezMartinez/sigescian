@@ -19,7 +19,7 @@ class CreateAdministrativeProceduresTable extends Migration
             $table->integer('correlative')->unsigned();
             $table->string('name');
             $table->string('acronym')->unique();
-            $table->integer('version')->unsigned();
+            $table->integer('version')->unsigned()->nullable();
             $table->text('politic');
             $table->boolean('state')->default(true);
             $table->integer('flow_chart_file_id')->nullable()->unsigned();

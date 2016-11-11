@@ -3,13 +3,14 @@
 @section('content')
 
     {!! link_to(url('/procedimientos/administrativos'), '  Atras', ['class' => 'fa fa-2x fa-arrow-circle-left']) !!}
-
     <hr>
+
 
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading"><h3> {{$administrativo->name}} </h3></div>
+                <div class="panel-heading"><h3> {{$administrativo->name}} <span><a href='{{"/procedimientos/administrativos/$administrativo->code/edit"}}'><i class="fa fa-pencil" data-toggle="tooltip"
+                                                                                              title="Editar!"></i></a></span></h3></div>
                 <div class="panel-body">
                     <p><strong>Codigo: </strong>{{$administrativo->code}}</p>
                     <p><strong>Estado: </strong>{{$administrativo->status}}</p>
@@ -98,14 +99,6 @@
                                         <a target="_blank" href="/archivos/procedimientos/4/1/{{$administrativo->procedureDocument->originalName}}">
                                             {{$administrativo->procedureDocument->title}}
                                         </a>
-
-                                        {{--<i class="fa fa-times pull-right"
-                                           onclick="deleteFile(
-                                                   '{{$administrativo->procedureDocument->originalName}}',
-                                                   '{{$administrativo->id}}',
-                                                   '{{$administrativo->procedureDocument->id}}',
-                                                   'procedimiento',
-                                                   '/procedimiento/archivos/procedimiento/')"></i>--}}
                                     </li>
                             @else
                                 <p>No hay un documento oficial asociado con este procedimiento</p>
@@ -160,6 +153,11 @@
 @endsection
 
 @section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
     <script src="/js/administrative.js"></script>
     <script src="/js/asociar-archivos.js"></script>
 

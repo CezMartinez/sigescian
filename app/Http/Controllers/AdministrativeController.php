@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\AdministrativeProcedure;
 use App\Model\AnnexedFile;
 use App\Model\Section;
+use App\Model\TechnicianProcedure;
 use Illuminate\Http\Request;
 use JavaScript;
 use Validator;
@@ -179,6 +180,16 @@ class AdministrativeController extends Controller
             ];
             return Validator::make($data,$rules)->validate();
         }
+    }
+
+    public function versionamiento($procedure_type, $procedure_id)
+    {
+        if($procedure_type == 'administrativos'){
+            $procedures = AdministrativeProcedure::with('versionate')->where('id',$procedure_id)->get();
+        }else{
+            $procedures = TechnicianProcedure::with('versionate')->where('id',$procedure_id)->get();
+        }
+        return view('procedures.versionamiento',compact('procedures'));
     }
     
 

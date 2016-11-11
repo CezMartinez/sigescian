@@ -9,7 +9,7 @@ trait AddFilesTrait
 
     public function versionate(){
         return $this->belongsToMany(ProcedureDocument::class,'procedure_document_version','procedure_id','document_id')
-                    ->withPivot(['version','user_id']);
+                    ->withPivot(['version','user_id'])->withTimeStamps();
     }
 
     public function documentProcedure()
@@ -281,18 +281,21 @@ trait AddFilesTrait
             'mime' => $mime,
         ]);
 
-
-
         $this->procedureDocument()->dissociate();
 
         $this->procedureDocument()->associate($document);
 
+        if($this->version == null){
+            $this->version = 1;
+        }else{
+            $this->version = $this->version + 1;
+        }
+        
         $this->save();
 
+        $this->versionate()->attach($document,['user_id'=> auth()->id(),'version'=> $this->version]);
 
-
-        $this->versionate()->attach($document,['user_id'=> auth()->id(),'version'=>1]);
-
+        $this->save();
 
         return $this->answer("El procedimiento se creo correctamente", "200");
 
