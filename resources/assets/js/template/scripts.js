@@ -43,5 +43,5 @@ function removerElemento(){
 
 //parte de mascaras
 $( document ).ready(function() {
-    console.log(ready);
+    console.log("ready");
 });
