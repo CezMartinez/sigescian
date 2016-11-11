@@ -55,14 +55,30 @@ class ApplicationRadio226Controller extends Controller
 
         flash('Solicitud Registrada', 'success');
         $apply=ApplicationRadio226::createSolicitude($request->all());
-        return view('applications.radio226.email_radio',compact('apply'));
-
-//        return redirect("/servicios/radio-agua-226/");
+        Mail::queue('applications.radio226.email_radio', ['apply'=>$apply], function ($mail) use ($apply) {
+            $mail->to($apply->email)
+                ->from('servicioscianfia@gmail.com', 'Solicitud de Servicio de Analisis de Agua Radio 226')
+                ->subject('Servicio de Analisis de Agua Radio 226');
+        });
+        return redirect("/servicios/radio-agua-226/");
     }
 
     public function confirmar($id){
         $apply = ApplicationRadio226::findOrFail($id);
         $cadena="Servicio de Analisis de Agua Radio 226";
         return view('applications.confirm_other',compact('apply','cadena'));
+    }
+
+    public function aceptar($id){
+        $apply = ApplicationRadio226::findOrFail($id);
+        $apply['state']=1;
+        $apply->update();
+        return view('applications.response');
+    }
+    public function rechazar($id){
+        $apply = ApplicationRadio226::findOrFail($id);
+        $apply['state']=2;
+        $apply->update();
+        return view('applications.response');
     }
 }

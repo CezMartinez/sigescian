@@ -1,12 +1,10 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="csrf_token" content="{{ csrf_token() }}">
-    <title>SIGESCIAN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="/css/template.css">
+    <title>SIGESCIAN</title>
 </head>
 <body>
     <div class="page-container ">
@@ -14,6 +12,5 @@
             @yield('content')
         </div>
     </div>
-    <script src="/js/template.js"></script>
 </body>
 </html>

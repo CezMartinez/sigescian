@@ -6,6 +6,7 @@ use App\Model\Activity;
 use App\Model\ApplicationControl;
 use App\Model\CustomerType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicationCCController extends Controller
 {
@@ -51,14 +52,31 @@ class ApplicationCCController extends Controller
         $activi = Activity::findOrFail($request->input('activity_id'));
         flash('Solicitud Registrada', 'success');
         $apply = ApplicationControl::createSolicitude($request->all(),$tipo, $activi);
-        return view('applications.controlc.email_controlc',compact('apply','tipo','activi'));
-        //return redirect("/servicios/control-de-calidad/");
+        Mail::queue('applications.controlc.email_controlc', ['apply'=>$apply,'tipo'=>$tipo,'activi'=>$activi], function ($mail) use ($apply) {
+            $mail->to($apply->email)
+                ->from('servicioscianfia@gmail.com', 'Solicitud de Servicio de Control de Calidad')
+                ->subject('Servicio de Control de Calidad');
+        });
+        return redirect("/servicios/control-de-calidad/");
     }
 
     public function confirmar($id){
         $apply = ApplicationControl::findOrFail($id);
         $cadena="Servicio de Control de Calidad";
         return view('applications.confirm',compact('apply','cadena'));
+    }
+
+    public function aceptar($id){
+        $apply = ApplicationControl::findOrFail($id);
+        $apply['state']=1;
+        $apply->update();
+        return view('applications.response');
+    }
+    public function rechazar($id){
+        $apply = ApplicationControl::findOrFail($id);
+        $apply['state']=2;
+        $apply->update();
+        return view('applications.response');
     }
 
 }

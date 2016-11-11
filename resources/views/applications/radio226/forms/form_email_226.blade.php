@@ -74,4 +74,4 @@
 
     </div>
 <hr>
-<a href="/servicios/radio-agua-226/{{$apply->id}}/confirmar" class="btn btn-primary">Confirmar Solicitud</a>
+<a href="{{ url('/servicios/radio-agua-226/'.$apply->id.'/confirmar') }}" class="btn btn-primary">Confirmar Solicitud</a>
