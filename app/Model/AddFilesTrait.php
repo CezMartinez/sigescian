@@ -127,12 +127,13 @@ trait AddFilesTrait
 
     public function addFilesToProcedure(Request $request,$typeFile=null)
     {
+        ini_set('upload_max_filesize', '10M');
+
         $procedure_type = $this->procedureType($request->url());
         if($typeFile == null){
             $typeFile = $request->input('type');
         }
         $file = $request->file('file');
-
 
         $extension = $file->getClientOriginalExtension();
         $clientName = time() . $file->getClientOriginalName();

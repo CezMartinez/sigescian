@@ -94,6 +94,7 @@ return [
         'instructions.name' => [
             'required' => 'Cada instruccion tiene que estar llenado para guardar',
         ],
+
     ],
 
     /*
@@ -110,6 +111,7 @@ return [
     'attributes' => [
         'acronym' => 'acronimo de procedimiento',
         'date_calibration' => 'Fecha Calibración',
+        'password' => 'contraseña',
     ],
 
 ];

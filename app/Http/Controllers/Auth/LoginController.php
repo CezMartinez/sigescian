@@ -163,7 +163,7 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        flash(ucwords("No tienes {$mensaje} asignados, Consulta al administrador del sistema"),'danger')->important();
+        flash(ucwords("No tienes {$mensaje} asignados. Consulta al administrador del sistema"),'danger')->important();
         
         return redirect('/login');
     }

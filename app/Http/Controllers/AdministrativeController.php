@@ -154,7 +154,7 @@ class AdministrativeController extends Controller
         return Validator::make($data,[
             'name' =>'required',
             'acronym' => 'required|unique:administrative_procedures,acronym',
-            'file'=> 'required|mimes:doc,docx,pdf',
+            'file'=> 'required|mimes:doc,docx,pdf|max:10240',
             'politic' => 'required'
         ])->validate();
     }

@@ -13,12 +13,14 @@
                 <div class="panel-body">
                     <p><strong>Codigo: </strong>{{$administrativo->code}}</p>
                     <p><strong>Estado: </strong>{{$administrativo->status}}</p>
-                    <p><strong>Seccion: </strong>{{$administrativo->section->section}}</p>
+                    <p><strong>Seccion: </strong>
+                        <a target="_blank" href="/CIAN_files/ISO-IEC-17025.pdf#{{$administrativo->section->route}}">{{$administrativo->section->section}}</a>
+                    </p>
                     @if($administrativo->subSections()->count() > 0)
                         <p><strong>Subsecciones: </strong></p>
                         <ul>
                             @foreach($administrativo->subSections as $subsection)
-                                <li>{{$subsection->section}}</li>
+                                &#8226 <a target="_blank" href="/CIAN_files/ISO-IEC-17025.pdf#{{$subsection->route}}">{{$subsection->section}}</a>
                             @endforeach
                         </ul>
                     @endif

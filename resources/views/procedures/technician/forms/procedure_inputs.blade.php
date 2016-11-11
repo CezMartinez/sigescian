@@ -33,7 +33,7 @@
 </div>
 {{-- section --}}
 <div class="form-group {{$errors->has('section') ? 'has-error': ''}}">
-    <label for="section" class="control-label">Seccion:</label>
+    <label for="section" class="control-label">Sección:</label>
     {{Form::select('section',$sections,null,['id'=>'section','class'=>'form-control','onchange'=>'changedata()'])}}
     @if ($errors->has('section'))
         <span class="help-block">
@@ -43,7 +43,7 @@
 </div>
 {{-- subsection --}}
 <div class="form-group {{$errors->has('subsection') ? 'has-error': ''}}">
-    <label for="subsection" class="control-label">Subseccion:</label>
+    <label for="subsection" class="control-label">Subsección:</label>
     {{Form::select('subsection[]',['selecciones seccion'],null,['id'=>'subsection','class'=>'form-control','disabled','readonly','multiple'])}}
     @if ($errors->has('subsection'))
         <span class="help-block">

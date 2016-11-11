@@ -125,7 +125,7 @@ class EquipmentController extends Controller
         }
 
         Calibration::addCalibration($request->all(),$equipo);
-        $response = response("el equipo se calibro correctamente",200);
+        $response = response("El equipo se calibro correctamente",200);
 
 
         return $response;

@@ -12,17 +12,19 @@
                 <div class="panel-body">
                     <p>Codigo: {{$tecnico->code}}</p>
                     <p>Estado: {{$tecnico->status}}</p>
-                    <p>Seccion: {{$tecnico->section->section}}</p>
+                    <p><strong>Seccion: </strong>
+                        <a target="_blank" href="/CIAN_files/ISO-IEC-17025.pdf#{{$tecnico->section->route}}">{{$tecnico->section->section}}</a>
+                    </p>
                     @if($tecnico->subSections()->get()->count() > 0)
-                        <p>Subsecciones: </p>
+                        <p><strong>Subsecciones: </strong></p>
                         <ul>
                             @foreach($tecnico->subSections()->get() as $subsection)
-                                <li>{{$subsection->section}}</li>
+                                &#8226 <a target="_blank" href="/CIAN_files/ISO-IEC-17025.pdf#{{$subsection->route}}">{{$subsection->section}}</a><br>
                             @endforeach
                         </ul>
                     @endif
                     @if($tecnico->steps()->get()->count()>=1)
-                        <p>Instrucciones Tecnicas</p>
+                        <p><strong>Instrucciones Tecnicas: </strong></p>
                         <ol>
                             @foreach($tecnico->steps()->get() as $step)
                                 <li>{{$step->step}}</li>

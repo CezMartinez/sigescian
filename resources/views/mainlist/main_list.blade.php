@@ -8,20 +8,27 @@
         </div>
     @endif
 
+    <div class="container">
+        <div class="text-center">
+            <h3>Lista Maestra de Documentos Internos</h3>
+        </div>
+    </div>
+    <br>
     <div class="table-responsive">
 
         <table class="table table-bordered">
             <thead>
-                <th>id</th>
-                <th>Codigo</th>
-                <th>Titulo</th>
-                <th>Seccion Norma</th>
-                <th>Version</th>
-                <th>Fecha Revision</th>
+                <th>No.</th>
+                <th>Código</th>
+                <th>Título</th>
+                <th>Sección Norma</th>
+                <th>Versión</th>
+                <th>Fecha de Creación</th>
             </thead>
             <tbody>
 
             @foreach($adminproceds as $admin)
+
                 <tr id="row-{{$admin->id}}" class="{{($admin->state) ? '':'info'}}">
                     <td>{{$admin->correlative}}</td>
                     <td>
@@ -44,7 +51,8 @@
                         </a>
                     </td>
                     <td>asdkm</td>
-                    <td>kamsdk</td>
+
+                    <td>{{date('d/M/Y',strtotime($admin->created_at))}}</td>
 
                 </tr>
                 @foreach($admin->formatFiles as $formatAdm)
@@ -60,7 +68,7 @@
                             </td>
                             <td></td>
                             <td></td>
-                            <td></td>
+                            <td>{{date('d/M/Y',strtotime($formatAdm->created_at))}}</td>
 
                         </tr>
                 @endforeach
@@ -94,7 +102,7 @@
                             </a>
                         </td>
                         <td></td>
-                        <td></td>
+                        <td>{{date('d/M/Y',strtotime($tech['created_at']))}}</td>
                     </tr>
                     @foreach($tech['format_files'] as $formatTech)
                         <tr class="info">
@@ -109,7 +117,7 @@
                             </td>
                             <td></td>
                             <td></td>
-                            <td></td>
+                            <td>{{date('d/M/Y',strtotime($formatTech['created_at']))}}</td>
                         </tr>
                     @endforeach
                 @endforeach
