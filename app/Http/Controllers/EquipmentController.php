@@ -113,14 +113,22 @@ class EquipmentController extends Controller
     public function calibrate(Request $request, $id){
         $equipo=Equipment::findOrFail($id);
         $latest= Calibration::where('equipment_id',$id)->get()->last();
+        $validator = "";
         if($latest!=null){
-            $this->validatorCalibrate($request->all(), $latest->getOriginal('date_end_calibration'))->validate();
+            $validator = $this->validatorCalibrate($request->all(), $latest->getOriginal('date_end_calibration'));
         }else{
-            $this->validatorCalibrate($request->all(), null)->validate();
+            $validator = $this->validatorCalibrate($request->all(), null);
         }
-        flash('Equipo ' . $equipo->name . ' calibrado correctamente', 'success');
+
+        if ($validator->fails()) {
+            return response($validator->getMessageBag()->first('date_calibration'),404);
+        }
+
         Calibration::addCalibration($request->all(),$equipo);
-        return redirect('/equipos');
+        $response = response("el equipo se calibro correctamente",200);
+
+
+        return $response;
     }
 
 
@@ -142,7 +150,7 @@ class EquipmentController extends Controller
     {
         if(is_null($date)){
             return Validator::make($data, [
-                'date_calibration'  => "required|after:".Carbon::yesterday(),
+                'date_calibration'  => "required|before:".Carbon::tomorrow(),
             ]);
         }
         return Validator::make($data, [

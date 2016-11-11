@@ -47,6 +47,17 @@
             @endif
         </div>
 
+                <!-- file Form Input -->
+                <div class="form-group {{$errors->has('file') ? 'has-error': ''}}">
+                    <label for="file" class="control-label">Archivo del Procedimiento:</label>
+                    <input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" value="{{old('file')}}" required>
+                    @if ($errors->has('file'))
+                        <span class="help-block">
+                    <strong>{{ $errors->first('file') }}</strong>
+                </span>
+                    @endif
+                </div>
+
         <div class="form-group {{$errors->has('state') ? 'has-error': ''}} ">
             <label for="state" class="control-label">Estado: </label>
             {{Form::checkbox('state',null,$procedure->state)}}

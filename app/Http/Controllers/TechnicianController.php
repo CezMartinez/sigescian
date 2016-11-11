@@ -72,7 +72,13 @@ class TechnicianController extends Controller
 
         $procedure->addInstructions($ids);
 
-        flash('Procedimiento Guardado', 'success');
+        $response = $procedure->addFilesToProcedure($request,4);
+
+        if ($response["status"] != "200") {
+            flash($response['message'], 'danger')->important();
+            $procedure->delete();
+            return back()->withInput();
+        };
 
         return redirect("/procedimientos/tecnicos/{$procedure->id}");
     }
@@ -174,17 +180,19 @@ class TechnicianController extends Controller
     private function validateCreateProcedure($data)
     {
         return Validator::make($data,[
-            'name' =>'required',
-            'instructions' => 'required',
-            'acronym' => 'required|unique:technician_procedures,acronym',
+            'name'          =>'required',
+            'instructions'  => 'required',
+            'file'          => 'required|mimes:pdf,doc,docx',
+            'acronym'       => 'required|unique:technician_procedures,acronym',
         ])->validate();
     }
 
     private function validateUpdateProcedure($data,$procedure){
         return Validator::make($data,[
-            'name' => 'required',
-            'instructions' => 'required',
-            'acronym' => 'unique:technician_procedures,acronym,'.$procedure->id,
+            'name'          => 'required',
+            'instructions'  => 'required',
+            'file'          => 'mimes:pdf,doc,docx',
+            'acronym'       => 'unique:technician_procedures,acronym,'.$procedure->id,
         ])->validate();
     }
     

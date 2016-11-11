@@ -17,6 +17,7 @@ class AdministrativeProcedureTableSeeder extends Seeder
             'acronym'       =>'MC',
             'correlative'   => 1,
             'state'         => true,
+            'version'       => 1,
             'politic'       => ' ',
             'section_id'    => 1,
         ]);

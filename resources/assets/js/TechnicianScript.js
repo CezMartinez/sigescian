@@ -157,10 +157,10 @@ function agregarProcedimiento(listaProcedimientos,data)
             '<a target="_blank" href="/archivos/procedimientos/4/2/' + item.originalName + '">'
             + item.title +
             '</a>' +
-            '<i class="fa fa-times pull-right" ' +
+            /*'<i class="fa fa-times pull-right" ' +
             'onclick="deleteFile(\'' + item.originalName + '\',\'' + id_tecnico + '\',\'' + item.id + '\'' +
             ',\'procedimiento\',\'/procedimiento/archivos/procedimiento/\')">' +
-            '</i>' +
+            '</i>' +*/
             '</li>')
     });
     listaProcedimientos.push('</div>')

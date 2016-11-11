@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAnnexedFilesTable extends Migration
+class CreateProcedureDocumentVersionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateAnnexedFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('annexed_files', function (Blueprint $table) {
+        Schema::create('procedure_document_version', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('path');
-            $table->string('originalName');
-            $table->string('nameWithoutExtension');
-            $table->string('mime');
-            $table->string('title')->unique();
-            $table->string('extension');
-            $table->integer('size');
+            $table->integer('procedure_id');
+            $table->integer('document_id');
+            $table->integer('user_id');
             $table->integer('version');
             $table->timestamps();
         });
@@ -34,6 +30,6 @@ class CreateAnnexedFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('annexed_files');
+        Schema::dropIfExists('procedure_document_version');
     }
 }

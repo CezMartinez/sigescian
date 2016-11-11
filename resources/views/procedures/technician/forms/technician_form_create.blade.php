@@ -1,4 +1,4 @@
-<form action="/procedimientos/tecnicos" method="POST">
+<form action="/procedimientos/tecnicos" method="POST" enctype="multipart/form-data">
 
     <div class="row">
         <div class="col-md-6">

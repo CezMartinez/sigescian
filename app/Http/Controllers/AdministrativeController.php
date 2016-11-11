@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\AdministrativeProcedure;
 use App\Model\AnnexedFile;
 use App\Model\Section;
+use App\Model\TechnicianProcedure;
 use Illuminate\Http\Request;
 use JavaScript;
 use Validator;
@@ -54,16 +55,22 @@ class AdministrativeController extends Controller
      */
     public function store(Request $request)
     {
-        
         $this->validateCreateProcedure($request->all());
 
         $procedure = AdministrativeProcedure::createNewProcedure($request);
-        
+
         if($request->has('subsection')){
             $procedure->addSubSections($request->input('subsection'));
         }
 
-        flash('Procedimiento Guardado', 'success');
+        $response = $procedure->addFilesToProcedure($request,4);
+
+
+        if ($response["status"] != "200") {
+            flash($response['message'], 'danger')->important();
+            $procedure->delete();
+            return back()->withInput();
+        }
 
         return redirect("/procedimientos/administrativos/{$procedure->id}");
     }
@@ -114,22 +121,24 @@ class AdministrativeController extends Controller
      */
     public function update(Request $request,AdministrativeProcedure $administrativo)
     {
+
         $this->validateUpdateProcedure($request->all(),$administrativo);
 
-        $result = $administrativo->updateProcedure($request);
-        
-        if($result['hasError']) {
+        $answer = $administrativo->updateProcedure($request);
+
+        if($answer['status'] != "200") {
             
-            flash($result['message'], 'danger');
+            flash($answer['message'], 'danger')->important();
 
             return back()->withInput();
         }
-        
-        
-        flash($result['message'], 'success');
 
 
-        return redirect('/procedimientos/administrativos');
+
+        flash($answer['message'], 'success');
+
+        return redirect("/procedimientos/administrativos/$administrativo->id");
+
     }
 
     /**
@@ -146,18 +155,41 @@ class AdministrativeController extends Controller
     private function validateCreateProcedure($data)
     {
         return Validator::make($data,[
-            'name' =>'required',
-            'acronym' => 'required|unique:administrative_procedures,acronym',
-            'politic' => 'required'
+            'name'      => 'required',
+            'acronym'   => 'required|unique:administrative_procedures,acronym',
+            'file'      => 'required|mimes:pdf,doc,docx',
+            'politic'   => 'required'
         ])->validate();
     }
 
     private function validateUpdateProcedure($data,$procedure){
-        return Validator::make($data,[
-            'name' => 'required',
-            'acronym' => 'unique:administrative_procedures,acronym,'.$procedure->id,
-            'politic' => 'required'
-        ])->validate();
+        $rules = [];
+        if(key_exists('file',$data)){
+            $rules = [
+                'name'      => 'required',
+                'file'      => 'required|mimes:pdf,doc,docx',
+                'acronym'   => 'unique:administrative_procedures,acronym,'.$procedure->id,
+                'politic'   => 'required'
+            ];
+            return Validator::make($data,$rules)->validate();
+        }else{
+            $rules = [
+                'name'      => 'required',
+                'acronym'   => 'unique:administrative_procedures,acronym,'.$procedure->id,
+                'politic'   => 'required'
+            ];
+            return Validator::make($data,$rules)->validate();
+        }
+    }
+
+    public function versionamiento($procedure_type, $procedure_id)
+    {
+        if($procedure_type == 'administrativos'){
+            $procedures = AdministrativeProcedure::with('versionate')->where('id',$procedure_id)->get();
+        }else{
+            $procedures = TechnicianProcedure::with('versionate')->where('id',$procedure_id)->get();
+        }
+        return view('procedures.versionamiento',compact('procedures'));
     }
     
 

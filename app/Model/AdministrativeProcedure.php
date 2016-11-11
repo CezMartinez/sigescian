@@ -85,13 +85,11 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         }
         if($this->nameChanged()){
             if ($this->exists($request->input('name'))) {
-                return ['hasError' => true , 'message' => "El nombre {$request->input('name')} ya existe"];
+                return $this->answer('Ya existe un procedimiento con este nombre',404);
             }
         }
 
         $this->code = $this->updateCodeWithAcronym($request->input('acronym'),$this);
-
-        //Agregar Seccion
 
         $section = Section::find($request->input('section'));
 
@@ -102,12 +100,20 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
             $this->addSubSections($request->input('subsection'));
         }
 
-        $this->save();
+        $saved = $this->save();
 
-        return [
-            'hasError' => false ,
-            'message' => "El procedimiento fue actualizado correctamente"
-        ];
+        if($saved){
+            if($request->exists('file')){
+                $answer = $this->addFilesToProcedure($request,4);
+                return $answer;
+            }
+
+            return $this->answer("El procedimiento se actualizo correctamente",200);
+
+        }else{
+            return $this->answer("El procedimiento no se actualizo correctamente",200);
+        }
+
     }
 
     
