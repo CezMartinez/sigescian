@@ -16,6 +16,7 @@ class CreateApplicationFrotisTable extends Migration
         Schema::create('application_frotis', function (Blueprint $table) {
             $table->increments('id');
             $table->string('petitioner');
+            $table->string('dui');
             $table->string('address',2048);
             $table->string('phone');
             $table->string('email');

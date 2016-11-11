@@ -3,12 +3,25 @@
     <div class="panel panel-primary">
         <div class="panel-heading"><h3> Informacion del Cliente</h3></div>
         <div class="panel-body">
-            <div class="form-group {{$errors->has('petitioner') ? 'has-error': ''}} ">
-                <label for="name">Solicitante:</label>
-                <input type="text" name="petitioner" class="form-control" value="{{old('petitioner')}}" placeholder="Juan Perez" required autofocus>
-                @if ($errors->has('petitioner'))
-                    <span class="help-block"><strong>{{ $errors->first('petitioner') }}</strong></span>
-                @endif
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group {{$errors->has('petitioner') ? 'has-error': ''}} ">
+                        <label for="name">Solicitante:</label>
+                        <input type="text" name="petitioner" class="form-control" value="{{old('petitioner')}}" placeholder="Juan Perez" required autofocus>
+                        @if ($errors->has('petitioner'))
+                            <span class="help-block"><strong>{{ $errors->first('petitioner') }}</strong></span>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group {{$errors->has('dui') ? 'has-error': ''}} ">
+                        <label for="dui">DUI:</label>
+                        <input type="dui" name="dui" class="form-control" value="{{old('dui')}}" placeholder="03774811-2" required autofocus>
+                        @if ($errors->has('dui'))
+                            <span class="help-block"><strong>{{ $errors->first('dui') }}</strong></span>
+                        @endif
+                    </div>
+                </div>
             </div>
             <div class="form-group {{$errors->has('address') ? 'has-error': ''}} ">
                 <label for="address">Direccion:</label>

@@ -27,6 +27,7 @@ class CreateApplicationControlsTable extends Migration
             $table->string('email');
             $table->string('responsable');
             $table->string('position');
+            $table->string('dui');
             $table->integer('activity_id')->unsigned()->index();
             $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
             $table->timestamp('date_reception')->nullable();

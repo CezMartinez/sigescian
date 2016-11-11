@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ApplicationRadio226Controller extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,9 +52,17 @@ class ApplicationRadio226Controller extends Controller
         if($request->input('gallons')==null){
             $request['gallons']=null;
         }
+
         flash('Solicitud Registrada', 'success');
-        ApplicationRadio226::createSolicitude($request->all());
-        return redirect("/servicios/radio-agua-226/");
+        $apply=ApplicationRadio226::createSolicitude($request->all());
+        return view('applications.radio226.email_radio',compact('apply'));
+
+//        return redirect("/servicios/radio-agua-226/");
     }
 
+    public function confirmar($id){
+        $apply = ApplicationRadio226::findOrFail($id);
+        $cadena="Servicio de Analisis de Agua Radio 226";
+        return view('applications.confirm_other',compact('apply','cadena'));
+    }
 }

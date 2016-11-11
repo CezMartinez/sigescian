@@ -8,8 +8,8 @@ class ApplicationControl extends Model
 {
 
     protected $fillable=['name','customer_id','address','municipality','department','country',
-        'phone','fax','email', 'responsable','position','activity_id','date_reception','name_visit',
-        'position_visit','phone_visit','name_admin', 'position_admin', 'phone_admin'];
+        'phone','fax','email', 'responsable','position','dui','activity_id','date_reception','name_visit',
+        'position_visit','phone_visit','name_admin', 'position_admin', 'phone_admin',];
 
     protected $dates =['date_reception'];
 

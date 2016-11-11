@@ -1,15 +1,26 @@
 {{csrf_field()}}
 <div class="panel-heading"><h3> Informacion del Cliente</h3></div>
 <div class="panel-body">
-    <label for="type_service" class="checkbox-inline"><input type="checkbox" name="frotis" value="1">Frotis</label>
-    <label for="type_service" class="checkbox-inline"><input type="checkbox" name="radiation" value="2">Nivel de Radiación</label>
+    @if($apply->frotis==0)
+        <label for="type_service" class="checkbox-inline"><input type="checkbox" readonly disabled name="frotis" value="1">Frotis</label>
+    @else
+        <label for="type_service" class="checkbox-inline"><input type="checkbox" readonly disabled checked="true" name="frotis" value="1">Frotis</label>
+    @endif
+
+        @if($apply->radiation==0)
+            <label for="type_service" class="checkbox-inline"><input type="checkbox" readonly disabled name="radiation" value="2">Nivel de Radiación</label>
+        @else
+            <label for="type_service" class="checkbox-inline"><input type="checkbox" readonly disabled checked="true" name="frotis" value="2">Nivel de Radiación</label>
+        @endif
+
     <br>
     <br>
-    <p><strong>Fecha de Solicitud: </strong>{{\Carbon\Carbon::today()->format('d/m/Y')}}</p>
-    <p><strong>Solicitante: </strong>Juan Perez</p>
-    <p><strong>Direccion: </strong>Avenida Siempre Viva 742</p>
-    <p><strong>Telefono: </strong>2222-2222</p>
-    <p><strong>Email: </strong>cliente@cliente.com</p>
+    <p><strong>Fecha de Solicitud: </strong>{{$apply->created_at->format('d/m/Y')}}</p>
+    <p><strong>Solicitante: </strong>{{$apply->petitioner}}</p>
+    <p><strong>DUI: </strong>{{$apply->dui}}</p>
+    <p><strong>Direccion: </strong>{{$apply->address}}</p>
+    <p><strong>Telefono: </strong>{{$apply->phone}}</p>
+    <p><strong>Email: </strong>{{$apply->email}}</p>
 </div>
 <hr>
 <div class="panel-heading"><h3> Requisitos para el Analisis</h3></div>
@@ -31,4 +42,4 @@
     </ul>
 </div>
 <hr>
-<a href="/some-ohter-url" class="btn btn-primary">Confirmar Solicitud</a>
+<a href="/servicios/frotis-radiacion/{{$apply->id}}/confirmar" class="btn btn-primary">Confirmar Solicitud</a>

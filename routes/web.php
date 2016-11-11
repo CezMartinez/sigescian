@@ -136,5 +136,17 @@ Route::resource('servicios/radio-agua-226','ApplicationRadio226Controller');
 Route::resource('servicios/frotis-radiacion','ApplicationFrotisController');
 Route::resource('servicios/control-de-calidad','ApplicationCCController');
 Route::resource('servicios/dosimetria-personal-externa','ApplicationExternalDosimetryController');
+Route::get('servicios/radio-agua-226/{id}/confirmar','ApplicationRadio226Controller@confirmar');
+Route::get('servicios/frotis-radiacion/{id}/confirmar','ApplicationFrotisController@confirmar');
+Route::get('servicios/control-de-calidad/{id}/confirmar','ApplicationCCController@confirmar');
+Route::get('servicios/dosimetria-personal-externa/{id}/confirmar','ApplicationExternalDosimetryController@confirmar');
+Route::post('servicios/radio-agua-226/{id}/aceptar','ApplicationRadio226Controller@aceptar');
+Route::post('servicios/frotis-radiacion/{id}/aceptar','ApplicationFrotisController@aceptar');
+Route::post('servicios/control-de-calidad/{id}/aceptar','ApplicationCCController@aceptar');
+Route::post('servicios/dosimetria-personal-externa/{id}/aceptar','ApplicationExternalDosimetryController@aceptar');
+Route::post('servicios/radio-agua-226/{id}/rechazar','ApplicationRadio226Controller@rechazar');
+Route::post('servicios/frotis-radiacion/{id}/rechazar','ApplicationFrotisController@rechazar');
+Route::post('servicios/control-de-calidad/{id}/rechazar','ApplicationCCController@rechazar');
+Route::post('servicios/dosimetria-personal-externa/{id}/rechazar','ApplicationExternalDosimetryController@rechazar');
 /**---------------------------------------------- Documentos ------------------------------------------------**/
 Route::get('documentos/{type}','DocumentsViewController@show');

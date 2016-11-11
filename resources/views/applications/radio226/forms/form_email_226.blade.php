@@ -1,10 +1,11 @@
 <div class="panel-heading"><h3> Informacion del Cliente</h3></div>
 <div class="panel-body">
-    <p><strong>Fecha de Solicitud: </strong>{{\Carbon\Carbon::today()->format('d/m/Y')}}</p>
-    <p><strong>Solicitante: </strong>Juan Perez</p>
-    <p><strong>Direccion: </strong>Avenida Siempre Viva 742</p>
-    <p><strong>Telefono: </strong>2222-2222</p>
-    <p><strong>Email: </strong>cliente@cliente.com</p>
+    <p><strong>Fecha de Solicitud: </strong>{{$apply->created_at->format('d/m/Y')}}</p>
+    <p><strong>Solicitante: </strong>{{$apply->petitioner}}</p>
+    <p><strong>DUI: </strong>{{$apply->dui}}</p>
+    <p><strong>Direccion: </strong>{{$apply->address}}</p>
+    <p><strong>Telefono: </strong>{{$apply->phone}}</p>
+    <p><strong>Email: </strong>{{$apply->email}}</p>
 </div>
 <hr>
 <div class="panel-heading"><h3> Requisitos para el Analisis</h3></div>
@@ -19,14 +20,19 @@
 <hr>
 <div class="panel-heading"><h3> Recepcion de muestras</h3></div>
 <div class="panel-body">
-    <p><strong>Fecha de Recepcion: </strong>{{\Carbon\Carbon::today()->format('d/m/Y')}}</p>
+    <p><strong>Fecha de Recepcion: </strong>{{$apply->date_reception->format('d/m/Y')}}</p>
 
         <div class="row">
             <div class="col-md-4">
                 <label><br></label>
                 <div class="row">
                     <div class="col-md-12">
-                        <p><strong>Numero de muestras: </strong> 5</p>
+                        <p><strong>Numero de muestras: </strong>
+                            @if($apply->samples==null)
+                                No fueron entregadas
+                            @else
+                                {{$apply->samples}}
+                            @endif</p></p>
                     </div>
                 </div>
             </div>
@@ -35,10 +41,20 @@
                 <label>Volumen</label>
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>Litros: </strong> 5</p>
+                        <p><strong>Litros: </strong>
+                            @if($apply->liters==null)
+                               0
+                            @else
+                                {{$apply->liters}}
+                            @endif</p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Galones: </strong> 5</p>
+                        <p><strong>Galones: </strong>
+                            @if($apply->gallons==null)
+                                0
+                            @else
+                                {{$apply->gallons}}
+                            @endif</p>
                     </div>
                 </div>
             </div>
@@ -58,4 +74,4 @@
 
     </div>
 <hr>
-<a href="/some-pretty-url" class="btn btn-primary">Confirmar Solicitud</a>
+<a href="/servicios/radio-agua-226/{{$apply->id}}/confirmar" class="btn btn-primary">Confirmar Solicitud</a>

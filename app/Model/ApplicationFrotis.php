@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ApplicationFrotis extends Model
 {
-    protected $fillable=['petitioner','address','phone','email'];
+    protected $fillable=['petitioner','dui','address','phone','email','frotis','radiation', 'state'];
 
     public static function createSolicitude($request)
     {

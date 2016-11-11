@@ -1,46 +1,50 @@
 {{csrf_field()}}
 <div class="panel-heading"><h3> Informacion del Cliente</h3></div>
 <div class="panel-body">
+    <p><strong>Fecha de Solicitud: </strong>{{$apply->created_at->format('d/m/Y')}}</p>
     <div class="row">
         <div class="col-md-8">
-                <p><strong>Nombre o razon social: </strong> Laboratorios Perez</p>
-            </div>
-        <div class="col-md-4">
-                <p><strong>Institucion: </strong>Publicaa</p>
-            </div>
-    </div>
-    <p><strong>Direccion: </strong>Avenida Siempre Viva 742</p>
-    <div class="row">
-        <div class="col-md-4">
-            <p><strong>Municipio: </strong>Mejicanos</p>
+            <p><strong>Nombre o razon social: </strong> {{$apply->name}}</p>
         </div>
         <div class="col-md-4">
-            <p><strong>Departamento: </strong>San Salvador</p>
-        </div>
-        <div class="col-md-4">
-            <p><strong>Pais: </strong>El Salvador</p>
+            <p><strong>Institucion: </strong>{{$tipo->name}}</p>
         </div>
     </div>
+    <p><strong>Direccion: </strong>{{$apply->address}}</p>
     <div class="row">
         <div class="col-md-4">
-            <p><strong>Telefono: </strong>2222-2222</p>
+            <p><strong>Municipio: </strong>{{$apply->municipality}}</p>
         </div>
         <div class="col-md-4">
-            <p><strong>Fax: </strong>2222-2222</p>
+            <p><strong>Departamento: </strong>{{$apply->department}}</p>
         </div>
         <div class="col-md-4">
-            <p><strong>Email: </strong>cliente@cliente.com</p>
+            <p><strong>Pais: </strong>{{$apply->country}}</p>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-            <p><strong>Responsable: </strong>Juan Perez</p>
+            <p><strong>Telefono: </strong>{{$apply->phone}}</p>
         </div>
         <div class="col-md-4">
-            <p><strong>Cargo: </strong>Tecnico</p>
+            <p><strong>Fax: </strong>{{$apply->fax}}</p>
         </div>
         <div class="col-md-4">
-            <p><strong>Actividad: </strong>Docencia e Investigacion</p>
+            <p><strong>Email: </strong>{{$apply->email}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <p><strong>Responsable: </strong>{{$apply->responsable}}</p>
+        </div>
+        <div class="col-md-3">
+            <p><strong>Cargo: </strong>{{$apply->position}}</p>
+        </div>
+        <div class="col-md-3">
+            <p><strong>DUI: </strong>{{$apply->dui}}</p>
+        </div>
+        <div class="col-md-3">
+            <p><strong>Actividad: </strong>{{$activi->name}}</p>
         </div>
     </div>
 </div>
@@ -50,25 +54,25 @@
     <p style="font-style: italic;"><strong>Confirmar Visita</strong></p>
     <div class="row">
         <div class="col-md-4">
-            <p><strong>Nombre: </strong>Juan Perez</p>
+            <p><strong>Nombre: </strong>{{$apply->name_visit}}</p>
         </div>
         <div class="col-md-3">
-            <p><strong>Cargo: </strong>Tecnico</p>
+            <p><strong>Cargo: </strong>{{$apply->position_visit}}</p>
         </div>
         <div class="col-md-3">
-            <p><strong>Telefono: </strong>2222-2222</p>
+            <p><strong>Telefono: </strong>{{$apply->phone_visit}}</p>
         </div>
     </div>
     <p style="font-style: italic;"><strong>Tramites Administrativos</strong></p>
     <div class="row">
         <div class="col-md-4">
-            <p><strong>Nombre: </strong>Juan Perez</p>
+            <p><strong>Nombre: </strong>{{$apply->name_admin}}</p>
         </div>
         <div class="col-md-3">
-            <p><strong>Cargo: </strong>Tecnico</p>
+            <p><strong>Cargo: </strong>{{$apply->position_admin}}</p>
         </div>
         <div class="col-md-3">
-            <p><strong>Telefono: </strong>2222-2222</p>
+            <p><strong>Telefono: </strong>{{$apply->phone_admin}}</p>
         </div>
     </div>
 </div>
@@ -78,11 +82,21 @@
     <div class="row">
         <div class="col-md-3">
             <p style="font-style: italic;"><strong>PD1: </strong></p>
-            <p><strong>Cantidad: </strong>10</p>
+            <p><strong>Cantidad: </strong>
+                @if($apply->pd_number==null)
+                    No fueron solicitados
+                @else
+                    {{$apply->pd_number}}
+                @endif</p>
         </div>
         <div class="col-md-3">
             <p style="font-style: italic;"><strong>Anillos: </strong></p>
-            <p><strong>Cantidad: </strong>10</p>
+            <p><strong>Cantidad: </strong>
+                @if($apply->anillo_number==null)
+                    No fueron solicitados
+                @else
+                    {{$apply->anillo_number}}
+                @endif</p>
         </div>
     </div>
 </div>
@@ -183,4 +197,4 @@
 </div>
 
 <br>
-<a href="/url-dosimetria" class="btn btn-primary">Confirmar Solicitud</a>
+<a href="/servicios/dosimetria-personal-externa/{{$apply->id}}/confirmar" class="btn btn-primary">Confirmar Solicitud</a>

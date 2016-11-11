@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ApplicationRadio226 extends Model
 {
 
-    protected $fillable=['petitioner','address','phone','email','date_reception', 'state'];
+    protected $fillable=['petitioner','dui','address','phone','email','date_reception', 'state','samples','liters','gallons'];
 
     protected $dates =['date_reception'];
 
