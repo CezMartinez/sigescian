@@ -12,8 +12,7 @@ class ApplicationFrotisController extends Controller
     public function __construct()
     {
         parent::__construct();
-
-
+        $this->middleware('auth');
     }
 
     /**
@@ -64,25 +63,6 @@ class ApplicationFrotisController extends Controller
                 ->subject('Servicio de Prueba de Frotis y Radiacion');
         });
         return redirect("/servicios/frotis-radiacion/");
-    }
-
-    public function confirmar($id){
-        $apply = ApplicationFrotis::findOrFail($id);
-        $cadena="Servicio de Prueba de Frotis y Radiacion";
-        return view('applications.confirm_other',compact('apply','cadena'));
-    }
-
-    public function aceptar($id){
-        $apply = ApplicationFrotis::findOrFail($id);
-        $apply['state']=1;
-        $apply->update();
-        return view('applications.response');
-    }
-    public function rechazar($id){
-        $apply = ApplicationFrotis::findOrFail($id);
-        $apply['state']=2;
-        $apply->update();
-        return view('applications.response');
     }
 
 }

@@ -12,6 +12,7 @@ class ApplicationRadio226Controller extends Controller
     public function __construct()
     {
         parent::__construct();
+        $this->middleware('auth');
     }
 
     /**
@@ -64,22 +65,4 @@ class ApplicationRadio226Controller extends Controller
         return redirect("/servicios/radio-agua-226/");
     }
 
-    public function confirmar($id){
-        $apply = ApplicationRadio226::findOrFail($id);
-        $cadena="Servicio de Analisis de Agua Radio 226";
-        return view('applications.confirm_other',compact('apply','cadena'));
-    }
-
-    public function aceptar($id){
-        $apply = ApplicationRadio226::findOrFail($id);
-        $apply['state']=1;
-        $apply->update();
-        return view('applications.response');
-    }
-    public function rechazar($id){
-        $apply = ApplicationRadio226::findOrFail($id);
-        $apply['state']=2;
-        $apply->update();
-        return view('applications.response');
-    }
 }

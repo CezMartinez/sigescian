@@ -13,7 +13,7 @@ class ApplicationCCController extends Controller
     public function __construct()
     {
         parent::__construct();
-
+        $this->middleware('auth');
     }
 
     /**
@@ -60,23 +60,5 @@ class ApplicationCCController extends Controller
         return redirect("/servicios/control-de-calidad/");
     }
 
-    public function confirmar($id){
-        $apply = ApplicationControl::findOrFail($id);
-        $cadena="Servicio de Control de Calidad";
-        return view('applications.confirm',compact('apply','cadena'));
-    }
-
-    public function aceptar($id){
-        $apply = ApplicationControl::findOrFail($id);
-        $apply['state']=1;
-        $apply->update();
-        return view('applications.response');
-    }
-    public function rechazar($id){
-        $apply = ApplicationControl::findOrFail($id);
-        $apply['state']=2;
-        $apply->update();
-        return view('applications.response');
-    }
 
 }

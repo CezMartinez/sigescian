@@ -13,7 +13,7 @@ class ApplicationExternalDosimetryController extends Controller
     public function __construct()
     {
         parent::__construct();
-
+        $this->middleware('auth');
     }
 
     /**
@@ -65,27 +65,7 @@ class ApplicationExternalDosimetryController extends Controller
                 ->from('servicioscianfia@gmail.com', 'Solicitud de Dosimetria Personal Externa')
                 ->subject('Servicio de Dosimetria Personal Externa');
         });
-        return redirect("/servicios/control-de-calidad/");
-        //return redirect("/servicios/dosimetria-personal-externa/");
-    }
-
-    public function confirmar($id){
-        $apply = ExternalDosimetry::findOrFail($id);
-        $cadena="Servicio de Dosimetria Personal Externa";
-        return view('applications.confirm',compact('cadena','apply'));
-    }
-
-    public function aceptar($id){
-        $apply = ExternalDosimetry::findOrFail($id);
-        $apply['state']=1;
-        $apply->update();
-        return view('applications.response');
-    }
-    public function rechazar($id){
-        $apply = ExternalDosimetry::findOrFail($id);
-        $apply['state']=2;
-        $apply->update();
-        return view('applications.response');
+        return redirect("/servicios/dosimetria-personal-externa/");
     }
 
 }
