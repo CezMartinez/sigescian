@@ -62,7 +62,6 @@ class AnnexedFilesController extends Controller
 
     public function deleteProcedureFile($procedure, ProcedureDocument $procedureDocument, $type)
     {
-
         $procedure = $this->getProcedureByType($type, $procedure);
 
         $procedure->procedureDocument()->dissociate();

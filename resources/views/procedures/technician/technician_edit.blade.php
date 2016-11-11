@@ -68,6 +68,53 @@
                 },
             })
         }
+
+        function deleteFile(nameFile,idProcedure,idAnnexedFile,tipo, url){
+            alert('carga');
+            var csrf = $("meta[name='csrf_token']").attr('content');
+
+            swal({
+                        title: "¿Esta seguro de eliminar "+nameFile+"?",
+                        text: "Si elimina este documento también será eliminada la relación con el procedimiento dejando el documento como obsoleto sin que esto pueda ser revertido ¿Desea continuar?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3c3cf2",
+                        confirmButtonText: "Eliminar",
+                        cancelButtonText: "Cancelar",
+                        closeOnConfirm:true,
+                        closeOnCancel:true,
+                    },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            alert(url);
+                            $.ajax({
+                                        type:'DELETE',
+                                        url:url+idProcedure+'/'+idAnnexedFile+'/2',
+                                        headers: {
+                                            'X-CSRF-Token': csrf,
+                                        },
+                                        success: function(data){
+
+                                        },
+                                    })
+                                    .done(function(data){
+                                        $("#lista_procedimiento").remove();
+                                        var document_element = $(".document-file");
+                                        document_element.append(
+                                                '<div class="form-group">' +
+                                                '<input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" required>'+
+                                                '</div>'
+                                        )
+                                    })
+                                    .error(function(data){
+                                        swal("Error",data.responseText,"error");
+                                    });
+                        }else {
+                            swal("Cancelado","El registro no ha sido modificado.","error");
+                        }
+                    });
+        }
+
     </script>
     <script src="/js/technical_instructions.js"></script>
 

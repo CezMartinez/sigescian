@@ -143,16 +143,16 @@ class TechnicianController extends Controller
 
         $this->validateUpdateProcedure($request->all(),$tecnico);
 
-        $result = $tecnico->updateProcedure($request,$instructions);
+        $answer = $tecnico->updateProcedure($request,$instructions);
 
-        if($result['hasError']) {
+        if($answer['status'] != "200") {
 
-            flash($result['message'], 'danger');
+            flash($answer['message'], 'danger')->important();
 
             return back()->withInput();
         }
 
-        flash($result['message'], 'success');
+        flash($answer['message'], 'success');
 
         return redirect('/procedimientos/tecnicos');
     }
@@ -188,12 +188,21 @@ class TechnicianController extends Controller
     }
 
     private function validateUpdateProcedure($data,$procedure){
-        return Validator::make($data,[
-            'name'          => 'required',
-            'instructions'  => 'required',
-            'file'          => 'mimes:pdf,doc,docx',
-            'acronym'       => 'unique:technician_procedures,acronym,'.$procedure->id,
-        ])->validate();
+        $rules = [];
+        if(key_exists('file',$data)){
+            $rules = [
+                'name'      => 'required',
+                'file'      => 'required|mimes:pdf,doc,docx',
+                'acronym'   => 'unique:technician_procedures,acronym,'.$procedure->id,
+            ];
+            return Validator::make($data,$rules)->validate();
+        }else{
+            $rules = [
+                'name'      => 'required',
+                'acronym'   => 'unique:technician_procedures,acronym,'.$procedure->id,
+            ];
+            return Validator::make($data,$rules)->validate();
+        }
     }
     
 }

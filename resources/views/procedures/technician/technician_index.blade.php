@@ -51,6 +51,11 @@
 							<td>
 								<ul class="list-inline" >
 									<a href="/procedimientos/tecnicos/{{$t->code}}/edit" class="fa fa-lg fa-pencil" data-toggle="tooltip" title="Editar!"></a>
+									<a href="/procedimientos/tecnicos/{{$t->id}}/versionamiento"
+									   class="fa fa-lg fa-book"
+									   data-toggle="tooltip"
+									   style="margin-left: 0.5em"
+									   title="Versionamiento!"></a>
 								</ul>
 							</td>
 						@endif

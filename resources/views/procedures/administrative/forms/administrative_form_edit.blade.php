@@ -148,27 +148,27 @@
                     function(isConfirm){
                         if (isConfirm) {
                             $.ajax({
-                                type:'DELETE',
-                                url:url+idProcedure+'/'+idAnnexedFile+'/1',
-                                headers: {
-                                    'X-CSRF-Token': csrf,
-                                },
-                                success: function(data){
+                                        type:'DELETE',
+                                        url:url+idProcedure+'/'+idAnnexedFile+'/1',
+                                        headers: {
+                                            'X-CSRF-Token': csrf,
+                                        },
+                                        success: function(data){
 
-                                },
-                            })
-                            .done(function(data){
-                                $("#lista_procedimiento").remove();
-                                var document_element = $(".document-file");
-                                document_element.append(
-                                    '<div class="form-group">' +
-                                    '<input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" required>'+
-                                    '</div>'
-                                )
-                            })
-                            .error(function(data){
-                                swal("Error",data.responseText,"error");
-                            });
+                                        },
+                                    })
+                                    .done(function(data){
+                                        $("#lista_procedimiento").remove();
+                                        var document_element = $(".document-file");
+                                        document_element.append(
+                                                '<div class="form-group">' +
+                                                '<input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" required>'+
+                                                '</div>'
+                                        )
+                                    })
+                                    .error(function(data){
+                                        swal("Error",data.responseText,"error");
+                                    });
                         }else {
                             swal("Cancelado","El registro no ha sido modificado.","error");
                         }

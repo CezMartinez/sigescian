@@ -292,8 +292,10 @@ trait AddFilesTrait
         }
         
         $this->save();
-
-        $this->versionate()->attach($document,['user_id'=> auth()->id(),'version'=> $this->version]);
+        
+        $procoedure_type = get_class($this);
+        
+        $this->versionate()->attach($document,['user_id'=> auth()->id(),'version'=> $this->version,'procedure_type' => $procoedure_type]);
 
         $this->save();
 
