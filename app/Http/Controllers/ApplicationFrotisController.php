@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Model\ApplicationFrotis;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicationFrotisController extends Controller
 {
@@ -57,15 +58,31 @@ class ApplicationFrotisController extends Controller
         }
         flash('Solicitud Registrada', 'success');
         $apply=ApplicationFrotis::createSolicitude($request->all());
-        return view('applications.frotis_radiacion.email_frotis',compact('apply'));
-
-      //  return redirect("/servicios/frotis-radiacion/");
+        Mail::queue('applications.frotis_radiacion.email_frotis', ['apply'=>$apply], function ($mail) use ($apply) {
+            $mail->to($apply->email)
+                ->from('servicioscianfia@gmail.com', 'Solicitud de Servicio de Prueba de Frotis y Radiacion')
+                ->subject('Servicio de Prueba de Frotis y Radiacion');
+        });
+        return redirect("/servicios/frotis-radiacion/");
     }
 
     public function confirmar($id){
         $apply = ApplicationFrotis::findOrFail($id);
         $cadena="Servicio de Prueba de Frotis y Radiacion";
         return view('applications.confirm_other',compact('apply','cadena'));
+    }
+
+    public function aceptar($id){
+        $apply = ApplicationFrotis::findOrFail($id);
+        $apply['state']=1;
+        $apply->update();
+        return view('applications.response');
+    }
+    public function rechazar($id){
+        $apply = ApplicationFrotis::findOrFail($id);
+        $apply['state']=2;
+        $apply->update();
+        return view('applications.response');
     }
 
 }

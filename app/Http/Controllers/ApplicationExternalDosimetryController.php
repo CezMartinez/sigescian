@@ -6,6 +6,7 @@ use App\Model\Activity;
 use App\Model\CustomerType;
 use App\Model\ExternalDosimetry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicationExternalDosimetryController extends Controller
 {
@@ -59,7 +60,12 @@ class ApplicationExternalDosimetryController extends Controller
         $request['state']=false;
         flash('Solicitud Registrada', 'success');
         $apply = ExternalDosimetry::createSolicitude($request->all(),$tipo, $activi);
-        return view('applications.dosimetry.email_dosimetry',compact('apply','tipo','activi'));
+        Mail::queue('applications.dosimetry.email_dosimetry', ['apply'=>$apply,'tipo'=>$tipo,'activi'=>$activi], function ($mail) use ($apply) {
+            $mail->to($apply->email)
+                ->from('servicioscianfia@gmail.com', 'Solicitud de Dosimetria Personal Externa')
+                ->subject('Servicio de Dosimetria Personal Externa');
+        });
+        return redirect("/servicios/control-de-calidad/");
         //return redirect("/servicios/dosimetria-personal-externa/");
     }
 
@@ -67,6 +73,19 @@ class ApplicationExternalDosimetryController extends Controller
         $apply = ExternalDosimetry::findOrFail($id);
         $cadena="Servicio de Dosimetria Personal Externa";
         return view('applications.confirm',compact('cadena','apply'));
+    }
+
+    public function aceptar($id){
+        $apply = ExternalDosimetry::findOrFail($id);
+        $apply['state']=1;
+        $apply->update();
+        return view('applications.response');
+    }
+    public function rechazar($id){
+        $apply = ExternalDosimetry::findOrFail($id);
+        $apply['state']=2;
+        $apply->update();
+        return view('applications.response');
     }
 
 }

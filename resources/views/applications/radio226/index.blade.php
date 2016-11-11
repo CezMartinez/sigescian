@@ -25,8 +25,10 @@
                             <td>{{$s->created_at->format('d/m/Y')}}</td>
                             @if($s->state==0)
                                 <td>Esperando Confirmacion</td>
-                            @else
+                            @elseif($s->state==1)
                                 <td>Aceptada por el cliente</td>
+                                @else
+                                <td>Cancelada por el cliente</td>
                             @endif
                         </tr>
                     @endforeach

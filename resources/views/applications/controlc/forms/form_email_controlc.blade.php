@@ -198,4 +198,4 @@
 </div>
 
 <br>
-<a href="/servicios/control-de-calidad/{{$apply->id}}/confirmar" class="btn btn-primary">Confirmar Solicitud</a>
+<a href="{{ url('/servicios/control-de-calidad/'.$apply->id.'/confirmar') }}" class="btn btn-primary">Confirmar Solicitud</a>
