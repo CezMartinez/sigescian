@@ -33,8 +33,21 @@ class EquipmentController extends Controller
      */
     public function create()
     {
+
         $lab = Laboratory::pluck('name','id');
-        return view('equipment.equipment_create', compact('lab'));
+
+        if(Laboratory::all()->count()>=1){
+            return view('equipment.equipment_create', compact('lab'));
+        }
+        if(\Auth::user()->canSeeIf("crear-laboratorios")){
+            flash("Para poder crear un equipo es necesario que exista al menos un laboratorio.",'danger')->important();
+        }else{
+            flash("Para poder crear un equipo es necesario que exista al menos un laboratorio, contacte al administrador.",'danger')
+                ->important();
+        }
+
+        return back();
+
     }
 
     public function show($id){

@@ -30,7 +30,18 @@ class MaterialController extends Controller
     public function create()
     {
         $lab = Laboratory::pluck('name','id');
-        return view('materials.materials_create', compact('lab'));
+        if(Laboratory::all()->count()>=1){
+            return view('materials.materials_create', compact('lab'));
+        }
+        if(\Auth::user()->canSeeIf("crear-laboratorios")){
+            flash("Para poder crear un material es necesario que exista al menos un laboratorio.",'danger')->important();
+        }else{
+            flash("Para poder crear un material es necesario que exista al menos un laboratorio, contacte al administrador.",'danger')
+                ->important();
+        }
+
+        return back();
+
     }
 
     public function store(Request $request)

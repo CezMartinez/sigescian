@@ -39,8 +39,17 @@ class LaboratoryController extends Controller
     public function create()
     {
         $departments = Department::pluck('name' ,'id')->toArray();
-//        dd($departments);
-        return view('laboratories.laboratories_create',compact('departments'));
+        if(Department::all()->count()>=1){
+            return view('laboratories.laboratories_create',compact('departments'));
+        }
+        if(\Auth::user()->canSeeIf("crear-departamentos")){
+            flash("Para poder crear un laboratiorio es necesario que exista al menos un departamento.",'danger')->important();
+        }else{
+            flash("Para poder crear un laboratiorio es necesario que exista al menos un departamento, contacte al administrador.",'danger')
+                ->important();
+        }
+
+        return back();
     }
 
     /**
