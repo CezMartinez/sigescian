@@ -167,10 +167,14 @@ class PermissionMiddleware
             }elseif ($permission->contains('ver-procedimientos-generales')){
 
                 return redirect('/procedimientos/administrativos');
-            }
-            elseif ($permission->contains('calibrar-equipos')){
+            } elseif ($permission->contains('calibrar-equipos')){
 
                 return redirect('/equipos');
+            }elseif ($permission->contains('ver-documentos')){
+
+                return redirect('/documentos/procedimiento');
+            }else{
+                return redirect('/listaMaestra');
             }
 
         }

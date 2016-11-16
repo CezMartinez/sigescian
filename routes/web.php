@@ -150,4 +150,4 @@ Route::get('servicios/frotis-radiacion/{id}/rechazar','ClientOptionsController@r
 Route::get('servicios/control-de-calidad/{id}/rechazar','ClientOptionsController@rechazarControl');
 Route::get('servicios/dosimetria-personal-externa/{id}/rechazar','ClientOptionsController@rechazarDosimetria');
 /**---------------------------------------------- Documentos ------------------------------------------------**/
-Route::get('documentos/{type}','DocumentsViewController@show');
+Route::get('documentos/{type}','DocumentsViewController@show')->middleware('permission:ver-documentos');;

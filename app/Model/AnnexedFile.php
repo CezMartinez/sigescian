@@ -26,4 +26,13 @@ class AnnexedFile extends Model
     {
         return $this->belongsToMany(TechnicianProcedure::class)->withPivot('owner');
     }
+
+    public function typeOfProcedure()
+    {
+        if($this->administrativeProcedure()->where('owner',true)->get()->count()>=1){
+            return 1;
+        }
+        return 2;
+
+    }
 }

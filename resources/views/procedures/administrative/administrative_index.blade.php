@@ -52,12 +52,18 @@
 									<a href="/procedimientos/administrativos/{{$admin->code}}/edit"
 									   class="fa fa-lg fa-pencil"
 									   data-toggle="tooltip"
+									   style="margin-right: 0.2em"
 									   title="Editar!"></a>
-									<a href="/procedimientos/administrativos/{{$admin->id}}/versionamiento"
-									   class="fa fa-lg fa-book"
-									   data-toggle="tooltip"
-									   style="margin-left: 0.5em"
-									   title="Consultar Versiones"></a>
+									@if($admin->versionate()->count()>=1)
+										@if($admin->id!=1)
+											|
+											<a href="/procedimientos/administrativos/{{$admin->id}}/versionamiento"
+											   class="fa fa-lg fa-book"
+											   data-toggle="tooltip"
+											   style="margin-left: 0.2em"
+											   title="Consultar Versiones"></a>
+										@endif
+									@endif
 								</div>
 							</td>
 						@endif

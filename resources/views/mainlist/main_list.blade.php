@@ -50,7 +50,7 @@
                             {{$admin->section->section}}
                         </a>
                     </td>
-                    <td>asdkm</td>
+                    <td>{{$admin->version}}</td>
 
                     <td>{{date('d/M/Y',strtotime($admin->created_at))}}</td>
 
@@ -101,7 +101,7 @@
                                 {{$tech['section']['section']}}
                             </a>
                         </td>
-                        <td></td>
+                        <td>{{$tech['version']}}</td>
                         <td>{{date('d/M/Y',strtotime($tech['created_at']))}}</td>
                     </tr>
                     @foreach($tech['format_files'] as $formatTech)

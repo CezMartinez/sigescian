@@ -18,16 +18,15 @@
             </li>
             @endif
 
-            <li id="menu-academico" >
-                <a href="#"><i class="fa fa-file-text"></i><span>Documentos</span><span class="fa fa-angle-right" style="float: right"></span></a>
-                <ul id="menu-academico-sub" >
-                    <li id="menu-academico-procedimientos" ><a href="/documentos/procedimiento">Procedimientos</a></li>
-                    <li id="menu-academico-boletim" ><a href="/documentos/anexos">Anexos</a></li>
-                    <li id="menu-academico-avaliacoes" ><a href="/documentos/formatos">Formatos</a></li>
-                </ul>
-            </li>
-            @if($user->canSeeIf(['ver-clientes']))
-            <li><a href="/clientes"><i class="fa fa-users"></i><span>Clientes</span></a></li>
+            @if($user->canSeeIf(['ver-documentos']))
+                <li id="menu-academico" >
+                    <a href="#"><i class="fa fa-file-text"></i><span>Documentos</span><span class="fa fa-angle-right" style="float: right"></span></a>
+                    <ul id="menu-academico-sub" >
+                        <li id="menu-academico-procedimientos" ><a href="/documentos/procedimiento">Procedimientos</a></li>
+                        <li id="menu-academico-boletim" ><a href="/documentos/anexos">Anexos</a></li>
+                        <li id="menu-academico-avaliacoes" ><a href="/documentos/formatos">Formatos</a></li>
+                    </ul>
+                </li>
             @endif
             @if($user->canSeeIf(['ver-solicitudes']))
                 <li><a href="/servicios"><i class="fa fa-inbox"></i><span>Solicitudes</span></a></li>

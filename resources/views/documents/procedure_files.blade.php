@@ -14,7 +14,7 @@
             @foreach($files as $file)
                 <tr>
                     <td>
-                        <a  target="_blank" href="/archivos/procedimientos/4/1/{{$file->originalName}}">
+                        <a  target="_blank" href="/archivos/procedimientos/4/{{$file->typeOfProcedure()}}/{{$file->originalName}}">
                             {{$file->title}}
                         </a>
                     </td>

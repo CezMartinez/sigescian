@@ -55,11 +55,14 @@ class RolesController extends Controller
 
         $permissionIds = $request->input('permission');
         
-        $role = Role::createNewRole($request->all());
+        $role = Role::createNewRole($request->all(),$permissionIds);
         
-        $role->givePermissionTo($permissionIds);
-
-        flash("El rol fue creado correctamente",'success');
+        if($role){
+            flash("El rol fue creado correctamente",'success');
+        }
+        else{
+            flash("El rol no fue creado",'error');
+        }
 
         return redirect('/administracion/roles');
     }

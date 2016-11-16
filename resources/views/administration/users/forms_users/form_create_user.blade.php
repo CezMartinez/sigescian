@@ -38,7 +38,7 @@
     <!-- roles Form Input -->
     <div class="form-group">
         <label for="roles">Asigne roles:</label>
-        {{Form::select('roles[]',$roleList,null,['id'=>'selectRole','class'=>'form-control', 'multiple'])}}
+        {{Form::select('roles[]',$roleList,null,['id'=>'selectRole','class'=>'form-control', 'multiple', 'required'])}}
     </div>
 
     <!-- password Form Input -->

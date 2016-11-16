@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '';
+    protected $redirectTo = '/listaMaestra';
 
     /**
      * Create a new controller instance.
@@ -98,7 +98,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        $roles = $user->roles()->get();
+        /*$roles = $user->roles()->get();
         if(!$this->hasRoles($roles)){
 
             return $this->logoutUserWithErrorMessage('roles');
@@ -111,7 +111,7 @@ class LoginController extends Controller
 
         }
 
-        $this->redirectTo = $this->redirecByPermission($user);
+        $this->redirectTo = $this->redirecByPermission($user);*/
     }
 
     /**

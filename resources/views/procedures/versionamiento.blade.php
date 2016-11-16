@@ -2,9 +2,9 @@
     
 @section('content')
 
-    {!! link_to(url('/procedimientos/administrativos'), '  Atras', ['class' => 'fa fa-2x fa-arrow-circle-left']) !!}
+    {!! link_to(URL::previous(), '  Atras', ['class' => 'fa fa-2x fa-arrow-circle-left']) !!}
     <hr>
-
+    <h1>{{$procedures->first()->name}}</h1>
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead>

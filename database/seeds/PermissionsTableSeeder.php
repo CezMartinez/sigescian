@@ -169,6 +169,13 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'Ver Solicitudes',
             'slug' => 'ver-solicitudes',
         ]);
+        /**---------Documentos--------**/
+
+        DB::table('permissions')->insert([
+            'name' => 'Ver Documentos',
+            'slug' => 'ver-documentos',
+        ]);
+
 
     }
 }

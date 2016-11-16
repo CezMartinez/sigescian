@@ -28,23 +28,30 @@ class Role extends Model
     public function givePermissionTo($permissionSelectedIds)
     {
         $permissions = Permission::findOrFail($permissionSelectedIds);
-
+        $tienever = false;
         foreach ($permissions as $permission){
-            $slug = $permission->slug;
-            $slugPieces = explode("-", $slug);
-
-            if(count($slugPieces)>2){
-                $p = "ver-{$slugPieces[1]}-{$slugPieces[2]}";
-            }else{
-                $p = "ver-{$slugPieces[1]}";
+            if (strpos($permission->attributes['slug'], 'ver-') !== false) {
+                $tienever = true;
             }
+        }
+        if(! $tienever){
+            foreach ($permissions as $permission){
+                $slug = $permission->slug;
+                $slugPieces = explode("-", $slug);
 
-            if(str_contains($slugPieces[0],'crear') ||
-                str_contains($slugPieces[0],'editar') ||
-                str_contains($slugPieces[0],'eliminar') || str_contains($slugPieces[0],'calibrar')){
-                $seePermission = Permission::where('slug',$p)->first();
-
-                $this->permissions()->attach($seePermission);
+                if(count($slugPieces)>2){
+                    $p = "ver-{$slugPieces[1]}-{$slugPieces[2]}";
+                }else{
+                    $p = "ver-{$slugPieces[1]}";
+                }
+                if(str_contains($slugPieces[0],'crear') ||
+                    str_contains($slugPieces[0],'editar') ||
+                    str_contains($slugPieces[0],'eliminar') ||
+                    str_contains($slugPieces[0],'calibrar'))
+                {
+                    $seePermission = Permission::where('slug',$p)->first();
+                    array_push($permissionSelectedIds,$seePermission->id);
+                }
             }
         }
 
@@ -82,13 +89,16 @@ class Role extends Model
         return $role->where('slug',$slug)->first()->permissions()->pluck('slug');
     }
     
-    public static function createNewRole($attr)
+    public static function createNewRole($attr,$permissionIds)
     {
         $role = new static;
 
         $role->fill($attr);
 
         $role->save();
+
+        $role->givePermissionTo($permissionIds);
+
 
         return $role;
     }

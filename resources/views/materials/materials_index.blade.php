@@ -17,7 +17,7 @@
                     Nombre
                 </th>
                 <th>
-                    Descripcion
+                    Descripción
                 </th>
                 @if(Auth::user()->canSeeIf(['editar-materiales','eliminar-materiales']))
                     <th>Acciones</th>

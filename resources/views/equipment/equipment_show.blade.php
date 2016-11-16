@@ -23,8 +23,8 @@
                         @else
                             @if($ultimo!=null)
                                 @if($ultimo->date_calibration!=null)
-                                    <p><strong>Fecha de Calibracion: </strong>{{$ultimo->date_calibration->diffForHumans()}}</p>
-                                    <p><strong>Dias restantes de Calibracion: </strong>{{$ultimo->date_end_calibration->diffForHumans()}}</p>
+                                    <p><strong>Fecha de Calibración: </strong>{{$ultimo->date_calibration->diffForHumans()}}</p>
+                                    <p><strong>Dias restantes de Calibración: </strong>{{$ultimo->date_end_calibration->diffForHumans()}}</p>
                                     <p><strong>Calibrado por: </strong>{{$ultimo->calibrate_company}}</p>
                                 @endif
                             @endif

@@ -5,7 +5,7 @@
     <!-- name Form Input -->
     <div class="form-group">
         <label for="name">Nombre:</label>
-        <input type="text" name="name" class="form-control" value="{{old('name',$role->name)}}" placeholder="Crear usuario">
+        <input type="text" name="name" class="form-control" value="{{old('name',$role->name)}}" placeholder="Nombre Rol">
     </div>
 
     <!-- permission Form Input -->

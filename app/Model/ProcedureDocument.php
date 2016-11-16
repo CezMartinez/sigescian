@@ -25,4 +25,11 @@ class ProcedureDocument extends Model
     {
         return $this->hasOne(TechnicianProcedure::class);
     }
+
+    public function typeOfProcedure(){
+        if($this->administrativeProcedure()->count()>=1){
+            return 1;
+        }
+        return 2;
+    }
 }

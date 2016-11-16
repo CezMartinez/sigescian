@@ -69,7 +69,7 @@
 
          {{$laboratories->links()}}
     @else
-        <p>No hay laboratorios en el sistema.</p>
+        <h2>No hay laboratorios en el sistema.</h2>
     @endif
 
 @endsection

@@ -42,7 +42,17 @@ class TechnicianController extends Controller
     {
         $laboratory = Laboratory::pluck('name','id');
         $sections= Section::pluck('section','id');
-        return view('procedures.technician.technician_create',compact('laboratory', 'sections'));
+        if(Laboratory::all()->count()>=1){
+            return view('procedures.technician.technician_create',compact('laboratory', 'sections'));
+        }
+        if(\Auth::user()->canSeeIf("crear-laboratorios")){
+            flash("Para poder crear un procedimiento técnico es necesario que exista al menos un laboratorio.",'danger')->important();
+        }else{
+            flash("Para poder crear un procedimiento técnico es necesario que exista al menos un laboratorio, contacte al administrador.",'danger')
+                ->important();
+        }
+
+        return back();
 
     }
 

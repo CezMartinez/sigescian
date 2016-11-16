@@ -12,6 +12,9 @@ trait AddFilesTrait
                     ->withPivot(['version','user_id'])->withTimeStamps();
     }
 
+    /**
+     * @return mixed
+     */
     public function documentProcedure()
     {
         return $this->procedureDocument()->get();
@@ -362,7 +365,7 @@ trait AddFilesTrait
             } elseif (count($archivo->technicianProcedure) == 1) {
                 if(is_a($archivo->technicianProcedure, "Illuminate\\Database\\Eloquent\\Collection")){
                     foreach ($archivo->technicianProcedure as $procedure) {
-                        return $this->answer("Este $file_type ya existe y esta asociado con  " . "\"" . $archivo->technicianProcedure->name . "\"" . "", "501",$archivo->first());
+                        return $this->answer("Este $file_type ya existe y esta asociado con  " . "\"" . $procedure->name . "\"" . "", "501",$archivo->first());
                     }
                 }else{
                     return $this->answer("Este $file_type ya existe y esta asociado con  " . "\"" . $archivo->technicianProcedure->name . "\"" . "", "501",$archivo->first());

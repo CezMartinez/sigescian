@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class AdministrativeProcedureTableSeeder extends Seeder
@@ -20,6 +21,7 @@ class AdministrativeProcedureTableSeeder extends Seeder
             'version'       => 1,
             'politic'       => ' ',
             'section_id'    => 1,
+            'created_at'    => Carbon::now(),
         ]);
     }
 }

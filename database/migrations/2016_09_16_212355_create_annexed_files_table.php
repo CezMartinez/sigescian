@@ -22,7 +22,6 @@ class CreateAnnexedFilesTable extends Migration
             $table->string('title')->unique();
             $table->string('extension');
             $table->integer('size');
-            $table->integer('version');
             $table->timestamps();
         });
     }

@@ -184,10 +184,15 @@ class AdministrativeController extends Controller
     public function versionamiento($procedure_type, $procedure_id)
     {
         if($procedure_type == 'administrativos'){
-            $procedures = AdministrativeProcedure::with('versionate')->where('id',$procedure_id)->get();
+            $procedures = AdministrativeProcedure::with(['versionate'=>function($query){
+                $query->where('procedure_type','App\Model\AdministrativeProcedure');
+            }])->where('id',$procedure_id)->get();
         }else{
-            $procedures = TechnicianProcedure::with('versionate')->where('id',$procedure_id)->get();
+            $procedures = TechnicianProcedure::with(['versionate'=>function($query){
+                $query->where('procedure_type','App\Model\TechnicianProcedure');
+            }])->where('id',$procedure_id)->get();
         }
+
         return view('procedures.versionamiento',compact('procedures'));
     }
     

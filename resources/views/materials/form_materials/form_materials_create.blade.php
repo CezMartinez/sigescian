@@ -2,7 +2,7 @@
     {{csrf_field()}}
     <div class="form-group {{$errors->has('name') ? 'has-error': ''}} ">
         <label for="name">Nombre:</label>
-        <input type="text" name="name" class="form-control" value="{{old('name')}}" placeholder="Fosforo" required autofocus>
+        <input type="text" name="name" class="form-control" value="{{old('name')}}" placeholder="Fósforo" required autofocus>
         @if ($errors->has('name'))
             <span class="help-block">
                 <strong>{{ $errors->first('name') }}</strong>

@@ -61,6 +61,10 @@ class RedirectIfAuthenticated
             }elseif ($permission->contains('ver-solicitudes')){
 
                 return redirect('/servicios');
+            }elseif ($permission->contains('ver-documentos')){
+                return redirect('/documentos/procedimiento');
+            }else{
+                return redirect('/listaMaestra');
             }
         }
     }
