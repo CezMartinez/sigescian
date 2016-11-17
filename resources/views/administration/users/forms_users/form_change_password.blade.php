@@ -1,4 +1,4 @@
-<form action="/profile/{{$user->id}}/change" method="POST">
+<form action="/mi-perfil/{{$user->id}}/change" method="POST">
     {{ csrf_field() }}
     <br>
     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">

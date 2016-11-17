@@ -78,4 +78,9 @@ class MainListController extends Controller
 
     }
 
+    public function manual(){
+        return view('global.manual');
+
+    }
+
 }

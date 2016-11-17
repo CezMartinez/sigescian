@@ -33,8 +33,8 @@ Route::delete('administracion/roles/{role}','RolesController@destroy')->middlewa
 Route::get('administracion/roles/{slug}/edit','RolesController@edit')->middleware('permission:editar-roles');
 
 /**------------------------------------------- Perfil -----------------------------------------------------**/
-Route::get('profile', 'UserController@profile');
-Route::post('profile/{id}/change','UserController@change');
+Route::get('mi-perfil', 'UserController@profile');
+Route::post('mi-perfil/{id}/change','UserController@change');
 
 
 /**---------------------------------------------- Usuarios ------------------------------------------------**/
@@ -151,3 +151,7 @@ Route::get('servicios/control-de-calidad/{id}/rechazar','ClientOptionsController
 Route::get('servicios/dosimetria-personal-externa/{id}/rechazar','ClientOptionsController@rechazarDosimetria');
 /**---------------------------------------------- Documentos ------------------------------------------------**/
 Route::get('documentos/{type}','DocumentsViewController@show')->middleware('permission:ver-documentos');;
+
+
+/**---------------------------------------------- Ayuda ------------------------------------------------------**/
+Route::get('manual-de-usuario','MainListController@manual');
