@@ -164,7 +164,7 @@ class TechnicianController extends Controller
 
         flash($answer['message'], 'success');
 
-        return redirect("/procedimientos/tecnicos/$this->id");
+        return redirect("/procedimientos/tecnicos/$tecnico->id");
     }
 
 

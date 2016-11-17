@@ -159,7 +159,7 @@ function initData()
             for (elem in obj) {
                 arr.push(obj[elem]);
             }
-            $("#archivo-anexo-"+procedureType()+"").select2({placeholder: "Seleccione uno o varios formatos", data: arr});
+            $("#archivo-anexo-"+procedureType()+"").select2({placeholder: "Seleccione uno o varios anexos", data: arr});
         },
     })
 }

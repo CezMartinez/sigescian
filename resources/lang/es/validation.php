@@ -110,9 +110,11 @@ return [
 
     'attributes' => [
         'acronym' => 'acronimo de procedimiento',
-        'date_calibration' => 'Fecha Calibración',
+        'date_calibration' => 'fecha de calibración',
         'file'=> 'archivo',
         'password' => 'contraseña',
+        'password_confirmation'=>'confirmar contraseña',
+        'password_new'=>'nueva contraseña'
     ],
 
 ];
