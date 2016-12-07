@@ -22,25 +22,8 @@ function eliminar(numero)
     item.remove();
     num -=1;
 
-    ordenar();
-
 }
 
-function ordenar() {
-    var indice =1;
-    $(".esk").each(function () {
-        elemento=$(this);
-        elemento.find("lable").text(indice);
-        elemento.find("input").attr("id",indice);
-        elemento.find("instruction-button").removeClass(function (indice) {
-            this.addClass(function (indice) {
-                return "step-"+indice+" instruction-button";
-            })
-        });
-        indice +=1;
-    })
-
-}
 function validar()
 {
     var i = 0;
