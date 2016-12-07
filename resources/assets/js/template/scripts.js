@@ -40,3 +40,10 @@ function deleteConfirm(name, idD, url){
 function removerElemento(){
 
 }
+
+//parte de mascaras
+$( document ).ready(function($) {
+    console.log("ready");
+    $(".numTelefono").mask("9999-9999");
+    $(".numDui").mask("99999999-9");
+});

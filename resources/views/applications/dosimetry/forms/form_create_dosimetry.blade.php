@@ -63,7 +63,7 @@
                 <div class="col-md-4">
                     <div class="form-group {{$errors->has('phone') ? 'has-error': ''}} ">
                         <label for="phone">Telefono:</label>
-                        <input type="text" name="phone" class="form-control" value="{{old('phone')}}" placeholder="2222-2222" required autofocus>
+                        <input type="text" name="phone" class="form-control numTelefono" value="{{old('phone')}}" placeholder="2222-2222" required autofocus>
                         @if ($errors->has('phone'))
                             <span class="help-block"><strong>{{ $errors->first('phone') }}</strong></span>
                         @endif
@@ -72,7 +72,7 @@
                 <div class="col-md-4">
                     <div class="form-group {{$errors->has('fax') ? 'has-error': ''}} ">
                         <label for="fax">Fax:</label>
-                        <input type="fax" name="fax" class="form-control" value="{{old('fax')}}" placeholder="2222-2222" required autofocus>
+                        <input type="fax" name="fax" class="form-control numTelefono" value="{{old('fax')}}" placeholder="2222-2222" required autofocus>
                         @if ($errors->has('fax'))
                             <span class="help-block"><strong>{{ $errors->first('fax') }}</strong></span>
                         @endif
@@ -110,7 +110,7 @@
                 <div class="col-md-3">
                     <div class="form-group {{$errors->has('dui') ? 'has-error': ''}} ">
                         <label for="dui">DUI:</label>
-                        <input type="dui" name="dui" class="form-control" value="{{old('dui')}}" placeholder="03774811-2" required autofocus>
+                        <input type="dui" name="dui" class="form-control numDui" value="{{old('dui')}}" placeholder="03774811-2" required autofocus>
                         @if ($errors->has('dui'))
                             <span class="help-block"><strong>{{ $errors->first('dui') }}</strong></span>
                         @endif

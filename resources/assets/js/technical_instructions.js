@@ -11,7 +11,7 @@ function agregar()
         '<div class="instruction-div"> ' +
         '<lable for="step[]" class="instruction-lable">'+num+'.</lable>' +
         '<input placeholder="Descripcion del paso" id=' + num + ' name="instructions[]" class="form-control step instruction-input" required/>' +
-        '<span class="instruction-button step' + num + '"><a class="btn btn-danger" onclick="eliminar(' + num + ')" >' +
+        '<span class="instruction-button step' + num + '"><a class="eliminarpaso btn btn-danger" onclick="eliminar('+num+')" >' +
         '<span class="glyphicon glyphicon-remove"></span>Eliminar</a></span>' +
         '</div></li>')
 }
@@ -19,8 +19,9 @@ function agregar()
 function eliminar(numero)
 {
     var item = $('span.step' + numero).closest('li.esk').fadeOut();
-    num -=  1;
     item.remove();
+    num -=1;
+
 }
 
 function validar()
@@ -88,3 +89,4 @@ function enviar(procedureId)
         swal("Error", "No pueden haber pasos vacios", "error");
     }
 }
+
