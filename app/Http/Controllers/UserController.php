@@ -53,6 +53,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $rolesIds = $request->input('roles');
 
         $this->validateCreateUser($request->all())->validate();
