@@ -18,6 +18,8 @@
 
 @section('scripts')
     <script>
-        $('#selectPermission').select2();
+        $('#selectPermission').select2({
+            placeholder: "Seleccione un procedimiento"
+        });
     </script>
 @endsection

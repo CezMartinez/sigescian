@@ -14,6 +14,8 @@
 
 @section('scripts')
     <script>
-        $('#selectPermission').select2();
+        $('#selectPermission').select2({
+            placeholder: "Seleccione uno o muchos permisos",
+        });
     </script>
 @endsection

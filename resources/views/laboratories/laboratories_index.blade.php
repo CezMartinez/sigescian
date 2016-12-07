@@ -4,10 +4,10 @@
     @if(Auth::user()->canSeeIf(['crear-laboratorios']))
 
         <div>
-        <a href="/laboratorios/create" class="btn btn-primary">Agregar Nuevo Laboratorio</a>
-    </div>
-        @endif
-    <hr>
+            <a href="/laboratorios/create" class="btn btn-primary">Agregar Nuevo Laboratorio</a>
+        </div>
+        <hr>
+    @endif
     @if($laboratories->count() > 0)
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
@@ -22,7 +22,7 @@
                 @if(Auth::user()->canSeeIf(['editar-laboratorios','eliminar-laboratorios']))
 
                     <th>Acciones</th>
-                    @endif
+                @endif
                 </thead>
                 <tbody>
                 @foreach($laboratories as $laboratorio)
@@ -32,34 +32,34 @@
                         <td>{{$laboratorio->description}}</td>
                         <td>{{$laboratorio->department->name}}</td>
                         @if(Auth::user()->canSeeIf(['editar-laboratorios','eliminar-laboratorios']))
-                        <td>
-                            <ul class="list-inline">
-                                @if(Auth::user()->canSeeIf(['editar-laboratorios']))
+                            <td>
+                                <ul class="list-inline">
+                                    @if(Auth::user()->canSeeIf(['editar-laboratorios']))
 
 
-                                <li>
-                                    <a
-                                    href="/laboratorios/{{$laboratorio->slug}}/edit"
-                                    class="fa fa-lg fa-pencil"
-                                    data-toggle="tooltip"
-                                    title="Editar!">
-                                    </a>
-                                </li>
-                                @endif
-                                @if(Auth::user()->canSeeIf(['eliminar-laboratorios']))
+                                        <li>
+                                            <a
+                                                    href="/laboratorios/{{$laboratorio->slug}}/edit"
+                                                    class="fa fa-lg fa-pencil"
+                                                    data-toggle="tooltip"
+                                                    title="Editar!">
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if(Auth::user()->canSeeIf(['eliminar-laboratorios']))
 
-                                    |
-                                <li>
-                                    <a class="fa fa-lg fa-times"
-                                       onclick="deleteConfirm('{{$laboratorio->name}}','{{$laboratorio->id}}','/laboratorios/')"
-                                       data-toggle="tooltip"
-                                       title="Eliminar!">
-                                    </a>
-                                </li>
-                                @endif
-                            </ul>
-                        </td>
-                            @endif
+                                        |
+                                        <li>
+                                            <a class="fa fa-lg fa-times"
+                                               onclick="deleteConfirm('{{$laboratorio->name}}','{{$laboratorio->id}}','/laboratorios/')"
+                                               data-toggle="tooltip"
+                                               title="Eliminar!">
+                                            </a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>
@@ -67,7 +67,7 @@
             </table>
         </div>
 
-         {{$laboratories->links()}}
+        {{$laboratories->links()}}
     @else
         <h2>No hay laboratorios en el sistema.</h2>
     @endif
@@ -76,7 +76,8 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function(){
+        $(document).ready(function ()
+        {
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>

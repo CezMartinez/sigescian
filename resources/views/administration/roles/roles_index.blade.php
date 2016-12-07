@@ -2,12 +2,11 @@
 
 @section('content')
     @if(Auth::user()->canSeeIf(['crear-roles']))
-
-    <div>
-        <a href="/administracion/roles/create" class="btn btn-lg btn-primary">Agregar nuevo rol</a>
-    </div>
+        <div>
+            <a href="/administracion/roles/create" class="btn btn-lg btn-primary">Agregar nuevo rol</a>
+        </div>
+        <hr>
     @endif
-    <hr>
 
     @if($roles->count() > 0)
         <div class="table-responsive">
@@ -20,7 +19,7 @@
                     Permisos
                 </th>
                 @if(Auth::user()->canSeeIf(['editar-roles','eliminar-roles']))
-                <th>Acciones</th>
+                    <th>Acciones</th>
                 @endif
                 </thead>
                 <tbody>
@@ -35,37 +34,37 @@
                                         <li>{{$permission->name}}</li>
                                     @endforeach
                                 </ul>
-                                @else
+                            @else
                                 <p>No tiene permisos asignados</p>
                             @endif
                         </td>
                         @if(Auth::user()->canSeeIf(['editar-roles','eliminar-roles']))
-                        <td>
-                            @if($role->slug != 'administrador-del-sistema')
-                                <ul class="list-inline">
-                                    @if(Auth::user()->canSeeIf(['editar-roles']))
-                                       <li>
-                                           <a
-                                                   href="/administracion/roles/{{$role->slug}}/edit"
-                                                   class="fa fa-lg fa-pencil"
-                                                   data-toggle="tooltip"
-                                                   title="Editar!">
-                                           </a>
-                                       </li>
-                                    @endif
-                                    @if(Auth::user()->canSeeIf(['eliminar-roles']))
-                                        |
-                                        <li>
-                                            <a class="fa fa-lg fa-times"
-                                               onclick="deleteConfirm('{{$role->name}}','{{$role->id}}','/administracion/roles/')"
-                                               data-toggle="tooltip"
-                                               title="Eliminar!">
-                                            </a>
-                                        </li>
+                            <td>
+                                @if($role->slug != 'administrador-del-sistema')
+                                    <ul class="list-inline">
+                                        @if(Auth::user()->canSeeIf(['editar-roles']))
+                                            <li>
+                                                <a
+                                                        href="/administracion/roles/{{$role->slug}}/edit"
+                                                        class="fa fa-lg fa-pencil"
+                                                        data-toggle="tooltip"
+                                                        title="Editar!">
+                                                </a>
+                                            </li>
                                         @endif
-                                </ul>
-                            @endif
-                        </td>
+                                        @if(Auth::user()->canSeeIf(['eliminar-roles']))
+                                            |
+                                            <li>
+                                                <a class="fa fa-lg fa-times"
+                                                   onclick="deleteConfirm('{{$role->name}}','{{$role->id}}','/administracion/roles/')"
+                                                   data-toggle="tooltip"
+                                                   title="Eliminar!">
+                                                </a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                @endif
+                            </td>
                         @endif
                     </tr>
                 @endforeach
@@ -75,13 +74,14 @@
         </div>
         {{$roles->links()}}
     @else
-        <h2>No hay roles registrados</h2>
+        <h2>No hay roles registrados en el sistema</h2>
     @endif
 @endsection
 
 @section('scripts')
     <script>
-        $(document).ready(function(){
+        $(document).ready(function ()
+        {
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>

@@ -4,8 +4,8 @@
 
 	@if(Auth::user()->canSeeIf(['crear-procedimientos-generales']))
 	<a href="/procedimientos/administrativos/create" class="btn btn-lg btn-primary">Agregar Procedimiento</a>
-	@endif
 	<hr>
+	@endif
 	<ul class="nav nav-tabs">
 		<li class="{{request()->exists('inactivos') ? '' : 'active'}}">
 			<a href="/procedimientos/administrativos/">Activos</a>

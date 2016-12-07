@@ -11,7 +11,7 @@
             <th>Nombre del documento</th>
             <th>Realizado por</th>
             <th>Versión</th>
-            <th>Fecha de versionamiento</th>
+            <th>Modificación realizada</th>
             </thead>
             <tbody>
                 @foreach($procedures as $procedure)
