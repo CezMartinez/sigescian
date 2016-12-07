@@ -54,8 +54,7 @@ class Role extends Model
                 }
             }
         }
-        array_unique($permissionSelectedIds);
-        $this->permissions()->attach($permissionSelectedIds);
+        $this->permissions()->attach(array_unique($permissionSelectedIds));
 
     }
 
