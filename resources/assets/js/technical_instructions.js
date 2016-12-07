@@ -19,9 +19,8 @@ function agregar()
 function eliminar(numero)
 {
     var item = $('span.step' + numero).closest('li.esk').fadeOut();
-    item.remove();
     num -=1;
-
+    item.remove();
 }
 
 function validar()
