@@ -18,8 +18,5 @@ Vue.directive('ajax', require('./Components/Ajax.vue'));
 
 const App = new Vue({
     el: 'body',
-
-    created(){
-       
-    }
+    
 });

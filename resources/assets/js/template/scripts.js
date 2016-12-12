@@ -37,9 +37,6 @@ function deleteConfirm(name, idD, url){
         });
 }
 
-function removerElemento(){
-
-}
 
 //parte de mascaras
 $( document ).ready(function($) {
