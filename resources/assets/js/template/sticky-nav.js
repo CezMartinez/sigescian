@@ -1,3 +1,4 @@
+/*
 $(document).ready(function() {
     var navoffeset=$(".header-main").offset().top;
     $(window).scroll(function(){
@@ -9,4 +10,4 @@ $(document).ready(function() {
         }
     });
 
-});
+});*/
