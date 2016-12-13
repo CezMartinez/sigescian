@@ -2,7 +2,7 @@
     {{csrf_field()}}
     <div class="form-group {{$errors->has('stock_number') ? 'has-error': ''}} ">
         <label for="stock_number">Numero de Inventario:</label>
-        <input type="text" name="stock_number" class="form-control" value="{{old('stock_number')}}" placeholder="Numero de inventario" required autofocus>
+        <input type="text" name="stock_number" class="form-control stock_nomber" value="{{old('stock_number')}}" placeholder="Numero de inventario" required autofocus>
         @if ($errors->has('stock_number'))
             <span class="help-block">
                 <strong>{{ $errors->first('stock_number') }}</strong>

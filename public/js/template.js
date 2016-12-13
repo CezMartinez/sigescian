@@ -172,15 +172,14 @@ function deleteConfirm(name, idD, url){
         });
 }
 
-function removerElemento(){
-
-}
 
 //parte de mascaras
 $( document ).ready(function($) {
     console.log("ready");
     $(".numTelefono").mask("9999-9999");
     $(".numDui").mask("99999999-9");
+    $(".stock_nomber").mask("EQ-9999-9999");
+    
 });
 $(document).ready(function() {
     var navoffeset=$(".header-main").offset().top;
