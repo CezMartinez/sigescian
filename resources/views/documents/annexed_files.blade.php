@@ -1,6 +1,7 @@
 @extends('app')
     
 @section('content')
+    @if($files->count()>=1)
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead>
@@ -44,5 +45,7 @@
 
         </table>
     </div>
-    
+    @else
+        <h2>No hay documentos añadidos</h2>
+    @endif
 @endsection

@@ -48,6 +48,6 @@
             </table>
         </div>
     @else
-        <h2>No has documentos añadidos</h2>
+        <h2>No hay documentos añadidos</h2>
     @endif
 @endsection
