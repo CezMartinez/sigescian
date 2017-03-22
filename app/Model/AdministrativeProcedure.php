@@ -42,13 +42,14 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
         return $administrativeProcedure->where('state',$state)->paginate(5);
     }
 
-    public static function fetchAllProcedures($state)
+    public function scopeFetchAllProcedures()
     {
-        $administrativeProcedure = new static;
-
-        $administrativeProcedure->formatFiles()->get();
-
-        return $administrativeProcedure->where('state',$state)->get();
+        
+        $administrativeProcedures = $this::with(['formatFiles' => function($query){
+            $query->where('owner',true);
+        }])->get();
+        
+        return $administrativeProcedures;
     }
     
 

@@ -16,14 +16,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('global.header', function($view){
+        view()->composer(
+            [   'global.header',
+                'global.nav',
+                'procedures.administrative.administrative_show',
+                'procedures.technician_show'],
+            function($view){
             $view->with('user', Auth::user());
             $view->with('signedIn',Auth::check());
         });
-        view()->composer('global.nav', function($view){
-            $view->with('user', Auth::user());
-            $view->with('signedIn',Auth::check());
-        });
+
+
         Validator::resolver(function($translator, $data, $rules, $messages) {
             return new HashValidator($translator, $data, $rules, $messages);
         });

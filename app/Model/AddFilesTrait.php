@@ -339,13 +339,15 @@ trait AddFilesTrait
     private function generateCodeFormatFile($title, $procedure)
     {
         $numberOfFiles = count($procedure->formatFiles()->get()) + 1;
-        $exclude = "/ ?en | ?el | ?para | ?(F|f)?ormulario | ?(F|f)ormato | ?se | ?que | ?con | ?la | ?del | ?de | ?no | ?les | a | ?y | ?[0-9] /i";
-        $textCode = trim(preg_replace($exclude, " ", $title));
-        $acronym = "";
+        /*$exclude = "/ ?en | ?el | ?para | ?(F|f)?ormulario | ?(F|f)ormato | ?se | ?que | ?con | ?la | ?del | ?de | ?no | ?les | a | ?y | ?[0-9] /i";*/
+        $exclude = "/[^A-Z]/";
+        /*$textCode = trim(preg_replace($exclude, " ", $title));*/
+        $acronym = preg_replace($exclude,"",$title);
+        /*$acronym = "";
         $words = preg_split("/\s+/", $textCode);
         foreach ($words as $word) {
             $acronym .= $word[0];
-        }
+        }*/
         return $code = "F-{$acronym}-PG{$procedure->correlative}.{$numberOfFiles}";
     }
 

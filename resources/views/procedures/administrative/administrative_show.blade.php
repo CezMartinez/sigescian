@@ -9,8 +9,17 @@
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading"><h3> {{$administrativo->name}} [ <span><a href='{{"/procedimientos/administrativos/$administrativo->code/edit"}}'><i class="fa fa-pencil" style="color: white" data-toggle="tooltip"
-                                                                                              title="Editar!"></i></a></span> ]</h3></div>
+                <div class="panel-heading">
+                    <h3> {{$administrativo->name}}
+                        @if($user->canSeeIf('editar-procedimientos-generales'))
+                            [ <span>
+                            <a href='{{"/procedimientos/administrativos/$administrativo->code/edit"}}'>
+                                <i class="fa fa-pencil" style="color: white" data-toggle="tooltip" title="Editar!"></i>
+                            </a>
+                        </span> ]
+                        @endif
+                    </h3>
+                </div>
                 <div class="panel-body">
                     <p><strong>Codigo: </strong>{{$administrativo->code}}</p>
                     <p><strong>Estado: </strong>{{$administrativo->status}}</p>

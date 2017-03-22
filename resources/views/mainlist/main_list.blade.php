@@ -55,20 +55,20 @@
                     <td>{{date('d/M/Y',strtotime($admin->created_at))}}</td>
 
                 </tr>
-                @foreach($admin->formatFiles as $formatAdm)
+                @foreach($admin->formatFiles as $fotmatosAdministrativos)
                         <tr class="info">
                             <td></td>
                             <td>
-                                <a  target="_blank" href="/archivos/procedimientos/1/1/{{$formatAdm->originalName}}">
-                                    &#8226 {{$formatAdm->code}}
+                                <a  target="_blank" href="/archivos/procedimientos/1/1/{{$fotmatosAdministrativos->originalName}}">
+                                    &#8226 {{$fotmatosAdministrativos->code}}
                                 </a>
                             </td>
                             <td>
-                                {{$formatAdm->title}}
+                                {{$fotmatosAdministrativos->title}}
                             </td>
                             <td></td>
                             <td></td>
-                            <td>{{date('d/M/Y',strtotime($formatAdm->created_at))}}</td>
+                            <td>{{date('d/M/Y',strtotime($fotmatosAdministrativos->created_at))}}</td>
 
                         </tr>
                 @endforeach

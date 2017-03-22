@@ -8,8 +8,17 @@
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading"><h3> {{$tecnico->name}} [ <span><a href='{{"/procedimientos/tecnicos/$tecnico->code/edit"}}'><i class="fa fa-pencil" style="color: white" data-toggle="tooltip"
-                                                                                                                                                                title="Editar!"></i></a></span> ]</h3></div>
+                <div class="panel-heading">
+                    <h3> {{$tecnico->name}}
+                        @if($user->canSeeIf('editar-procedimientos-tecnicos'))
+                            [ <span>
+                                <a href='{{"/procedimientos/tecnicos/$tecnico->code/edit"}}'>
+                                    <i class="fa fa-pencil" style="color: white" data-toggle="tooltip" title="Editar!"></i>
+                                </a>
+                            </span> ]
+                        @endif
+                    </h3>
+                </div>
 
                 <div class="panel-body">
                     <p>Codigo: {{$tecnico->code}}</p>
