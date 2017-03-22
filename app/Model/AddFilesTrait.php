@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 
 trait AddFilesTrait
 {
-
+    /**
+     * Return a relationship for the file
+     * @return File
+     */
     public function versionate(){
         return $this->belongsToMany(ProcedureDocument::class,'procedure_document_version','procedure_id','document_id')
                     ->withPivot(['version','user_id'])->withTimeStamps();

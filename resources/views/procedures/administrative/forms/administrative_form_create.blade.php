@@ -1,4 +1,4 @@
-<form action="/procedimientos/administrativos" method="POST" enctype="multipart/form-data">
+<form action="/procedimientos/administrativos" method="POST" id="form-administrative" enctype="multipart/form-data">
 {{csrf_field()}}
 <!-- name Form Input -->
     <div class="form-group {{$errors->has('name') ? 'has-error': ''}} ">
@@ -25,7 +25,7 @@
     {{-- politics --}}
     <div class="form-group {{$errors->has('politic') ? 'has-error': ''}}">
         <label for="politic" class="control-label">Política:</label>
-        <textarea rows="2" name="politic" class="form-control" placeholder="Describa las politicas que definen este procedimiento" required autofocus>{{old('politic')}}</textarea>
+        <textarea rows="2" name="politic" class="form-control" placeholder="Describa las politicas que definen este procedimiento" >{{old('politic')}}</textarea>
         @if ($errors->has('politic'))
             <span class="help-block">
                 <strong>{{ $errors->first('politic') }}</strong>
@@ -69,32 +69,3 @@
     <button class="btn btn-primary">Guardar Procedimiento</button>
 </form>
 
-@section('scripts')
-    <script>
-        $('#subsection').select2();
-        $("#subsection").select2({placeholder:"Seleccione subsecciones"});
-    </script>
-    <script>
-        function changedata() {
-            var section = $('#section').val();
-            var subsection = $('#subsection');
-            var option = $('#subsection').children().attr('class','optionsubseccion');
-            if (section == 4 || section == 5)
-            {
-                subsection.removeAttr('disabled',false)
-                subsection.removeAttr('readonly',false)
-                $.getJSON("/subsecciones/"+section, function(result) {
-                    $('#subsection').find('option').remove().end()
-                    $.each(result, function(key,value) {
-                        $('#subsection').append($('<option>').text(value).attr('value', key));
-                    });
-                });
-            }else{
-                $('#subsection').find('option').remove().end()
-                subsection.attr('disabled',true)
-                subsection.attr('readonly',true)
-            }
-        }
-    </script>
-
-@endsection

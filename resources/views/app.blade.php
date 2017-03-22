@@ -43,5 +43,6 @@
     <script src="/js/template.js"></script>
 
     @yield('scripts')
+
 </body>
 </html>

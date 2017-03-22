@@ -27,7 +27,7 @@
     {{-- politics --}}
     <div class="form-group {{$errors->has('politic') ? 'has-error': ''}}">
         <label for="politic" class="control-label">Política:</label>
-        <textarea rows="2" name="politic" class="form-control" placeholder="Describa las politicas que definen este procedimiento" required autofocus>{{old('politic',$procedure->politic)}}</textarea>
+        <textarea rows="2" name="politic" class="form-control" placeholder="Describa las politicas que definen este procedimiento" autofocus>{{old('politic',$procedure->politic)}}</textarea>
         @if ($errors->has('politic'))
             <span class="help-block">
                 <strong>{{ $errors->first('politic') }}</strong>

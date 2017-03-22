@@ -110,6 +110,7 @@ function agregarAnexos(listaAnexos,data)
     listaAnexos.push('<div class="lista-anexos">')
     $.each(data, function (i, item)
     {
+        console.log(item);
         listaAnexos.push(
             '<li id="file-anexo-' + item.id + '" ' +
             'class="list-group-item list-group-item-'+owner(item.pivot.owner)+'">' +
@@ -117,7 +118,7 @@ function agregarAnexos(listaAnexos,data)
             + item.title +
             '</a>' +
             '<i class="fa fa-times pull-right" ' +
-            'onclick="deleteFile(\'' + item.originalName + '\',\'' + id_tecnico + '\',\'' + item.id + '\'' +
+            'onclick="deleteFile(\'' + item.title + '\',\'' + id_tecnico + '\',\'' + item.id + '\'' +
             ',\'anexo\',\'/procedimiento/archivos/anexo/\')">' +
             '</i>' +
             '</li>')
@@ -137,7 +138,7 @@ function agregarFormato(listaArchivos,data)
             '<a target="_blank" href="/archivos/procedimientos/1/2/' + item.originalName + ' ">' +
             item.title + '</a>' +
             '<i class="fa fa-times pull-right" onclick="deleteFile(\'' +
-            item.originalName + '\',\'' + id_tecnico + '\',\'' + item.id + '\'' +
+            item.title + '\',\'' + id_tecnico + '\',\'' + item.id + '\'' +
             ',\'formato\',\'/procedimiento/archivos/formato/\')"></i></li>')
     });
     listaArchivos.push('</div>')

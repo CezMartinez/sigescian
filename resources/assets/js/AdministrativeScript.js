@@ -78,7 +78,7 @@ function deleteFile(nameFile,idProcedure,idAnnexedFile,tipo, url){
     var csrf = $("meta[name='csrf_token']").attr('content');
 
     swal({
-            title: "!¿Esta seguro de eliminar "+nameFile+"?",
+            title: "¿Esta seguro de eliminar "+nameFile+"?",
             text: "Esta accion eliminara toda relacion con otros procedimientos si la existe, y no sera revertida, desea continuar",
             type: "warning",
             showCancelButton: true,
@@ -121,7 +121,7 @@ function agregarFormato(listaArchivos,data)
             '<a target="_blank" href="/archivos/procedimientos/1/1/'+item.originalName+'">'+
             item.title+'</a>'+
             '<i class="fa fa-times pull-right" onclick="deleteFile(\''+
-            item.originalName+'\',\''+id_administrative+'\',\''+item.id+'\''+
+            item.title+'\',\''+id_administrative+'\',\''+item.id+'\''+
             ',\'formato\',\'/procedimiento/archivos/formato/\')"></i></li>')
     });
     listaArchivos.push('</div>')
@@ -132,17 +132,19 @@ function agregarFormato(listaArchivos,data)
 
 function agergarFlujograma(listaFlujogramas,data)
 {
+
     listaFlujogramas = [];
     listaFlujogramas.pop();
     listaFlujogramas.push('<div class="lista-flujogramas">')
     $.each(data, function (i, item)
     {
+
         listaFlujogramas.push('' +
             '<li id="file-flujograma-' + item.id + '" class="list-group-item list-group-item-info">' +
             '<a target="_blank" href="/archivos/procedimientos/2/1/' + item.originalName + '">' +
             item.title + '</a>' +
             '<i class="fa fa-times pull-right" onclick="deleteFile(\'' +
-            item.originalName + '\',\'' + id_administrative + '\',\'' + item.id + '\'' +
+            item.title + '\',\'' + id_administrative + '\',\'' + item.id + '\'' +
             ',\'flujograma\',\'/procedimiento/archivos/flujograma/\')"></i></li>')
     });
     listaFlujogramas.push('</div>')
@@ -152,10 +154,12 @@ function agergarFlujograma(listaFlujogramas,data)
 }
 function agregarAnexos(listaAnexos,data)
 {
+
     listaAnexos = [];
     listaAnexos.push('<div class="lista-anexos">')
     $.each(data, function (i, item)
     {
+        console.log(item);
         listaAnexos.push(
             '<li id="file-anexo-' + item.id + '" ' +
             'class="list-group-item list-group-item-'+owner(item.pivot.owner)+'">' +
@@ -163,7 +167,7 @@ function agregarAnexos(listaAnexos,data)
             + item.title +
             '</a>' +
             '<i class="fa fa-times pull-right" ' +
-            'onclick="deleteFile(\'' + item.originalName + '\',\'' + id_administrative + '\',\'' + item.id + '\'' +
+            'onclick="deleteFile(\'' + item.title + '\',\'' + id_administrative + '\',\'' + item.id + '\'' +
             ',\'anexo\',\'/procedimiento/archivos/anexo/\')">' +
             '</i>' +
             '</li>')

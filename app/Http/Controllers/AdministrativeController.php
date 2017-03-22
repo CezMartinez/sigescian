@@ -158,7 +158,6 @@ class AdministrativeController extends Controller
             'name'      => 'required',
             'acronym'   => 'required|unique:administrative_procedures,acronym',
             'file'      => 'required|mimes:pdf,doc,docx',
-            'politic'   => 'required'
         ])->validate();
     }
 
@@ -168,15 +167,13 @@ class AdministrativeController extends Controller
             $rules = [
                 'name'      => 'required',
                 'file'      => 'required|mimes:pdf,doc,docx',
-                'acronym'   => 'unique:administrative_procedures,acronym,'.$procedure->id,
-                'politic'   => 'required'
+                'acronym'   => 'unique:administrative_procedures,acronym,'.$procedure->id
             ];
             return Validator::make($data,$rules)->validate();
         }else{
             $rules = [
                 'name'      => 'required',
-                'acronym'   => 'unique:administrative_procedures,acronym,'.$procedure->id,
-                'politic'   => 'required'
+                'acronym'   => 'unique:administrative_procedures,acronym,'.$procedure->id
             ];
             return Validator::make($data,$rules)->validate();
         }
