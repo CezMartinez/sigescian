@@ -46,7 +46,7 @@ class AdministrativeProcedure extends Model implements ProcedureInterface
     {
         
         $administrativeProcedures = $this::with(['formatFiles' => function($query){
-            $query->where('owner',true);
+            $query->where('owner',true)->where('active',true);
         }])->get();
         
         return $administrativeProcedures;

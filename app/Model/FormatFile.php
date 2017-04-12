@@ -19,12 +19,12 @@ class FormatFile extends Model
 
     public function administrativeProcedure()
     {
-        return $this->belongsToMany(AdministrativeProcedure::class)->withPivot('owner');
+        return $this->belongsToMany(AdministrativeProcedure::class)->withPivot(['owner','active']);
     }
 
     public function technicianProcedure()
     {
-        return $this->belongsToMany(TechnicianProcedure::class)->withPivot('owner');
+        return $this->belongsToMany(TechnicianProcedure::class)->withPivot(['owner','active']);
     }
 
     public function typeOfProcedure()

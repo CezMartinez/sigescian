@@ -36,7 +36,14 @@ class TechnicianProcedure extends Model implements ProcedureInterface
     {
         $technicianProcedure = new static;
 
-        return $technicianProcedure->with(['procedureDocument', 'laboratory', 'formatFiles', 'section','subSections'])->where('state', $state)->get();
+        return $technicianProcedure->with(['procedureDocument',
+	        'laboratory',
+	        'formatFiles' => function($query){
+        	    $query->where("activo",true);
+	        },
+	        'section',
+	        'subSections'])
+	        ->where('state', $state)->get();
     }
     
 

@@ -19,47 +19,6 @@ class AssociateFilesController extends Controller
 
     }
 
-    public function associate($procedure_id, $procedure_type, $files_type, Request $request)
-    {
-        $ids = [];
-        $identificados = [];
-        $filesToAssociate = $request->input('files');
-        $procedure = $this->findProcedure($procedure_type,$procedure_id);
-        if(!is_null($filesToAssociate)){
-            foreach ($filesToAssociate as $file_name){
-                array_push($ids,$this->findIdOfFiles($files_type,$file_name));
-            }
-
-            if($files_type=="formato"){
-                $count = $procedure->formatFiles()->where('format_files.id',$ids)->get()->count();
-                if($count != count($ids)){
-                    $guardados = $procedure->formatFiles()->get(['format_files.id']);
-                    foreach ($guardados as $guardado){
-                        array_push($identificados,$guardado->id);
-                    }
-                    $los_nuevos =  array_diff($ids,$identificados);
-                    $procedure->formatFiles()->attach($los_nuevos,['owner'=>false]);
-
-                }
-            }else{
-                $count = $procedure->annexedFiles()->where('annexed_files.id',$ids)->get()->count();
-                if($count != count($ids)){
-                    $guardados = $procedure->annexedFiles()->get(['annexed_files.id']);
-                    foreach ($guardados as $guardado){
-                        array_push($identificados,$guardado->id);
-                    }
-                    $los_nuevos =  array_diff($ids,$identificados);
-                    $procedure->annexedFiles()->attach($los_nuevos,['owner'=>false]);
-
-                }
-            }
-
-            return response ("Los pasos fueron asociados correctamente",200);
-        }
-
-        return response ("Tienes que seleccionar por lo menos un formato",401);
-    }
-
     public function findProcedure($procedure_type, $procedure_id)
     {
         $procedure = null;
@@ -74,16 +33,90 @@ class AssociateFilesController extends Controller
     {
 
         if ($file_type == "formato") {
+
             return $procedure->formatFiles()->where('owner',true)->get()->pluck("title", 'id');
+
         }
 
         return $procedure->annexedFiles()->get()->pluck("title", 'id');
     }
 
+    /**
+     * @param $procedure_id
+     * @param $procedure_type
+     * @param $files_type
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function associate($procedure_id, $procedure_type, $files_type, Request $request)
+    {
+        $ids = [];
+
+        $identificados = [];
+
+        $filesToAssociate = $request->input('files');
+
+        $procedure = $this->findProcedure($procedure_type,$procedure_id);
+
+        if(!is_null($filesToAssociate)){
+
+            foreach ($filesToAssociate as $file){
+
+                array_push($ids,$this->findIdOfFiles($files_type,$file));
+
+            }
+
+            if($files_type == "formato"){
+
+                $count = $procedure->formatFiles()->where('format_files.id',$ids)->get()->count();
+
+                if($count != count($ids)){
+
+                    $guardados = $procedure->formatFiles()->get(['format_files.id']);
+
+                    foreach ($guardados as $guardado){
+
+                        array_push($identificados,$guardado->id);
+
+                    }
+
+                    $los_nuevos =  array_diff($ids,$identificados);
+
+                    $procedure->formatFiles()->attach($los_nuevos,['active'=>true,'owner'=>false]);
+
+                }
+            }else{
+                $count = $procedure->annexedFiles()->where('annexed_files.id',$ids)->get()->count();
+
+                if($count != count($ids)){
+
+                    $guardados = $procedure->annexedFiles()->get(['annexed_files.id']);
+
+                    foreach ($guardados as $guardado){
+
+                        array_push($identificados,$guardado->id);
+
+                    }
+
+                    $los_nuevos =  array_diff($ids,$identificados);
+
+                    $procedure->annexedFiles()->attach($los_nuevos,['active'=>true,'owner'=>false]);
+
+                }
+            }
+
+            return response ("Los pasos fueron asociados correctamente",200);
+        }
+
+        return response ("Tienes que seleccionar por lo menos un formato",401);
+    }
+
     public function findIdOfFiles($file_type,$file_name)
     {
-        if($file_type == 'formato'){
+        if( $file_type == 'formato' ){
+
            return $file = FormatFile::where('title',$file_name)->first()->id;
+
         }
 
         return $file = AnnexedFile::where('title',$file_name)->first()->id;

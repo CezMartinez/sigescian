@@ -27,9 +27,6 @@ class DocumentsViewController extends Controller
             case "formatos":
                 return view("documents.format_files",compact('files'));
                 break;
-            case "flujograma":
-                return view("documents.flowchar_files",compact('files'));
-                break;
             case "procedimiento":
                 return view("documents.procedure_files",compact('files'));
                 break;
@@ -46,9 +43,6 @@ class DocumentsViewController extends Controller
                 break;
             case "formatos":
                 return FormatFile::with('administrativeProcedure','technicianProcedure')->get();
-                break;
-            case "flujograma":
-                return FlowChartFile::with('administrativeProcedure')->get();
                 break;
             case "procedimiento":
                 return ProcedureDocument::with("administrativeProcedure","technicianProcedure")->get();

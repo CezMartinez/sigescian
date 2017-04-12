@@ -3,6 +3,8 @@ namespace App\Model;
 
 use Storage;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+
 
 trait AddFilesTrait
 {
@@ -50,7 +52,7 @@ trait AddFilesTrait
 
     public function formatFiles()
     {
-        return $this->belongsToMany(FormatFile::class)->withPivot('owner');
+        return $this->belongsToMany(FormatFile::class)->withPivot(['owner','active']);
     }
 
     /**
@@ -214,7 +216,7 @@ trait AddFilesTrait
             'mime' => $mime,
         ]);
 
-        $this->formatFiles()->attach($formato, ['owner' => true]);
+        $this->formatFiles()->attach($formato, ['owner' => true,'active' => true]);
 
         $answer = $this->answer("El formato \"$formato->name\" fue agregado correctamente", "200");
 
@@ -338,16 +340,9 @@ trait AddFilesTrait
 
     private function generateCodeFormatFile($title, $procedure)
     {
-        $numberOfFiles = count($procedure->formatFiles()->get()) + 1;
-        /*$exclude = "/ ?en | ?el | ?para | ?(F|f)?ormulario | ?(F|f)ormato | ?se | ?que | ?con | ?la | ?del | ?de | ?no | ?les | a | ?y | ?[0-9] /i";*/
+        $numberOfFiles = count($procedure->formatFiles()->where('owner',true)->get()) + 1;
         $exclude = "/[^A-Z]/";
-        /*$textCode = trim(preg_replace($exclude, " ", $title));*/
         $acronym = preg_replace($exclude,"",$title);
-        /*$acronym = "";
-        $words = preg_split("/\s+/", $textCode);
-        foreach ($words as $word) {
-            $acronym .= $word[0];
-        }*/
         return $code = "F-{$acronym}-PG{$procedure->correlative}.{$numberOfFiles}";
     }
 
@@ -386,4 +381,3 @@ trait AddFilesTrait
 
 }
 
-use Illuminate\Database\Eloquent\Model;

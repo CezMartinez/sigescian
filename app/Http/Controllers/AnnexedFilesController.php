@@ -34,7 +34,7 @@ class AnnexedFilesController extends Controller
     {
         $procedureType = $request->input('procedure');
 
-        $procedure = $this->getProcedureByType($procedureType, $procedure);
+        $procedure = $this->findProcedureByType($procedureType, $procedure);
 
         $answer = $procedure->addFilesToProcedure($request);
 
@@ -47,6 +47,13 @@ class AnnexedFilesController extends Controller
         return $this->deleteFile($type,$annexedFile,$procedure,"AnnexedFile");
     }
 
+    /**
+     * {procedure}/{formatFile}/{type}
+     * @param $procedure id of the procedure
+     * @param FormatFile $formatFile id of the format
+     * @param $type id of the type for administrative o tecni
+     * @return string
+     */
     public function deleteFormatFile($procedure, FormatFile $formatFile, $type)
     {
         return $this->deleteFile($type,$formatFile,$procedure,"FormatFile");
@@ -62,18 +69,17 @@ class AnnexedFilesController extends Controller
 
     public function deleteProcedureFile($procedure, ProcedureDocument $procedureDocument, $type)
     {
-        $procedure = $this->getProcedureByType($type, $procedure);
+        $procedure = $this->findProcedureByType($type, $procedure);
 
         $procedure->procedureDocument()->dissociate();
 
         $procedure->save();
 
-
     }
 
     public function getAllAnnexedFiles($procedure, $type)
     {
-        $procedure = $this->getProcedureByType($type, $procedure);
+        $procedure = $this->findProcedureByType($type, $procedure);
 
         return $procedure->annexedFiles()->get();
 
@@ -81,15 +87,15 @@ class AnnexedFilesController extends Controller
 
     public function getAllFormatsFiles($procedure, $type)
     {
-        $procedure = $this->getProcedureByType($type, $procedure);
+        $procedure = $this->findProcedureByType($type, $procedure);
 
-        return $procedure->formatFiles()->orderBy('owner','desc')->get();
+        return $procedure->formatFiles()->where('active',true)->orderBy('owner','desc')->get();
 
     }
 
     public function getProcedureFile($procedure, $type)
     {
-        $procedure = $this->getProcedureByType($type, $procedure);
+        $procedure = $this->findProcedureByType($type, $procedure);
 
         return $procedure->procedureDocument()->get();
     }
@@ -99,7 +105,7 @@ class AnnexedFilesController extends Controller
         return $procedure->flowChartFile()->get();
     }
 
-    private function getProcedureByType($type, $id)
+    private function findProcedureByType($type, $id)
     {
         if ($type == 1) {
             return AdministrativeProcedure::where('id',$id)->first();
@@ -148,19 +154,19 @@ class AnnexedFilesController extends Controller
         return ($procedure_type == "1") ? "administrativos" : "tecnicos";
     }
 
-    private function procedureOwnerOfFile($type_of_procedure,$name_of_file,$type_of_file)
+    private function findFileWithOwner($type_of_procedure, $name_of_file, $type_of_file)
     {
 
-        $method = $this->procedureMethod($type_of_procedure);
+        $procedureType = $this->procedureType($type_of_procedure);
 
         switch ($type_of_file){
             case "FormatFile":
-                return FormatFile::with([$method=>function($query){
+                return FormatFile::with([$procedureType=>function($query){
                     $query->where('owner',true);
                 }])->where('title',$name_of_file)->first();
                 break;
             case "AnnexedFile":
-                return AnnexedFile::with([$method=>function($query){
+                return AnnexedFile::with([$procedureType=>function($query){
                     $query->where('owner',true);
                 }])->where('title',$name_of_file)->first();
                 break;
@@ -169,36 +175,64 @@ class AnnexedFilesController extends Controller
         }
     }
 
-    private function procedureMethod($type)
+    private function procedureType($type)
     {
         return ($type == 1) ? "administrativeProcedure":"technicianProcedure";
     }
 
+    /***
+     * @param $type, 1  if administrativeProcedure or  =! 1 if technicianProcedure
+     * @param $file,  file object
+     * @param $procedure,  procedure object
+     * @param $class, "FomatFile,AnnexedFile"
+     * @return string
+     */
     private function deleteFile($type,$file,$procedure,$class)
     {
-        $method = $this->procedureMethod($type);
+        $procedureType = $this->procedureType($type);
 
-        $procedureOwner = $this->procedureOwnerOfFile($type,$file->title,$class);
+        $fileWithOwner = $this->findFileWithOwner($type,$file->title,$class);
 
-        $procedure = $this->getProcedureByType($type, $procedure);
+        $procedure = $this->findProcedureByType($type, $procedure);
 
-        if($procedureOwner->$method->first()->id == $procedure->id){
-            $proceduresToDetach = $file->$method()->get();
+        if($fileWithOwner->$procedureType->first()->id == $procedure->id){ // do this if the procedure is the owner of the file
+
+            $proceduresToDetach = $file->$procedureType()->get();
+
             foreach ($proceduresToDetach as $procedure){
-                $file->$method()->detach($procedure->id);
+
+                if($procedure->getOriginal()['pivot_owner'] == 1){
+
+                    $file->$procedureType()->updateExistingPivot($procedure->id, ['active'=>false]);
+
+                }else{
+
+                    $file->$procedureType()->detach($procedure->id);
+
+                }
+
+
             }
             $procedureNames = "";
+
             foreach ($proceduresToDetach as $procedure){
+
                 $procedureNames .= "\"$procedure->name\"\n ";
+
             }
 
             return "El archivo fue eliminado y se ha elimado toda relacion con los siguientes procedimientos:\n $procedureNames";
         }else{
+
             if($class == "FormatFile"){
+
                 $procedure->formatFiles()->detach($file->id);
+
             }elseif($class == "AnnexedFile"){
+
                 $procedure->annexedFiles()->detach($file->id);
             }
+
             return "El archivo fue desasociado";
         }
     }

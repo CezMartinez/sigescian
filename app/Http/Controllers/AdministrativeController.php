@@ -84,10 +84,10 @@ class AdministrativeController extends Controller
      */
     public function show(AdministrativeProcedure $administrativo)
     {
-        $administrativo = $administrativo->with(['flowChartFile','annexedFiles'=>function($query){
+        $administrativo = $administrativo->with(['annexedFiles'=>function($query){
             $query->orderBy('owner','desc');
         },'formatFiles'=>function ($query){
-            $query->orderBy('owner','desc');
+            $query->where("active",true)->orderBy('owner','desc');
         },'section','subSections'])->where('id',$administrativo->id)->first();
         
         JavaScript::put([
