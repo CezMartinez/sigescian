@@ -10,6 +10,7 @@
                 <th>Formato</th>
                 <th>Peso</th>
                 <th>Procedimientos Asociados</th>
+                <th>Estado</th>
                 </thead>
                 <tbody>
                 @foreach($files as $file)
@@ -37,6 +38,21 @@
                                 <ul>
                                     @foreach($file->technicianprocedure()->get() as $procedure)
                                         <li>{{$procedure->name}}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </td>
+                        <td>
+                            @if($file->administrativeProcedure()->get()->count() > 0)
+                                <ul>
+                                    @foreach($file->administrativeProcedure()->get() as $procedure)
+                                        <li>{{$procedure->getOriginal('pivot_active') ? 'activo':'inactivo'}}</li>
+                                    @endforeach
+                                </ul>
+                            @elseif($file->technicianprocedure()->get()->count()>0)
+                                <ul>
+                                    @foreach($file->technicianprocedure()->get() as $procedure)
+                                        <li>{{$procedure->getOriginal('pivot_active')? 'activo':'inactivo'}}</li>
                                     @endforeach
                                 </ul>
                             @endif
