@@ -17,7 +17,7 @@ class CreateCalibrationsTable extends Migration
             $table->increments('id');
             $table->integer('equipment_id')->unsigned();
             $table->foreign('equipment_id')->references('id')->on('equipment')->onDelete('cascade');
-            $table->integer('days_of_calibration')->nullable();
+            $table->integer('months_of_calibration')->nullable();
             $table->string('calibrate_company')->nullable();
             $table->timestamp('date_calibration')->nullable();
             $table->timestamp('date_end_calibration')->nullable();

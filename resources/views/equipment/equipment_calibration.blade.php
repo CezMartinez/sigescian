@@ -17,7 +17,7 @@
     <script>
         function calibrar(){
             var fecha = $("#date_calibration").val();
-            var dias = $("#days_of_calibration").val();
+            var dias = $("#months_of_calibration").val();
             var compania = $("#calibrate_company").val();
 
             if(compania != "" && dias != ""){
@@ -35,7 +35,7 @@
 
             swal({
                         title: "¿Los datos esta correctos?",
-                        text: "Fecha de calibracion: "+fecha+"\n Duracion de la calibracion: "+dias+" dias.\n ¿Desea continuar?",
+                        text: "Fecha de calibracion: "+fecha+"\n Duracion de la calibracion: "+dias+" meses.\n ¿Desea continuar?",
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#3c3cf2",
@@ -53,7 +53,7 @@
                                 },
                                 data:{
                                     date_calibration: fecha,
-                                    days_of_calibration: dias,
+                                    months_of_calibration: dias,
                                     calibrate_company: compania,
                                 },
                                 success: function(data){
