@@ -10,12 +10,12 @@
             </span>
         @endif
     </div>
-    <div class="form-group {{$errors->has('days_of_calibration') ? 'has-error': ''}} ">
-        <label for="days_of_calibration">Duracion de Calibración(dias):</label>
-        <input type="number" name="days_of_calibration" id="days_of_calibration" class="form-control" value="{{old('days_of_calibration',$equipments->days_of_calibration)}}" placeholder="4" required autofocus min="1">
-        @if ($errors->has('days_of_calibration'))
+    <div class="form-group {{$errors->has('months_of_calibration') ? 'has-error': ''}} ">
+        <label for="months_of_calibration">Duracion de Calibración (meses):</label>
+        <input type="number" name="months_of_calibration" id="months_of_calibration" class="form-control" value="{{old('months_of_calibration',$equipments->days_of_calibration)}}" placeholder="4" required autofocus min="1">
+        @if ($errors->has('months_of_calibration'))
             <span class="help-block">
-                <strong>{{ $errors->first('days_of_calibration') }}</strong>
+                <strong>{{ $errors->first('months_of_calibration') }}</strong>
             </span>
         @endif
     </div>
