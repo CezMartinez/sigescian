@@ -160,14 +160,14 @@ class EquipmentController extends Controller
 
     protected function validatorCalibrate(array $data,$date=null)
     {
-        if(is_null($date)){
+        /*if(is_null($date)){
             return Validator::make($data, [
                 'date_calibration'  => "required|before:".Carbon::tomorrow(),
             ]);
         }
         return Validator::make($data, [
             'date_calibration'  => "required|after:{$date}",
-        ]);
+        ]);*/
     }
 
     protected function validator(array $data)

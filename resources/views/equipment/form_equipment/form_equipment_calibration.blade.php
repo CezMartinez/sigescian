@@ -2,7 +2,7 @@
     {{ method_field('POST') }}
     {{ csrf_field() }}
     <div class="form-group {{$errors->has('date_calibration') ? 'has-error': ''}} ">
-        <label for="date_calibration">Fecha Calibración:</label>
+        <label for="date_calibration">Fecha Calibración: (mm/dd/aaaa)</label>
         <input type="date" name="date_calibration" id="date_calibration" class="form-control" value="{{old('date_calibration',\Carbon\Carbon::today()->format('Y-m-d'))}}" placeholder="01-02-16" required autofocus>
         @if ($errors->has('date_calibration'))
             <span class="help-block">

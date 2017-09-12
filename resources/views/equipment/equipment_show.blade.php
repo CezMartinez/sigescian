@@ -49,10 +49,10 @@
                                     Realizada por
                                 </th>
                                 <th>
-                                    Inicio Calibracion
+                                    Inicio Calibracion (dd-mm-aaaa)
                                 </th>
                                 <th>
-                                    Vencimiento Calibracion
+                                    Vencimiento Calibracion (dd-mm-aaaa)
                                 </th>
                                 </thead>
                                 <tbody>
