@@ -197,4 +197,4 @@
 </div>
 
 <br>
-<a href="{{ url('/servicios/dosimetria-personal-externa/'.$apply->id.'/confirmar') }}" class="btn btn-primary">Confirmar Solicitud</a>
+{{--<a href="{{ url('/servicios/dosimetria-personal-externa/'.$apply->id.'/confirmar') }}" class="btn btn-primary">Confirmar Solicitud</a>--}}

@@ -42,4 +42,4 @@
     </ul>
 </div>
 <hr>
-<a href="{{ url('/servicios/frotis-radiacion/'.$apply->id.'/confirmar') }}" class="btn btn-primary">Confirmar Solicitud</a>
+{{--<a href="{{ url('/servicios/frotis-radiacion/'.$apply->id.'/confirmar') }}" class="btn btn-primary">Confirmar Solicitud</a>--}}
