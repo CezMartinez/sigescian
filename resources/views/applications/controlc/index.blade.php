@@ -14,22 +14,22 @@
                     <th>
                         Fecha de Solicitud
                     </th>
-                    <th>
-                        Estado
-                    </th>
+                    {{--<th>--}}
+                        {{--Estado--}}
+                    {{--</th>--}}
                     </thead>
                     <tbody>
                     @foreach($applications as $s)
                         <tr>
                             <td>{{$s->name}}</td>
                             <td>{{$s->created_at->format('d/m/Y')}}</td>
-                            @if($s->state==0)
-                                <td>Esperando Confirmacion</td>
-                            @elseif($s->state==1)
-                                <td>Aceptada por el cliente</td>
-                            @else
-                                <td>Cancelada por el cliente</td>
-                            @endif
+                            {{--@if($s->state==0)--}}
+                                {{--<td>Esperando Confirmacion</td>--}}
+                            {{--@elseif($s->state==1)--}}
+                                {{--<td>Aceptada por el cliente</td>--}}
+                            {{--@else--}}
+                                {{--<td>Cancelada por el cliente</td>--}}
+                            {{--@endif--}}
                         </tr>
                     @endforeach
                     </tbody>
