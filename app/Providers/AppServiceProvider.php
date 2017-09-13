@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
             [   'global.header',
                 'global.nav',
                 'procedures.administrative.administrative_show',
-                'procedures.technician_show'],
+                'procedures.technician.technician_show'],
             function($view){
             $view->with('user', Auth::user());
             $view->with('signedIn',Auth::check());
